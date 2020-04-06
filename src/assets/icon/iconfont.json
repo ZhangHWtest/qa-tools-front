@@ -1,0 +1,177 @@
+{
+  "id": "1644350",
+  "name": "admin_study_ui",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7766820",
+      "name": "icon_workfile_line",
+      "font_class": "icon_workfile_line",
+      "unicode": "eba3",
+      "unicode_decimal": 60323
+    },
+    {
+      "icon_id": "6151095",
+      "name": "paper plane-fill",
+      "font_class": "paperplane-fill",
+      "unicode": "e7a9",
+      "unicode_decimal": 59305
+    },
+    {
+      "icon_id": "6151099",
+      "name": "flag-fill",
+      "font_class": "flag-fill",
+      "unicode": "e7ad",
+      "unicode_decimal": 59309
+    },
+    {
+      "icon_id": "6151111",
+      "name": "cry-fill",
+      "font_class": "cry-fill",
+      "unicode": "e7b6",
+      "unicode_decimal": 59318
+    },
+    {
+      "icon_id": "6151113",
+      "name": "smile-fill",
+      "font_class": "smile-fill",
+      "unicode": "e7b7",
+      "unicode_decimal": 59319
+    },
+    {
+      "icon_id": "7766709",
+      "name": "icon_add",
+      "font_class": "icon_add",
+      "unicode": "eb8f",
+      "unicode_decimal": 60303
+    },
+    {
+      "icon_id": "7766725",
+      "name": "icon_compile",
+      "font_class": "icon_compile",
+      "unicode": "eb93",
+      "unicode_decimal": 60307
+    },
+    {
+      "icon_id": "7766795",
+      "name": "icon_setting",
+      "font_class": "icon_setting",
+      "unicode": "eb9d",
+      "unicode_decimal": 60317
+    },
+    {
+      "icon_id": "7766747",
+      "name": "icon_group",
+      "font_class": "icon_group",
+      "unicode": "eb95",
+      "unicode_decimal": 60309
+    },
+    {
+      "icon_id": "7766775",
+      "name": "icon_patriarch",
+      "font_class": "icon_patriarch",
+      "unicode": "eb9a",
+      "unicode_decimal": 60314
+    },
+    {
+      "icon_id": "7766796",
+      "name": "icon_signal",
+      "font_class": "icon_signal",
+      "unicode": "eb9e",
+      "unicode_decimal": 60318
+    },
+    {
+      "icon_id": "7766818",
+      "name": "icon_meeting",
+      "font_class": "icon_meeting",
+      "unicode": "eba2",
+      "unicode_decimal": 60322
+    },
+    {
+      "icon_id": "7766714",
+      "name": "icon_boss",
+      "font_class": "icon_boss",
+      "unicode": "eb90",
+      "unicode_decimal": 60304
+    },
+    {
+      "icon_id": "7766787",
+      "name": "icon_principal",
+      "font_class": "icon_principal",
+      "unicode": "eb9c",
+      "unicode_decimal": 60316
+    },
+    {
+      "icon_id": "7772178",
+      "name": "icon_boss_fill",
+      "font_class": "icon_boss_fill",
+      "unicode": "eba5",
+      "unicode_decimal": 60325
+    },
+    {
+      "icon_id": "432098",
+      "name": "video",
+      "font_class": "video",
+      "unicode": "e832",
+      "unicode_decimal": 59442
+    },
+    {
+      "icon_id": "448724",
+      "name": "video",
+      "font_class": "video1",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "5994030",
+      "name": "video",
+      "font_class": "video2",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "3868269",
+      "name": "技术服务",
+      "font_class": "jishufuwu",
+      "unicode": "eb64",
+      "unicode_decimal": 60260
+    },
+    {
+      "icon_id": "4347512",
+      "name": "icon_任务进程",
+      "font_class": "icon_renwujincheng",
+      "unicode": "eb88",
+      "unicode_decimal": 60296
+    },
+    {
+      "icon_id": "4779612",
+      "name": "表单组件-表格",
+      "font_class": "biaodanzujian-biaoge",
+      "unicode": "ec15",
+      "unicode_decimal": 60437
+    },
+    {
+      "icon_id": "5460561",
+      "name": "软件开发包",
+      "font_class": "ruanjiankaifabao",
+      "unicode": "ec2e",
+      "unicode_decimal": 60462
+    },
+    {
+      "icon_id": "11488154",
+      "name": "trading volume",
+      "font_class": "tradingvolume",
+      "unicode": "e76a",
+      "unicode_decimal": 59242
+    },
+    {
+      "icon_id": "12012167",
+      "name": "trading data",
+      "font_class": "tradingdata",
+      "unicode": "e7b5",
+      "unicode_decimal": 59317
+    }
+  ]
+}
