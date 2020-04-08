@@ -54,7 +54,8 @@
                      type="border-card"
                      @tab-click="handleClick">
               <el-tab-pane label="模块列表"
-                           name="first">模块列表</el-tab-pane>
+                           name="first">
+              </el-tab-pane>
             </el-tabs>
           </el-col>
         </el-row>
@@ -113,8 +114,8 @@ export default {
       updatePaswordRulesForm: {
         password: [{ required: true, message: '原始密码', trigger: 'blur' }],
         set_password: [{ required: true, message: '新密码', trigger: 'blur' }]
-      },
-      squareUrl: '@/assets/avatar.png'
+      }
+
     }
   },
   created () {

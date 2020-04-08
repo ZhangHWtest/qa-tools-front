@@ -8,6 +8,7 @@
       </div>
       <el-dropdown class="user-dropdown">
         <el-avatar :size="35"
+                   fit="cover"
                    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
         <span class="el-dropdown-link">
           {{ loginname.name }}

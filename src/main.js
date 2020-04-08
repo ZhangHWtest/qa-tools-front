@@ -5,7 +5,7 @@ import store from './store'
 import './plugins/element.js'
 import '@/styles/index.css'
 import '@/assets/icon/iconfont.css'
-import api from './http'
+import api from './api'
 import moment from 'moment'
 
 Vue.use(api)

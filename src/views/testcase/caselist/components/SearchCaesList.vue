@@ -12,15 +12,17 @@
     <el-col :span="4">
       <el-button type="primary"
                  plain
-                 @click="goInterfaceInfo()">新增用例</el-button>
+                 @click="goCaseInfo()">新增用例</el-button>
     </el-col>
   </el-row>
 </template>
 
 <script>
 export default {
+  props: [
+    'getcaseListBody'
+  ],
   created () {
-
   },
   data () {
     return {
@@ -29,9 +31,8 @@ export default {
   },
   methods: {
     // 点击跳转至InterfaceInfo页面
-    goInterfaceInfo () {
-      this.$router.push({ path: '/interface/info' })
-      window.sessionStorage.removeItem('interface_id')
+    goCaseInfo () {
+      this.$router.push({ path: '/case/info' })
     }
 
   }

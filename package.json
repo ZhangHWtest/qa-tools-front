@@ -1,5 +1,5 @@
 {
-  "name": "flask_api_ui",
+  "name": "apimonitor",
   "version": "0.1.0",
   "private": true,
   "scripts": {

@@ -4,7 +4,7 @@ const port = 8080
 module.exports = {
   publicPath:
     process.env.NODE_ENV === 'production' ? '/production-sub-path/' : '/',
-  outputDir: 'flask_api_ui',
+  outputDir: 'apimonitor',
   assetsDir: 'assets',
   lintOnSave: true,
   filenameHashing: false,

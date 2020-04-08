@@ -26,8 +26,19 @@
       <el-table-column label="创建人"
                        prop="create_user"></el-table-column>
       <el-table-column label="操作"
-                       width="120px">
+                       width="150px">
         <template slot-scope="scope">
+          <el-tooltip class="item"
+                      effect="dark"
+                      content="运行"
+                      placement="top">
+            <el-button type="success"
+                       icon="el-icon-caret-right"
+                       size="mini"
+                       ricon="el-icon-edit"
+                       circle
+                       @click="runCaseById(scope.row.case_id)"></el-button>
+          </el-tooltip>
           <el-tooltip class="item"
                       effect="dark"
                       content="修改"
@@ -36,7 +47,8 @@
                        icon="el-icon-edit"
                        size="mini"
                        ricon="el-icon-edit"
-                       circle></el-button>
+                       circle
+                       @click="editCaseById(scope.row.case_id)"></el-button>
           </el-tooltip>
           <el-tooltip class="item"
                       effect="dark"
@@ -46,9 +58,10 @@
                        icon="el-icon-delete"
                        size="mini"
                        ricon="el-icon-edit"
-                       circle></el-button>
+                       circle
+                       @click="removeCaseById(scope.row.case_id)"></el-button>
           </el-tooltip>
-        </template> -->
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -57,7 +70,22 @@
 export default {
   props: [
     'caseList'
-  ]
+  ],
+  data () {
+    return {}
+  },
+  methods: {
+    removeCaseById (id) {
+      this.$emit('listenToChildRemoveCase', id)
+    },
+    runCaseById (id) {
+      this.$emit('listenToChildRunCase', id)
+    },
+    editCaseById (id) {
+      this.$router.push({ path: '/case/info' })
+      window.sessionStorage.setItem('case_id', id)
+    }
+  }
 
 }
 </script>
