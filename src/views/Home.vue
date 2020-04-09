@@ -67,14 +67,14 @@
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="iconfont icon-icon_boss"></i>
+              <i class="iconfont icon-changjingguanli"></i>
               <span class="sider-bar-title">用例管理</span>
             </template>
             <el-menu-item index="/case/list"
                           route="/case/list"
                           @click="saveNavState('/case/list')">
               <template slot="title">
-                <i class="iconfont icon-icon_meeting"></i>
+                <i class="iconfont icon-ceshishenqing"></i>
                 <span class="sider-bar-title">用例列表</span>
               </template>
             </el-menu-item>

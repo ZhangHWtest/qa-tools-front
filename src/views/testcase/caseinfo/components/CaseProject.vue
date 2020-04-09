@@ -96,9 +96,9 @@
         <el-form-item label="执行结果:"
                       prop="save_result">
           <el-radio v-model="createCaseBody.save_result"
-                    label="1">保存</el-radio>
+                    :label="1">保存</el-radio>
           <el-radio v-model="createCaseBody.save_result"
-                    label="0">不保存</el-radio>
+                    :label="0">不保存</el-radio>
         </el-form-item>
         <el-form-item label="用例描述:">
           <el-input class="project_name_input"
@@ -113,14 +113,18 @@
 
 <script>
 export default {
-  props: [
-    'createCaseBody',
-    'addRulesForm'
-
-  ],
+  props: {
+    createCaseBody: {},
+    addRulesForm: {}
+  },
+  // watch: {
+  //   model (childCreateCaseBody) {
+  //     this.form = { ...childCreateCaseBody } // 简单的浅克隆
+  //   }
+  // },
   data () {
     return {
-
+      childCreateCaseBody: '',
       getProjectListBody: {},
       getModelListBody: {
         project_id: ''
@@ -141,18 +145,18 @@ export default {
         list: []
       },
       interfaceList: [],
-      envList: {},
+      envList: [],
       formProjectAndModel: true
 
     }
   },
   created () {
+    this.getEnvListmethod()
     if (window.sessionStorage.getItem('case_id')) {
       this.formProjectAndModel = false
     } else {
       // 获取所有project
       this.getProjectListMethod()
-      this.getEnvListmethod()
     }
   },
   methods: {
@@ -191,26 +195,21 @@ export default {
       }
       this.interfaceList = responseBody.data
     },
+    // 获取所有环境
+    async getEnvListmethod () {
+      const { data: responseBody } = await this.$api.environment.getEnvironmentList(
+        this.getEnvListBody
+      )
+      if (responseBody.code !== 1) {
+        return this.$message.error('获取接口列表失败！')
+      }
+      this.envList = responseBody.data
+    },
     getInterfacemethod (id) {
       this.$emit('listenToChildInterfaceId', id)
     },
     getEnvmethod (id) {
       this.$emit('listenToChildEnvId', id)
-    },
-    // 获取所有环境
-    async getEnvListmethod () {
-      if (window.sessionStorage.getItem('case_id')) {
-        this.envList.push(this.createCaseBody.env_info)
-        console.log(this.props)
-      } else {
-        const { data: responseBody } = await this.$api.environment.getEnvironmentList(
-          this.getEnvListBody
-        )
-        if (responseBody.code !== 1) {
-          return this.$message.error('获取接口列表失败！')
-        }
-        this.envList = responseBody.data
-      }
     }
   }
 }

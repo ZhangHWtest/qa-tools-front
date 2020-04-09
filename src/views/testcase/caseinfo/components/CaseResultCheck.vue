@@ -9,9 +9,9 @@
                label-width="100px">
         <el-form-item label="是否存在依赖:">
           <el-radio v-model="createCaseBody.has_rely"
-                    label="1">存在</el-radio>
+                    :label="1">存在</el-radio>
           <el-radio v-model="createCaseBody.has_rely"
-                    label="0">不存在</el-radio>
+                    :label="0">不存在</el-radio>
         </el-form-item>
         <el-form-item label="依赖用例:">
           <el-input v-model="createCaseBody.rely_info"

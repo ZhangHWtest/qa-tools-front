@@ -9,37 +9,135 @@
     <!-- 卡片视图区域-->
     <el-card>
       <div>
-        <EnvTable />
+        <search-env @listenToChildShowDialog="showAddDialog" />
+        <env-table :envList="envList"
+                   @listenToChildRemoveEnv="removeEnvById"
+                   @listenToChildShowDialog="showEditDialog" />
+        <dialog-form title="新增环境："
+                     :showForm="addDialogVisible"
+                     @listenToChildShowDialog="showAddDialog"
+                     @listenToChildAddEnvMethod="addEnvMethod" />
+        <dialog-form title="编辑环境："
+                     :showForm="editialogVisible"
+                     :model="editEnvData"
+                     @listenToChildShowDialog="showEditDialog"
+                     @listenToChildAddEnvMethod="editEnvMethod" />
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
+import SearchEnv from './components/SearchEnv'
 import EnvTable from './components/EnvTable'
+import DialogForm from './components/DialogForm'
 export default {
   components: {
-    EnvTable
+    EnvTable,
+    SearchEnv,
+    DialogForm
   },
   created () {
-    this.environmentListMethod()
+    this.envListMethod()
   },
   data () {
     return {
+      addDialogVisible: false,
+      editialogVisible: false,
+      addEnvData: {},
+      editEnvData: {},
+      getEnvInfoData: {
+        env_id: ''
+      },
       getenvBody: {
         page_num: 1
+      },
+      envList: [],
+      envbody: {
+        env_id: ''
       }
     }
   },
   methods: {
-    async environmentListMethod () {
+    showAddDialog (value) {
+      this.addDialogVisible = value
+    },
+    showEditDialog (value) {
+      if (value) {
+        this.getEnvInfoData.env_id = window.sessionStorage.getItem('env_id')
+        this.getEnvInfoMethod()
+      } else {
+        window.sessionStorage.removeItem('env_id')
+      }
+      this.editialogVisible = value
+    },
+    async addEnvMethod (createEnvBody) {
+      this.addEnvData = createEnvBody
+      const { data: responseBody } = await this.$api.environment.addEnv(
+        this.addEnvData
+      )
+      if (responseBody.code === 1) {
+        this.$message.success('添加成功！')
+        this.addDialogVisible = false
+      } else {
+        this.$message.error('添加失败！')
+      }
+      this.envListMethod()
+    },
+    async editEnvMethod (editEnvBody) {
+      this.editEnvData = editEnvBody
+      const { data: responseBody } = await this.$api.environment.editEnv(
+        this.editEnvData
+      )
+      if (responseBody.code === 1) {
+        this.$message.success('修改成功！')
+        this.editialogVisible = false
+      } else {
+        this.$message.error('修改失败！')
+      }
+      this.envListMethod()
+    },
+    async envListMethod () {
       const { data: responseBody } = await this.$api.environment.getEnvironmentList(
         this.getenvBody
       )
       if (responseBody.code === 1) {
-        this.interfaceList = responseBody.data
+        this.envList = responseBody.data
       } else {
         this.$message.error('请求环境信息失败！')
+      }
+    },
+    async getEnvInfoMethod () {
+      const { data: responseBody } = await this.$api.environment.infoEnv(
+        this.getEnvInfoData
+      )
+      if (responseBody.code === 1) {
+        this.editEnvData = responseBody.data
+      }
+    },
+    async removeEnvById (id) {
+      // 弹窗询问是否删除
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该用户, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除！')
+      }
+      this.envbody.env_id = id
+      const { data: responseBody } = await this.$api.environment.removeEnv(
+        this.envbody
+      )
+      if (responseBody.code === 1) {
+        this.$message.success('删除成功！')
+        this.envListMethod()
+      } else {
+        this.$message.error('删除失败！')
       }
     }
   }

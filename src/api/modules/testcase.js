@@ -18,6 +18,14 @@ export const addCase = data => {
   })
 }
 
+export const editCase = data => {
+  return reques({
+    url: '/api/case/edit',
+    method: 'post',
+    data
+  })
+}
+
 export const removeCase = data => {
   return reques({
     url: '/api/case/del',

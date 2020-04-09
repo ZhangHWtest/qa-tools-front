@@ -51,12 +51,12 @@ export default {
         params: '',
         header: '',
         res_assert: '',
-        has_rely: '0',
+        has_rely: 0,
         rely_info: '',
-        save_result: '1',
-        use_db: '0',
+        save_result: 1,
+        use_db: 0,
         sql: '',
-        field_value: '0'
+        field_value: 0
       },
       getCaseInfoBody: {
         case_id: ''
@@ -121,20 +121,26 @@ export default {
         return this.$message.error('获取接口列表失败！')
       }
       this.createCaseBody = responseBody.data
-      this.createCaseBody.env_id = responseBody.data.env_info.env_id
+      // this.createCaseBody.env_id = responseBody.data.env_info.env_id
     },
     async addCaseMethod () {
-      this.createCaseBody.has_rely = Number(this.createCaseBody.has_rely)
-      this.createCaseBody.save_result = Number(this.createCaseBody.save_result)
-      this.createCaseBody.use_db = Number(this.createCaseBody.use_db)
-      this.createCaseBody.field_value = Number(this.createCaseBody.field_value)
-      const { data: res } = await this.$api.testcase.addCase(
-        this.createCaseBody
-      )
-      if (res.code !== 1) {
-        return this.$message.error('添加接口失败！')
+      if (!window.sessionStorage.getItem('case_id')) {
+        const { data: res } = await this.$api.testcase.addCase(
+          this.createCaseBody
+        )
+        if (res.code !== 1) {
+          return this.$message.error('添加用例失败！')
+        }
+        this.$message.success('添加用例成功！')
+      } else {
+        const { data: res } = await this.$api.testcase.editCase(
+          this.createCaseBody
+        )
+        if (res.code !== 1) {
+          return this.$message.error('添修改用例失败！')
+        }
+        this.$message.success('修改用例成功！')
       }
-      this.$message.success('添加成功！')
       this.goCaseList()
     },
     goCaseList () {

@@ -3,7 +3,7 @@
   <el-row :gutter="30">
     <el-col :span="8">
       <el-input placeholder="请输入内容"
-                v-model="input3"
+                v-model="input"
                 class="input-with-select">
         <el-button slot="append"
                    icon="el-icon-search"></el-button>
@@ -12,7 +12,7 @@
     <el-col :span="4">
       <el-button type="primary"
                  plain
-                 @click="goCaseInfo()">新增用例</el-button>
+                 @click="showDialogMethod()">新增环境</el-button>
     </el-col>
   </el-row>
 </template>
@@ -20,20 +20,19 @@
 <script>
 export default {
   props: [
-    'getcaseListBody'
+    'showDialog'
   ],
   created () {
   },
   data () {
     return {
-      input3: ''
+      input: ''
     }
   },
   methods: {
-    // 点击跳转至InterfaceInfo页面
-    goCaseInfo () {
-      this.$router.push({ path: '/case/info' })
-      window.sessionStorage.removeItem('case_id')
+    showDialogMethod () {
+      this.$emit('listenToChildShowDialog', true)
+      window.sessionStorage.removeItem('env_id')
     }
 
   }

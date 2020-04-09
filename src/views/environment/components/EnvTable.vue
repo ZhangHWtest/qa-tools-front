@@ -3,23 +3,15 @@
     <!-- 模块列表区域-->
     <el-table class="model_table"
               border
-              :data="interfaceList">
+              :data="envList">
       <el-table-column width="70px"
                        label="id"
-                       prop="interface_id"></el-table-column>
+                       prop="env_id"></el-table-column>
       <el-table-column label="项目名称"
-                       prop="project_name"></el-table-column>
+                       prop="env_name"></el-table-column>
       <el-table-column label="模块名称"
-                       prop="model_name"></el-table-column>
+                       prop="url"></el-table-column>
       <el-table-column label="接口名称"
-                       prop="interface_name"></el-table-column>
-      <el-table-column label="接口类型"
-                       prop="interface_type"></el-table-column>
-      <el-table-column label="方法"
-                       prop="method"></el-table-column>
-      <el-table-column label="路径"
-                       prop="path"></el-table-column>
-      <el-table-column label="创建人"
                        prop="create_user"></el-table-column>
       <el-table-column label="操作"
                        width="120px">
@@ -34,7 +26,7 @@
                        size="mini"
                        ricon="el-icon-edit"
                        circle
-                       @click="goInterfaceInfo(scope.row.interface_id)"></el-button>
+                       @click="editCaseById(scope.row.env_id)"></el-button>
           </el-tooltip>
           <!-- 删除按钮 -->
           <el-tooltip class="item"
@@ -46,21 +38,27 @@
                        size="mini"
                        ricon="el-icon-edit"
                        circle
-                       @click="removeInterfaceById(scope.row.interface_id)"></el-button>
+                       @click="removeEnvById(scope.row.env_id)"></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination background
-                   :current-page="InterfaceBody.page_num"
-                   @current-change="handleCurrentChange"
-                   layout="prev, pager, next"
-                   :total="1000">
-    </el-pagination>
   </div>
 </template>
 <script>
 export default {
+  props: [
+    'envList'
+  ],
+  methods: {
+    removeEnvById (id) {
+      this.$emit('listenToChildRemoveEnv', id)
+    },
+    editCaseById (id) {
+      this.$emit('listenToChildShowDialog', true)
+      window.sessionStorage.setItem('env_id', id)
+    }
+  }
 
 }
 </script>
