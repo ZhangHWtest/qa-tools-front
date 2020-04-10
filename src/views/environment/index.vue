@@ -12,16 +12,17 @@
         <search-env @listenToChildShowDialog="showAddDialog" />
         <env-table :envList="envList"
                    @listenToChildRemoveEnv="removeEnvById"
-                   @listenToChildShowDialog="showEditDialog" />
+                   @listenToChildShowDialog="showEditDialog"
+                   @listenToChildGetEnvinfo="getEnvInfo" />
         <dialog-form title="新增环境："
                      :showForm="addDialogVisible"
                      @listenToChildShowDialog="showAddDialog"
-                     @listenToChildAddEnvMethod="addEnvMethod" />
+                     @listenToChildSaveEnvMethod="addEnvMethod" />
         <dialog-form title="编辑环境："
                      :showForm="editialogVisible"
                      :model="editEnvData"
                      @listenToChildShowDialog="showEditDialog"
-                     @listenToChildAddEnvMethod="editEnvMethod" />
+                     @listenToChildSaveEnvMethod="editEnvMethod" />
       </div>
     </el-card>
   </div>
@@ -63,14 +64,13 @@ export default {
       this.addDialogVisible = value
     },
     showEditDialog (value) {
-      if (value) {
-        this.getEnvInfoData.env_id = window.sessionStorage.getItem('env_id')
-        this.getEnvInfoMethod()
-      } else {
-        window.sessionStorage.removeItem('env_id')
-      }
       this.editialogVisible = value
     },
+    getEnvInfo (id) {
+      this.getEnvInfoData.env_id = id
+      this.getEnvInfoMethod()
+    },
+    // 创建env
     async addEnvMethod (createEnvBody) {
       this.addEnvData = createEnvBody
       const { data: responseBody } = await this.$api.environment.addEnv(
@@ -84,6 +84,7 @@ export default {
       }
       this.envListMethod()
     },
+    // 修改
     async editEnvMethod (editEnvBody) {
       this.editEnvData = editEnvBody
       const { data: responseBody } = await this.$api.environment.editEnv(

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
+import Login from '../views/login/index.vue'
 import Home from '../views/Home.vue'
 // import Index from '../views/demo/Index.vue'
 
@@ -9,11 +9,12 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/', redirect: '/login' },
   { path: '/login', component: Login },
-  { path: '/index', component: () => import('@/views/index/index.vue') },
+  { path: '/demo/demo2', component: () => import('@/views/index/index.vue') },
+  { path: '/demo/demo3', component: () => import('@/views/login/index.vue') },
   {
     path: '/home',
     component: Home,
-    redirect: '/project/list',
+    redirect: '/case/chart',
     children: [
       // { path: '/index', component: Index },
       {
@@ -53,6 +54,11 @@ const routes = [
       {
         path: '/case/info',
         component: () => import('@/views/testcase/caseinfo/index.vue'
+        )
+      },
+      {
+        path: '/case/chart',
+        component: () => import('@/views/testcase/casechart/index.vue'
         )
       },
       {

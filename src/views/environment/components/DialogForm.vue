@@ -3,6 +3,7 @@
     <el-dialog :title="title"
                :visible.sync="showForm"
                width="50%"
+               :close-on-click-modal='false'
                @close="closeDialogMethod()">
       <!-- 内容主体区域-->
       <el-form ref="addFormRef"
@@ -20,7 +21,7 @@
         <el-form-item label="描述：">
           <el-input v-model="createEnvBody.desc"></el-input>
         </el-form-item>
-        <el-form-item label="是否使用db：">
+        <el-form-item label="启用db：">
           <template>
             <el-radio v-model="createEnvBody.use_db"
                       :label="0">禁用</el-radio>
@@ -40,7 +41,7 @@
         <el-form-item label="密码：">
           <el-input v-model="createEnvBody.db_pass"></el-input>
         </el-form-item>
-        <el-form-item label="database名称：">
+        <el-form-item label="数据库名称：">
           <el-input v-model="createEnvBody.database"></el-input>
         </el-form-item>
       </el-form>
@@ -69,6 +70,9 @@ export default {
   },
   data () {
     return {
+      getEnvInfoData: {
+        env_id: ''
+      },
       createEnvBody: {
         env_name: '',
         desc: '',
@@ -89,17 +93,16 @@ export default {
   },
   watch: {
     // 监听 编辑时回显表单
-    model (employeeInfo) {
-      this.createEnvBody = { ...employeeInfo } // 简单的浅克隆
+    model (editEnvData) {
+      this.createEnvBody = { ...editEnvData } // 简单的浅克隆
     }
   },
   methods: {
     addEnv () {
-      this.$emit('listenToChildAddEnvMethod', this.createEnvBody)
+      this.$emit('listenToChildSaveEnvMethod', this.createEnvBody)
     },
     closeDialogMethod () {
       this.$emit('listenToChildShowDialog', false)
-      // window.sessionStorage.removeItem('env_id')
     }
   }
 }

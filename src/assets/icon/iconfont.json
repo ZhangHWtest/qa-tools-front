@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7766798",
+      "name": "icon_star",
+      "font_class": "icon_star",
+      "unicode": "eba0",
+      "unicode_decimal": 60320
+    },
+    {
+      "icon_id": "13087873",
+      "name": "language",
+      "font_class": "language",
+      "unicode": "e7cf",
+      "unicode_decimal": 59343
+    },
+    {
       "icon_id": "3868258",
       "name": "场景管理",
       "font_class": "changjingguanli",

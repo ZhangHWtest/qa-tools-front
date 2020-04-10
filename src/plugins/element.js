@@ -41,8 +41,14 @@ import {
   Tabs,
   TabPane,
   Tree,
-  Avatar
+  Avatar,
+  Carousel,
+  CarouselItem,
+  Image
 } from 'element-ui'
+Vue.use(Image)
+Vue.use(CarouselItem)
+Vue.use(Carousel)
 Vue.use(Avatar)
 Vue.use(Tree)
 Vue.use(TabPane)

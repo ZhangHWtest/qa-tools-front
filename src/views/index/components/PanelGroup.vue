@@ -23,9 +23,6 @@
 <script>
 export default {
   methods: {
-    handleSetLineChartData (type) {
-      this.$emit('handleSetLineChartData', type)
-    }
   }
 }
 </script>

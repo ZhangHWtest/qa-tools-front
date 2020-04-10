@@ -7,11 +7,11 @@
       <el-table-column width="70px"
                        label="id"
                        prop="env_id"></el-table-column>
-      <el-table-column label="项目名称"
+      <el-table-column label="环境名称"
                        prop="env_name"></el-table-column>
-      <el-table-column label="模块名称"
+      <el-table-column label="host"
                        prop="url"></el-table-column>
-      <el-table-column label="接口名称"
+      <el-table-column label="创建人"
                        prop="create_user"></el-table-column>
       <el-table-column label="操作"
                        width="120px">
@@ -56,7 +56,7 @@ export default {
     },
     editCaseById (id) {
       this.$emit('listenToChildShowDialog', true)
-      window.sessionStorage.setItem('env_id', id)
+      this.$emit('listenToChildGetEnvinfo', id)
     }
   }
 

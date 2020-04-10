@@ -70,6 +70,14 @@
               <i class="iconfont icon-changjingguanli"></i>
               <span class="sider-bar-title">用例管理</span>
             </template>
+            <el-menu-item index="/case/chart"
+                          route="/case/chart"
+                          @click="saveNavState('/case/chart')">
+              <template slot="title">
+                <i class="iconfont icon-tradingvolume"></i>
+                <span class="sider-bar-title">用例概况</span>
+              </template>
+            </el-menu-item>
             <el-menu-item index="/case/list"
                           route="/case/list"
                           @click="saveNavState('/case/list')">
@@ -106,12 +114,20 @@
                 <span class="sider-bar-title">实验一</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/index"
-                          route="/index"
-                          @click="saveNavState('/index')">
+            <el-menu-item index="/demo/demo2"
+                          route="/demo/demo2"
+                          @click="saveNavState('/demo/demo2')">
               <template slot="title">
                 <i class="el-icon-setting"></i>
                 <span class="sider-bar-title">实验二</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/demo/demo3"
+                          route="/demo/demo3"
+                          @click="saveNavState('/demo/demo4')">
+              <template slot="title">
+                <i class="el-icon-setting"></i>
+                <span class="sider-bar-title">实验三</span>
               </template>
             </el-menu-item>
           </el-submenu>
