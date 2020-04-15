@@ -34,11 +34,11 @@ const routes = [
         component: () => import('@/views/interface/index.vue'
         )
       },
-      {
-        path: '/interface/info',
-        component: () => import('@/views/interface/components/AddInterface.vue'
-        )
-      },
+      // {
+      //   path: '/interface/info',
+      //   component: () => import('@/views/interface/components/AddInterface.vue'
+      //   )
+      // },
       {
         path: '/environment/list',
         component: () => import('@/views/environment/index.vue'

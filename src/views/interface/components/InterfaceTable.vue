@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="interface-table-div">
     <!-- 模块列表区域-->
     <el-table class="model_table"
               border
@@ -7,10 +7,10 @@
       <el-table-column width="70px"
                        label="id"
                        prop="interface_id"></el-table-column>
-      <el-table-column label="项目名称"
+      <!-- <el-table-column label="项目名称"
                        prop="project_name"></el-table-column>
       <el-table-column label="模块名称"
-                       prop="model_name"></el-table-column>
+                       prop="model_name"></el-table-column> -->
       <el-table-column label="接口名称"
                        prop="interface_name"></el-table-column>
       <el-table-column label="接口类型"
@@ -52,7 +52,7 @@
       </el-table-column>
     </el-table>
     <el-pagination background
-                   :current-page="InterfaceBody.page_num"
+                   :current-page="page_num"
                    @current-change="handleCurrentChange"
                    layout="prev, pager, next"
                    :total="1000">
@@ -61,38 +61,26 @@
 </template>
 <script>
 export default {
-  created () {
-    this.interfaceListMethod()
-  },
+  props: [
+    'interfaceList'
+  ],
   data () {
     return {
-      interfaceList: [],
       removeinterface: {
         interface_id: ''
       },
-      InterfaceBody: {
-        // project_id: '',
-        // model_id: '',
-        page_num: 1
-      }
+      page_num: 1
     }
   },
   methods: {
-    async interfaceListMethod () {
-      const { data: responseBody } = await this.$api.myinterface.getInterfaceList(
-        this.InterfaceBody
-      )
-      if (responseBody.code === 1) {
-        this.interfaceList = responseBody.data
-      }
-    },
     async removeInterfaceById (id) {
       this.removeinterface.interface_id = id
       const { data: responseBody } = await this.$api.myinterface.delInterfaceMethod(
         this.removeinterface
       )
       if (responseBody.code === 1) {
-        this.interfaceListMethod()
+        this.$message.success('操作成功！')
+        this.$emit('listenChildRemove')
       }
     },
     // 点击跳转至InterfaceInfo页面
@@ -103,13 +91,20 @@ export default {
     },
     // 监听 页码值改变的事件
     handleCurrentChange (newPage) {
-      this.InterfaceBody.page_num = newPage
-      this.interfaceListMethod()
+      this.$emit('listenChildPageNum', newPage)
     }
   }
 }
 </script>
 <style lang="less" scoped>
+.interface-table-div {
+  margin-top: 15px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  background-color: #eee;
+}
 .seachName {
   font-size: 14px;
   color: #606266;
