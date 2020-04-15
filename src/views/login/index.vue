@@ -3,11 +3,11 @@
     <el-header>
       <div>
         <img src="@/assets/kkblogo.png" />
-        <span>ApiMonitor</span>
+        <span>ApiTest</span>
       </div>
       <div class="header-button">
-        <el-button class="login-button"
-                   type="text">Login</el-button>
+        <!-- <el-button class="login-button"
+                   type="text">Login</el-button> -->
         <i class="iconfont icon-icon_secret"
            style="padding:10px"></i>
         <i class="iconfont icon-github"></i>
@@ -22,7 +22,7 @@
     <login-introduce />
     <!--登录区域 -->
     <div class="login_box">
-      <span class="login_title">ApiMonitor</span>
+      <span class="login_title">ApiTest</span>
 
       <el-form ref="loginFormRef"
                :model="loginForm"

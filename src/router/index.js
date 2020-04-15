@@ -9,8 +9,6 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/', redirect: '/login' },
   { path: '/login', component: Login },
-  { path: '/demo/demo2', component: () => import('@/views/index/index.vue') },
-  { path: '/demo/demo3', component: () => import('@/views/login/index.vue') },
   {
     path: '/home',
     component: Home,
@@ -60,13 +58,7 @@ const routes = [
         path: '/case/chart',
         component: () => import('@/views/testcase/casechart/index.vue'
         )
-      },
-      {
-        path: '/demo/demo1',
-        component: () => import('@/views/demo/model.vue'
-        )
       }
-
     ]
   },
   {

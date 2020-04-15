@@ -4,7 +4,7 @@
     <el-header>
       <div>
         <img src="@/assets/kkblogo.png" />
-        <span>您好！欢迎进入Admin后台</span>
+        <span>您好！欢迎进入ApiTest后台</span>
       </div>
       <el-dropdown class="user-dropdown">
         <el-avatar :size="35"

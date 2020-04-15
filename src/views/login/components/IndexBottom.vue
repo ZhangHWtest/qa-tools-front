@@ -52,11 +52,12 @@ export default {
   z-index: 999;
   background: #373d41;
   width: 100%;
-  position: fixed;
+  position: relative;
   bottom: 0;
-  padding: 10px 0px 75px 100px;
+  padding: 0px 0px 75px 0px;
 }
 .el-row {
+  padding-left: 80px;
   margin-bottom: 20px;
   &:last-child {
     margin-bottom: 0;
