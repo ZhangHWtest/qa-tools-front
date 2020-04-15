@@ -71,8 +71,8 @@ export default {
         interface_id: ''
       },
       InterfaceBody: {
-        project_id: '',
-        model_id: '',
+        // project_id: '',
+        // model_id: '',
         page_num: 1
       }
     }

@@ -49,11 +49,12 @@ export default {
 </script>
 <style lang="less" scoped>
 .index-bottom {
+  z-index: 999;
   background: #373d41;
   width: 100%;
-  position: fixed;
+  position: relative;
   bottom: 0;
-  padding: 10px 0px 75px 100px;
+  padding: 0px 0px 75px 0px;
 }
 .el-row {
   margin-bottom: 20px;
