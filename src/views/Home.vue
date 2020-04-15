@@ -2,14 +2,16 @@
   <el-container class="home-container">
     <!-- 头部区域 -->
     <el-header>
-      <div>
-        <img src="@/assets/kkblogo.png" />
-        <span>您好！欢迎进入ApiTest后台</span>
+      <div class="welcome-element">
+        <img class="welcome-logo"
+             src="@/assets/kkblogo.png" />
+        <span class="welcome-title">您好！欢迎进入ApiTest后台</span>
       </div>
+      <el-avatar class="user-avatar"
+                 :size="35"
+                 fit="cover"
+                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
       <el-dropdown class="user-dropdown">
-        <el-avatar :size="35"
-                   fit="cover"
-                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
         <span class="el-dropdown-link">
           {{ loginname.name }}
           <i class="el-icon-arrow-down el-icon--right"></i>
@@ -251,14 +253,16 @@ export default {
   align-items: center;
   color: #ffffff;
   font-size: 20px;
-  > div {
+  .welcome-element {
     display: flex;
     align-items: center;
     margin-right: 25px;
-    span {
-      margin-left: 15px;
+    .welcome-title {
+      font-size: 20px;
+      padding-left: 3px;
+      border-left: 0.1px solid #ffffff;
     }
-    img {
+    .welcome-logo {
       width: 120px;
       height: 100%;
       background-color: #373d41;
@@ -266,7 +270,32 @@ export default {
       margin-right: 40px;
     }
   }
+  .user-avatar {
+    position: absolute;
+    left: 85%;
+  }
+  .user-dropdown {
+    position: relative;
+    width: 150px;
+    height: 30px;
+    .el-dropdown-link {
+      font-size: 20px;
+      cursor: pointer;
+      color: #fff;
+      position: absolute;
+      top: 15%;
+      margin: 0 0 0 0;
+      .el-icon-arrow-down {
+        color: #fff;
+        font-size: 20px;
+      }
+    }
+    .el-icon--right {
+      margin: 0;
+    }
+  }
 }
+
 .el-aside {
   background-color: #333744;
   .el-menu {
@@ -284,15 +313,6 @@ export default {
   text-align: center;
   letter-spacing: 0.5em;
   cursor: pointer;
-}
-.el-dropdown-link {
-  font-size: 20px;
-  cursor: pointer;
-  color: #fff;
-}
-.el-icon-arrow-down {
-  color: #fff;
-  font-size: 15px;
 }
 .sider-bar-title {
   margin-left: 6px;

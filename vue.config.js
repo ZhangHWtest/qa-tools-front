@@ -19,7 +19,7 @@ module.exports = {
     proxy: {
       '/api': {
         // 接口服务地址
-        target: 'http://10.20.3.181:5555',
+        target: 'http://10.20.4.158:5555',
         // 是否跨域
         changeOrigin: true,
         ws: true,
