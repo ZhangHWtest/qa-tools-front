@@ -2,14 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/login/index.vue'
 import Home from '../views/Home.vue'
-// import Index from '../views/demo/Index.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/', redirect: '/login' },
   { path: '/login', component: Login },
-  { path: '/demo', component: () => import('@/views/home/index.vue') },
+  { path: '/demo', component: () => import('@/views/index/index.vue') },
   {
     path: '/home',
     component: Home,
