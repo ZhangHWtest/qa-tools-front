@@ -9,12 +9,12 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/', redirect: '/login' },
   { path: '/login', component: Login },
+  { path: '/demo', component: () => import('@/views/home/index.vue') },
   {
     path: '/home',
     component: Home,
     redirect: '/case/chart',
     children: [
-      // { path: '/index', component: Index },
       {
         path: '/user/list',
         component: () => import('@/views/user/UserList.vue')
@@ -34,11 +34,6 @@ const routes = [
         component: () => import('@/views/interface/index.vue'
         )
       },
-      // {
-      //   path: '/interface/info',
-      //   component: () => import('@/views/interface/components/AddInterface.vue'
-      //   )
-      // },
       {
         path: '/environment/list',
         component: () => import('@/views/environment/index.vue'
