@@ -28,13 +28,21 @@
              :default-active="activePath">
       <el-menu-item index="/interface"
                     route="/interface"
-                    @click="saveNavState('/interface')">接口</el-menu-item>
+                    @click="saveNavState('/interface')">
+        <i class="iconfont icon-icon_renwujincheng"></i>
+        <span slot="title">接 口</span></el-menu-item>
       <el-menu-item index="/user/list"
                     route="/user/list"
-                    @click="saveNavState('/user/list')">用户</el-menu-item>
+                    @click="saveNavState('/user/list')">
+        <i class="iconfont icon-icon_signal"></i>
+        <span slot="title">用 户</span>
+      </el-menu-item>
       <el-menu-item index="/environment/list"
                     route="/environment/list"
-                    @click="saveNavState('/environment/list')">设置</el-menu-item>
+                    @click="saveNavState('/environment/list')">
+        <i class="iconfont icon-icon_setting"></i>
+        <span slot="title">用 户</span>
+      </el-menu-item>
     </el-menu>
     <!-- 页面主题区域 -->
     <el-container>

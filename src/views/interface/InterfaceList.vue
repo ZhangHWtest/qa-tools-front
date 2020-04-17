@@ -1,8 +1,12 @@
 <template>
   <el-col class="index-main">
     <el-tabs v-model="activeName">
-      <el-tab-pane label="接口列表"
-                   name="first">
+      <el-tab-pane name="first">
+        <span slot="label"><i class="iconfont icon-tradingvolume"></i> 监控图标</span>
+        <project-charts />
+      </el-tab-pane>
+      <el-tab-pane name="second">
+        <span slot="label"><i class="iconfont icon-biaodanzujian-biaoge"></i> 接口列表</span>
         <el-col class="index-main-inteface-table">
           <el-tooltip class="item"
                       effect="dark"
@@ -14,12 +18,17 @@
                        plain
                        @click="addInterfaceDialog=true">新增 接口</el-button>
           </el-tooltip>
-          <el-table :data="interfaceList">
+          <el-table class="interface-table"
+                    :data="interfaceList"
+                    border>
             <el-table-column width="70px"
                              label="id"
                              prop="interface_id"></el-table-column>
-            <el-table-column label="接口名称"
-                             prop="interface_name"></el-table-column>
+            <el-table-column label="接口名称">
+              <template slot-scope="scope">
+                <el-link type="primary">{{scope.row.interface_name}}</el-link>
+              </template>
+            </el-table-column>
             <el-table-column label="接口类型"
                              prop="interface_type"></el-table-column>
             <el-table-column label="方法"
@@ -120,7 +129,12 @@
 </template>
 
 <script>
+import ProjectCharts from './components/casechart/index'
 export default {
+  components: {
+    ProjectCharts
+
+  },
   props: [
     'interfaceList'
   ],
@@ -179,7 +193,6 @@ export default {
 .index-main {
   background-color: #fff;
   .index-main-inteface-table {
-    background-color: #eee;
     margin-bottom: 15px;
   }
   .el-select {

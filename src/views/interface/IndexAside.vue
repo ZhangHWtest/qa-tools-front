@@ -50,14 +50,11 @@
 
         </el-submenu>
         <div>
-          <el-button class="change-pagenum"
-                     icon="el-icon-back"
-                     plain
-                     @click="reducePageNum()"></el-button>
-          <el-button class="change-pagenum"
-                     icon="el-icon-right"
-                     plain
-                     @click="addPageNum()"></el-button>
+          <el-pagination :current-page="getProjectListBody.page_num"
+                         @current-change="handleCurrentChange"
+                         layout=" pager"
+                         :total="50">
+          </el-pagination>
         </div>
       </el-menu>
     </el-col>
@@ -167,13 +164,8 @@ export default {
       this.getInterfaceListMethod()
     },
     // 监听 页码值改变的事件
-    addPageNum () {
-      this.getProjectListBody.page_num = this.page_num + 1
-      this.page_num = this.page_num + 1
-      this.getProjectListMethod()
-    },
-    reducePageNum () {
-      this.getProjectListBody.page_num = this.page_num - 1
+    handleCurrentChange (newPage) {
+      this.getProjectListBody.page_num = newPage
       this.getProjectListMethod()
     },
     addProjectModelDialogClose () {
@@ -302,7 +294,7 @@ export default {
 }
 .change-pagenum {
   height: 25px;
-  width: 40%;
+  width: 25%;
   margin-left: 5%;
   padding: 3px;
   margin-bottom: 15px;

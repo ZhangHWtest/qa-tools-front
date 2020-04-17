@@ -11,8 +11,8 @@
   </el-row>
 </template>
 <script>
-import IndexAside from './components/IndexAside'
-import InterfaceList from './components/InterfaceList'
+import IndexAside from './IndexAside'
+import InterfaceList from './InterfaceList'
 export default {
   components: {
     IndexAside,
