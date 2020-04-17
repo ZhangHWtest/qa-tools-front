@@ -4,6 +4,16 @@
       <el-tab-pane label="接口列表"
                    name="first">
         <el-col class="index-main-inteface-table">
+          <el-tooltip class="item"
+                      effect="dark"
+                      content="新增接口"
+                      placement="top">
+            <el-button class="add-model-button"
+                       type="primary"
+                       icon="el-icon-plus"
+                       plain
+                       @click="addModelButton(item.project_id,item.project_name)">新增 接口</el-button>
+          </el-tooltip>
           <el-table :data="interfaceList">
             <el-table-column width="70px"
                              label="id"
@@ -47,6 +57,7 @@
                 </el-tooltip>
               </template>
             </el-table-column>
+
           </el-table>
           <el-pagination background
                          :current-page="page_num"
@@ -88,7 +99,7 @@ export default {
 .index-main {
   background-color: #fff;
   .index-main-inteface-table {
-    background-color: #eceef1;
+    background-color: #eee;
     margin-bottom: 15px;
   }
 }
