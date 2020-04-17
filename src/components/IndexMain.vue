@@ -12,7 +12,7 @@
                        type="primary"
                        icon="el-icon-plus"
                        plain
-                       @click="addModelButton(item.project_id,item.project_name)">新增 接口</el-button>
+                       @click="addInterfaceDialog=true">新增 接口</el-button>
           </el-tooltip>
           <el-table :data="interfaceList">
             <el-table-column width="70px"
@@ -66,10 +66,56 @@
                          :total="1000">
           </el-pagination>
         </el-col>
-
       </el-tab-pane>
-
     </el-tabs>
+    <el-dialog title="新增接口"
+               :visible.sync="addInterfaceDialog"
+               width="40%"
+               :close-on-click-modal="false"
+               @close="addInterfaceDialogClose">
+      <!-- 内容主体区域-->
+      <el-form ref="addInterfaceFormRef"
+               :model="addInterfaceBody"
+               :rules="addInterfaceRulesForm"
+               label-width="90px">
+        <el-form-item label="接口名:"
+                      prop="interface_name">
+          <el-input v-model="addInterfaceBody.interface_name"></el-input>
+        </el-form-item>
+        <el-form-item label="接口路径:"
+                      prop="path">
+          <el-input v-model="addInterfaceBody.path"
+                    placeholder="/path">
+            <el-select v-model="addInterfaceBody.interface_type"
+                       slot="prepend"
+                       placeholder="请选择">
+              <el-option label="http"
+                         value="http"></el-option>
+              <el-option label="https"
+                         value="https"></el-option>
+            </el-select>
+            <el-select v-model="addInterfaceBody.method"
+                       slot="prepend"
+                       placeholder="请选择">
+              <el-option label="GET"
+                         value="GET"></el-option>
+              <el-option label="POST"
+                         value="POST"></el-option>
+            </el-select>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="接口描述:"
+                      prop="interface_desc">
+          <el-input v-model="addInterfaceBody.interface_desc"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="addInterfaceDialog = false">取 消</el-button>
+        <el-button type="primary"
+                   @click.native="addInterfaceMethod()">确 定</el-button>
+      </span>
+    </el-dialog>
   </el-col>
 </template>
 
@@ -81,7 +127,21 @@ export default {
   data () {
     return {
       activeName: 'first',
-      page_num: 1
+      page_num: 1,
+      addInterfaceDialog: false,
+      addInterfaceBody: {
+        project_id: '',
+        model_id: '',
+        interface_name: '',
+        interface_desc: '',
+        interface_type: '',
+        method: '',
+        path: ''
+      },
+      addInterfaceRulesForm: {
+        interface_name: [{ required: true, message: '请输入接口名称', trigger: 'blur' }],
+        path: [{ required: true, message: '请输入路径', trigger: 'blur' }]
+      }
     }
   },
   methods: {
@@ -90,9 +150,29 @@ export default {
     // 监听 页码值改变的事件
     handleCurrentChange (newPage) {
       this.$emit('listenChildPageNum', newPage)
+    },
+    addInterfaceDialogClose () {
+      this.$refs.addInterfaceFormRef.resetFields()
+    },
+    // 创建接口
+    async addInterfaceMethod () {
+      this.addInterfaceBody.project_id = Number(window.sessionStorage.getItem('interFaceProjectId'))
+      this.addInterfaceBody.model_id = Number(window.sessionStorage.getItem('interFaceModelId'))
+      const { data: createModelRes } = await this.$api.myinterface.createInterfaceMethod(
+        this.addInterfaceBody
+      )
+      if (createModelRes.code === 1) {
+        this.addInterfaceDialog = false
+        this.$message.success('添加接口成功！')
+        this.$emit('listenChildAddInterface')
+      } else {
+        this.$message.error('添加接口失败！')
+      }
     }
+
   }
 }
+
 </script>
 
 <style lang="less" scoped>
@@ -101,6 +181,10 @@ export default {
   .index-main-inteface-table {
     background-color: #eee;
     margin-bottom: 15px;
+  }
+  .el-select {
+    width: 90px;
+    margin-right: 5px;
   }
 }
 </style>

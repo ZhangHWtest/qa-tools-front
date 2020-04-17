@@ -1,60 +1,70 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/login/index.vue'
-import Home from '../views/Home.vue'
+import Home from '../views/index/index.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/', redirect: '/login' },
   { path: '/login', component: Login },
-  { path: '/demo', component: () => import('@/views/index/index.vue') },
   {
     path: '/home',
     component: Home,
-    redirect: '/case/chart',
+    redirect: '/interface',
     children: [
+      {
+        path: '/interface',
+        component: () => import('@/views/interface/index.vue')
+      },
       {
         path: '/user/list',
         component: () => import('@/views/user/UserList.vue')
       },
       {
-        path: '/project/list',
-        component: () => import('@/views/project/ProjectList.vue'
-        )
-      },
-      {
-        path: '/project/info',
-        component: () => import('@/views/project/components/AddProject.vue'
-        )
-      },
-      {
-        path: '/interface/list',
-        component: () => import('@/views/interface/index.vue'
-        )
-      },
-      {
         path: '/environment/list',
         component: () => import('@/views/environment/index.vue'
-        )
-      },
-      {
-        path: '/case/list',
-        component: () => import('@/views/testcase/caselist/index.vue'
-        )
-      },
-      {
-        path: '/case/info',
-        component: () => import('@/views/testcase/caseinfo/index.vue'
-        )
-      },
-      {
-        path: '/case/chart',
-        component: () => import('@/views/testcase/casechart/index.vue'
         )
       }
     ]
   },
+  // {
+  //   path: '/home',
+  //   component: Home,
+  //   redirect: '/case/chart',
+  //   children: [
+  //     {
+  //       path: '/project/list',
+  //       component: () => import('@/views/project/ProjectList.vue'
+  //       )
+  //     },
+  //     {
+  //       path: '/project/info',
+  //       component: () => import('@/views/project/components/AddProject.vue'
+  //       )
+  //     },
+  //     {
+  //       path: '/interface/list',
+  //       component: () => import('@/views/interface/index.vue'
+  //       )
+  //     },
+  //     {
+  //       path: '/case/list',
+  //       component: () => import('@/views/testcase/caselist/index.vue'
+  //       )
+  //     },
+  //     {
+  //       path: '/case/info',
+  //       component: () => import('@/views/testcase/caseinfo/index.vue'
+  //       )
+  //     },
+  //     {
+  //       path: '/case/chart',
+  //       component: () => import('@/views/testcase/casechart/index.vue'
+  //       )
+  //     }
+  //   ]
+  // },
   {
     path: '*',
     component: () => import('@/views/error-page/404.vue')

@@ -26,15 +26,12 @@
              mode="horizontal"
              :router="true"
              :default-active="activePath">
-      <el-menu-item index="/home"
-                    route="/home"
-                    @click="saveNavState('/home')">首页</el-menu-item>
-      <el-menu-item index="/project/list"
-                    route="/project/list"
-                    @click="saveNavState('/project/list')">项目管理</el-menu-item>
+      <el-menu-item index="/interface"
+                    route="/interface"
+                    @click="saveNavState('/interface')">接口</el-menu-item>
       <el-menu-item index="/user/list"
                     route="/user/list"
-                    @click="saveNavState('/user/list')">用户管理</el-menu-item>
+                    @click="saveNavState('/user/list')">用户</el-menu-item>
       <el-menu-item index="/environment/list"
                     route="/environment/list"
                     @click="saveNavState('/environment/list')">设置</el-menu-item>
@@ -42,14 +39,7 @@
     <!-- 页面主题区域 -->
     <el-container>
       <el-main>
-        <el-row :gutter="20">
-          <el-col :span="4">
-            <index-aside @listenChildInterfaceList="changeInterfaceList" />
-          </el-col>
-          <el-col :span="20">
-            <index-main :interfaceList="interfaceList" />
-          </el-col>
-        </el-row>
+        <router-view />
         <!-- 修改密码弹框-->
         <el-dialog title="修改密码"
                    :visible.sync="updatePasword"
@@ -84,17 +74,11 @@
 </template>
 
 <script>
-import IndexAside from './components/IndexAside'
-import IndexMain from './components/IndexMain'
+
 export default {
-  components: {
-    IndexAside,
-    IndexMain
-  },
   data () {
     return {
-      activePath: '/home',
-      interfaceList: [],
+      activePath: '/interface',
       loginname: {
         name: ''
       },
@@ -113,9 +97,6 @@ export default {
     this.loginname.name = window.sessionStorage.getItem('loginName')
   },
   methods: {
-    changeInterfaceList (info) {
-      this.interfaceList = info
-    },
     logout () {
       window.sessionStorage.clear()
       this.$router.push('/login')
