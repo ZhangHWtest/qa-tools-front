@@ -44,11 +44,10 @@
       <el-main>
         <el-row :gutter="20">
           <el-col :span="4">
-            <index-aside />
+            <index-aside @listenChildInterfaceList="changeInterfaceList" />
           </el-col>
           <el-col :span="20">
-            <!-- 路由占位符-->
-            <router-view />
+            <index-main :interfaceList="interfaceList" />
           </el-col>
         </el-row>
         <!-- 修改密码弹框-->
@@ -86,15 +85,16 @@
 
 <script>
 import IndexAside from './components/IndexAside'
+import IndexMain from './components/IndexMain'
 export default {
   components: {
-    IndexAside
+    IndexAside,
+    IndexMain
   },
   data () {
     return {
-      menulist: [],
-      // 被激活的链接地址
-      activePath: '',
+      activePath: '/home',
+      interfaceList: [],
       loginname: {
         name: ''
       },
@@ -110,22 +110,15 @@ export default {
     }
   },
   created () {
-    this.activePath = window.sessionStorage.getItem('activePath')
     this.loginname.name = window.sessionStorage.getItem('loginName')
   },
   methods: {
+    changeInterfaceList (info) {
+      this.interfaceList = info
+    },
     logout () {
       window.sessionStorage.clear()
       this.$router.push('/login')
-    },
-    // 点击按钮切换菜单的折叠与展开
-    toggleCollapse () {
-      this.isCollapse = !this.isCollapse
-    },
-    // 保存链接的激活状态
-    saveNavState (activePath) {
-      window.sessionStorage.setItem('activePath', activePath)
-      this.activePath = activePath
     },
     updatePaswordClose () {
       this.$refs.updatePaswordFormRef.resetFields()
