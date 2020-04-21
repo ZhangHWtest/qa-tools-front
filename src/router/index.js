@@ -14,6 +14,10 @@ const routes = [
     redirect: '/interface',
     children: [
       {
+        path: '/casechart',
+        component: () => import('@/views/casechart/index.vue')
+      },
+      {
         path: '/interface',
         component: () => import('@/views/interface/index.vue')
       },

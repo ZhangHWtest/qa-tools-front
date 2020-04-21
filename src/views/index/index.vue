@@ -24,13 +24,15 @@
     </el-header>
     <!-- 页面主题区域 -->
     <el-container>
-      <el-aside class="index-aside">
+      <!-- <el-aside :width="isCollapse ? '50px' : '230px'"> -->
+      <el-aside width="230px">
+        <div class="toggle-button"
+             @click="toggleCollapse">|||</div>
         <aside-nav-menu />
       </el-aside>
       <el-main class="index-main">
         <main-top-menu />
         <router-view />
-
         <!-- 修改密码弹框-->
         <el-dialog title="修改密码"
                    :visible.sync="updatePasword"
@@ -75,6 +77,7 @@ export default {
   data () {
     return {
       activePath: '/interface',
+      isCollapse: false,
       loginname: {
         name: ''
       },
@@ -93,6 +96,10 @@ export default {
     this.loginname.name = window.sessionStorage.getItem('loginName')
   },
   methods: {
+    // 点击按钮切换菜单的折叠与展开
+    toggleCollapse () {
+      this.isCollapse = !this.isCollapse
+    },
     logout () {
       window.sessionStorage.clear()
       this.$router.push('/login')
@@ -180,15 +187,14 @@ export default {
     }
   }
 }
-.index-aside {
-  width: 250px !important;
-  padding: 0px;
-}
 .index-main {
   padding: 1px;
 }
 .el-main {
   background-color: #eaedf1;
+}
+.sider-bar-title {
+  margin-left: 6px;
 }
 .toggle-button {
   background-color: #4a5064;
@@ -198,8 +204,5 @@ export default {
   text-align: center;
   letter-spacing: 0.5em;
   cursor: pointer;
-}
-.sider-bar-title {
-  margin-left: 6px;
 }
 </style>

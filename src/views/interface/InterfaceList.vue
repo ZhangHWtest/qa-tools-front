@@ -1,82 +1,73 @@
 <template>
-  <el-col class="index-main">
-    <el-tabs v-model="activeName">
-      <el-tab-pane name="first">
-        <span slot="label"><i class="iconfont icon-tradingvolume"></i> 监控图标</span>
-        <project-charts />
-      </el-tab-pane>
-      <el-tab-pane name="second">
-        <span slot="label"><i class="iconfont icon-biaodanzujian-biaoge"></i> 接口列表</span>
-        <el-col class="index-main-inteface-table">
-          <el-tooltip class="item"
-                      effect="dark"
-                      content="新增接口"
-                      placement="top">
-            <el-button class="add-model-button"
-                       type="primary"
-                       icon="el-icon-plus"
-                       plain
-                       @click="addInterfaceDialog=true">新增 接口</el-button>
-          </el-tooltip>
-          <el-table class="interface-table"
-                    :data="interfaceList"
-                    border>
-            <el-table-column width="70px"
-                             label="id"
-                             prop="interface_id"></el-table-column>
-            <el-table-column label="接口名称">
-              <template slot-scope="scope">
-                <el-link type="primary">{{scope.row.interface_name}}</el-link>
-              </template>
-            </el-table-column>
-            <el-table-column label="接口类型"
-                             prop="interface_type"></el-table-column>
-            <el-table-column label="方法"
-                             prop="method"></el-table-column>
-            <el-table-column label="路径"
-                             prop="path"></el-table-column>
-            <el-table-column label="创建人"
-                             prop="create_user"></el-table-column>
-            <el-table-column label="操作"
-                             width="120px">
-              <template slot-scope="scope">
-                <!-- 修改按钮 -->
-                <el-tooltip class="item"
-                            effect="dark"
-                            content="修改"
-                            placement="top">
-                  <el-button type="primary"
-                             icon="el-icon-edit"
-                             size="mini"
-                             ricon="el-icon-edit"
-                             circle
-                             @click="goInterfaceInfo(scope.row.interface_id)"></el-button>
-                </el-tooltip>
-                <!-- 删除按钮 -->
-                <el-tooltip class="item"
-                            effect="dark"
-                            content="删除"
-                            placement="top">
-                  <el-button type="danger"
-                             icon="el-icon-delete"
-                             size="mini"
-                             ricon="el-icon-edit"
-                             circle
-                             @click="removeInterfaceById(scope.row.interface_id)"></el-button>
-                </el-tooltip>
-              </template>
-            </el-table-column>
+  <div>
+    <el-col class="index-main">
+      <el-tooltip class="item"
+                  effect="dark"
+                  content="新增接口"
+                  placement="top">
+        <el-button class="add-model-button"
+                   type="primary"
+                   icon="el-icon-plus"
+                   plain
+                   @click="addInterfaceDialog=true">新增 接口</el-button>
+      </el-tooltip>
+      <el-table class="interface-table"
+                :data="interfaceList"
+                border>
+        <el-table-column width="70px"
+                         label="id"
+                         prop="interface_id"></el-table-column>
+        <el-table-column label="接口名称">
+          <template slot-scope="scope">
+            <el-link type="primary">{{scope.row.interface_name}}</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="接口类型"
+                         prop="interface_type"></el-table-column>
+        <el-table-column label="方法"
+                         prop="method"></el-table-column>
+        <el-table-column label="路径"
+                         prop="path"></el-table-column>
+        <el-table-column label="创建人"
+                         prop="create_user"></el-table-column>
+        <el-table-column label="操作"
+                         width="120px">
+          <template slot-scope="scope">
+            <!-- 修改按钮 -->
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="修改"
+                        placement="top">
+              <el-button type="primary"
+                         icon="el-icon-edit"
+                         size="mini"
+                         ricon="el-icon-edit"
+                         circle
+                         @click="goInterfaceInfo(scope.row.interface_id)"></el-button>
+            </el-tooltip>
+            <!-- 删除按钮 -->
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="删除"
+                        placement="top">
+              <el-button type="danger"
+                         icon="el-icon-delete"
+                         size="mini"
+                         ricon="el-icon-edit"
+                         circle
+                         @click="removeInterfaceById(scope.row.interface_id)"></el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
 
-          </el-table>
-          <el-pagination background
-                         :current-page="page_num"
-                         @current-change="handleCurrentChange"
-                         layout="prev, pager, next"
-                         :total="1000">
-          </el-pagination>
-        </el-col>
-      </el-tab-pane>
-    </el-tabs>
+      </el-table>
+      <el-pagination background
+                     :current-page="page_num"
+                     @current-change="handleCurrentChange"
+                     layout="prev, pager, next"
+                     :total="1000">
+      </el-pagination>
+    </el-col>
     <el-dialog title="新增接口"
                :visible.sync="addInterfaceDialog"
                width="40%"
@@ -125,16 +116,11 @@
                    @click.native="addInterfaceMethod()">确 定</el-button>
       </span>
     </el-dialog>
-  </el-col>
+  </div>
 </template>
 
 <script>
-import ProjectCharts from './components/casechart/index'
 export default {
-  components: {
-    ProjectCharts
-
-  },
   props: [
     'interfaceList'
   ],

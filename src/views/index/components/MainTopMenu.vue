@@ -3,6 +3,11 @@
            mode="horizontal"
            :router="true"
            :default-active="activePath">
+    <el-menu-item index="/casechart"
+                  route="/casechart"
+                  @click="saveNavState('/casechart')">
+      <i class="iconfont icon-tradingvolume"></i>
+      <span slot="title">数据图标</span></el-menu-item>
     <el-menu-item index="/interface"
                   route="/interface"
                   @click="saveNavState('/interface')">
@@ -24,7 +29,11 @@
 </template>
 <script>
 export default {
-
+  data () {
+    return {
+      activePath: '/casechart'
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
