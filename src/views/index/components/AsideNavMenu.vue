@@ -51,7 +51,7 @@
         <div>
           <el-pagination :current-page="getProjectListBody.page_num"
                          @current-change="handleCurrentChange"
-                         layout=" pager"
+                         layout="pager"
                          :total="50">
           </el-pagination>
         </div>

@@ -1,21 +1,13 @@
 <template>
-  <el-row :gutter="20">
-    <!-- <el-col :span="4">
-      <index-aside ref="childAside"
-                   @listenChildInterfaceList="changeInterfaceList" />
-    </el-col> -->
-    <el-col :span="20">
-      <interface-list :interfaceList="interfaceList"
-                      @listenChildAddInterface="changeAddInterfaceList" />
-    </el-col>
-  </el-row>
+  <div class="main-projectlist">
+    <interface-list :interfaceList="interfaceList"
+                    @listenChildAddInterface="changeAddInterfaceList" />
+  </div>
 </template>
 <script>
-// import IndexAside from './IndexAside'
-import InterfaceList from './InterfaceList'
+import InterfaceList from './components/InterfaceList'
 export default {
   components: {
-    // IndexAside,
     InterfaceList
   },
   data () {
@@ -24,9 +16,6 @@ export default {
     }
   },
   methods: {
-    changeInterfaceList (info) {
-      this.interfaceList = info
-    },
     changeAddInterfaceList () {
       this.$refs.childAside.getInterfaceListMethod()
     }
@@ -34,4 +23,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.main-projectlist {
+  padding: 15px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
+}
 </style>

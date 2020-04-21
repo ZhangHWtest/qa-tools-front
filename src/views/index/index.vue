@@ -25,7 +25,7 @@
     <!-- 页面主题区域 -->
     <el-container>
       <!-- <el-aside :width="isCollapse ? '50px' : '230px'"> -->
-      <el-aside width="230px">
+      <el-aside width="200px">
         <div class="toggle-button"
              @click="toggleCollapse">|||</div>
         <aside-nav-menu />
@@ -76,7 +76,6 @@ export default {
   },
   data () {
     return {
-      activePath: '/interface',
       isCollapse: false,
       loginname: {
         name: ''
@@ -100,13 +99,16 @@ export default {
     toggleCollapse () {
       this.isCollapse = !this.isCollapse
     },
+    // 退出
     logout () {
       window.sessionStorage.clear()
       this.$router.push('/login')
     },
+    // 关闭修改密码弹窗，清空表单
     updatePaswordClose () {
       this.$refs.updatePaswordFormRef.resetFields()
     },
+    // 修改密码方法
     updatePaswordMethod () {
       this.$refs.updatePaswordFormRef.validate(async valid => {
         if (!valid) return
