@@ -41,7 +41,7 @@
                     route="/environment/list"
                     @click="saveNavState('/environment/list')">
         <i class="iconfont icon-icon_setting"></i>
-        <span slot="title">用 户</span>
+        <span slot="title">设 置</span>
       </el-menu-item>
     </el-menu>
     <!-- 页面主题区域 -->
