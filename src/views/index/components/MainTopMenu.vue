@@ -33,6 +33,12 @@ export default {
     return {
       activePath: '/casechart'
     }
+  },
+  methods: {
+    saveNavState (activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
+    }
   }
 }
 </script>

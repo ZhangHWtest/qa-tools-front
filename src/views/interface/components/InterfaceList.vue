@@ -121,9 +121,6 @@
 
 <script>
 export default {
-  props: [
-    'interfaceList'
-  ],
   data () {
     return {
       activeName: 'first',
@@ -141,8 +138,16 @@ export default {
       addInterfaceRulesForm: {
         interface_name: [{ required: true, message: '请输入接口名称', trigger: 'blur' }],
         path: [{ required: true, message: '请输入路径', trigger: 'blur' }]
-      }
+      },
+      getInterfaceListBody: {
+        project_id: '',
+        model_id: ''
+      },
+      interfaceList: []
     }
+  },
+  created () {
+    this.getInterfaceListMethod()
   },
   methods: {
     handleClick (tab, event) {
@@ -153,6 +158,25 @@ export default {
     },
     addInterfaceDialogClose () {
       this.$refs.addInterfaceFormRef.resetFields()
+    },
+    // 获取接口列表方法
+    async getInterfaceListMethod () {
+      this.getInterfaceListBody.project_id = Number(window.sessionStorage.getItem('interFaceProjectId', this.getInterfaceListBody.project_id))
+      this.getInterfaceListBody.model_id = Number(window.sessionStorage.getItem('interFaceModelId', this.getInterfaceListBody.model_id))
+      if (this.getInterfaceListBody.project_id === '') {
+        delete this.getInterfaceListBody.project_id
+      }
+      if (this.getInterfaceListBody.model_id === '') {
+        delete this.getInterfaceListBody.model_id
+      }
+      console.log(this.getInterfaceListBody)
+      const { data: responseBody } = await this.$api.myinterface.getInterfaceList(
+        this.getInterfaceListBody
+      )
+      if (responseBody.code === 1) {
+        this.interfaceList = responseBody.data
+        // this.$emit('listenChildInterfaceList', this.childInterfaceList)
+      }
     },
     // 创建接口
     async addInterfaceMethod () {

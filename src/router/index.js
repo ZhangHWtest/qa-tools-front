@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/home',
     component: Home,
-    redirect: '/interface',
+    redirect: '/casechart',
     children: [
       {
         path: '/casechart',

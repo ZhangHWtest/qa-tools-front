@@ -25,7 +25,7 @@
     <!-- 页面主题区域 -->
     <el-container>
       <!-- <el-aside :width="isCollapse ? '50px' : '230px'"> -->
-      <el-aside width="200px">
+      <el-aside width="230px">
         <div class="toggle-button"
              @click="toggleCollapse">|||</div>
         <aside-nav-menu />
@@ -160,8 +160,8 @@ export default {
       width: 120px;
       height: 100%;
       background-color: #373d41;
-      margin-left: 40px;
-      margin-right: 40px;
+      margin-left: 55px;
+      margin-right: 55px;
     }
   }
   .user-avatar {

@@ -1,7 +1,8 @@
 <template>
   <div class="main-projectlist">
-    <interface-list :interfaceList="interfaceList"
-                    @listenChildAddInterface="changeAddInterfaceList" />
+    <interface-list />
+    <!-- <interface-list :interfaceList="interfaceList"
+                    @listenChildAddInterface="changeAddInterfaceList" /> -->
   </div>
 </template>
 <script>
@@ -12,13 +13,13 @@ export default {
   },
   data () {
     return {
-      interfaceList: []
+      // interfaceList: []
     }
   },
   methods: {
-    changeAddInterfaceList () {
-      this.$refs.childAside.getInterfaceListMethod()
-    }
+    // changeAddInterfaceList () {
+    //   this.$refs.childAside.getInterfaceListMethod()
+    // }
   }
 }
 </script>

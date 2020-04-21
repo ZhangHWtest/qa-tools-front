@@ -202,22 +202,9 @@ export default {
     },
     // 获取接口列表方法
     async getInterfaceListMethod () {
-      if (this.getInterfaceListBody.project_id === '') {
-        delete this.getInterfaceListBody.project_id
-      }
-      if (this.getInterfaceListBody.model_id === '') {
-        delete this.getInterfaceListBody.model_id
-      }
       window.sessionStorage.setItem('interFaceProjectId', this.getInterfaceListBody.project_id)
       window.sessionStorage.setItem('interFaceModelId', this.getInterfaceListBody.model_id)
-      console.log(this.getInterfaceListBody)
-      const { data: responseBody } = await this.$api.myinterface.getInterfaceList(
-        this.getInterfaceListBody
-      )
-      if (responseBody.code === 1) {
-        this.childInterfaceList = responseBody.data
-        this.$emit('listenChildInterfaceList', this.childInterfaceList)
-      }
+      this.$router.push({ path: '/interface' })
     },
     // 新建项目
     async addProjectMethod () {
