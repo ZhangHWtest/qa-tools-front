@@ -22,32 +22,15 @@
         </el-dropdown-menu>
       </el-dropdown>
     </el-header>
-    <el-menu class="el-menu-top"
-             mode="horizontal"
-             :router="true"
-             :default-active="activePath">
-      <el-menu-item index="/interface"
-                    route="/interface"
-                    @click="saveNavState('/interface')">
-        <i class="iconfont icon-icon_renwujincheng"></i>
-        <span slot="title">接 口</span></el-menu-item>
-      <el-menu-item index="/user/list"
-                    route="/user/list"
-                    @click="saveNavState('/user/list')">
-        <i class="iconfont icon-icon_signal"></i>
-        <span slot="title">用 户</span>
-      </el-menu-item>
-      <el-menu-item index="/environment/list"
-                    route="/environment/list"
-                    @click="saveNavState('/environment/list')">
-        <i class="iconfont icon-icon_setting"></i>
-        <span slot="title">设 置</span>
-      </el-menu-item>
-    </el-menu>
     <!-- 页面主题区域 -->
     <el-container>
-      <el-main>
+      <el-aside class="index-aside">
+        <aside-nav-menu />
+      </el-aside>
+      <el-main class="index-main">
+        <main-top-menu />
         <router-view />
+
         <!-- 修改密码弹框-->
         <el-dialog title="修改密码"
                    :visible.sync="updatePasword"
@@ -82,8 +65,13 @@
 </template>
 
 <script>
-
+import AsideNavMenu from './components/AsideNavMenu'
+import MainTopMenu from './components/MainTopMenu'
 export default {
+  components: {
+    AsideNavMenu,
+    MainTopMenu
+  },
   data () {
     return {
       activePath: '/interface',
@@ -192,16 +180,12 @@ export default {
     }
   }
 }
-.el-menu-top {
-  height: 45px;
-  padding-left: 45px;
+.index-aside {
+  width: 250px !important;
+  padding: 0px;
 }
-.el-menu--horizontal {
-  .el-menu-item {
-    float: left;
-    height: 45px;
-    line-height: 45px;
-  }
+.index-main {
+  padding: 1px;
 }
 .el-main {
   background-color: #eaedf1;
