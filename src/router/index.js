@@ -22,6 +22,10 @@ const routes = [
         component: () => import('@/views/interface/index.vue')
       },
       {
+        path: '/interface/info',
+        component: () => import('@/views/interfaceinfo/index.vue')
+      },
+      {
         path: '/user/list',
         component: () => import('@/views/user/UserList.vue')
       },
@@ -32,43 +36,6 @@ const routes = [
       }
     ]
   },
-  // {
-  //   path: '/home',
-  //   component: Home,
-  //   redirect: '/case/chart',
-  //   children: [
-  //     {
-  //       path: '/project/list',
-  //       component: () => import('@/views/project/ProjectList.vue'
-  //       )
-  //     },
-  //     {
-  //       path: '/project/info',
-  //       component: () => import('@/views/project/components/AddProject.vue'
-  //       )
-  //     },
-  //     {
-  //       path: '/interface/list',
-  //       component: () => import('@/views/interface/index.vue'
-  //       )
-  //     },
-  //     {
-  //       path: '/case/list',
-  //       component: () => import('@/views/testcase/caselist/index.vue'
-  //       )
-  //     },
-  //     {
-  //       path: '/case/info',
-  //       component: () => import('@/views/testcase/caseinfo/index.vue'
-  //       )
-  //     },
-  //     {
-  //       path: '/case/chart',
-  //       component: () => import('@/views/testcase/casechart/index.vue'
-  //       )
-  //     }
-  //   ]
-  // },
   {
     path: '*',
     component: () => import('@/views/error-page/404.vue')

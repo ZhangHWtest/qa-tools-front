@@ -44,8 +44,10 @@ import {
   Avatar,
   Carousel,
   CarouselItem,
-  Image
+  Image,
+  PageHeader
 } from 'element-ui'
+Vue.use(PageHeader)
 Vue.use(Image)
 Vue.use(CarouselItem)
 Vue.use(Carousel)

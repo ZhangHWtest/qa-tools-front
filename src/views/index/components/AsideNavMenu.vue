@@ -153,14 +153,21 @@ export default {
       this.getModelListBody.project_id = Number(key)
       this.getInterfaceListBody.project_id = Number(key)
       this.getModelListMethod(key)
-      this.getInterfaceListMethod()
+      this.$router.push({ path: '/interface', query: { projectId: Number(key), modelId: '' } }).catch(err => {
+        console.log('输出', err)
+      })
+      // this.getInterfaceListMethod()
     },
     handleClose () {
     },
     getInterfaceList (projectId, modelId) {
       this.getInterfaceListBody.project_id = projectId
       this.getInterfaceListBody.model_id = modelId
-      this.getInterfaceListMethod()
+
+      this.$router.push({ path: '/interface', query: { projectId: projectId, modelId: modelId } }).catch(err => {
+        console.log('输出', err)
+      })
+      // this.getInterfaceListMethod()
     },
     // 监听 页码值改变的事件
     handleCurrentChange (newPage) {
@@ -200,12 +207,7 @@ export default {
       this.$set(this.projectList, index, { ...this.projectList[index], subList: responseBody.data })
       // console.log(this.projectList)
     },
-    // 获取接口列表方法
-    async getInterfaceListMethod () {
-      window.sessionStorage.setItem('interFaceProjectId', this.getInterfaceListBody.project_id)
-      window.sessionStorage.setItem('interFaceModelId', this.getInterfaceListBody.model_id)
-      this.$router.push({ path: '/interface' })
-    },
+
     // 新建项目
     async addProjectMethod () {
       const { data: res } = await this.$api.project.addProject(
@@ -245,7 +247,7 @@ export default {
 .index-aside-one {
   height: 150px;
   background-color: #373d41;
-  // display: inline-block;
+  padding-left: 25px;
   .index-aside-one-title {
     color: #fff;
   }

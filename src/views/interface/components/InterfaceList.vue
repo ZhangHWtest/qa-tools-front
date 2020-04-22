@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-col class="index-main">
+      <h2 class="interface-title-style">当前项目:</h2>
       <el-tooltip class="item"
                   effect="dark"
                   content="新增接口"
@@ -19,7 +20,8 @@
                          prop="interface_id"></el-table-column>
         <el-table-column label="接口名称">
           <template slot-scope="scope">
-            <el-link type="primary">{{scope.row.interface_name}}</el-link>
+            <el-link type="primary"
+                     @click="goInterfaceInfo(scope.row.interface_id)">{{scope.row.interface_name}}</el-link>
           </template>
         </el-table-column>
         <el-table-column label="接口类型"
@@ -30,39 +32,9 @@
                          prop="path"></el-table-column>
         <el-table-column label="创建人"
                          prop="create_user"></el-table-column>
-        <el-table-column label="操作"
-                         width="120px">
-          <template slot-scope="scope">
-            <!-- 修改按钮 -->
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="修改"
-                        placement="top">
-              <el-button type="primary"
-                         icon="el-icon-edit"
-                         size="mini"
-                         ricon="el-icon-edit"
-                         circle
-                         @click="goInterfaceInfo(scope.row.interface_id)"></el-button>
-            </el-tooltip>
-            <!-- 删除按钮 -->
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="删除"
-                        placement="top">
-              <el-button type="danger"
-                         icon="el-icon-delete"
-                         size="mini"
-                         ricon="el-icon-edit"
-                         circle
-                         @click="removeInterfaceById(scope.row.interface_id)"></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-
       </el-table>
       <el-pagination background
-                     :current-page="page_num"
+                     :current-page="getInterfaceListBody.page_num"
                      @current-change="handleCurrentChange"
                      layout="prev, pager, next"
                      :total="1000">
@@ -108,6 +80,10 @@
                       prop="interface_desc">
           <el-input v-model="addInterfaceBody.interface_desc"></el-input>
         </el-form-item>
+        <el-form-item label="注:"
+                      prop="interface_name">
+          <p class="add-interface-desc">详细的接口数据可以在编辑页面中添加</p>
+        </el-form-item>
       </el-form>
       <span slot="footer"
             class="dialog-footer">
@@ -123,8 +99,6 @@
 export default {
   data () {
     return {
-      activeName: 'first',
-      page_num: 1,
       addInterfaceDialog: false,
       addInterfaceBody: {
         project_id: '',
@@ -141,41 +115,46 @@ export default {
       },
       getInterfaceListBody: {
         project_id: '',
-        model_id: ''
+        model_id: '',
+        page_num: 1
       },
       interfaceList: []
     }
   },
   created () {
+    this.getInterfaceListBody.project_id = Number(this.$route.query.projectId)
+    this.getInterfaceListBody.model_id = Number(this.$route.query.modelId)
     this.getInterfaceListMethod()
+  },
+  watch: {
+    '$route': 'getInterfaceListMethod'
   },
   methods: {
     handleClick (tab, event) {
     },
     // 监听 页码值改变的事件
     handleCurrentChange (newPage) {
-      this.$emit('listenChildPageNum', newPage)
+      this.getInterfaceListBody.page_num = newPage
+      this.getInterfaceListMethod()
     },
     addInterfaceDialogClose () {
       this.$refs.addInterfaceFormRef.resetFields()
     },
     // 获取接口列表方法
     async getInterfaceListMethod () {
-      this.getInterfaceListBody.project_id = Number(window.sessionStorage.getItem('interFaceProjectId', this.getInterfaceListBody.project_id))
-      this.getInterfaceListBody.model_id = Number(window.sessionStorage.getItem('interFaceModelId', this.getInterfaceListBody.model_id))
+      this.getInterfaceListBody.project_id = Number(this.$route.query.projectId)
+      this.getInterfaceListBody.model_id = Number(this.$route.query.modelId)
       if (this.getInterfaceListBody.project_id === '') {
         delete this.getInterfaceListBody.project_id
       }
       if (this.getInterfaceListBody.model_id === '') {
         delete this.getInterfaceListBody.model_id
       }
-      console.log(this.getInterfaceListBody)
       const { data: responseBody } = await this.$api.myinterface.getInterfaceList(
         this.getInterfaceListBody
       )
       if (responseBody.code === 1) {
         this.interfaceList = responseBody.data
-        // this.$emit('listenChildInterfaceList', this.childInterfaceList)
       }
     },
     // 创建接口
@@ -192,6 +171,11 @@ export default {
       } else {
         this.$message.error('添加接口失败！')
       }
+    },
+    goInterfaceInfo (intfId) {
+      this.$router.push({ path: '/interface/info', query: { interfaceId: intfId } }).catch(err => {
+        console.log('输出', err)
+      })
     }
 
   }
@@ -209,5 +193,15 @@ export default {
     width: 90px;
     margin-right: 5px;
   }
+}
+.interface-title-style {
+  border-left: 3px solid #2395f1;
+  padding-left: 8px;
+  margin-bottom: 20px;
+  margin-left: 15px;
+}
+.add-interface-desc {
+  margin: 0px;
+  color: #9297a3;
 }
 </style>

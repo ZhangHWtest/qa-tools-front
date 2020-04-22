@@ -45,7 +45,7 @@ export default {
 <style lang="less" scoped>
 .el-menu-top {
   height: 45px;
-  padding-left: 15px;
+  padding-left: 5px;
 }
 .el-menu--horizontal {
   .el-menu-item {
