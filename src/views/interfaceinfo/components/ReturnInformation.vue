@@ -1,5 +1,6 @@
 <template>
-  <div class="show-return-interface">
+  <div class="show-return-interface"
+       v-show="BasicInformation">
     <h2 class="interface-title-style">返回数据设置:</h2>
     <div class="interface-info">
       <el-tabs type="border-card">
@@ -35,7 +36,8 @@ export default {
   data () {
     return {
       showBasicInformation: false,
-      editBasicInformation: false
+      editBasicInformation: false,
+      BasicInformation: true
     }
   },
   created () {
@@ -43,6 +45,8 @@ export default {
       this.showBasicInformation = true
     } else if (this.activeName === '2') {
       this.editBasicInformation = true
+    } else {
+      this.BasicInformation = false
     }
   }
 

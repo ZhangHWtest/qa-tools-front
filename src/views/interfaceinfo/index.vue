@@ -16,6 +16,9 @@
         <return-information :key="activeName"
                             :interfaceInfo="interfaceInfo"
                             :activeName="activeName" />
+        <run-information :key="activeName"
+                         :interfaceInfo="interfaceInfo"
+                         :activeName="activeName" />
       </el-tab-pane>
     </el-tabs>
   </el-card>
@@ -24,11 +27,13 @@
 import BasicInformation from './components/BasicInformation'
 import ParamInformation from './components/ParamInformation'
 import ReturnInformation from './components/ReturnInformation'
+import RunInformation from './components/RunInformation'
 export default {
   components: {
     BasicInformation,
     ParamInformation,
-    ReturnInformation
+    ReturnInformation,
+    RunInformation
   },
   data () {
     return {
@@ -42,6 +47,9 @@ export default {
       }, {
         title: '运行',
         name: '3'
+      }, {
+        title: 'CASE',
+        name: '4'
       }],
       getInterfaceInfo: {
         interface_id: ''

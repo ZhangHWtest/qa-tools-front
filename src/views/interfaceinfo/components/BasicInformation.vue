@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="BasicInformation">
     <h2 class="interface-title-style">基本信息:</h2>
     <!-- 预览区域-->
     <div v-show="showBasicInformation">
@@ -102,6 +102,7 @@ export default {
     return {
       showBasicInformation: false,
       editBasicInformation: false,
+      BasicInformation: true,
       interface_type_options: [{
         value: 'http',
         label: 'http'
@@ -137,6 +138,8 @@ export default {
       this.showBasicInformation = true
     } else if (this.activeName === '2') {
       this.editBasicInformation = true
+    } else {
+      this.BasicInformation = false
     }
   }
 

@@ -40,7 +40,8 @@
                      :total="1000">
       </el-pagination>
     </el-col>
-    <el-dialog title="新增接口"
+    <el-dialog class="addInterface-dialog"
+               title="新增接口"
                :visible.sync="addInterfaceDialog"
                width="40%"
                :close-on-click-modal="false"
@@ -194,6 +195,9 @@ export default {
     margin-right: 5px;
   }
 }
+// .dialog-divider {
+//   margin: 10px;
+// }
 .interface-title-style {
   border-left: 3px solid #2395f1;
   padding-left: 8px;
