@@ -5,7 +5,7 @@
       <el-select v-model="runEnv"
                  class="env-select"
                  slot="prepend"
-                 placeholder="请选择">
+                 placeholder="请选择环境：">
         <el-option v-for="item in envList"
                    :key="item.env_id"
                    :label="item.url"
@@ -31,8 +31,7 @@
                   placement="top">
         <el-button type="primary"
                    size="mini"
-                   icon="el-icon-plus"
-                   circle></el-button>
+                   icon="el-icon-plus">保 存</el-button>
       </el-tooltip>
       <el-tooltip class="item"
                   effect="dark"
@@ -40,8 +39,7 @@
                   placement="top">
         <el-button type="success"
                    size="mini"
-                   icon="el-icon-check"
-                   circle></el-button>
+                   icon="el-icon-position">发 送</el-button>
       </el-tooltip>
 
     </div>

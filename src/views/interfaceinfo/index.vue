@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card class="interface-info-card">
     <el-tabs class="interface-info-tabs"
              v-model="activeName"
              @tab-click="handleClick">
@@ -19,6 +19,9 @@
         <run-information :key="activeName"
                          :interfaceInfo="interfaceInfo"
                          :activeName="activeName" />
+        <case-list :key="activeName"
+                   :interfaceInfo="interfaceInfo"
+                   :activeName="activeName" />
       </el-tab-pane>
     </el-tabs>
   </el-card>
@@ -28,12 +31,14 @@ import BasicInformation from './components/BasicInformation'
 import ParamInformation from './components/ParamInformation'
 import ReturnInformation from './components/ReturnInformation'
 import RunInformation from './components/RunInformation'
+import CaseList from './components/CaesList'
 export default {
   components: {
     BasicInformation,
     ParamInformation,
     ReturnInformation,
-    RunInformation
+    RunInformation,
+    CaseList
   },
   data () {
     return {
@@ -80,6 +85,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.interface-info-card {
+  margin: 15px;
+}
 .interface-info-tabs {
   margin: 0 15px 15px;
 }

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <el-col class="index-main">
-      <h2 class="interface-title-style">当前项目:</h2>
+    <el-card>
       <el-tooltip class="item"
                   effect="dark"
                   content="新增接口"
@@ -9,12 +8,11 @@
         <el-button class="add-model-button"
                    type="primary"
                    icon="el-icon-plus"
-                   plain
                    @click="addInterfaceDialog=true">新增 接口</el-button>
       </el-tooltip>
       <el-table class="interface-table"
                 :data="interfaceList"
-                border>
+                stripe>
         <el-table-column width="70px"
                          label="id"
                          prop="interface_id"></el-table-column>
@@ -39,7 +37,7 @@
                      layout="prev, pager, next"
                      :total="1000">
       </el-pagination>
-    </el-col>
+    </el-card>
     <el-dialog class="addInterface-dialog"
                title="新增接口"
                :visible.sync="addInterfaceDialog"
@@ -185,16 +183,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.index-main {
-  background-color: #fff;
-  .index-main-inteface-table {
-    margin-bottom: 15px;
-  }
-  .el-select {
-    width: 90px;
-    margin-right: 5px;
-  }
+.el-select {
+  width: 90px;
+  margin-right: 5px;
 }
+
 // .dialog-divider {
 //   margin: 10px;
 // }

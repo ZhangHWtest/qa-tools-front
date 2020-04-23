@@ -1,17 +1,16 @@
 <template>
-  <div>
+  <div class="user-list-main">
     <!-- 卡片视图区域-->
     <el-card>
       <el-row :gutter="30">
         <el-col :span="5">
           <el-button type="primary"
-                     plain
                      @click="addDialogVisible = true">新增用户</el-button>
         </el-col>
       </el-row>
 
       <!-- api列表区域-->
-      <el-table border
+      <el-table stripe
                 :data="userList">
         <el-table-column width="50px"
                          label="uid"
@@ -274,6 +273,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.user-list-main {
+  margin: 15px;
+}
 .apiStatus {
   padding-left: 10px;
   .apiActive::before {

@@ -1,8 +1,6 @@
 <template>
   <div class="main-projectlist">
     <interface-list />
-    <!-- <interface-list :interfaceList="interfaceList"
-                    @listenChildAddInterface="changeAddInterfaceList" /> -->
   </div>
 </template>
 <script>

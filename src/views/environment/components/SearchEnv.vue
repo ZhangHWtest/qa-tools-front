@@ -3,7 +3,6 @@
   <el-row :gutter="30">
     <el-col :span="4">
       <el-button type="primary"
-                 plain
                  @click="showDialogMethod()">新增环境</el-button>
     </el-col>
   </el-row>

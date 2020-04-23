@@ -10,7 +10,6 @@
         <el-button class="add-project-button"
                    type="primary"
                    icon="el-icon-plus"
-                   plain
                    @click="addProjectModelDialog = true">新增 项目</el-button>
       </el-tooltip>
     </el-col>
@@ -43,7 +42,6 @@
             <el-button class="add-model-button"
                        type="primary"
                        icon="el-icon-plus"
-                       plain
                        @click="addModelButton(item.project_id,item.project_name)">新增 模块</el-button>
           </el-tooltip>
 

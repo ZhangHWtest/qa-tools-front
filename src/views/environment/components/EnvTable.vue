@@ -2,7 +2,7 @@
   <div>
     <!-- 模块列表区域-->
     <el-table class="model_table"
-              border
+              stripe
               :data="envList">
       <el-table-column width="70px"
                        label="id"

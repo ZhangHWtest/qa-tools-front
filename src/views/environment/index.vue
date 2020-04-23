@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="env-list-main">
     <!-- 卡片视图区域-->
     <el-card>
       <div>
@@ -141,4 +141,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.env-list-main {
+  margin: 15px;
+}
 </style>
