@@ -41,9 +41,9 @@ export default {
     }
   },
   created () {
-    if (this.activeName === '1') {
+    if (this.activeName === 'Tab 1') {
       this.showBasicInformation = true
-    } else if (this.activeName === '2') {
+    } else if (this.activeName === 'Tab 2') {
       this.editBasicInformation = true
     } else {
       this.BasicInformation = false

@@ -6,7 +6,7 @@
         <el-tab-pane label="param">
           <div>
             <el-table border
-                      :data="paramsList">
+                      :data="interfaceInfo.params">
               <el-table-column label="参数id"
                                prop="param_id"></el-table-column>
               <el-table-column label="参数名称"
@@ -24,8 +24,7 @@
                                prop="default"></el-table-column>
               <el-table-column label="备注"
                                prop="param_desc"></el-table-column>
-              <el-table-column label="操作"
-                               v-show="editBasicInformation">
+              <el-table-column label="操作">
                 <template slot-scope="scope">
                   <!-- 修改按钮 -->
                   <el-tooltip class="item"
@@ -33,6 +32,7 @@
                               content="修改"
                               placement="top">
                     <el-button type="primary"
+                               v-show="editBasicInformation"
                                icon="el-icon-edit"
                                size="mini"
                                ricon="el-icon-edit"
@@ -111,9 +111,9 @@ export default {
     }
   },
   created () {
-    if (this.activeName === '1') {
+    if (this.activeName === 'Tab 1') {
       this.showBasicInformation = true
-    } else if (this.activeName === '2') {
+    } else if (this.activeName === 'Tab 2') {
       this.editBasicInformation = true
     } else {
       this.BasicInformation = false

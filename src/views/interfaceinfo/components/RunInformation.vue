@@ -88,7 +88,7 @@ export default {
     }
   },
   created () {
-    if (this.activeName === '3') {
+    if (this.activeName === 'Tab 3') {
       this.RunBasicInformation = true
       this.getEnvListMethod()
     }
