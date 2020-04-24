@@ -3,42 +3,6 @@
     <el-tabs class="interface-info-tabs"
              v-model="activeName"
              @tab-click="handleClick">
-      <!-- <el-tab-pane label="预览"
-                   name="Tab 1">
-        <basic-information key="Tab 1"
-                           :interfaceInfo="interfaceInfo"
-                           :activeName="activeName" />
-        <param-information key="Tab 1"
-                           :interfaceInfo="interfaceInfo"
-                           :activeName="activeName" />
-        <return-information key="Tab 1"
-                            :interfaceInfo="interfaceInfo"
-                            :activeName="activeName" />
-      </el-tab-pane>
-      <el-tab-pane label="编辑"
-                   name="Tab 2">
-        <basic-information key="Tab 2"
-                           :interfaceInfo="interfaceInfo"
-                           :activeName="activeName" />
-        <param-information key="Tab 2"
-                           :interfaceInfo="interfaceInfo"
-                           :activeName="activeName" />
-        <return-information key="Tab 2"
-                            :interfaceInfo="interfaceInfo"
-                            :activeName="activeName" />
-      </el-tab-pane>
-      <el-tab-pane label="运行"
-                   name="Tab 3">
-        <run-information key="Tab 3"
-                         :interfaceInfo="interfaceInfo"
-                         :activeName="activeName" />
-      </el-tab-pane>
-      <el-tab-pane label="CASE"
-                   name="Tab 4">
-        <case-list key="Tab 4"
-                   :interfaceInfo="interfaceInfo"
-                   :activeName="activeName" />
-      </el-tab-pane> -->
       <el-tab-pane :key="item.name"
                    v-for="item in editableTabs"
                    :label="item.title"
@@ -48,7 +12,8 @@
                            :activeName="activeName" />
         <param-information :key="activeName +'param'"
                            :interfaceInfo="interfaceInfo"
-                           :activeName="activeName" />
+                           :activeName="activeName"
+                           @listenChildChange="changeInterfaceInfo" />
         <return-information :key="activeName +'return'"
                             :interfaceInfo="interfaceInfo"
                             :activeName="activeName" />
@@ -79,7 +44,6 @@ export default {
   data () {
     return {
       activeName: 'Tab 1',
-      timer: '',
       editableTabs: [{
         title: '预览',
         name: 'Tab 1'
@@ -106,8 +70,10 @@ export default {
   methods: {
     handleClick (tab, event) {
       this.activeName = tab.name
-      this.timer = new Date().getTime()
-      console.log('tab:' + this.activeName)
+      console.log(this.activeName)
+    },
+    changeInterfaceInfo () {
+      this.getInterfaceInfoMethod()
     },
     async getInterfaceInfoMethod () {
       const { data: res } = await this.$api.myinterface.getInterfaceInfoMethod(

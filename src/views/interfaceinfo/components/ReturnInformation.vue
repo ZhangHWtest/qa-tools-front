@@ -13,15 +13,15 @@
                       :disabled="showBasicInformation"
                       v-model="interfaceInfo.response">
             </el-input>
+            <span slot="footer"
+                  v-show="editBasicInformation"
+                  class="goProject-dialog-footer-info-param">
+              <el-button type="success"
+                         :disabled="editResponseButton"
+                         size="small"
+                         @click="editInterfaceResponse()"> 提 交</el-button>
+            </span>
           </div>
-          <!-- <div v-show="editBasicInformation">
-            <el-input class="interfaceinfo-response-json"
-                      type="textarea"
-                      :autosize="{ minRows: 2, maxRows: 6}"
-                      placeholder='示例：{"test":1}'
-                      v-model="interfaceInfo.response">
-            </el-input>
-          </div> -->
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -37,7 +37,12 @@ export default {
     return {
       showBasicInformation: false,
       editBasicInformation: false,
-      BasicInformation: true
+      BasicInformation: true,
+      editResponseButton: false,
+      editResponse: {
+        interface_id: '',
+        response: ''
+      }
     }
   },
   created () {
@@ -47,6 +52,24 @@ export default {
       this.editBasicInformation = true
     } else {
       this.BasicInformation = false
+    }
+  },
+  methods: {
+    // 修改 返回信息
+    async editInterfaceResponse () {
+      this.editResponse.interface_id = this.interfaceInfo.interface_id
+      this.editResponse.response = this.interfaceInfo.response
+      const { data: createModelRes } = await this.$api.myinterface.createInterfaceResponseMethod(
+        this.editResponse
+      )
+      if (createModelRes.code === 1) {
+        this.$message.success('修改返回信息成功！')
+        // 修改完成后如何刷新
+        this.getInterfaceInfo()
+      } else {
+        this.$message.error('修改返回信息失败！')
+      }
+      this.editResponseButton = true
     }
   }
 
@@ -68,5 +91,13 @@ export default {
   padding-left: 50px;
   padding-right: 50px;
   background-color: #eee;
+}
+.interfaceinfo-response-json {
+  margin-bottom: 15px;
+}
+.goProject-dialog-footer-info-param {
+  position: relative;
+  top: 50%;
+  left: 45%;
 }
 </style>

@@ -44,19 +44,19 @@
     <div class="interface-info"
          v-show="editBasicInformation">
       <el-form ref="addFormRef"
-               :model="interfaceInfo"
+               :model="editInterfaceInfo"
                :rules="addRulesForm"
                label-width="100px">
         <el-form-item label="接口名称:"
                       prop="interface_name">
           <el-input class="interface_name"
                     placeholder="请输接口名称"
-                    v-model="interfaceInfo.interface_name"></el-input>
+                    v-model="editInterfaceInfo.interface_name"></el-input>
         </el-form-item>
 
         <el-form-item label="接口类型:"
                       prop="interface_type">
-          <el-select v-model="interfaceInfo.interface_type"
+          <el-select v-model="editInterfaceInfo.interface_type"
                      placeholder="请选择接口类型">
             <el-option v-for="item in interface_type_options"
                        :key="item.value"
@@ -67,7 +67,7 @@
         </el-form-item>
         <el-form-item label="请求类型:"
                       prop="method">
-          <el-select v-model="interfaceInfo.method"
+          <el-select v-model="editInterfaceInfo.method"
                      placeholder="请选择请求类型">
             <el-option v-for="item in method_options"
                        :key="item.value"
@@ -80,15 +80,23 @@
                       prop="path">
           <el-input class="project_name_input"
                     placeholder="请输入请求路径"
-                    v-model="interfaceInfo.path"></el-input>
+                    v-model="editInterfaceInfo.path"></el-input>
         </el-form-item>
         <el-form-item label="接口描述:">
           <el-input class="project_name_input"
                     type="textarea"
                     placeholder="请输入描述信息"
-                    v-model="interfaceInfo.interface_desc"></el-input>
+                    v-model="editInterfaceInfo.interface_desc"></el-input>
         </el-form-item>
       </el-form>
+      <!-- 预留提交按钮-->
+      <div class="interface-info-button">
+        <el-button type="success"
+                   size="mini"
+                   :disabled="editInterfaceInfoButton"
+                   @click="editInterfaceInfoMethod()">提 交</el-button>
+      </div>
+
     </div>
   </div>
 </template>
@@ -103,6 +111,15 @@ export default {
       showBasicInformation: false,
       editBasicInformation: false,
       BasicInformation: true,
+      editInterfaceInfoButton: false,
+      editInterfaceInfo: {
+        interface_id: '',
+        interface_name: '',
+        interface_type: '',
+        method: '',
+        path: '',
+        interface_desc: ''
+      },
       interface_type_options: [{
         value: 'http',
         label: 'http'
@@ -141,6 +158,26 @@ export default {
     } else {
       this.BasicInformation = false
     }
+    this.editInterfaceInfo.interface_id = this.interfaceInfo.interface_id
+    this.editInterfaceInfo.interface_name = this.interfaceInfo.interface_name
+    this.editInterfaceInfo.interface_type = this.interfaceInfo.interface_type
+    this.editInterfaceInfo.method = this.interfaceInfo.method
+    this.editInterfaceInfo.path = this.interfaceInfo.path
+    this.editInterfaceInfo.interface_desc = this.interfaceInfo.interface_desc
+  },
+  methods: {
+    // 修改接口
+    async editInterfaceInfoMethod () {
+      const { data: serverResponse } = await this.$api.myinterface.editInterfaceMethod(
+        this.editInterfaceInfo
+      )
+      if (serverResponse.code === 1) {
+        this.$message.success('修改接口成功！')
+      } else {
+        this.$message.error('修改接口失败！')
+      }
+      this.editInterfaceInfoButton = true
+    }
   }
 
 }
@@ -155,6 +192,9 @@ export default {
   padding-left: 50px;
   padding-right: 50px;
   background-color: #eee;
+  .interface-info-button {
+    text-align: center;
+  }
 }
 .interface-title-style {
   border-left: 3px solid #2395f1;
