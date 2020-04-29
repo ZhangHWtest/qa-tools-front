@@ -57,8 +57,8 @@
                   class="goProject-dialog-footer-info-param">
               <el-button type="primary"
                          size="small"
-                         @click="showCreateInterfaceParamDialog()">新增 参数</el-button>
-
+                         icon="el-icon-plus"
+                         @click="showCreateInterfaceParamDialog()">新 增</el-button>
             </span>
           </div>
         </el-tab-pane>
@@ -181,6 +181,9 @@ export default {
       editHeader: {
         interface_id: '',
         header: ''
+      },
+      delParam: {
+        param_id: ''
       }
 
     }
@@ -236,6 +239,7 @@ export default {
         this.editDialogVisible = false
         // 修改成功怎么刷新
         // this.getInterfaceInfo()
+        location.reload()
       } else {
         this.$message.error('修改请求参数失败！')
       }
@@ -254,6 +258,20 @@ export default {
         this.$message.error('修改请求头失败！')
       }
       this.editInterfaceHeaderButton = true
+    },
+    // 删除 参数
+    async removeInterfaceParamById (id) {
+      this.delParam.param_id = id
+      const { data: createModelRes } = await this.$api.myinterface.removeInterfaceParamMethod(
+        this.delParam
+      )
+      if (createModelRes.code === 1) {
+        this.$message.success('删除请求参数成功！')
+        // this.$forceUpdate()
+        location.reload()
+      } else {
+        this.$message.error('删除请求参数失败！')
+      }
     }
   }
 }

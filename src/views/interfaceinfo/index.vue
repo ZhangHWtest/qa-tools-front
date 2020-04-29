@@ -12,8 +12,7 @@
                            :activeName="activeName" />
         <param-information :key="activeName +'param'"
                            :interfaceInfo="interfaceInfo"
-                           :activeName="activeName"
-                           @listenChildChange="changeInterfaceInfo" />
+                           :activeName="activeName" />
         <return-information :key="activeName +'return'"
                             :interfaceInfo="interfaceInfo"
                             :activeName="activeName" />

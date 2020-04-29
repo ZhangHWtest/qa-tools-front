@@ -21,7 +21,6 @@
         <el-option label="POST"
                    value="POST"></el-option>
       </el-select>
-
       <el-input class="run-input-interface-path"
                 v-model="interfaceInfo.path"
                 :disabled="true"></el-input>
@@ -41,7 +40,6 @@
                    size="mini"
                    icon="el-icon-position">发 送</el-button>
       </el-tooltip>
-
     </div>
     <h2 class="interface-title-style">Response:</h2>
     <div class="interface-info">

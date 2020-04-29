@@ -166,7 +166,7 @@ export default {
   }
   .user-avatar {
     position: absolute;
-    left: 85%;
+    left: 84%;
   }
   .user-dropdown {
     position: relative;
