@@ -1,4 +1,4 @@
-const port = 8080
+const port = 5000
 // dev port
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
     proxy: {
       '/api': {
         // 接口服务地址
-        target: 'http://10.20.4.158:5555',
+        target: ' http://localhost:5001',
         // 是否跨域
         changeOrigin: true,
         ws: true,
