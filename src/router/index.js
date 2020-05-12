@@ -18,12 +18,20 @@ const routes = [
         component: () => import('@/views/casechart/index.vue')
       },
       {
+        path: '/caselist',
+        component: () => import('@/views/case/index.vue')
+      },
+      {
         path: '/interface',
         component: () => import('@/views/interface/index.vue')
       },
       {
         path: '/interface/info',
         component: () => import('@/views/interfaceinfo/index.vue')
+      },
+      {
+        path: '/project',
+        component: () => import('@/views/project/index.vue')
       },
       {
         path: '/user/list',

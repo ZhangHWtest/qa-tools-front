@@ -25,13 +25,94 @@
     <!-- 页面主题区域 -->
     <el-container>
       <!-- <el-aside :width="isCollapse ? '50px' : '230px'"> -->
-      <el-aside width="230px">
+      <!-- <el-aside width="230px">
         <div class="toggle-button"
              @click="toggleCollapse">|||</div>
         <aside-nav-menu />
+      </el-aside> -->
+      <el-aside :width="isCollapse ? '65px' : '200px'">
+        <div class="toggle-button"
+             @click="toggleCollapse">|||</div>
+        <el-menu background-color="#333744"
+                 text-color="#fff"
+                 active-text-color="#409EFF"
+                 :unique-opened="true"
+                 :collapse="isCollapse"
+                 :collapse-transition="false"
+                 :router="true"
+                 :default-active="activePath">
+          <!-- 一级菜单 -->
+          <el-submenu index="1">
+            <template slot="title">
+              <i class="iconfont icon-changjingguanli"></i>
+              <span class="sider-bar-title">接口管理</span>
+            </template>
+            <el-menu-item index="/casechart"
+                          route="/casechart"
+                          @click="saveNavState('/casechart')">
+              <template slot="title">
+                <i class="iconfont icon-tradingvolume"></i>
+                <span class="sider-bar-title">用例概况</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/interface"
+                          route="/interface"
+                          @click="saveNavState('/interface')">
+              <template slot="title">
+                <i class="iconfont icon-jishufuwu"></i>
+                <span class="sider-bar-title">接口列表</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/caselist"
+                          route="/caselist"
+                          @click="saveNavState('/caselist')">
+              <template slot="title">
+                <i class="iconfont icon-ceshishenqing"></i>
+                <span class="sider-bar-title">用例列表</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="iconfont icon-icon_workfile_line"></i>
+              <span class="sider-bar-title">项目管理</span>
+            </template>
+            <el-menu-item index="/project"
+                          route="/project"
+                          @click="saveNavState('/project')">
+              <template slot="title">
+                <i class="iconfont icon-icon_compile"></i>
+                <span class="sider-bar-title">项目配置</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/environment/list"
+                          route="/environment/list"
+                          @click="saveNavState('/environment/list')">
+              <template slot="title">
+                <i class="iconfont icon-icon_setting"></i>
+                <span class="sider-bar-title">环境配置</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="8">
+            <template slot="title">
+              <i class="iconfont icon-icon_boss"></i>
+              <span class="sider-bar-title">用户管理</span>
+            </template>
+            <el-menu-item index="/user/list"
+                          route="/user/list"
+                          @click="saveNavState('/user/list')">
+              <template slot="title">
+                <i class="iconfont icon-icon_meeting"></i>
+                <span class="sider-bar-title">用户列表</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
       </el-aside>
       <el-main class="index-main">
-        <main-top-menu />
+        <!-- <main-top-menu /> -->
         <router-view />
         <!-- 修改密码弹框-->
         <el-dialog title="修改密码"
@@ -67,16 +148,13 @@
 </template>
 
 <script>
-import AsideNavMenu from './components/AsideNavMenu'
-import MainTopMenu from './components/MainTopMenu'
 export default {
   components: {
-    AsideNavMenu,
-    MainTopMenu
   },
   data () {
     return {
       isCollapse: false,
+      activePath: '/casechart',
       loginname: {
         name: ''
       },
@@ -98,6 +176,11 @@ export default {
     // 点击按钮切换菜单的折叠与展开
     toggleCollapse () {
       this.isCollapse = !this.isCollapse
+    },
+    // 保存链接的激活状态
+    saveNavState (activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     },
     // 退出
     logout () {
@@ -191,6 +274,12 @@ export default {
 }
 .index-main {
   padding: 1px;
+}
+.el-aside {
+  background-color: #333744;
+  .el-menu {
+    border-right: none;
+  }
 }
 .el-main {
   background-color: #eaedf1;

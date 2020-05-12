@@ -2,15 +2,18 @@ const port = 8080
 // dev port
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
-  publicPath:
-    process.env.NODE_ENV === 'production' ? '/production-sub-path/' : '/',
-  outputDir: 'apimonitor',
-  assetsDir: 'assets',
+  publicPath: '/',
+  outputDir: 'dist',
+  assetsDir: '',
+  indexPath: 'index.html',
+  productionSourceMap: true,
   lintOnSave: true,
   filenameHashing: false,
   devServer: {
     port,
     open: true,
+    https: false,
+    hotOnly: false,
     overlay: {
       warnings: false,
       errors: true
