@@ -3,28 +3,22 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>接口管理</el-breadcrumb-item>
-      <el-breadcrumb-item>接口列表</el-breadcrumb-item>
+      <el-breadcrumb-item>用例列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <interface-list />
+      <case-list />
     </el-card>
   </div>
 </template>
 <script>
-import InterfaceList from './components/InterfaceList'
+import CaseList from './components/CaesList'
 export default {
   components: {
-    InterfaceList
-  },
-  data () {
-    return {
-    }
-  },
-  methods: {
+    CaseList
   }
 }
 </script>
-<style lang="less" scoped>
+<style  lang="less" scoped>
 .main-projectlist {
   padding: 15px;
   background-color: rgb(240, 242, 245);

@@ -1,6 +1,11 @@
 <template>
 
   <div class="dashboard-editor-container">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>接口管理</el-breadcrumb-item>
+      <el-breadcrumb-item>接口概况</el-breadcrumb-item>
+    </el-breadcrumb>
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <el-col :xs="24"

@@ -4,8 +4,8 @@
            autoplay
            loop
            muted
-           class="fillWidth"
-           v-on:canplay="canplay">
+           class="fillWidth">
+      <!-- v-on:canplay="canplay"> -->
       <source src="@/assets/video/index-4.mp4"
               type="video/mp4" />
     </video>

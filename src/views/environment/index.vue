@@ -1,24 +1,31 @@
 <template>
-  <div class="env-list-main">
-    <!-- 卡片视图区域-->
-    <el-card>
-      <div>
-        <search-env @listenToChildShowDialog="showAddDialog" />
-        <env-table :envList="envList"
-                   @listenToChildRemoveEnv="removeEnvById"
-                   @listenToChildShowDialog="showEditDialog"
-                   @listenToChildGetEnvinfo="getEnvInfo" />
-        <dialog-form title="新增环境："
-                     :showForm="addDialogVisible"
-                     @listenToChildShowDialog="showAddDialog"
-                     @listenToChildSaveEnvMethod="addEnvMethod" />
-        <dialog-form title="编辑环境："
-                     :showForm="editialogVisible"
-                     :model="editEnvData"
+  <div class="main-projectlist">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>环境管理</el-breadcrumb-item>
+      <el-breadcrumb-item>环境列表</el-breadcrumb-item>
+    </el-breadcrumb>
+    <div class="env-list-main">
+      <!-- 卡片视图区域-->
+      <el-card>
+        <div>
+          <search-env @listenToChildShowDialog="showAddDialog" />
+          <env-table :envList="envList"
+                     @listenToChildRemoveEnv="removeEnvById"
                      @listenToChildShowDialog="showEditDialog"
-                     @listenToChildSaveEnvMethod="editEnvMethod" />
-      </div>
-    </el-card>
+                     @listenToChildGetEnvinfo="getEnvInfo" />
+          <dialog-form title="新增环境："
+                       :showForm="addDialogVisible"
+                       @listenToChildShowDialog="showAddDialog"
+                       @listenToChildSaveEnvMethod="addEnvMethod" />
+          <dialog-form title="编辑环境："
+                       :showForm="editialogVisible"
+                       :model="editEnvData"
+                       @listenToChildShowDialog="showEditDialog"
+                       @listenToChildSaveEnvMethod="editEnvMethod" />
+        </div>
+      </el-card>
+    </div>
   </div>
 </template>
 
@@ -141,6 +148,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.main-projectlist {
+  padding: 15px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
+}
 .env-list-main {
   margin: 15px;
 }
