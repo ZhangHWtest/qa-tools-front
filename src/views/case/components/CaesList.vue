@@ -1,14 +1,32 @@
 <template>
   <div>
-    <el-tooltip class="item"
-                effect="dark"
-                content="新增用例"
-                placement="top">
+    <div class="interface-top-select">
+      <span class="interface-top-select-name">选择接口：</span>
+      <el-select class="interfacelist-top-select"
+                 v-model="interfaceValue"
+                 placeholder="请选择接口">
+        <el-option v-for="item in interfaceList"
+                   :key="item.interface_id"
+                   :label="item.interface_name"
+                   :value="item.interface_id">
+        </el-option>
+      </el-select>
+
+      <el-button type="primary"
+                 plain
+                 @click="caseListMethod()">查询</el-button>
+    </div>
+    <div class="interface-top-addbutton">
+      <span class="interface-top-addannotation">注：添加接口必须先选择接口！</span>
+      <el-button class="add-model-button"
+                 type="success"
+                 @click="showAddCaseDialog()">批量 运行</el-button>
       <el-button class="add-model-button"
                  type="primary"
-                 icon="el-icon-plus"
                  @click="showAddCaseDialog()">新增 用例</el-button>
-    </el-tooltip>
+
+    </div>
+
     <el-table class="interface-table"
               :data="caseList"
               stripe
@@ -173,13 +191,13 @@
 </template>
 <script>
 export default {
-  // props: [
-  //   'interfaceInfo',
-  //   'activeName'
-  // ],
   data () {
     return {
-      // showCaseList: false,
+      getInterfaceListBody: {
+
+      },
+      interfaceList: [],
+      interfaceValue: '',
       getcaseListBody: {
         interface_id: '',
         page_num: 1
@@ -239,10 +257,7 @@ export default {
     }
   },
   created () {
-    // if (this.activeName === 'Tab 4') {
-    //   this.showCaseList = true
-    this.getcaseListBody.interface_id = this.interfaceInfo.interface_id
-    this.caseListMethod()
+    this.getInterfaceListMethod()
     // }
   },
   methods: {
@@ -258,8 +273,18 @@ export default {
         console.log(e.case_id)
       })
     },
+    // 获取接口列表方法
+    async getInterfaceListMethod () {
+      const { data: responseBody } = await this.$api.myinterface.getInterfaceList(
+        this.getInterfaceListBody
+      )
+      if (responseBody.code === 1) {
+        this.interfaceList = responseBody.data
+      }
+    },
     // 获取所有case
     async caseListMethod () {
+      this.getcaseListBody.interface_id = this.interfaceValue
       const { data: responseBody } = await this.$api.testcase.getCaseList(
         this.getcaseListBody
       )
@@ -276,8 +301,8 @@ export default {
         this.runCaseList
       )
       if (responseBody.code === 1) {
-        this.caseList = responseBody.data
         this.$message.success('运行成功！')
+        this.caseListMethod()
       } else {
         this.$message.error('运行失败！')
       }
@@ -314,6 +339,33 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.interface-top-select {
+  margin: 10px 10px 10px 10px;
+  padding-left: 10px;
+  .interface-top-select-name {
+    font-size: 15px;
+    color: rgba(39, 56, 72, 0.85);
+  }
+  .interfacelist-top-select {
+    padding-right: 15px;
+    width: 190px;
+  }
+}
+.interface-top-addbutton {
+  background-color: #eee;
+  height: 45px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 4px;
+  // display: flex;
+  .interface-top-addannotation {
+    font-size: 13px;
+    color: rgba(39, 56, 72, 0.75);
+  }
+  .add-model-button {
+    margin-right: 10px;
+    float: right;
+  }
+}
 .el-input {
   width: 350px;
 }

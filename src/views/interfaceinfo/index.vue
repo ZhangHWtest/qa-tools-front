@@ -1,45 +1,50 @@
 <template>
-
-  <el-card class="interface-info-card">
-    <el-tabs class="interface-info-tabs"
-             v-model="activeName"
-             @tab-click="handleClick">
-      <el-tab-pane :key="item.name"
-                   v-for="item in editableTabs"
-                   :label="item.title"
-                   :name="item.name">
-        <basic-information :key="activeName +'basic'"
+  <div class="main-projectlist">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>接口管理</el-breadcrumb-item>
+      <el-breadcrumb-item>接口详情</el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-card class="interface-info-card">
+      <el-tabs class="interface-info-tabs"
+               v-model="activeName"
+               @tab-click="handleClick">
+        <el-tab-pane :key="item.name"
+                     v-for="item in editableTabs"
+                     :label="item.title"
+                     :name="item.name">
+          <basic-information :key="activeName +'basic'"
+                             :interfaceInfo="interfaceInfo"
+                             :activeName="activeName" />
+          <param-information :key="activeName +'param'"
+                             :interfaceInfo="interfaceInfo"
+                             :activeName="activeName" />
+          <return-information :key="activeName +'return'"
+                              :interfaceInfo="interfaceInfo"
+                              :activeName="activeName" />
+          <run-information :key="activeName +'run'"
                            :interfaceInfo="interfaceInfo"
                            :activeName="activeName" />
-        <param-information :key="activeName +'param'"
-                           :interfaceInfo="interfaceInfo"
-                           :activeName="activeName" />
-        <return-information :key="activeName +'return'"
-                            :interfaceInfo="interfaceInfo"
-                            :activeName="activeName" />
-        <run-information :key="activeName +'run'"
-                         :interfaceInfo="interfaceInfo"
-                         :activeName="activeName" />
-        <case-list :key="activeName +'case'"
+          <!-- <case-list :key="activeName +'case'"
                    :interfaceInfo="interfaceInfo"
-                   :activeName="activeName" />
-      </el-tab-pane>
-    </el-tabs>
-  </el-card>
+                   :activeName="activeName" /> -->
+        </el-tab-pane>
+      </el-tabs>
+    </el-card>
+  </div>
 </template>
 <script>
 import BasicInformation from './components/BasicInformation'
 import ParamInformation from './components/ParamInformation'
 import ReturnInformation from './components/ReturnInformation'
 import RunInformation from './components/RunInformation'
-import CaseList from './components/CaesList'
+// import CaseList from './components/CaesList'
 export default {
   components: {
     BasicInformation,
     ParamInformation,
     ReturnInformation,
-    RunInformation,
-    CaseList
+    RunInformation
   },
   data () {
     return {
@@ -53,9 +58,6 @@ export default {
       }, {
         title: '运行',
         name: 'Tab 3'
-      }, {
-        title: 'CASE',
-        name: 'Tab 4'
       }],
       getInterfaceInfo: {
         interface_id: ''
@@ -89,6 +91,11 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.main-projectlist {
+  padding: 15px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
+}
 .interface-info-card {
   margin: 15px;
 }

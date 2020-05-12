@@ -1,125 +1,132 @@
 <template>
-  <div class="user-list-main">
-    <!-- 卡片视图区域-->
-    <el-card>
-      <el-row :gutter="30">
-        <el-col :span="5">
+  <div class="main-projectlist">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>环境管理</el-breadcrumb-item>
+      <el-breadcrumb-item>环境列表</el-breadcrumb-item>
+    </el-breadcrumb>
+    <div class="user-list-main">
+      <!-- 卡片视图区域-->
+      <el-card>
+        <el-row :gutter="30">
+          <el-col :span="5">
+            <el-button type="primary"
+                       @click="addDialogVisible = true">新增用户</el-button>
+          </el-col>
+        </el-row>
+
+        <!-- api列表区域-->
+        <el-table stripe
+                  :data="userList">
+          <el-table-column width="50px"
+                           label="uid"
+                           prop="uid"></el-table-column>
+          <el-table-column label="姓名"
+                           prop="username"></el-table-column>
+          <el-table-column label="角色"
+                           prop="role"></el-table-column>
+          <el-table-column label="状态"
+                           width="80px">
+            <template slot-scope="scope">
+              <div class="apiStatus">
+                <font v-if="scope.row.status"
+                      color="#67C23A"
+                      class="apiActive">启动</font>
+                <font v-else
+                      color="#F56C6C"
+                      class="apiNoActive">禁用</font>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作"
+                           width="150px">
+            <template slot-scope="scope">
+              <!-- 修改按钮 -->
+              <el-tooltip class="item"
+                          effect="dark"
+                          content="修改"
+                          placement="top">
+                <el-button type="primary"
+                           icon="el-icon-edit"
+                           size="mini"
+                           ricon="el-icon-edit"
+                           circle
+                           @click="showEditDialog(scope)"></el-button>
+              </el-tooltip>
+
+              <!-- 重置密码-->
+              <el-tooltip class="item"
+                          effect="dark"
+                          content="重置密码"
+                          placement="top">
+                <el-button type="warning"
+                           icon="el-icon-setting"
+                           size="mini"
+                           circle
+                           @click="resetPassword(scope)"></el-button>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
+      <!-- 添加用户对话框-->
+      <el-dialog title="添加用户"
+                 :visible.sync="addDialogVisible"
+                 width="50%"
+                 @close="addDialogClosed">
+        <!-- 内容主体区域-->
+        <el-form ref="addFormRef"
+                 :model="createUser"
+                 :rules="addRulesForm"
+                 label-width="70px">
+          <el-form-item label="用户名"
+                        prop="username">
+            <el-input v-model="createUser.username"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱"
+                        prop="email">
+            <el-input v-model="createUser.email"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button @click="addDialogVisible = false">取 消</el-button>
           <el-button type="primary"
-                     @click="addDialogVisible = true">新增用户</el-button>
-        </el-col>
-      </el-row>
-
-      <!-- api列表区域-->
-      <el-table stripe
-                :data="userList">
-        <el-table-column width="50px"
-                         label="uid"
-                         prop="uid"></el-table-column>
-        <el-table-column label="姓名"
-                         prop="username"></el-table-column>
-        <el-table-column label="角色"
-                         prop="role"></el-table-column>
-        <el-table-column label="状态"
-                         width="80px">
-          <template slot-scope="scope">
-            <div class="apiStatus">
-              <font v-if="scope.row.status"
-                    color="#67C23A"
-                    class="apiActive">启动</font>
-              <font v-else
-                    color="#F56C6C"
-                    class="apiNoActive">禁用</font>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作"
-                         width="150px">
-          <template slot-scope="scope">
-            <!-- 修改按钮 -->
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="修改"
-                        placement="top">
-              <el-button type="primary"
-                         icon="el-icon-edit"
-                         size="mini"
-                         ricon="el-icon-edit"
-                         circle
-                         @click="showEditDialog(scope)"></el-button>
-            </el-tooltip>
-
-            <!-- 重置密码-->
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="重置密码"
-                        placement="top">
-              <el-button type="warning"
-                         icon="el-icon-setting"
-                         size="mini"
-                         circle
-                         @click="resetPassword(scope)"></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <!-- 添加用户对话框-->
-    <el-dialog title="添加用户"
-               :visible.sync="addDialogVisible"
-               width="50%"
-               @close="addDialogClosed">
-      <!-- 内容主体区域-->
-      <el-form ref="addFormRef"
-               :model="createUser"
-               :rules="addRulesForm"
-               label-width="70px">
-        <el-form-item label="用户名"
-                      prop="username">
-          <el-input v-model="createUser.username"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱"
-                      prop="email">
-          <el-input v-model="createUser.email"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="addUser">确 定</el-button>
-      </span>
-    </el-dialog>
-    <!-- 修改用户对话框-->
-    <el-dialog title="修改用户"
-               :visible.sync="editDialogVisible"
-               width="50%"
-               @close="editDialogClosed">
-      <!-- 内容主体区域-->
-      <el-form ref="editFormRef"
-               :model="editUser"
-               :rules="addRulesForm"
-               label-width="70px">
-        <el-form-item label="角色: ">
-          <el-radio-group v-model="editUser.role_id">
-            <el-radio :label="1">User</el-radio>
-            <el-radio :label="2">Leader</el-radio>
-            <el-radio :label="3">Admin</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="状态: ">
-          <el-radio-group v-model="editUser.status">
-            <el-radio :label="true">启用</el-radio>
-            <el-radio :label="false">禁用</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="editUserInfo()">确 定</el-button>
-      </span>
-    </el-dialog>
+                     @click="addUser">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 修改用户对话框-->
+      <el-dialog title="修改用户"
+                 :visible.sync="editDialogVisible"
+                 width="50%"
+                 @close="editDialogClosed">
+        <!-- 内容主体区域-->
+        <el-form ref="editFormRef"
+                 :model="editUser"
+                 :rules="addRulesForm"
+                 label-width="70px">
+          <el-form-item label="角色: ">
+            <el-radio-group v-model="editUser.role_id">
+              <el-radio :label="1">User</el-radio>
+              <el-radio :label="2">Leader</el-radio>
+              <el-radio :label="3">Admin</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="状态: ">
+            <el-radio-group v-model="editUser.status">
+              <el-radio :label="true">启用</el-radio>
+              <el-radio :label="false">禁用</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button @click="editDialogVisible = false">取 消</el-button>
+          <el-button type="primary"
+                     @click="editUserInfo()">确 定</el-button>
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -273,6 +280,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.main-projectlist {
+  padding: 15px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
+}
 .user-list-main {
   margin: 15px;
 }

@@ -57,7 +57,6 @@
                   class="goProject-dialog-footer-info-param">
               <el-button type="primary"
                          size="small"
-                         icon="el-icon-plus"
                          @click="showCreateInterfaceParamDialog()">新 增</el-button>
             </span>
           </div>
@@ -253,7 +252,8 @@ export default {
       )
       if (createModelRes.code === 1) {
         this.$message.success('修改请求头成功！')
-        this.getInterfaceInfo()
+        // this.getInterfaceInfo()
+        location.reload()
       } else {
         this.$message.error('修改请求头失败！')
       }

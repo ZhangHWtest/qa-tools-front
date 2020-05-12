@@ -1,21 +1,28 @@
 <template>
-  <el-card class="interface-info-card">
-    <el-tabs class="interface-info-tabs"
-             v-model="activeName"
-             @tab-click="handleClick">
-      <el-tab-pane :key="item.name"
-                   v-for="item in editableTabs"
-                   :label="item.title"
-                   :name="item.name">
-        <project-list :key="activeName +'project'"
-                      :activeName="activeName"
-                      @listenChildGoModel="changeActiveName" />
-        <!-- <model-list :key="activeName +'model'"
+  <div class="main-projectlist">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>项目管理</el-breadcrumb-item>
+      <el-breadcrumb-item>项目列表</el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-card class="interface-info-card">
+      <el-tabs class="interface-info-tabs"
+               v-model="activeName"
+               @tab-click="handleClick">
+        <el-tab-pane :key="item.name"
+                     v-for="item in editableTabs"
+                     :label="item.title"
+                     :name="item.name">
+          <project-list :key="activeName +'project'"
+                        :activeName="activeName"
+                        @listenChildGoModel="changeActiveName" />
+          <!-- <model-list :key="activeName +'model'"
                     :activeName="activeName"
                     :projectId="project_id" /> -->
-      </el-tab-pane>
-    </el-tabs>
-  </el-card>
+        </el-tab-pane>
+      </el-tabs>
+    </el-card>
+  </div>
 </template>
 <script>
 import ProjectList from './components/ProjectList'
@@ -53,4 +60,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.main-projectlist {
+  padding: 15px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
+}
 </style>
