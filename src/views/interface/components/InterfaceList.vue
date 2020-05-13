@@ -1,8 +1,13 @@
 <template>
   <div>
     <div class="interface-top-select">
-      <span class="interface-top-select-name">选择项目：</span>
-      <el-select class="interfacelist-top-select"
+      <span class="interface-top-select-name">选择项目/模块：</span>
+      <el-cascader v-model="newProjectValue"
+                   class="interfacelist-top-select"
+                   :options="options"
+                   :props="{ checkStrictly: true }"
+                   @change="handleChange"></el-cascader>
+      <!-- <el-select class="interfacelist-top-select"
                  v-model="projectValue"
                  placeholder="请选择项目">
         <el-option v-for="item in projectList"
@@ -20,7 +25,7 @@
                    :label="item.model_name"
                    :value="item.model_id">
         </el-option>
-      </el-select>
+      </el-select> -->
       <el-button type="primary"
                  plain
                  @click="getInterfaceListMethod()">查询</el-button>
@@ -147,9 +152,12 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
+      newProjectValue: '',
+      options: [],
       getProjectListBody: {},
       projectList: [],
       projectValue: '',
@@ -210,6 +218,38 @@ export default {
         return this.$message.error('获取项目列表失败！')
       }
       this.projectList = projectRes.data
+
+      this.projectList.forEach(item => {
+        this.$set(this.options, item.project_id, { 'value': item.project_id, 'label': item.project_name, 'children': [] })
+      })
+    },
+    handleChange (value) {
+      this.getInterfaceListBody.project_id = Number(value[0])
+      if (value.length === 1) {
+        this.getModelListBody.project_id = Number(value[0])
+        this.getModelListMethodTwo(value)
+      } else {
+        this.getInterfaceListBody.model_id = Number(value[1])
+      }
+      console.log(value)
+    },
+    // 获取所有模块列表
+    async getModelListMethodTwo (value) {
+      const { data: responseBody } = await this.$api.project.getModelList(
+        this.getModelListBody
+      )
+      if (responseBody.code !== 1) {
+        return this.$message.error('获取用户列表失败！')
+      }
+      this.modelList = responseBody.data
+      let children = []
+      this.modelList.forEach(item => {
+        // console.log(this.options[value])
+        children.push({
+          value: item.model_id, label: item.model_name
+        })
+      })
+      this.$set(this.options, value, { ...this.options[value], children })
     },
     // 获取所有模块列表
     async getModelListMethod () {
@@ -228,8 +268,6 @@ export default {
     },
     // 获取接口列表方法
     async getInterfaceListMethod () {
-      this.getInterfaceListBody.project_id = this.projectValue
-      this.getInterfaceListBody.model_id = this.modelValue
       if (this.getInterfaceListBody.project_id === '') {
         delete this.getInterfaceListBody.project_id
       }
@@ -309,7 +347,7 @@ export default {
   }
   .interfacelist-top-select {
     padding-right: 15px;
-    width: 190px;
+    width: 300px;
   }
 }
 .interface-top-addbutton {
