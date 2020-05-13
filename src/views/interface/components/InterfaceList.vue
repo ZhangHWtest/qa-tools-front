@@ -224,12 +224,15 @@ export default {
       })
     },
     handleChange (value) {
+      console.log(this.newProjectValue)
       this.getInterfaceListBody.project_id = Number(value[0])
+      this.addInterfaceBody.project_id = Number(value[0])
       if (value.length === 1) {
         this.getModelListBody.project_id = Number(value[0])
         this.getModelListMethodTwo(value)
       } else {
         this.getInterfaceListBody.model_id = Number(value[1])
+        this.addInterfaceBody.model_id = Number(value[1])
       }
       console.log(value)
     },
@@ -283,11 +286,8 @@ export default {
     },
     // 创建接口
     async addInterfaceMethod () {
-      this.addInterfaceBody.project_id = this.projectValue
-      if (this.modelValue === '') {
-        delete (this.addInterfaceBody.model_id)
-      } else {
-        this.addInterfaceBody.model_id = this.modelValue
+      if (this.addInterfaceBody.model_id === '') {
+        delete this.addInterfaceBody.model_id
       }
       const { data: createModelRes } = await this.$api.myinterface.createInterfaceMethod(
         this.addInterfaceBody
@@ -295,7 +295,7 @@ export default {
       if (createModelRes.code === 1) {
         this.addInterfaceDialog = false
         this.$message.success('添加接口成功！')
-        this.$emit('listenChildAddInterface')
+        this.getInterfaceListMethod()
       } else {
         this.$message.error('添加接口失败！')
       }
@@ -355,6 +355,7 @@ export default {
   height: 45px;
   padding: 10px 10px 10px 10px;
   border-radius: 4px;
+  line-height: 45px;
   // display: flex;
   .interface-top-addannotation {
     font-size: 13px;
