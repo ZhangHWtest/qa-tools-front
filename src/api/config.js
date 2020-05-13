@@ -1,5 +1,5 @@
 export default {
-  baseUrl: 'http://localhost:8080',
+  // baseUrl: 'http://192.168.70.72:5000',
   headers: { 'Content-Type': 'application/json;charset=UTF-8' },
   data: {},
   timeout: 10000,

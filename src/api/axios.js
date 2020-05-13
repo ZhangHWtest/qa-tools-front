@@ -9,7 +9,7 @@ export const reques = options => {
   return new Promise((resolve, reject) => {
     const instance = axios.create({
       // 需要对接其他人接口，所以这里不定义url
-      baseURL: config.baseUrl,
+      // baseURL: config.baseUrl,
       headers: config.headers,
       timeout: config.timeout,
       withCredentials: config.withCredentials
