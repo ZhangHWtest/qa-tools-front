@@ -6,7 +6,7 @@ import { reques } from '../axios'
 // 登录
 export const login = data => {
   return reques({
-    url: '/api/login',
+    url: '/login',
     method: 'post',
     data
   })

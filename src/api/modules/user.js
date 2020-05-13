@@ -7,7 +7,7 @@ import { reques } from '../axios'
 // 获取用户列表
 export const getUserList = data => {
   return reques({
-    url: '/api/user/list',
+    url: '/user/list',
     method: 'post',
     data
   })
@@ -16,7 +16,7 @@ export const getUserList = data => {
 // 修改密码
 export const updatepassword = data => {
   return reques({
-    url: '/api/user/change_password',
+    url: '/user/change_password',
     method: 'post',
     data
   })
@@ -24,7 +24,7 @@ export const updatepassword = data => {
 // 新增用户
 export const createUser = data => {
   return reques({
-    url: '/api/user/add',
+    url: '/user/add',
     method: 'post',
     data
   })

@@ -16,17 +16,17 @@ module.exports = {
       errors: true
     },
     // 配置代理
-    proxy: {
-      '/api': {
-        // 接口服务地址
-        target: 'http://localhost:5000',
-        // 是否跨域
-        changeOrigin: true,
-        ws: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
-    }
+    // proxy: {
+    //   '/api': {
+    //     // 接口服务地址
+    //     target: 'http://localhost:5000',
+    //     // 是否跨域
+    //     changeOrigin: true,
+    //     ws: true,
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   }
+    // }
   }
 }

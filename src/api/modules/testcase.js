@@ -12,7 +12,7 @@ export const getCaseList = data => {
 // 获取所有项目列表
 export const addCase = data => {
   return reques({
-    url: '/api/case/add',
+    url: '/case/add',
     method: 'post',
     data
   })
@@ -20,7 +20,7 @@ export const addCase = data => {
 
 export const editCase = data => {
   return reques({
-    url: '/api/case/edit',
+    url: '/case/edit',
     method: 'post',
     data
   })
@@ -28,7 +28,7 @@ export const editCase = data => {
 
 export const removeCase = data => {
   return reques({
-    url: '/api/case/del',
+    url: '/case/del',
     method: 'post',
     data
   })
@@ -36,7 +36,7 @@ export const removeCase = data => {
 
 export const runCase = data => {
   return reques({
-    url: '/api/case/single',
+    url: '/case/single',
     method: 'post',
     data
   })
@@ -44,7 +44,7 @@ export const runCase = data => {
 
 export const getCaseInfo = data => {
   return reques({
-    url: '/api/case/info',
+    url: '/case/info',
     method: 'post',
     data
   })
