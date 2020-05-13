@@ -3,7 +3,7 @@ import { reques } from '../axios'
 // 获取所有项目列表
 export const getEnvironmentList = data => {
   return reques({
-    url: '/api/environment/list',
+    url: '/environment/list',
     method: 'post',
     data
   })
@@ -11,7 +11,7 @@ export const getEnvironmentList = data => {
 
 export const removeEnv = data => {
   return reques({
-    url: '/api/environment/del',
+    url: '/environment/del',
     method: 'post',
     data
   })
@@ -19,7 +19,7 @@ export const removeEnv = data => {
 
 export const addEnv = data => {
   return reques({
-    url: '/api/environment/add',
+    url: '/environment/add',
     method: 'post',
     data
   })
@@ -27,7 +27,7 @@ export const addEnv = data => {
 
 export const editEnv = data => {
   return reques({
-    url: '/api/environment/edit',
+    url: '/environment/edit',
     method: 'post',
     data
   })
@@ -35,7 +35,7 @@ export const editEnv = data => {
 
 export const infoEnv = data => {
   return reques({
-    url: '/api/environment/info',
+    url: '/environment/info',
     method: 'post',
     data
   })

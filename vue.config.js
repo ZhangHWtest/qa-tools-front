@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 const port = 5001
 // dev port
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
+=======
+>>>>>>> master
 module.exports = {
   publicPath: '/',
   outputDir: 'dist',
@@ -10,7 +13,7 @@ module.exports = {
   lintOnSave: true,
   filenameHashing: false,
   devServer: {
-    port,
+    port: 5001,
     open: true,
     https: false,
     hotOnly: false,
@@ -19,6 +22,7 @@ module.exports = {
       errors: true
     },
     // 配置代理
+<<<<<<< HEAD
     proxy: {
       '/api': {
         // 接口服务地址
@@ -31,5 +35,19 @@ module.exports = {
         }
       }
     }
+=======
+    // proxy: {
+    //   '/api': {
+    //     // 接口服务地址
+    //     target: 'http://localhost:5000',
+    //     // 是否跨域
+    //     changeOrigin: true,
+    //     ws: true,
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   }
+    // }
+>>>>>>> master
   }
 }

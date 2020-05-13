@@ -185,6 +185,7 @@ export default {
   },
   created () {
     this.getProjectListMethod()
+    this.getInterfaceListMethod()
   },
   watch: {
     projectValue: 'getModelListMethod'
