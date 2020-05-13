@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-const port = 5001
-// dev port
-// All configuration item explanations can be find in https://cli.vuejs.org/config/
-=======
->>>>>>> master
 module.exports = {
   publicPath: '/',
   outputDir: 'dist',
@@ -20,22 +14,8 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    },
-    // 配置代理
-<<<<<<< HEAD
-    proxy: {
-      '/api': {
-        // 接口服务地址
-        target: 'http://192.168.70.72:5000',
-        // 是否跨域
-        changeOrigin: true,
-        ws: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
     }
-=======
+    // 配置代理
     // proxy: {
     //   '/api': {
     //     // 接口服务地址
@@ -48,6 +28,5 @@ module.exports = {
     //     }
     //   }
     // }
->>>>>>> master
   }
 }
