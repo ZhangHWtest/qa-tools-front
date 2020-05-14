@@ -22,6 +22,10 @@ const routes = [
         component: () => import('@/views/case/index.vue')
       },
       {
+        path: '/caseinfo',
+        component: () => import('@/views/caseinfo/index.vue')
+      },
+      {
         path: '/interface',
         component: () => import('@/views/interface/index.vue')
       },
