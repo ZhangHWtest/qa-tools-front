@@ -193,9 +193,7 @@
 export default {
   data () {
     return {
-      getInterfaceListBody: {
-
-      },
+      getInterfaceListBody: {},
       interfaceList: [],
       interfaceValue: '',
       getcaseListBody: {
@@ -309,7 +307,7 @@ export default {
     },
     showAddCaseDialog () {
       this.addDialogVisible = true
-      this.addCaseBody.interface_id = this.interfaceInfo.interface_id
+      this.addCaseBody.interface_id = this.getInterfaceListBody.interface_id
       this.getEnvListMethod()
     },
     // 监听添加用户对话框关闭事件
@@ -356,6 +354,7 @@ export default {
   height: 45px;
   padding: 10px 10px 10px 10px;
   border-radius: 4px;
+  line-height: 45px;
   // display: flex;
   .interface-top-addannotation {
     font-size: 13px;

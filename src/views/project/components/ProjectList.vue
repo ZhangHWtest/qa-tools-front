@@ -1,40 +1,13 @@
 <template>
-  <div v-show="projectListTable">
-    <el-button class="add-model-button"
-               type="primary"
-               @click="addProjectDialog=true">新增 项目</el-button>
-
-    <el-table :data="projectListDemo"
-              style="width: 100%"
-              row-key="index"
-              border
-              lazy
-              :tree-props="{children: 'modelList', hasChildren: 'hasChildren'}">
-      <el-table-column prop="project_id"
-                       label="日期"
-                       width="180">
-      </el-table-column>
-      <el-table-column prop="project_name"
-                       label="姓名"
-                       width="180">
-      </el-table-column>
-      <el-table-column prop="create_user"
-                       label="地址">
-      </el-table-column>
-    </el-table>
-    <!-- -->
+  <div v-show="showPAndMListTable">
     <el-table class="model_table"
               stripe
               :data="projectList">
       <el-table-column width="70px"
                        label="id"
                        prop="project_id"></el-table-column>
-      <el-table-column label="项目名称">
-        <template slot-scope="scope">
-          <el-link type="primary"
-                   @click="goModelList(scope.row.project_id)">{{scope.row.project_name}}</el-link>
-        </template>
-      </el-table-column>
+      <el-table-column label="项目名称"
+                       prop="project_name"></el-table-column>
       <el-table-column label="创建人"
                        prop="create_user"></el-table-column>
       <el-table-column label="操作"
@@ -67,30 +40,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 新增项目对话框-->
-    <el-dialog title="新增项目"
-               :visible.sync="addProjectDialog"
-               width="50%"
-               :close-on-click-modal="false"
-               @close="addProjectDialogClosed">
-      <!-- 内容主体区域-->
-      <el-form ref="addFormRef"
-               :model="addProjectBody"
-               :rules="addRulesForm"
-               label-width="85px">
-        <el-form-item label="项目名称"
-                      prop="project_name">
-          <el-input v-model="addProjectBody.project_name"
-                    placeholder="请输入项目名"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="addProjectDialog = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="createProjectMethod()">确 定</el-button>
-      </span>
-    </el-dialog>
     <!-- 修改项目对话框-->
     <el-dialog title="修改项目"
                :visible.sync="editProjectDialog"
@@ -119,13 +68,11 @@
 <script>
 export default {
   props: [
-    'activeName'
+    'showPAndMListTable',
+    'projectList'
   ],
   data () {
     return {
-      projectListTable: false,
-      projectListBody: {},
-      projectList: [],
       addProjectDialog: false,
       addProjectBody: {
         project_name: ''
@@ -142,19 +89,7 @@ export default {
       },
       delProjectBody: {
         project_id: ''
-      },
-      projectListDemo: [{
-        index: 1,
-        project_id: 1,
-        project_name: 'test',
-        create_user: '111',
-        modelList: [{
-          index: 2,
-          model_id: 2,
-          model_name: 'model',
-          create_user: '111'
-        }]
-      }]
+      }
     }
   },
   created () {
@@ -166,23 +101,6 @@ export default {
   methods: {
     addProjectDialogClosed () {
       this.$refs.addFormRef.resetFields()
-    },
-    // 点击”确认“提交前的预校验
-    createProjectMethod () {
-      this.$refs.addFormRef.validate(async valid => {
-        if (!valid) {
-          this.$message.error('请检查必填项！')
-        } else {
-          const { data: res } = await this.$api.project.addProject(
-            this.addProjectBody
-          )
-          if (res.code === 1) {
-            this.$message.success('添加项目成功！')
-            this.addProjectDialog = false
-            this.getProjectListMethod()
-          } else { this.$message.error(res.msg) }
-        }
-      })
     },
     editProjectDialogClosed () {
       this.$refs.addFormRef.resetFields()
@@ -207,16 +125,6 @@ export default {
           } else { this.$message.error(res.msg) }
         }
       })
-    },
-    // 获取所有项目列表
-    async getProjectListMethod () {
-      const { data: projectRes } = await this.$api.project.getProjectList(
-        this.projectListBody
-      )
-      if (projectRes.code !== 1) {
-        return this.$message.error('获取项目列表失败！')
-      }
-      this.projectList = projectRes.data
     },
     // 根据id删除
     async removeProjectById (_id) {
@@ -244,10 +152,10 @@ export default {
       this.$message.success('删除成功！')
       // 刷新数据
       this.getProjectListMethod()
-    },
-    goModelList (projectId) {
-      this.$emit('listenChildGoModel', projectId)
     }
+    // goModelList (projectId) {
+    //   this.$emit('listenChildGoModel', projectId)
+    // }
   }
 }
 </script>

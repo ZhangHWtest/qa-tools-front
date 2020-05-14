@@ -8,6 +8,9 @@
     <el-card class="interface-info-card">
       <div class="interface-top-addbutton">
         <span class="interface-top-addannotation">注：添加模块必须先选中项目！</span>
+        <el-button class="add-model-button"
+                   type="warning"
+                   @click="showProjectAndModel()">危</el-button>
       </div>
       <el-row :gutter="20">
         <el-col :span="6"
@@ -28,8 +31,6 @@
                           @click="getModelListMethod(subItem.project_id,subItem.project_name)">
               <template slot="title">
                 <span class="sider-bar-title">{{ subItem.project_name }}</span>
-                <i class="el-icon-edit"></i>
-                <i class="el-icon-delete"></i>
               </template>
             </el-menu-item>
 
@@ -56,14 +57,13 @@
                           :index="modelItem.model_id+''">
               <template slot="title">
                 <span class="sider-bar-title">{{ modelItem.model_name }}</span>
-                <i class="el-icon-edit"></i>
-                <i class="el-icon-delete"></i>
               </template>
             </el-menu-item>
           </el-menu>
         </el-col>
-
       </el-row>
+      <project-list :showPAndMListTable="showPAndMListTable"
+                    :projectList="projectList" />
     </el-card>
     <!-- 新增项目对话框-->
     <el-dialog title="新增项目"
@@ -122,7 +122,11 @@
   </div>
 </template>
 <script>
+import ProjectList from './components/ProjectList'
 export default {
+  components: {
+    ProjectList
+  },
   data () {
     return {
       activePath: 'test',
@@ -157,7 +161,8 @@ export default {
           { required: true, message: '请输入模块名', trigger: 'blur' }
         ]
       },
-      projectName: ''
+      projectName: '',
+      showPAndMListTable: false
     }
   },
   created () {
@@ -225,6 +230,9 @@ export default {
           } else { this.$message.error(res.msg) }
         }
       })
+    },
+    showProjectAndModel () {
+      this.showPAndMListTable = true
     }
   }
 
@@ -236,11 +244,13 @@ export default {
   height: 45px;
   padding: 10px 10px 10px 10px;
   border-radius: 4px;
+  line-height: 45px;
   .interface-top-addannotation {
     font-size: 13px;
     color: rgba(39, 56, 72, 0.75);
   }
   .add-model-button {
+    font-size: 13px;
     float: right;
   }
 }
