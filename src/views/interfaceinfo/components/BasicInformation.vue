@@ -36,7 +36,7 @@
               class="show-interface">
         <el-col :span="15">
           <span class="show-interface-colkey">描述：</span>
-          <text class="show-interface-colname">{{interfaceInfo.interface_desc}}</text>
+          <span class="show-interface-colname">{{interfaceInfo.interface_desc}}</span>
         </el-col>
       </el-row>
     </div>

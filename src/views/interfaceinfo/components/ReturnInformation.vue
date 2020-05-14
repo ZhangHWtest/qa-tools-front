@@ -1,43 +1,39 @@
 <template>
-  <div class="show-return-interface"
-       v-show="BasicInformation">
-    <h2 class="interface-title-style">返回数据设置:</h2>
+  <div class="show-return-interface">
+    <h2 class="interface-title-style">返回body:</h2>
     <div class="interface-info">
-      <el-tabs type="border-card">
-        <el-tab-pane label="JSON">
-          <div>
-            <el-input class="interfaceinfo-response-json"
-                      type="textarea"
-                      :autosize="{ minRows: 2, maxRows: 6}"
-                      placeholder='示例：{"test":1}'
-                      :disabled="showBasicInformation"
-                      v-model="interfaceInfo.response">
-            </el-input>
-            <span slot="footer"
-                  v-show="editBasicInformation"
-                  class="goProject-dialog-footer-info-param">
-              <el-button type="success"
-                         :disabled="editResponseButton"
-                         size="small"
-                         @click="editInterfaceResponse()"> 提 交</el-button>
-            </span>
-          </div>
-        </el-tab-pane>
-      </el-tabs>
+      <aside>注：数据必须符合Json格式，预览下修改数据无效。</aside>
+      <div class="editor-container">
+        <json-editor ref="jsonEditor"
+                     :read-only="editBasicInforma"
+                     :value="editResponse.response" />
+        <span slot="footer"
+              v-show="editBasicInformation"
+              class="goProject-dialog-footer-info-param">
+          <el-button type="success"
+                     :disabled="editResponseButton"
+                     size="small"
+                     @click="editInterfaceResponse()"> 提 交</el-button>
+        </span>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import JsonEditor from '@/components/JsonEditor'
 export default {
   props: [
     'interfaceInfo',
     'activeName'
   ],
+  components: {
+    JsonEditor
+  },
   data () {
     return {
-      showBasicInformation: false,
+      editBasicInforma: true,
+      // 是否可以编辑
       editBasicInformation: false,
-      BasicInformation: true,
       editResponseButton: false,
       editResponse: {
         interface_id: '',
@@ -46,26 +42,22 @@ export default {
     }
   },
   created () {
-    if (this.activeName === 'Tab 1') {
-      this.showBasicInformation = true
-    } else if (this.activeName === 'Tab 2') {
+    if (this.activeName === 'Tab 2') {
       this.editBasicInformation = true
-    } else {
-      this.BasicInformation = false
+      this.editBasicInforma = false
     }
+    this.editResponse.response = JSON.parse(this.interfaceInfo.response)
   },
   methods: {
     // 修改 返回信息
     async editInterfaceResponse () {
       this.editResponse.interface_id = this.interfaceInfo.interface_id
-      this.editResponse.response = this.interfaceInfo.response
       const { data: createModelRes } = await this.$api.myinterface.createInterfaceResponseMethod(
         this.editResponse
       )
       if (createModelRes.code === 1) {
         this.$message.success('修改返回信息成功！')
         // 修改完成后如何刷新
-        this.getInterfaceInfo()
       } else {
         this.$message.error('修改返回信息失败！')
       }
@@ -76,6 +68,10 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.editor-container {
+  position: relative;
+  height: 100%;
+}
 .interface-title-style {
   border-left: 3px solid #2395f1;
   padding-left: 8px;

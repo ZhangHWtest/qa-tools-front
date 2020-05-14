@@ -22,12 +22,6 @@
           <return-information :key="activeName +'return'"
                               :interfaceInfo="interfaceInfo"
                               :activeName="activeName" />
-          <run-information :key="activeName +'run'"
-                           :interfaceInfo="interfaceInfo"
-                           :activeName="activeName" />
-          <!-- <case-list :key="activeName +'case'"
-                   :interfaceInfo="interfaceInfo"
-                   :activeName="activeName" /> -->
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -37,14 +31,11 @@
 import BasicInformation from './components/BasicInformation'
 import ParamInformation from './components/ParamInformation'
 import ReturnInformation from './components/ReturnInformation'
-import RunInformation from './components/RunInformation'
-// import CaseList from './components/CaesList'
 export default {
   components: {
     BasicInformation,
     ParamInformation,
-    ReturnInformation,
-    RunInformation
+    ReturnInformation
   },
   data () {
     return {
@@ -55,9 +46,6 @@ export default {
       }, {
         title: '编辑',
         name: 'Tab 2'
-      }, {
-        title: '运行',
-        name: 'Tab 3'
       }],
       getInterfaceInfo: {
         interface_id: ''
@@ -72,11 +60,10 @@ export default {
   methods: {
     handleClick (tab, event) {
       this.activeName = tab.name
-      console.log(this.activeName)
     },
-    changeInterfaceInfo () {
-      this.getInterfaceInfoMethod()
-    },
+    // changeInterfaceInfo () {
+    //   this.getInterfaceInfoMethod()
+    // },
     async getInterfaceInfoMethod () {
       const { data: res } = await this.$api.myinterface.getInterfaceInfoMethod(
         this.getInterfaceInfo
