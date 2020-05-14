@@ -22,7 +22,21 @@
         </el-col>
         <el-col :span="10">
           <span class="show-interface-colkey">请求方法：</span>
-          <span class="show-interface-colname">{{interfaceInfo.method}}</span>
+          <template>
+            <span class="show-interface-colname"
+                  v-if="interfaceInfo.method === 'GET'">
+              <el-tag>{{interfaceInfo.method}}</el-tag>
+            </span>
+            <span class="show-interface-colname"
+                  v-else-if="interfaceInfo.method === 'POST'">
+              <el-tag type="success">{{interfaceInfo.method}}</el-tag>
+            </span>
+            <span class="show-interface-colname"
+                  v-else>
+              <el-tag type="warning">{{interfaceInfo.method}}</el-tag>
+            </span>
+          </template>
+          <!-- <span class="show-interface-colname">{{interfaceInfo.method}}</span> -->
         </el-col>
       </el-row>
       <el-row :gutter="20"

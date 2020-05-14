@@ -7,25 +7,6 @@
                    :options="options"
                    :props="{ checkStrictly: true }"
                    @change="handleChange"></el-cascader>
-      <!-- <el-select class="interfacelist-top-select"
-                 v-model="projectValue"
-                 placeholder="请选择项目">
-        <el-option v-for="item in projectList"
-                   :key="item.project_id"
-                   :label="item.project_name"
-                   :value="item.project_id">
-        </el-option>
-      </el-select>
-      <span class="interface-top-select-name">选择模块：</span>
-      <el-select class="interfacelist-top-select"
-                 v-model="modelValue"
-                 placeholder="请选择模块">
-        <el-option v-for="item in modelList"
-                   :key="item.model_id"
-                   :label="item.model_name"
-                   :value="item.model_id">
-        </el-option>
-      </el-select> -->
       <el-button type="primary"
                  plain
                  @click="getInterfaceListMethod()">查询</el-button>
@@ -51,7 +32,21 @@
       <el-table-column label="接口类型"
                        prop="interface_type"></el-table-column>
       <el-table-column label="方法"
-                       prop="method"></el-table-column>
+                       prop="method">
+        <template slot-scope="scope">
+          <span class="show-interface-colname"
+                v-if="scope.row.method === 'GET'">
+            <el-tag>{{scope.row.method}}</el-tag>
+          </span>
+          <span class="show-interface-colname"
+                v-else-if="scope.row.method === 'POST'">
+            <el-tag type="success">{{scope.row.method}}</el-tag>
+          </span>
+          <span class="show-interface-colname"
+                v-else>
+            <el-tag type="warning">{{scope.row.method}}</el-tag>
+          </span>
+        </template></el-table-column>
       <el-table-column label="路径"
                        prop="path"></el-table-column>
       <el-table-column label="创建人"

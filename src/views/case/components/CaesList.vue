@@ -21,9 +21,12 @@
       <el-button class="add-model-button"
                  type="success"
                  @click="showAddCaseDialog()">批量 运行</el-button>
+      <!-- <el-button class="add-model-button"
+                 type="primary"
+                 @click="showAddCaseDialog()">新增 用例</el-button> -->
       <el-button class="add-model-button"
                  type="primary"
-                 @click="showAddCaseDialog()">新增 用例</el-button>
+                 @click="goAddCaseInfo()">新增 用例</el-button>
 
     </div>
 
@@ -42,7 +45,21 @@
       <el-table-column label="接口类型"
                        prop="case_type"></el-table-column>
       <el-table-column label="接口方法"
-                       prop="method"></el-table-column>
+                       prop="method">
+        <template scope="scope">
+          <span class="show-interface-colname"
+                v-if="scope.row.method === 'GET'">
+            <el-tag>{{scope.row.method}}</el-tag>
+          </span>
+          <span class="show-interface-colname"
+                v-else-if="scope.row.method === 'POST'">
+            <el-tag type="success">{{scope.row.method}}</el-tag>
+          </span>
+          <span class="show-interface-colname"
+                v-else>
+            <el-tag type="warning">{{scope.row.method}}</el-tag>
+          </span>
+        </template></el-table-column>
       <el-table-column label="接口路径"
                        prop="path"></el-table-column>
       <el-table-column label="创建人"
@@ -332,6 +349,11 @@ export default {
         return this.$message.error('添加用例失败！')
       }
       this.$message.success('添加用例成功！')
+    },
+    goAddCaseInfo () {
+      this.$router.push({ path: '/caseinfo', query: { interId: this.interfaceValue } }).catch(err => {
+        console.log('输出', err)
+      })
     }
   }
 }
