@@ -171,6 +171,7 @@ export default {
   },
   created () {
     this.loginname.name = window.sessionStorage.getItem('loginName')
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     // 点击按钮切换菜单的折叠与展开
