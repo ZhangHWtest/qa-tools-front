@@ -8,16 +8,22 @@
     <el-card>
       <basic-information :interfaceInfo="interfaceInfo" />
       <case-info :interfaceInfo="interfaceInfo" />
+      <param-information :interfaceInfo="interfaceInfo" />
+      <case-response />
     </el-card>
   </div>
 </template>
 <script>
 import BasicInformation from './components/BasicInformation'
+import ParamInformation from './components/ParamInformation'
 import CaseInfo from './components/CaseInfo'
+import CaseResponse from './components/CaseResponse'
 export default {
   components: {
     BasicInformation,
-    CaseInfo
+    ParamInformation,
+    CaseInfo,
+    CaseResponse
   },
   data () {
     return {

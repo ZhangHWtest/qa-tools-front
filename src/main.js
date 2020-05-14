@@ -9,10 +9,10 @@ import api from './api'
 import moment from 'moment'
 import Video from 'video.js'
 import 'video.js/dist/video-js.css'
-// import VueCodeMirror from 'vue-codemirror'
-// import 'codemirror/lib/codemirror.css'
+import VueCodeMirror from 'vue-codemirror'
+import 'codemirror/lib/codemirror.css'
 
-// Vue.use(VueCodeMirror)
+Vue.use(VueCodeMirror)
 Vue.use(api)
 Vue.prototype.$video = Video
 Vue.prototype.$moment = moment

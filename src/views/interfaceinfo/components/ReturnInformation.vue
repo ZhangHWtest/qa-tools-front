@@ -6,11 +6,12 @@
       <div class="editor-container">
         <json-editor ref="jsonEditor"
                      :read-only="editBasicInforma"
-                     :value="editResponse.response" />
+                     v-model="editResponse.response" />
         <span slot="footer"
               v-show="editBasicInformation"
               class="goProject-dialog-footer-info-param">
-          <el-button type="success"
+          <el-button class="goProject-dialog-footer-info-button"
+                     type="success"
                      :disabled="editResponseButton"
                      size="small"
                      @click="editInterfaceResponse()"> 提 交</el-button>
@@ -46,18 +47,28 @@ export default {
       this.editBasicInformation = true
       this.editBasicInforma = false
     }
-    this.editResponse.response = JSON.parse(this.interfaceInfo.response)
+    // this.editResponse.response = JSON.parse(this.interfaceInfo.response)
+  },
+  watch: {
+    interfaceInfo: {
+      handler: function (val) {
+        this.editResponse.response = JSON.parse(val.response)
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
     // 修改 返回信息
     async editInterfaceResponse () {
       this.editResponse.interface_id = this.interfaceInfo.interface_id
       const { data: createModelRes } = await this.$api.myinterface.createInterfaceResponseMethod(
-        this.editResponse
+        { ...this.editResponse, response: JSON.stringify(JSON.parse(this.editResponse.response)) }
       )
       if (createModelRes.code === 1) {
         this.$message.success('修改返回信息成功！')
         // 修改完成后如何刷新
+        location.reload()
       } else {
         this.$message.error('修改返回信息失败！')
       }
@@ -95,5 +106,8 @@ export default {
   position: relative;
   top: 50%;
   left: 45%;
+  .goProject-dialog-footer-info-button {
+    margin-top: 15px;
+  }
 }
 </style>
