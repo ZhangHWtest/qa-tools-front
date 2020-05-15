@@ -18,19 +18,8 @@ require('script-loader!jsonlint')
 export default {
   name: 'JsonEditor',
   /* eslint-disable vue/require-prop-types */
-  props: {
-    value: {
-      type: Object,
-      default () {
-        return {}
-      }
-    },
-    // 是否只读，默认否
-    readOnly: {
-      type: Boolean,
-      default: false
-    }
-  },
+  props: ['value', 'readOnly'],
+
   data () {
     return {
       jsonEditor: null
@@ -43,7 +32,6 @@ export default {
         this.jsonEditor.setValue(JSON.stringify(this.value, null, 2))
       }
     }
-
   },
   mounted () {
     this.initJsonEditor()

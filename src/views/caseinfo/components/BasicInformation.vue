@@ -2,7 +2,7 @@
   <div>
     <h2 class="interface-title-style">接口基本信息:</h2>
     <!-- 预览区域-->
-    <div>
+    <div >
       <el-row :gutter="20"
               class="show-interface">
         <el-col :span="10">
