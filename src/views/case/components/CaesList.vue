@@ -20,7 +20,7 @@
       <span class="interface-top-addannotation">注：添加接口必须先选择接口！</span>
       <el-button class="add-model-button"
                  type="success"
-                 @click="showAddCaseDialog()">批量 运行</el-button>
+                 @click="runMultipleCaseMethod()">批量 运行</el-button>
       <el-button class="add-model-button"
                  type="primary"
                  @click="goAddCaseInfo()">新增 用例</el-button>
@@ -130,7 +130,9 @@ export default {
         page_num: 1
       },
       caseList: [],
-      multipleSelection: [],
+      multipleSelection: {
+        case_list: []
+      },
       runCaseList: {
         case_id: ''
       },
@@ -151,10 +153,11 @@ export default {
     },
     // table 复选框选中值
     handleSelectionChange (val) {
-      this.multipleSelection = val
-      this.multipleSelection.forEach(function (e) {
-        console.log(e.case_id)
+      var arrObject = []
+      val.forEach(function (item, index) {
+        arrObject.push(item.case_id)
       })
+      this.multipleSelection.case_list = arrObject
     },
     // 获取接口列表方法
     async getInterfaceListMethod () {
@@ -177,11 +180,23 @@ export default {
         this.$message.error('请求用例信息失败！')
       }
     },
-    // 获取所有case
+    // 运行单个case
     async runSingleCaseMethod (id) {
       this.runCaseList.case_id = id
       const { data: responseBody } = await this.$api.testcase.runCase(
         this.runCaseList
+      )
+      if (responseBody.code === 1) {
+        this.$message.success('运行成功！')
+        this.caseListMethod()
+      } else {
+        this.$message.error('运行失败！')
+      }
+    },
+    // 批量运行case
+    async runMultipleCaseMethod () {
+      const { data: responseBody } = await this.$api.testcase.runMultipleCase(
+        this.multipleSelection
       )
       if (responseBody.code === 1) {
         this.$message.success('运行成功！')

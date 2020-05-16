@@ -26,6 +26,10 @@ const routes = [
         component: () => import('@/views/caseinfo/index.vue')
       },
       {
+        path: '/caselog',
+        component: () => import('@/views/caselog/index.vue')
+      },
+      {
         path: '/interface',
         component: () => import('@/views/interface/index.vue')
       },
