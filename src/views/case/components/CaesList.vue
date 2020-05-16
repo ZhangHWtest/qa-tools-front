@@ -143,6 +143,7 @@ export default {
   },
   created () {
     this.getInterfaceListMethod()
+    this.caseListMethod()
     // }
   },
   methods: {
@@ -171,6 +172,9 @@ export default {
     // 获取所有case
     async caseListMethod () {
       this.getcaseListBody.interface_id = this.interfaceValue
+      if (this.getcaseListBody.interface_id === '') {
+        delete this.getcaseListBody.interface_id
+      }
       const { data: responseBody } = await this.$api.testcase.getCaseList(
         this.getcaseListBody
       )
