@@ -221,7 +221,11 @@ export default {
         this.editCaseMethod()
       }
     },
-    async addCaseMethod () {
+    // 监听添加用户对话框关闭事件
+    addDialogClosed () {
+      this.$refs.addFormRef.resetFields()
+    },
+    addCaseMethod () {
       this.addCaseBody.interface_id = Number(this.$route.query.interId)
       this.addCaseBody.case_type = this.interfaceInfo.interface_type
       this.addCaseBody.method = this.interfaceInfo.method
@@ -234,14 +238,20 @@ export default {
       } else {
         this.addCaseBody.save_result = 0
       }
-      const { data: res } = await this.$api.testcase.addCase(
-        this.addCaseBody
-      )
-      if (res.code !== 1) {
-        return this.$message.error('添加用例失败！')
-      }
-      this.$message.success('添加用例成功！')
-      this.goCaseList()
+      this.$refs.addFormRef.validate(async valid => {
+        if (!valid) {
+          this.$message.error('请检查填写信息！')
+        } else {
+          const { data: res } = await this.$api.testcase.addCase(
+            this.addCaseBody
+          )
+          if (res.code !== 1) {
+            return this.$message.error('添加用例失败！')
+          }
+          this.$message.success('添加用例成功！')
+          this.goCaseList()
+        }
+      })
     },
     async getCaseInfoMethod () {
       this.getCaseInfoBody.case_id = Number(this.$route.query.caseId)

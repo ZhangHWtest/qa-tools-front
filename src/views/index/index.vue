@@ -44,14 +44,14 @@
           <!-- 一级菜单 -->
           <el-submenu index="1">
             <template slot="title">
-              <i class="iconfont icon-changjingguanli"></i>
+              <i class="iconfont icon-icon_compile"></i>
               <span class="sider-bar-title">接口管理</span>
             </template>
             <el-menu-item index="/casechart"
                           route="/casechart"
                           @click="saveNavState('/casechart')">
               <template slot="title">
-                <i class="iconfont icon-tradingvolume"></i>
+                <i class="iconfont icon-shujukanban"></i>
                 <span class="sider-bar-title">用例概况</span>
               </template>
             </el-menu-item>
@@ -71,8 +71,38 @@
                 <span class="sider-bar-title">用例列表</span>
               </template>
             </el-menu-item>
+            <el-menu-item index="/caselog"
+                          route="/caselog"
+                          @click="saveNavState('/caselog')">
+              <template slot="title">
+                <i class="iconfont icon-zhihangfankui"></i>
+                <span class="sider-bar-title">用例日志</span>
+              </template>
+            </el-menu-item>
           </el-submenu>
           <el-submenu index="2">
+            <template slot="title">
+              <i class="iconfont icon-icon_renwujincheng"></i>
+              <span class="sider-bar-title">任务管理</span>
+            </template>
+            <el-menu-item index="/tasklist"
+                          route="/tasklist"
+                          @click="saveNavState('/tasklist')">
+              <template slot="title">
+                <i class="iconfont icon-ceshishenqing"></i>
+                <span class="sider-bar-title">任务列表</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/tasklog"
+                          route="/tasklog"
+                          @click="saveNavState('/tasklog')">
+              <template slot="title">
+                <i class="iconfont icon-zhihangfankui"></i>
+                <span class="sider-bar-title">任务日志</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="3">
             <template slot="title">
               <i class="iconfont icon-icon_workfile_line"></i>
               <span class="sider-bar-title">项目管理</span>

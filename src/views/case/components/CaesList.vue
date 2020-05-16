@@ -21,9 +21,6 @@
       <el-button class="add-model-button"
                  type="success"
                  @click="showAddCaseDialog()">批量 运行</el-button>
-      <!-- <el-button class="add-model-button"
-                 type="primary"
-                 @click="showAddCaseDialog()">新增 用例</el-button> -->
       <el-button class="add-model-button"
                  type="primary"
                  @click="goAddCaseInfo()">新增 用例</el-button>
@@ -64,7 +61,8 @@
                        prop="path"></el-table-column>
       <el-table-column label="创建人"
                        prop="create_user"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作"
+                       width="200px">
         <template slot-scope="scope">
           <!-- 修改按钮 -->
           <el-tooltip class="item"
@@ -90,6 +88,16 @@
           </el-tooltip>
           <el-tooltip class="item"
                       effect="dark"
+                      content="日志"
+                      placement="top">
+            <el-button type="warning"
+                       icon="el-icon-tickets"
+                       size="mini"
+                       circle
+                       @click="goCaseLog(scope.row.case_id)"></el-button>
+          </el-tooltip>
+          <el-tooltip class="item"
+                      effect="dark"
                       content="删除"
                       placement="top">
             <el-button type="danger"
@@ -108,102 +116,6 @@
                    layout="prev, pager, next"
                    :total="500">
     </el-pagination>
-    <!-- 添加case对话框-->
-    <el-dialog title="添加CASE:"
-               :visible.sync="addDialogVisible"
-               width="65%"
-               :close-on-click-modal="false"
-               @close="addDialogClosed">
-      <!-- 内容主体区域-->
-      <el-form ref="addFormRef"
-               :model="addCaseBody"
-               :rules="addRulesForm"
-               label-width="120px">
-        <h2 class="interface-title-style">基本信息:</h2>
-        <el-form-item label="选择环境："
-                      class="addcase-form-envid"
-                      prop="env_id">
-          <el-select v-model="addCaseBody.env_id"
-                     placeholder="请选择环境：">
-            <el-option v-for="item in envList"
-                       :key="item.env_id"
-                       :label="item.url"
-                       :value="item.env_id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="名称："
-                      prop="case_name">
-          <el-input v-model="addCaseBody.case_name"
-                    placeholder="请输入名称"></el-input>
-        </el-form-item>
-        <el-form-item label="路径："
-                      prop="method">
-          <el-select v-model="addCaseBody.method"
-                     class="env-select-method"
-                     placeholder="方法">
-            <el-option label="GET"
-                       value="GET"></el-option>
-            <el-option label="POST"
-                       value="POST"></el-option>
-          </el-select>
-          <el-select v-model="addCaseBody.case_type"
-                     class="env-select-method"
-                     placeholder="请求">
-            <el-option label="HTTP"
-                       value="HTTP"></el-option>
-            <el-option label="HTTPS"
-                       value="HTTPS"></el-option>
-          </el-select>
-
-          <el-input class="run-input-interface-path"
-                    placeholder="/path"
-                    v-model="addCaseBody.path"></el-input>
-        </el-form-item>
-        <el-form-item label="描述：">
-          <el-input v-model="addCaseBody.case_desc"
-                    type="textarea"
-                    :rows="2"
-                    placeholder="请输入内容"></el-input>
-        </el-form-item>
-        <h2 class="interface-title-style">请求参数:</h2>
-        <div class="interface-info">
-          <el-tabs type="border-card">
-            <el-tab-pane label="param">
-              <el-input class="header_input"
-                        type="textarea"
-                        placeholder="示例：{'Content-Type':'application/x-www-form-urlencoded'}"
-                        v-model="addCaseBody.param"></el-input>
-            </el-tab-pane>
-            <el-tab-pane label="header">
-              <el-input class="header_input"
-                        type="textarea"
-                        placeholder="示例：{'Content-Type':'application/x-www-form-urlencoded'}"
-                        v-model="addCaseBody.header"></el-input>
-            </el-tab-pane>
-          </el-tabs>
-        </div>
-        <h2 class="interface-title-style">响应:</h2>
-        <el-form-item label="结果断言:"
-                      prop="res_assert">
-          <el-input v-model="addCaseBody.res_assert"
-                    placeholder="示例：{'code':200}"
-                    type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item label="执行结果:"
-                      prop="save_result">
-          <el-radio v-model="addCaseBody.save_result"
-                    :label="1">保存</el-radio>
-          <el-radio v-model="addCaseBody.save_result"
-                    :label="0">不保存</el-radio>
-        </el-form-item>
-      </el-form>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="addCaseMethod ()">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -222,50 +134,6 @@ export default {
       runCaseList: {
         case_id: ''
       },
-      addCaseBody: {
-        project_id: '',
-        model_id: '',
-        interface_id: '',
-        env_id: '',
-        case_name: '',
-        case_desc: '',
-        case_type: '',
-        method: '',
-        path: '',
-        params: '',
-        header: '',
-        res_assert: '',
-        has_rely: 1,
-        rely_info: '',
-        save_result: 1,
-        use_db: 1,
-        sql: '',
-        field_value: ''
-      },
-      addRulesForm: {
-        env_id: [
-          { required: true, message: '请输入环境名', trigger: 'blur' }
-        ],
-        case_name: [
-          { required: true, message: '请输入用例', trigger: 'blur' }
-        ],
-        interface_type: [
-          { required: true, trigger: 'blur' }
-        ],
-        method: [
-          { required: true, trigger: 'blur' }
-        ],
-        path: [
-          { required: true, message: '请输入路径', trigger: 'blur' }
-        ],
-        res_assert: [
-          { required: true, message: '请输入结果断言', trigger: 'blur' }
-        ],
-        save_result: [
-          { required: true, trigger: 'blur' }
-        ]
-      },
-      addDialogVisible: false,
       envList: [],
       getEnvBody: {
       }
@@ -322,15 +190,6 @@ export default {
         this.$message.error('运行失败！')
       }
     },
-    showAddCaseDialog () {
-      this.addDialogVisible = true
-      this.addCaseBody.interface_id = this.getInterfaceListBody.interface_id
-      this.getEnvListMethod()
-    },
-    // 监听添加用户对话框关闭事件
-    addDialogClosed () {
-      this.$refs.addFormRef.resetFields()
-    },
     async getEnvListMethod () {
       const { data: responseBody } = await this.$api.environment.getEnvironmentList(
         this.getEnvBody
@@ -341,16 +200,6 @@ export default {
         this.$message.error('请求环境信息失败！')
       }
     },
-    async addCaseMethod () {
-      const { data: res } = await this.$api.testcase.addCase(
-        this.addCaseBody
-      )
-      if (res.code !== 1) {
-        return this.$message.error('添加用例失败！')
-      }
-      this.$message.success('添加用例成功！')
-    },
-    
     goAddCaseInfo () {
       this.$router.push({ path: '/caseinfo', query: { interId: this.interfaceValue } }).catch(err => {
         console.log('输出', err)
@@ -358,6 +207,11 @@ export default {
     },
     goEditCaseInfo (caseId) {
       this.$router.push({ path: '/caseinfo', query: { caseId: caseId } }).catch(err => {
+        console.log('输出', err)
+      })
+    },
+    goCaseLog (caseId) {
+      this.$router.push({ path: '/caselog', query: { caseId: caseId } }).catch(err => {
         console.log('输出', err)
       })
     }
