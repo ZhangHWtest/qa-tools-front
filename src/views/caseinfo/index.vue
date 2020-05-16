@@ -6,7 +6,8 @@
       <el-breadcrumb-item>用例详情</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <basic-information :interfaceInfo="interfaceInfo" />
+      <basic-information :interfaceInfo="interfaceInfo"
+                         :key="index" />
       <div>
         <h2 class="interface-title-style">case基本信息:</h2>
         <div class="interface-info">
@@ -19,7 +20,7 @@
                           class="addcase-form-envid"
                           prop="env_id">
               <el-select class="addcase-form-envid"
-                         v-model="addCaseBody.env_id"
+                         v-model="myEnvId"
                          placeholder="请选择环境：">
                 <el-option v-for="item in envList"
                            :key="item.env_id"
@@ -118,7 +119,7 @@
       <div class="footer-button">
         <el-button @click="goCaseList()">取 消</el-button>
         <el-button type="success"
-                   @click="addCaseMethod ()">提 交</el-button>
+                   @click="selectCaseMethod ()">提 交</el-button>
       </div>
     </el-card>
   </div>
@@ -126,11 +127,9 @@
 <script>
 import JsonEditor from '@/components/JsonEditor'
 import BasicInformation from './components/BasicInformation'
-// import ResultVerification from './components/ResultVerification'
 export default {
   components: {
     BasicInformation,
-    // ResultVerification,
     JsonEditor
   },
   data () {
@@ -147,10 +146,8 @@ export default {
         env_id: '',
         case_name: '',
         case_desc: '',
-        // ----
         params: '',
         header: '',
-        // ----
         res_assert: '', // 校验  必填
         has_rely: 0, // 是否有依赖 默认0
         rely_info: '', // 依赖用例详情
@@ -168,17 +165,29 @@ export default {
         ],
         case_name: [
           { required: true, message: '请输入用例名', trigger: 'blur' }
+        ],
+        res_assert: [
+          { required: true, message: '请输入信息', trigger: 'blur' }
         ]
       },
       myParam: {},
       myHeader: {},
-      mySaveResult: false
+      mySaveResult: false,
+      myEnvId: 6,
+      getCaseInfoBody: {
+        case_id: ''
+      },
+      index: 0
     }
   },
   created () {
-    this.getInterfaceInfo.interface_id = Number(this.$route.query.interId)
     this.getEnvListMethod()
-    this.getInterfaceInfoMethod()
+    this.getInterfaceInfo.interface_id = Number(this.$route.query.interId)
+    if (this.$route.query.interId) {
+      this.getInterfaceInfoMethod()
+    } else {
+      this.getCaseInfoMethod()
+    }
   },
   methods: {
     async getEnvListMethod () {
@@ -203,26 +212,84 @@ export default {
       this.interfaceInfo.params.forEach(item => {
         this.$set(this.myParam, item.param_name, item.default)
       })
+      console.log(this.interfaceInfo)
     },
-    async addCaseMethod () {
+    selectCaseMethod () {
+      if (this.$route.query.interId) {
+        this.addCaseMethod()
+      } else {
+        this.editCaseMethod()
+      }
+    },
+    // 监听添加用户对话框关闭事件
+    addDialogClosed () {
+      this.$refs.addFormRef.resetFields()
+    },
+    addCaseMethod () {
       this.addCaseBody.interface_id = Number(this.$route.query.interId)
       this.addCaseBody.case_type = this.interfaceInfo.interface_type
       this.addCaseBody.method = this.interfaceInfo.method
       this.addCaseBody.path = this.interfaceInfo.path
       this.addCaseBody.params = JSON.stringify(JSON.parse(this.myParam))
       this.addCaseBody.header = JSON.stringify(JSON.parse(this.myHeader))
+      this.addCaseBody.env_id = this.myEnvId
       if (this.mySaveResult) {
         this.addCaseBody.save_result = 1
       } else {
         this.addCaseBody.save_result = 0
       }
-      const { data: res } = await this.$api.testcase.addCase(
+      this.$refs.addFormRef.validate(async valid => {
+        if (!valid) {
+          this.$message.error('请检查填写信息！')
+        } else {
+          const { data: res } = await this.$api.testcase.addCase(
+            this.addCaseBody
+          )
+          if (res.code !== 1) {
+            return this.$message.error('添加用例失败！')
+          }
+          this.$message.success('添加用例成功！')
+          this.goCaseList()
+        }
+      })
+    },
+    async getCaseInfoMethod () {
+      this.getCaseInfoBody.case_id = Number(this.$route.query.caseId)
+      const { data: res } = await this.$api.testcase.getCaseInfo(
+        this.getCaseInfoBody
+      )
+      if (res.code !== 1) {
+        return this.$message.error('获取用例详情失败！')
+      }
+      this.addCaseBody = res.data
+      this.interfaceInfo.interface_name = this.addCaseBody.interface_name
+      this.interfaceInfo.interface_type = this.addCaseBody.case_type
+      this.interfaceInfo.method = this.addCaseBody.method
+      this.interfaceInfo.path = this.addCaseBody.path
+      this.index += 1
+      this.myParam = JSON.parse(this.addCaseBody.params)
+      this.myHeader = JSON.parse(this.addCaseBody.header)
+      this.myEnvId = this.addCaseBody.env_info.env_id
+    },
+    async editCaseMethod () {
+      this.addCaseBody.params = JSON.stringify(JSON.parse(this.myParam))
+      this.addCaseBody.header = JSON.stringify(JSON.parse(this.myHeader))
+      this.addCaseBody.env_id = this.myEnvId
+      delete this.addCaseBody.project_name
+      delete this.addCaseBody.model_name
+      delete this.addCaseBody.interface_name
+      delete this.addCaseBody.is_debug
+      delete this.addCaseBody.is_pass
+      delete this.addCaseBody.create_user
+      delete this.addCaseBody.env_info
+      console.log(this.addCaseBody)
+      const { data: res } = await this.$api.testcase.editCase(
         this.addCaseBody
       )
       if (res.code !== 1) {
-        return this.$message.error('添加用例失败！')
+        return this.$message.error('修改失败！')
       }
-      this.$message.success('添加用例成功！')
+      this.$message.success('修改用例成功！')
       this.goCaseList()
     },
     goCaseList () {
