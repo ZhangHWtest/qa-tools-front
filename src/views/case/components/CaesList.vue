@@ -76,7 +76,7 @@
                        size="mini"
                        ricon="el-icon-edit"
                        circle
-                       @click="showEditCaseDialog(scope.row)"></el-button>
+                       @click="goEditCaseInfo(scope.row.case_id)"></el-button>
           </el-tooltip>
           <el-tooltip class="item"
                       effect="dark"
@@ -350,8 +350,14 @@ export default {
       }
       this.$message.success('添加用例成功！')
     },
+    
     goAddCaseInfo () {
       this.$router.push({ path: '/caseinfo', query: { interId: this.interfaceValue } }).catch(err => {
+        console.log('输出', err)
+      })
+    },
+    goEditCaseInfo (caseId) {
+      this.$router.push({ path: '/caseinfo', query: { caseId: caseId } }).catch(err => {
         console.log('输出', err)
       })
     }
