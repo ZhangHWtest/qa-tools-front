@@ -41,6 +41,13 @@ export const runCase = data => {
     data
   })
 }
+export const runMultipleCase = data => {
+  return reques({
+    url: '/case/multiple',
+    method: 'post',
+    data
+  })
+}
 
 export const getCaseInfo = data => {
   return reques({
