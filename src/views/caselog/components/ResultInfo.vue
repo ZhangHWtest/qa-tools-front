@@ -62,7 +62,6 @@ export default {
       )
       if (responseBody.code === 1) {
         this.resultInfo = responseBody.data
-        console.log('1111')
       } else {
         this.$message.error('日志详情失败！')
       }
@@ -78,7 +77,6 @@ export default {
   color: rgba(13, 27, 62, 0.85);
   margin: 0;
   text-align: left;
-
   padding-left: 10px;
 }
 .show-interface-colname {

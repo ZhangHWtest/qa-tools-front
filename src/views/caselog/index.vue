@@ -12,11 +12,11 @@
         <span class="interface-top-addannotation">注：接口通过不代表断言通过！</span>
       </div>
       <el-table :data="resultList"
+                ref="multipleTableAll"
                 style="width: 100%"
                 @expand-change="expandChange">
         <el-table-column type="expand">
-          <result-info :key="openTable"
-                       :caseResultId="caseResultId"
+          <result-info :caseResultId="caseResultId"
                        :showResultInfo="showResultInfo" />
         </el-table-column>
         <el-table-column label="resultId"
@@ -87,7 +87,8 @@ export default {
       },
       caseResultId: '',
       showResultInfo: false,
-      openTable: 0
+      openTable: 0,
+      expands: ''
     }
   },
   created () {
@@ -95,12 +96,21 @@ export default {
     this.getCaseResultListMethod()
   },
   methods: {
-    expandChange (row) {
-      this.openTable += 1
-      this.caseResultId = row.case_result_id
-      this.showResultInfo = true
+    expandChange (row, expandedRows) {
+      this.expandedRows = expandedRows
+      if (expandedRows.length > 1) {
+        this.$refs.multipleTableAll.toggleRowExpansion(this.expandedRows[0])
+      }
+      if (this.expandedRows.length > 0) {
+        // let length = this.expandedRows.length - 1
+        this.caseResultId = row.case_result_id
+        this.showResultInfo = true
+      }
+      // console.log(row)
+      // this.openTable += 1
       // if (this.openTable % 2 === 1) {
       //   this.caseResultId = row.case_result_id
+      //   this.expands = row.case_result_id
       //   this.showResultInfo = true
       // }
     },
