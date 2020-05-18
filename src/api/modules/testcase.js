@@ -56,3 +56,19 @@ export const getCaseInfo = data => {
     data
   })
 }
+
+export const getResultList = data => {
+  return reques({
+    url: '/case/result_list',
+    method: 'post',
+    data
+  })
+}
+
+export const getResultInfo = data => {
+  return reques({
+    url: '/case/result_info',
+    method: 'post',
+    data
+  })
+}
