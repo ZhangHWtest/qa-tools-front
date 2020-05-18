@@ -15,6 +15,7 @@
       <span class="interface-top-addannotation">注：添加接口必须先选择项目或模块！</span>
       <el-button class="add-model-button"
                  type="primary"
+                 :disabled="buttonDisabled"
                  @click="addInterfaceDialog=true">新增 接口</el-button>
     </div>
     <el-table class="interface-table"
@@ -183,7 +184,8 @@ export default {
       interfaceList: [],
       delInterfaceBody: {
         interface_id: ''
-      }
+      },
+      buttonDisabled: true
     }
   },
   created () {
@@ -268,6 +270,9 @@ export default {
     async getInterfaceListMethod () {
       if (this.getInterfaceListBody.project_id === '') {
         delete this.getInterfaceListBody.project_id
+        this.buttonDisabled = true
+      } else {
+        this.buttonDisabled = false
       }
       if (this.getInterfaceListBody.model_id === '') {
         delete this.getInterfaceListBody.model_id

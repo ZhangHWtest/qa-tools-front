@@ -17,12 +17,14 @@
                  @click="caseListMethod()">查询</el-button>
     </div>
     <div class="interface-top-addbutton">
-      <span class="interface-top-addannotation">注：添加接口必须先选择接口！</span>
+      <span class="interface-top-addannotation">注：添加、批量运行case必须先选择接口！</span>
       <el-button class="add-model-button"
                  type="success"
+                 :disabled="buttonDisabled"
                  @click="runMultipleCaseMethod()">批量 运行</el-button>
       <el-button class="add-model-button"
                  type="primary"
+                 :disabled="buttonDisabled"
                  @click="goAddCaseInfo()">新增 用例</el-button>
 
     </div>
@@ -122,6 +124,7 @@
 export default {
   data () {
     return {
+      buttonDisabled: true,
       getInterfaceListBody: {},
       interfaceList: [],
       interfaceValue: '',
@@ -131,6 +134,7 @@ export default {
       },
       caseList: [],
       multipleSelection: {
+        interface_id: '',
         case_list: []
       },
       runCaseList: {
@@ -174,6 +178,9 @@ export default {
       this.getcaseListBody.interface_id = this.interfaceValue
       if (this.getcaseListBody.interface_id === '') {
         delete this.getcaseListBody.interface_id
+        this.buttonDisabled = true
+      } else {
+        this.buttonDisabled = false
       }
       const { data: responseBody } = await this.$api.testcase.getCaseList(
         this.getcaseListBody
@@ -199,6 +206,7 @@ export default {
     },
     // 批量运行case
     async runMultipleCaseMethod () {
+      this.multipleSelection.interface_id = this.interfaceValue
       const { data: responseBody } = await this.$api.testcase.runMultipleCase(
         this.multipleSelection
       )
