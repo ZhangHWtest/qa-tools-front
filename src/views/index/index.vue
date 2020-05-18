@@ -71,14 +71,14 @@
                 <span class="sider-bar-title">用例列表</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/caselog"
+            <!-- <el-menu-item index="/caselog"
                           route="/caselog"
                           @click="saveNavState('/caselog')">
               <template slot="title">
                 <i class="iconfont icon-zhihangfankui"></i>
                 <span class="sider-bar-title">用例日志</span>
               </template>
-            </el-menu-item>
+            </el-menu-item> -->
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
