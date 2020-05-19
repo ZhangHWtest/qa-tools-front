@@ -30,7 +30,7 @@
         <el-table-column label="方法"
                          width="80px"
                          prop="method">
-          <template scope="scope">clear
+          <template slot-scope="scope">clear
             <span class="show-interface-colname"
                   v-if="scope.row.method === 'GET'">
               <el-tag>GET</el-tag>
@@ -51,7 +51,7 @@
         </el-table-column>
         <el-table-column label="状态"
                          width="80px">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span class="show-interface-colname"
                   v-if="scope.row.case_result === 1">通过
             </span>

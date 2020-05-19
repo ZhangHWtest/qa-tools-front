@@ -38,6 +38,10 @@ const routes = [
         component: () => import('@/views/interfaceinfo/index.vue')
       },
       {
+        path: '/tasklist',
+        component: () => import('@/views/task/tasklist/index.vue')
+      },
+      {
         path: '/project',
         component: () => import('@/views/project/index.vue')
       },
