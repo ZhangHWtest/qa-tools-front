@@ -45,7 +45,7 @@
                        prop="case_type"></el-table-column>
       <el-table-column label="接口方法"
                        prop="method">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="show-interface-colname"
                 v-if="scope.row.method === 'GET'">
             <el-tag>{{scope.row.method}}</el-tag>

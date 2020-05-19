@@ -9,7 +9,7 @@
       <div class="interface-top-select">
       </div>
       <div class="interface-top-addbutton">
-        <span class="interface-top-addannotation">注：接口通过不代表断言通过！</span>
+        <span class="interface-top-addannotation">注：case调试不会记录log！</span>
       </div>
       <el-table :data="resultList"
                 ref="multipleTableAll"
@@ -30,7 +30,7 @@
         <el-table-column label="方法"
                          width="80px"
                          prop="method">
-          <template slot-scope="scope">
+          <template scope="scope">clear
             <span class="show-interface-colname"
                   v-if="scope.row.method === 'GET'">
               <el-tag>GET</el-tag>
@@ -87,7 +87,6 @@ export default {
       },
       caseResultId: '',
       showResultInfo: false,
-      openTable: 0,
       expands: ''
     }
   },
@@ -100,6 +99,7 @@ export default {
       this.expandedRows = expandedRows
       if (expandedRows.length > 1) {
         this.$refs.multipleTableAll.toggleRowExpansion(this.expandedRows[0])
+        console.log(this.$refs.multipleTableAll)
       }
       if (this.expandedRows.length > 0) {
         // let length = this.expandedRows.length - 1
