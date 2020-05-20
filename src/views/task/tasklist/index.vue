@@ -10,6 +10,7 @@
         <span class="interface-top-select-name">选择项目：</span>
         <el-select class="interfacelist-top-select"
                    v-model="projectSelectValue"
+                   clearable
                    placeholder="请选择项目">
           <el-option v-for="item in projectList"
                      :key="item.project_id"
@@ -17,7 +18,6 @@
                      :value="item.project_id">
           </el-option>
         </el-select>
-
         <el-button type="primary"
                    plain
                    @click="getTaskListMethod()">查询</el-button>
@@ -40,8 +40,10 @@
         <el-table-column label="项目名称"
                          prop="project_name"></el-table-column>
         <el-table-column label="case数量"
+                         width="90px"
                          prop="case_num"></el-table-column>
-        <el-table-column label="状态">
+        <el-table-column label="状态"
+                         width="70px">
           <template slot-scope="scope">
             <span class="show-interface-colname"
                   v-if="scope.row.run_status === 1">通过
@@ -55,6 +57,7 @@
           </template>
         </el-table-column>
         <el-table-column label="创建人"
+                         width="90px"
                          prop="create_user"></el-table-column>
         <el-table-column label="操作"
                          width="200px">
@@ -105,6 +108,12 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination background
+                     :current-page="getTaskListBody.page_num"
+                     @current-change="handleCurrentChange"
+                     layout="prev, pager, next"
+                     :total="500">
+      </el-pagination>
     </el-card>
   </div>
 </template>
@@ -128,6 +137,11 @@ export default {
     this.getTaskListMethod()
   },
   methods: {
+    // 监听 页码值改变的事件
+    handleCurrentChange (newPage) {
+      this.getTaskListBody.page_num = newPage
+      this.getTaskListMethod()
+    },
     // 获取所有项目列表
     async getProjectListMethod () {
       const { data: projectRes } = await this.$api.project.getProjectList(

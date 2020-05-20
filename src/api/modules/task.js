@@ -8,3 +8,35 @@ export const getTaskList = data => {
     data
   })
 }
+
+export const getTaskInfo = data => {
+  return reques({
+    url: '/task/info',
+    method: 'post',
+    data
+  })
+}
+
+export const addTask = data => {
+  return reques({
+    url: '/task/add',
+    method: 'post',
+    data
+  })
+}
+
+export const editTask = data => {
+  return reques({
+    url: '/task/edit',
+    method: 'post',
+    data
+  })
+}
+
+export const delTask = data => {
+  return reques({
+    url: '/task/del',
+    method: 'post',
+    data
+  })
+}
