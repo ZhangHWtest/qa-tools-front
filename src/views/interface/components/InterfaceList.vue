@@ -221,7 +221,6 @@ export default {
       })
     },
     handleChange (value) {
-      console.log(this.newProjectValue)
       this.getInterfaceListBody.project_id = Number(value[0])
       this.addInterfaceBody.project_id = Number(value[0])
       if (value.length === 1) {
@@ -231,7 +230,6 @@ export default {
         this.getInterfaceListBody.model_id = Number(value[1])
         this.addInterfaceBody.model_id = Number(value[1])
       }
-      console.log(value)
     },
     // 获取所有模块列表
     async getModelListMethodTwo (value) {

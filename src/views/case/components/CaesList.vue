@@ -4,6 +4,7 @@
       <span class="interface-top-select-name">选择接口：</span>
       <el-select class="interfacelist-top-select"
                  v-model="interfaceValue"
+                 clearable
                  placeholder="请选择接口">
         <el-option v-for="item in interfaceList"
                    :key="item.interface_id"
@@ -11,7 +12,6 @@
                    :value="item.interface_id">
         </el-option>
       </el-select>
-
       <el-button type="primary"
                  plain
                  @click="caseListMethod()">查询</el-button>
@@ -26,9 +26,7 @@
                  type="primary"
                  :disabled="buttonDisabled"
                  @click="goAddCaseInfo()">新增 用例</el-button>
-
     </div>
-
     <el-table class="interface-table"
               :data="caseList"
               stripe
@@ -45,7 +43,7 @@
                        prop="case_type"></el-table-column>
       <el-table-column label="接口方法"
                        prop="method">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="show-interface-colname"
                 v-if="scope.row.method === 'GET'">
             <el-tag>{{scope.row.method}}</el-tag>
