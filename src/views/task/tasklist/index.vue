@@ -23,11 +23,11 @@
                    @click="getTaskListMethod()">查询</el-button>
       </div>
       <div class="interface-top-addbutton">
-        <span class="interface-top-addannotation"></span>
+        <span class="interface-top-addannotation">注：任务基于项目</span>
         <el-button class="add-model-button"
                    type="primary"
                    :disabled="buttonDisabled"
-                   @click="goAddCaseInfo()">新增 任务</el-button>
+                   @click="goAddTaskDialog()">新增 任务</el-button>
       </div>
       <el-table class="interface-table"
                 :data="taskList">
@@ -45,13 +45,13 @@
                          width="70px">
           <template slot-scope="scope">
             <span class="show-interface-colname"
-                  v-if="scope.row.run_status === 1">通过
+                  v-if="scope.row.run_status === 1">运行中
             </span>
             <span class="show-interface-colname-success"
-                  v-else-if="scope.row.run_status === 0">失败
+                  v-else-if="scope.row.run_status === 0">未运行
             </span>
             <span class="show-interface-colname-warning"
-                  v-else>异常
+                  v-else>暂停中
             </span>
           </template>
         </el-table-column>
@@ -71,17 +71,29 @@
                          size="mini"
                          ricon="el-icon-edit"
                          circle
-                         @click="goEditCaseInfo(scope.row.case_id)"></el-button>
+                         @click="goTaskInfo(scope.row.task_id)"></el-button>
             </el-tooltip>
-            <el-tooltip class="item"
+            <el-tooltip v-if="scope.row.run_status === 1"
+                        class="item"
                         effect="dark"
-                        content="运行"
+                        content="暂停"
+                        placement="top">
+              <el-button type="danger"
+                         icon="el-icon-switch-button"
+                         size="mini"
+                         circle
+                         @click="stopTaskMethod(scope.row.task_id)"></el-button>
+            </el-tooltip>
+            <el-tooltip v-else
+                        class="item"
+                        effect="dark"
+                        content="执行"
                         placement="top">
               <el-button type="success"
                          icon="el-icon-caret-right"
                          size="mini"
                          circle
-                         @click="runSingleCaseMethod(scope.row.case_id)"></el-button>
+                         @click="runTaskMethod(scope.row.task_id)"></el-button>
             </el-tooltip>
             <el-tooltip class="item"
                         effect="dark"
@@ -91,7 +103,7 @@
                          icon="el-icon-tickets"
                          size="mini"
                          circle
-                         @click="goCaseLog(scope.row.case_id)"></el-button>
+                         @click="goTaskLog(scope.row.task_id)"></el-button>
             </el-tooltip>
             <el-tooltip class="item"
                         effect="dark"
@@ -102,7 +114,7 @@
                          size="mini"
                          ricon="el-icon-edit"
                          circle
-                         @click="removeCaseById(scope.row.case_id)"></el-button>
+                         @click="removeTaskById(scope.row.task_id)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -114,6 +126,58 @@
                      :total="500">
       </el-pagination>
     </el-card>
+    <el-dialog title="新增Task"
+               :visible.sync="dialogVisible"
+               width="40%"
+               :close-on-click-modal="false"
+               @close="handleClose">
+      <el-form ref="addFormRef"
+               :model="addTaskBody"
+               :rules="addTaskForm"
+               label-width="85px">
+        <el-form-item label="任务名称"
+                      prop="task_name">
+          <el-input v-model="addTaskBody.task_name"
+                    placeholder="请输入任务名"></el-input>
+        </el-form-item>
+        <el-form-item label="执行策略"
+                      prop="task_type">
+          <el-radio-group v-model="addTaskBody.task_type"
+                          @change="selectRunTimeType()">
+            <el-radio :label="0">立即执行</el-radio>
+            <el-radio :label="1">间隔秒</el-radio>
+            <el-radio :label="2">日期执行</el-radio>
+            <el-radio :label="3">cron表达式</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="执行时间"
+                      prop="run_time"
+                      v-show="runTimeInput">
+          <el-input v-model="addTaskBody.run_time"
+                    placeholder="单位 秒"></el-input>
+        </el-form-item>
+        <el-form-item label="执行时间"
+                      prop="run_time"
+                      v-show="runTimePicker">
+          <el-date-picker v-model="addTaskBody.run_time"
+                          value-format="yyyy-MM-dd HH:mm:ss"
+                          type="datetime"
+                          placeholder="选择日期时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="执行时间"
+                      v-show="runTimeCron">
+          <el-input v-model="addTaskBody.run_time"
+                    placeholder="示例：每隔5秒执行一次：*/5 * * * * ？"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="addTaskMethod()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -128,7 +192,34 @@ export default {
         project_id: '',
         page_num: 1
       },
-      buttonDisabled: true
+      buttonDisabled: true,
+      dialogVisible: false,
+      addTaskBody: {
+        project_id: '',
+        task_name: '',
+        task_type: 0,
+        run_time: ''
+      },
+      addTaskForm: {
+        task_name: [
+          { required: true, message: '请输入任务名', trigger: 'blur' }
+        ],
+        task_type: [
+          { required: true, message: '请选择', trigger: 'blur' }
+        ]
+      },
+      runTimeInput: false,
+      runTimePicker: false,
+      runTimeCron: false,
+      delTaskBody: {
+        task_id: ''
+      },
+      startTaskBody: {
+        task_id: ''
+      },
+      stopTaskBody: {
+        task_id: ''
+      }
     }
   },
   created () {
@@ -152,7 +243,7 @@ export default {
         this.$message.error('获取项目列表失败！')
       }
     },
-    // 获取接口列表方法
+    // 获取task列表方法
     async getTaskListMethod () {
       if (this.projectSelectValue !== '') {
         this.getTaskListBody.project_id = this.projectSelectValue
@@ -168,6 +259,119 @@ export default {
       } else {
         this.$message.error('获取任务列表失败！')
       }
+    },
+    goAddTaskDialog () {
+      this.dialogVisible = true
+    },
+    handleClose () {
+      this.$refs.addFormRef.resetFields()
+      this.runTimeInput = false
+      this.runTimePicker = false
+      this.runTimeCron = false
+    },
+    selectRunTimeType () {
+      if (this.addTaskBody.task_type === 1) {
+        this.runTimeInput = true
+        this.runTimePicker = false
+        this.runTimeCron = false
+      } else if (this.addTaskBody.task_type === 2) {
+        this.runTimeInput = false
+        this.runTimePicker = true
+        this.runTimeCron = false
+      } else if (this.addTaskBody.task_type === 3) {
+        this.runTimeInput = false
+        this.runTimePicker = false
+        this.runTimeCron = true
+      } else {
+        this.runTimeInput = false
+        this.runTimePicker = false
+        this.runTimeCron = false
+      }
+    },
+    // 创建task方法
+    addTaskMethod () {
+      if (this.addTaskBody.task_type === 0) {
+        delete this.addTaskBody.task_time
+      }
+      this.addTaskBody.project_id = this.getTaskListBody.project_id
+      this.$refs.addFormRef.validate(async valid => {
+        if (valid) {
+          const { data: responseBody } = await this.$api.task.addTask(
+            this.addTaskBody
+          )
+          if (responseBody.code === 1) {
+            this.$message.success('添加成功！')
+            this.dialogVisible = false
+            this.getTaskListMethod()
+          } else {
+            this.$message.error('添加失败！')
+          }
+          console.log(valid)
+        }
+      })
+    },
+    // 根据id删除
+    async removeTaskById (_id) {
+      this.delTaskBody.task_id = _id
+      // 弹窗询问是否删除
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该项目, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除！')
+      }
+      const { data: res } = await this.$api.task.delTask(
+        this.delTaskBody
+      )
+      if (res.code !== 1) {
+        return this.$message.error('删除信息失败！')
+      }
+      // 提示信息
+      this.$message.success('删除成功！')
+      // 刷新数据
+      this.getTaskListMethod()
+    },
+    goTaskInfo (taskId) {
+      this.$router.push({ path: '/taskinfo', query: { taskId: taskId } }).catch(err => {
+        console.log('输出', err)
+      })
+    },
+    goTaskLog (taskId) {
+      this.$router.push({ path: '/tasklog', query: { taskId: taskId } }).catch(err => {
+        console.log('输出', err)
+      })
+    },
+    async stopTaskMethod (taskId) {
+      this.stopTaskBody.task_id = taskId
+      const { data: res } = await this.$api.task.stopTask(
+        this.stopTaskBody
+      )
+      if (res.code !== 1) {
+        return this.$message.error('暂停失败！')
+      }
+      // 提示信息
+      this.$message.success('暂停成功！')
+      // 刷新数据
+      this.getTaskListMethod()
+    },
+    async runTaskMethod (taskId) {
+      this.startTaskBody.task_id = taskId
+      const { data: res } = await this.$api.task.startTask(
+        this.startTaskBody
+      )
+      if (res.code !== 1) {
+        return this.$message.error('运行失败！')
+      }
+      // 提示信息
+      this.$message.success('运行成功！')
+      // 刷新数据
+      this.getTaskListMethod()
     }
   }
 }

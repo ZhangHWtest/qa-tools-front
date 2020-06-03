@@ -40,3 +40,43 @@ export const delTask = data => {
     data
   })
 }
+
+export const updateTaskCase = data => {
+  return reques({
+    url: '/task/update_case',
+    method: 'post',
+    data
+  })
+}
+
+export const startTask = data => {
+  return reques({
+    url: '/task/start',
+    method: 'post',
+    data
+  })
+}
+
+export const stopTask = data => {
+  return reques({
+    url: '/task/stop',
+    method: 'post',
+    data
+  })
+}
+
+export const resultListTask = data => {
+  return reques({
+    url: '/task/result_list',
+    method: 'post',
+    data
+  })
+}
+
+export const resultInfoTask = data => {
+  return reques({
+    url: '/task/result_info',
+    method: 'post',
+    data
+  })
+}
