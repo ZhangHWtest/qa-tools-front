@@ -28,7 +28,6 @@
                    type="primary"
                    :disabled="buttonDisabled"
                    @click="goAddCaseInfo()">新增 任务</el-button>
-
       </div>
       <el-table class="interface-table"
                 :data="taskList">
