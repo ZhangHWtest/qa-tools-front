@@ -65,7 +65,8 @@
             <el-tooltip class="item"
                         effect="dark"
                         content="修改"
-                        placement="top">
+                        placement="top"
+                        v-if="scope.row.run_status !== 1">
               <el-button type="primary"
                          icon="el-icon-edit"
                          size="mini"
@@ -134,7 +135,8 @@
       <el-form ref="addFormRef"
                :model="addTaskBody"
                :rules="addTaskForm"
-               label-width="85px">
+               label-width="85px"
+               v-show="showBasic">
         <el-form-item label="任务名称"
                       prop="task_name">
           <el-input v-model="addTaskBody.task_name"
@@ -171,12 +173,30 @@
                     placeholder="示例：每隔5秒执行一次：*/5 * * * * ？"></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="addTaskMethod()">确 定</el-button>
+      <el-form ref="updateFormRef"
+               :model="updateCaseBody"
+               :rules="updateCaseForm"
+               label-width="95px"
+               v-show="showTaskAndCase">
+        <el-form-item label="绑定用例："
+                      prop="case_list">
+          <el-input v-model="my_case_list"
+                    placeholder="请输入绑定用例ID 示例:[1,2]"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer">
+        <el-button size="mini"
+                   @click="dialogVisible = false">取 消</el-button>
+        <el-button type="success"
+                   size="mini"
+                   v-show="showBasic"
+                   @click="addTaskMethod()">下一步</el-button>
+        <el-button type="success"
+                   size="mini"
+                   v-show="showTaskAndCase"
+                   @click="updateTaskAndCaseMethod()">完成</el-button>
       </span>
+
     </el-dialog>
   </div>
 </template>
@@ -219,7 +239,19 @@ export default {
       },
       stopTaskBody: {
         task_id: ''
-      }
+      },
+      showBasic: true,
+      showTaskAndCase: false,
+      updateCaseBody: {
+        task_id: '',
+        case_list: []
+      },
+      updateCaseForm: {
+        case_list: [
+          { required: true, message: '请输入绑定caseId', trigger: 'blur' }
+        ]
+      },
+      my_case_list: ''
     }
   },
   created () {
@@ -301,12 +333,34 @@ export default {
           )
           if (responseBody.code === 1) {
             this.$message.success('添加成功！')
-            this.dialogVisible = false
-            this.getTaskListMethod()
+            this.updateCaseBody.task_id = responseBody.data.task_id
+            this.showBasic = false
+            this.showTaskAndCase = true
           } else {
             this.$message.error('添加失败！')
           }
-          console.log(valid)
+        }
+      })
+    },
+    // 创建完task紧接着调用此方法，添加caseList
+    updateTaskAndCaseMethod () {
+      var arrObject = []
+      JSON.parse(this.my_case_list).forEach(function (item) {
+        arrObject.push(item)
+      })
+      this.updateCaseBody.case_list = arrObject
+      this.$refs.updateFormRef.validate(async valid => {
+        if (valid) {
+          const { data: res } = await this.$api.task.updateTaskCase(
+            this.updateCaseBody
+          )
+          if (res.code === 1) {
+            this.$message.success('修改成功！')
+            this.dialogVisible = false
+            this.getTaskListMethod()
+          } else {
+            this.$message.error('修改失败！')
+          }
         }
       })
     },
@@ -346,6 +400,7 @@ export default {
       this.$router.push({ path: '/tasklog', query: { taskId: taskId } }).catch(err => {
         console.log('输出', err)
       })
+      window.sessionStorage.setItem('activePath', '/tasklog')
     },
     async stopTaskMethod (taskId) {
       this.stopTaskBody.task_id = taskId
@@ -418,5 +473,8 @@ export default {
     margin-right: 10px;
     float: right;
   }
+}
+.dialog-footer {
+  position: relative;
 }
 </style>
