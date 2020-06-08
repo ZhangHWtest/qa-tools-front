@@ -21,7 +21,8 @@
                          width="80px"
                          prop="task_result_id">
         </el-table-column>
-        <el-table-column label="通过数量"
+        <el-table-column class="pass_color"
+                         label="通过数量"
                          prop="pass_num">
         </el-table-column>
         <el-table-column label="失败数量"
