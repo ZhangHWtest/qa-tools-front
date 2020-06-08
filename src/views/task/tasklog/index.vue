@@ -15,5 +15,10 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
+.main-breadcrumb {
+  padding: 15px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
+}
 </style>

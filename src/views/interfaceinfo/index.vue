@@ -61,9 +61,6 @@ export default {
     handleClick (tab, event) {
       this.activeName = tab.name
     },
-    // changeInterfaceInfo () {
-    //   this.getInterfaceInfoMethod()
-    // },
     async getInterfaceInfoMethod () {
       const { data: res } = await this.$api.myinterface.getInterfaceInfoMethod(
         this.getInterfaceInfo
