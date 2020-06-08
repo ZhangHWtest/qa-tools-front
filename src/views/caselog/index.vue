@@ -102,17 +102,9 @@ export default {
         console.log(this.$refs.multipleTableAll)
       }
       if (this.expandedRows.length > 0) {
-        // let length = this.expandedRows.length - 1
         this.caseResultId = row.case_result_id
         this.showResultInfo = true
       }
-      // console.log(row)
-      // this.openTable += 1
-      // if (this.openTable % 2 === 1) {
-      //   this.caseResultId = row.case_result_id
-      //   this.expands = row.case_result_id
-      //   this.showResultInfo = true
-      // }
     },
 
     async getCaseResultListMethod () {
