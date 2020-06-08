@@ -400,7 +400,7 @@ export default {
       this.$router.push({ path: '/tasklog', query: { taskId: taskId } }).catch(err => {
         console.log('输出', err)
       })
-      window.sessionStorage.setItem('activePath', '/tasklog')
+      // window.sessionStorage.setItem('activePath', '/tasklog')
     },
     async stopTaskMethod (taskId) {
       this.stopTaskBody.task_id = taskId

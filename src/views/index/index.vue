@@ -93,14 +93,14 @@
                 <span class="sider-bar-title">任务列表</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/tasklog"
+            <!-- <el-menu-item index="/tasklog"
                           route="/tasklog"
                           @click="saveNavState('/tasklog')">
               <template slot="title">
                 <i class="iconfont icon-zhihangfankui"></i>
                 <span class="sider-bar-title">任务日志</span>
               </template>
-            </el-menu-item>
+            </el-menu-item> -->
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
