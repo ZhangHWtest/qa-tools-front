@@ -16,6 +16,7 @@
                     label="返回下载地址：">
         <span class="show-interface-colname">{{resultInfo.test_report }}</span>
       </el-form-item>
+      <button @click="downloadPDf">downloadPDf</button>
     </el-form>
   </div>
 </template>
@@ -49,6 +50,19 @@ export default {
       } else {
         this.$message.error('日志详情失败！')
       }
+    },
+    downloadPDf () {
+      this.$api.post('E:\python\flask_api_test/app/upload\task000006_20200513183103.log', {
+        responseType: 'blob' // 重要
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        let fname = 'report.log'
+        link.href = url
+        link.setAttribute('download', fname)
+        document.body.appendChild(link)
+        link.click()
+      })
     }
   }
 
