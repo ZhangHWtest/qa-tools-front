@@ -35,6 +35,7 @@ import {
   Cascader,
   Autocomplete,
   RadioGroup,
+  RadioButton,
   Steps,
   Step,
   Divider,
@@ -61,6 +62,7 @@ Vue.use(Divider)
 Vue.use(Step)
 Vue.use(Steps)
 Vue.use(RadioGroup)
+Vue.use(RadioButton)
 Vue.use(Switch)
 Vue.use(Autocomplete)
 Vue.use(Cascader)

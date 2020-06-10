@@ -1,6 +1,6 @@
 <template>
   <div class="show-return-interface">
-    <h2 class="interface-title-style">返回body:</h2>
+    <h2 class="interface-title-style">返回数据:</h2>
     <div class="interface-info">
       <aside>注：数据必须符合Json格式，预览下修改数据无效。</aside>
       <div class="editor-container">

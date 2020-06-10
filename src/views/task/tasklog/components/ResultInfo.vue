@@ -10,15 +10,13 @@
       </el-form-item>
       <el-form-item class="show-interface-colkey"
                     label="日志下载：">
-        <a href="http://192.168.70.72:5001/upload/testlog/task000059_20200608190251.log"
+        <a :href=resultInfo.test_log_url
            download>{{resultInfo.test_log }}</a>
-        <!-- <span class="show-interface-colname">{{resultInfo.test_log }}</span> -->
       </el-form-item>
       <el-form-item class="show-interface-colkey"
                     label="测试报告预览：">
-        <a href="http://192.168.70.72:5001/upload/testlog/task000059_20200608190251.html"
+        <a :href=resultInfo.test_report_url
            download>{{resultInfo.test_report }}</a>
-        <!-- <span class="show-interface-colname">{{resultInfo.test_report }}</span> -->
       </el-form-item>
     </el-form>
   </div>
@@ -34,7 +32,10 @@ export default {
       getTaskResultInfo: {
         task_result_id: ''
       },
-      resultInfo: {}
+      resultInfo: {
+        test_log_url: '',
+        test_report_url: ''
+      }
     }
   },
   created () {
@@ -50,12 +51,11 @@ export default {
       )
       if (responseBody.code === 1) {
         this.resultInfo = responseBody.data
+        this.resultInfo.test_log_url = 'http://192.168.70.72:5001/upload/testlog/' + responseBody.data.test_log
+        this.resultInfo.test_report_url = 'http://192.168.70.72:5001/upload/testlog/' + responseBody.data.test_report
       } else {
         this.$message.error('日志详情失败！')
       }
-    },
-    downloadDemo () {
-      location.href = '/Users/zhwtest/Desktop/MyBook/testlog/task000059_20200608190251.html'
     }
   }
 
