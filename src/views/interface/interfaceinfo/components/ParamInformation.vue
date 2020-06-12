@@ -2,6 +2,10 @@
   <div v-show="BasicInformation">
     <h2 class="interface-title-style">请求参数:</h2>
     <div class="interface-info">
+      <!-- <el-radio-group v-model="tabPosition">
+        <el-radio-button label="header">Headers</el-radio-button>
+        <el-radio-button label="body">Body</el-radio-button>
+      </el-radio-group> -->
       <el-tabs type="border-card">
         <el-tab-pane label="param">
           <div>
@@ -165,7 +169,6 @@ export default {
       addDialogVisible: false,
       editDialogVisible: false,
       editInterfaceHeaderButton: false,
-
       params: [],
       header: '',
       createParams: {
@@ -184,7 +187,6 @@ export default {
       delParam: {
         param_id: ''
       }
-
     }
   },
   created () {

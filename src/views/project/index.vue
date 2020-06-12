@@ -8,62 +8,55 @@
     <el-card class="interface-info-card">
       <div class="interface-top-addbutton">
         <span class="interface-top-addannotation">注：添加模块必须先选中项目！</span>
-        <el-button class="add-model-button"
-                   type="warning"
-                   @click="showProjectAndModel()">危</el-button>
+        <el-button class="add-button"
+                   type="primary"
+                   @click="addProjectDialog=true">新增 项目</el-button>
       </div>
-      <el-row :gutter="20">
-        <el-col :span="6"
-                class="project-list-col">
-          <div class="project-list-col-tittle">
-            <span class="project-list-col-tittle-name">项目列表：</span>
-            <el-button class="project-list-col-tittle-button"
-                       type="primary"
-                       size="mini"
-                       @click="addProjectDialog=true">新 增</el-button>
-          </div>
-          <el-menu class="el-menu-vertical-demo"
-                   active-text-color="#409EFF"
-                   :default-active="activePath">
-            <el-menu-item v-for="subItem in projectList"
-                          :key="subItem.project_id"
-                          :index="subItem.project_id+ ''"
-                          @click="getModelListMethod(subItem.project_id,subItem.project_name)">
-              <template slot="title">
-                <span class="sider-bar-title">{{ subItem.project_name }}</span>
-              </template>
-            </el-menu-item>
-
-          </el-menu>
-        </el-col>
-        <el-col :span="3"
-                class="project-list-col-two">
-          <span> > > </span>
-        </el-col>
-        <el-col :span="6"
-                class="project-list-col">
-          <div class="project-list-col-tittle">
-            <span class="project-list-col-tittle-name">模块列表:</span>
-            <el-button class="project-list-col-tittle-button"
-                       type="primary"
-                       size="mini"
-                       @click="addModelDialog = true">新 增</el-button>
-          </div>
-          <el-menu class="el-menu-vertical-demo"
-                   active-text-color="#409EFF"
-                   :default-active="activePath">
-            <el-menu-item v-for="modelItem in modelList"
-                          :key="modelItem.model_id"
-                          :index="modelItem.model_id+''">
-              <template slot="title">
-                <span class="sider-bar-title">{{ modelItem.model_name }}</span>
-              </template>
-            </el-menu-item>
-          </el-menu>
-        </el-col>
-      </el-row>
-      <project-list :showPAndMListTable="showPAndMListTable"
-                    :projectList="projectList" />
+      <el-table :data="projectList"
+                ref="multipleTableAll"
+                style="width: 100%"
+                @expand-change="expandChange">
+        <el-table-column type="expand">
+          <model-list :projectRow="projectRow"
+                      :showModelList="showModelList" />
+        </el-table-column>
+        <el-table-column width="70px"
+                         label="id"
+                         prop="project_id"></el-table-column>
+        <el-table-column label="项目名称"
+                         prop="project_name"></el-table-column>
+        <el-table-column label="创建人"
+                         prop="create_user"></el-table-column>
+        <el-table-column label="操作"
+                         width="120px">
+          <template slot-scope="scope">
+            <!-- 修改按钮 -->
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="修改"
+                        placement="top">
+              <el-button type="primary"
+                         icon="el-icon-edit"
+                         size="mini"
+                         ricon="el-icon-edit"
+                         circle
+                         @click="showEditProjectDialog(scope.row.project_id,scope.row.project_name)"></el-button>
+            </el-tooltip>
+            <!-- 删除按钮 -->
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="删除"
+                        placement="top">
+              <el-button type="danger"
+                         icon="el-icon-delete"
+                         size="mini"
+                         ricon="el-icon-edit"
+                         circle
+                         @click="removeProjectById(scope.row.project_id)"></el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-card>
     <!-- 新增项目对话框-->
     <el-dialog title="新增项目"
@@ -89,47 +82,38 @@
                    @click="createProjectMethod()">确 定</el-button>
       </span>
     </el-dialog>
-    <!-- 新增模块对话框-->
-    <el-dialog title="新增项目"
-               :visible.sync="addModelDialog"
-               width="35%"
+    <el-dialog title="修改项目"
+               :visible.sync="editProjectDialog"
+               width="50%"
                :close-on-click-modal="false"
-               @close="addModelDialogClosed">
+               @close="editProjectDialogClosed">
       <!-- 内容主体区域-->
-      <el-form ref="addModelFormRef"
-               :model="addModelBody"
-               :rules="addModelRulesForm"
+      <el-form ref="addFormRef"
+               :model="editProjectBody"
+               :rules="addRulesForm"
                label-width="85px">
         <el-form-item label="项目名称"
-                      prop="project_id">
-          <el-input v-model="projectName"
-                    :disabled="true"
-                    placeholder="请输入项目名"></el-input>
-        </el-form-item>
-        <el-form-item label="模块名称"
-                      prop="model_name">
-          <el-input v-model="addModelBody.model_name"
-                    placeholder="请输入模块名"></el-input>
+                      prop="project_name">
+          <el-input v-model="editProjectBody.project_name"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="addModelDialog = false">取 消</el-button>
+        <el-button @click="editProjectDialog = false">取 消</el-button>
         <el-button type="primary"
-                   @click="createModelMethod()">确 定</el-button>
+                   @click="editProjectMethod()">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
-import ProjectList from './components/ProjectList'
+import ModelList from './components/ModelList'
 export default {
   components: {
-    ProjectList
+    ModelList
   },
   data () {
     return {
-      activePath: 'test',
       projectListBody: {},
       projectList: [],
       getModelListBody: {
@@ -145,30 +129,35 @@ export default {
           { required: true, message: '请输入项目名', trigger: 'blur' }
         ]
       },
-      addModelDialog: false,
-      addModelBody: {
+      projectRow: '',
+      showModelList: false,
+      expands: '',
+      editProjectDialog: false,
+      editProjectBody: {
         project_id: '',
-        model_name: ''
+        project_name: ''
       },
-      addModelRulesForm: {
-        project_name: [
-          { required: true, message: '请选择项目', trigger: 'blur' }
-        ],
-        project_id: [
-          { required: true, message: '请选择项目', trigger: 'blur' }
-        ],
-        model_name: [
-          { required: true, message: '请输入模块名', trigger: 'blur' }
-        ]
-      },
-      projectName: '',
-      showPAndMListTable: false
+      delProjectBody: {
+        project_id: ''
+      }
     }
   },
   created () {
     this.getProjectListMethod()
   },
   methods: {
+    expandChange (row, expandedRows) {
+      this.expandedRows = expandedRows
+      if (expandedRows.length > 1) {
+        this.$refs.multipleTableAll.toggleRowExpansion(this.expandedRows[0])
+        console.log(this.$refs.multipleTableAll)
+      }
+      if (this.expandedRows.length > 0) {
+        // console.log(row)
+        this.projectRow = row
+        this.showModelList = true
+      }
+    },
     // 获取所有项目列表
     async getProjectListMethod () {
       const { data: projectRes } = await this.$api.project.getProjectList(
@@ -178,19 +167,6 @@ export default {
         return this.$message.error('获取项目列表失败！')
       }
       this.projectList = projectRes.data
-    },
-    // 获取所有模块列表
-    async getModelListMethod (projectId, projectName) {
-      this.getModelListBody.project_id = projectId
-      this.addModelBody.project_id = projectId
-      this.projectName = projectName
-      const { data: responseBody } = await this.$api.project.getModelList(
-        this.getModelListBody
-      )
-      if (responseBody.code !== 1) {
-        return this.$message.error('获取用户列表失败！')
-      }
-      this.modelList = responseBody.data
     },
     addProjectDialogClosed () {
       this.$refs.addFormRef.resetFields()
@@ -212,27 +188,56 @@ export default {
         }
       })
     },
-    addModelDialogClosed () {
-      this.$refs.addModelFormRef.resetFields()
+    editProjectDialogClosed () {
+      this.$refs.addFormRef.resetFields()
     },
-    createModelMethod () {
-      this.$refs.addModelFormRef.validate(async valid => {
+    showEditProjectDialog (_id, _projectName) {
+      this.editProjectBody.project_id = _id
+      this.editProjectBody.project_name = _projectName
+      this.editProjectDialog = true
+    },
+    editProjectMethod () {
+      this.$refs.addFormRef.validate(async valid => {
         if (!valid) {
           this.$message.error('请检查必填项！')
         } else {
-          const { data: res } = await this.$api.project.addModel(
-            this.addModelBody
+          const { data: res } = await this.$api.project.editProject(
+            this.editProjectBody
           )
           if (res.code === 1) {
             this.$message.success('添加项目成功！')
-            this.addModelDialog = false
-            location.reload()
+            this.editProjectDialog = false
+            this.getProjectListMethod()
           } else { this.$message.error(res.msg) }
         }
       })
     },
-    showProjectAndModel () {
-      this.showPAndMListTable = true
+    // 根据id删除
+    async removeProjectById (_id) {
+      this.delProjectBody.project_id = _id
+      // 弹窗询问是否删除
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该项目, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除！')
+      }
+      const { data: res } = await this.$api.project.projectDel(
+        this.delProjectBody
+      )
+      if (res.code !== 1) {
+        return this.$message.error('删除信息失败！')
+      }
+      // 提示信息
+      this.$message.success('删除成功！')
+      // 刷新数据
+      this.getProjectListMethod()
     }
   }
 
@@ -249,7 +254,7 @@ export default {
     font-size: 13px;
     color: rgba(39, 56, 72, 0.75);
   }
-  .add-model-button {
+  .add-button {
     font-size: 13px;
     float: right;
   }

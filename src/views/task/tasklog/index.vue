@@ -87,6 +87,7 @@ export default {
       )
       if (res.code === 1) {
         this.resultList = res.data
+        // this.resultList.duration = Number(res.data.duration).toFixed(2)
       } else {
         this.$message.error('请求环境信息失败！')
       }

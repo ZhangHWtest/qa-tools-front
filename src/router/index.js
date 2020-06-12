@@ -15,27 +15,27 @@ const routes = [
     children: [
       {
         path: '/casechart',
-        component: () => import('@/views/casechart/index.vue')
+        component: () => import('@/views/case/casechart/index.vue')
       },
       {
         path: '/caselist',
-        component: () => import('@/views/case/index.vue')
+        component: () => import('@/views/case/caselist/index.vue')
       },
       {
         path: '/caseinfo',
-        component: () => import('@/views/caseinfo/index.vue')
+        component: () => import('@/views/case/caseinfo/index.vue')
       },
       {
         path: '/caselog',
-        component: () => import('@/views/caselog/index.vue')
+        component: () => import('@/views/case/caselog/index.vue')
       },
       {
         path: '/interface',
-        component: () => import('@/views/interface/index.vue')
+        component: () => import('@/views/interface/interfacelist/index.vue')
       },
       {
         path: '/interface/info',
-        component: () => import('@/views/interfaceinfo/index.vue')
+        component: () => import('@/views/interface/interfaceinfo/index.vue')
       },
       {
         path: '/tasklist',
