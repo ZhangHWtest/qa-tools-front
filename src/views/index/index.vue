@@ -274,8 +274,8 @@ export default {
       width: 120px;
       height: 100%;
       background-color: #373d41;
-      margin-left: 55px;
-      margin-right: 55px;
+      margin-left: 40px;
+      margin-right: 40px;
     }
   }
   .user-avatar {
