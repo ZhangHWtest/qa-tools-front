@@ -58,7 +58,9 @@ export default {
 }
 .el-row {
   padding-left: 80px;
+  padding-top: 20px;
   margin-bottom: 20px;
+  margin-right: 0 !important;
   &:last-child {
     margin-bottom: 0;
   }
@@ -83,7 +85,7 @@ export default {
   min-height: 36px;
 }
 .row-bg {
-  padding: 10px 0;
+  // padding: 10px 0;
   background-color: #f9fafc;
 }
 .footer-title {

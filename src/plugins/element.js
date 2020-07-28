@@ -47,8 +47,10 @@ import {
   CarouselItem,
   Image,
   PageHeader,
-  Tag
+  Tag,
+  Footer
 } from 'element-ui'
+Vue.use(Footer)
 Vue.use(Tag)
 Vue.use(PageHeader)
 Vue.use(Image)

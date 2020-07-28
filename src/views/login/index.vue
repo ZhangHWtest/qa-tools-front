@@ -47,7 +47,10 @@
         </el-form-item>
       </el-form>
     </div>
-    <index-bottom />
+    <el-footer>
+      <index-bottom />
+    </el-footer>
+    <!-- <index-bottom /> -->
   </div>
 </template>
 
@@ -187,5 +190,8 @@ export default {
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
+}
+.el-footer {
+  padding: 0 0;
 }
 </style>

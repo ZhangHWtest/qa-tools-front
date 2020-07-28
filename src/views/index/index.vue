@@ -71,20 +71,6 @@
                 <span class="sider-bar-title">用例列表</span>
               </template>
             </el-menu-item>
-            <!-- <el-menu-item index="/caselog"
-                          route="/caselog"
-                          @click="saveNavState('/caselog')">
-              <template slot="title">
-                <i class="iconfont icon-zhihangfankui"></i>
-                <span class="sider-bar-title">用例日志</span>
-              </template>
-            </el-menu-item> -->
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="iconfont icon-icon_renwujincheng"></i>
-              <span class="sider-bar-title">任务管理</span>
-            </template>
             <el-menu-item index="/tasklist"
                           route="/tasklist"
                           @click="saveNavState('/tasklist')">
@@ -93,12 +79,18 @@
                 <span class="sider-bar-title">任务列表</span>
               </template>
             </el-menu-item>
-            <!-- <el-menu-item index="/tasklog"
-                          route="/tasklog"
-                          @click="saveNavState('/tasklog')">
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="iconfont icon-icon_renwujincheng"></i>
+              <span class="sider-bar-title">设备管理</span>
+            </template>
+            <!-- <el-menu-item index="/tasklist"
+                          route="/tasklist"
+                          @click="saveNavState('/tasklist')">
               <template slot="title">
-                <i class="iconfont icon-zhihangfankui"></i>
-                <span class="sider-bar-title">任务日志</span>
+                <i class="iconfont icon-ceshishenqing"></i>
+                <span class="sider-bar-title">设备列表</span>
               </template>
             </el-menu-item> -->
           </el-submenu>
@@ -257,7 +249,7 @@ export default {
   background-color: #373d41;
   display: flex;
   justify-content: space-between;
-  padding-left: 0%;
+  // padding-left: 0%;
   align-items: center;
   color: #ffffff;
   font-size: 20px;
@@ -280,7 +272,7 @@ export default {
   }
   .user-avatar {
     position: absolute;
-    left: 84%;
+    left: 85%;
   }
   .user-dropdown {
     position: relative;
