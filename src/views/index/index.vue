@@ -82,17 +82,17 @@
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="iconfont icon-icon_renwujincheng"></i>
+              <i class="iconfont icon-phone"></i>
               <span class="sider-bar-title">设备管理</span>
             </template>
-            <!-- <el-menu-item index="/tasklist"
-                          route="/tasklist"
-                          @click="saveNavState('/tasklist')">
+            <el-menu-item index="/equipmentlist"
+                          route="/equipmentlist"
+                          @click="saveNavState('/equipmentlist')">
               <template slot="title">
-                <i class="iconfont icon-ceshishenqing"></i>
+                <i class="iconfont icon-phone_icon"></i>
                 <span class="sider-bar-title">设备列表</span>
               </template>
-            </el-menu-item> -->
+            </el-menu-item>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">

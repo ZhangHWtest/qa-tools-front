@@ -50,6 +50,10 @@ const routes = [
         component: () => import('@/views/task/tasklog/index.vue')
       },
       {
+        path: '/equipmentlist',
+        component: () => import('@/views/equipment/index.vue')
+      },
+      {
         path: '/project',
         component: () => import('@/views/project/index.vue')
       },

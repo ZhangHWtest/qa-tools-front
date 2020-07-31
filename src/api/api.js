@@ -5,6 +5,7 @@ import * as myinterface from './modules/interface'
 import * as environment from './modules/environment'
 import * as testcase from './modules/testcase'
 import * as task from './modules/task'
+import * as equipment from './modules/equipment'
 export default {
   user,
   login,
@@ -12,5 +13,6 @@ export default {
   myinterface,
   environment,
   testcase,
-  task
+  task,
+  equipment
 }
