@@ -178,9 +178,9 @@
                :rules="updateCaseForm"
                label-width="95px"
                v-show="showTaskAndCase">
-        <el-form-item label="绑定用例："
-                      prop="case_list">
+        <el-form-item label="绑定用例：">
           <el-input v-model="my_case_list"
+                    prop="case_list"
                     placeholder="请输入绑定用例ID 示例:[1,2]"></el-input>
         </el-form-item>
       </el-form>
@@ -350,6 +350,7 @@ export default {
       })
       this.updateCaseBody.case_list = arrObject
       this.$refs.updateFormRef.validate(async valid => {
+        console.log(valid)
         if (valid) {
           const { data: res } = await this.$api.task.updateTaskCase(
             this.updateCaseBody

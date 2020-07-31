@@ -138,6 +138,9 @@ export default {
       runCaseList: {
         case_id: ''
       },
+      romeCaseBody: {
+        case_id: ''
+      },
       envList: [],
       getEnvBody: {
       }
@@ -196,10 +199,10 @@ export default {
         this.runCaseList
       )
       if (responseBody.code === 1) {
-        this.$message.success('运行成功！')
+        this.$message.success(responseBody.msg)
         this.caseListMethod()
       } else {
-        this.$message.error('运行失败！')
+        this.$message.error(responseBody.msg)
       }
     },
     // 批量运行case
@@ -213,6 +216,31 @@ export default {
         this.caseListMethod()
       } else {
         this.$message.error('运行失败！')
+      }
+    },
+    // 删除case
+    async removeCaseById (caseId) {
+      this.romeCaseBody.case_id = caseId
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该项目, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除！')
+      }
+      const { data: responseBody } = await this.$api.testcase.removeCase(
+        this.romeCaseBody
+      )
+      if (responseBody.code === 1) {
+        this.$message.success('删除成功！')
+        this.caseListMethod()
+      } else {
+        this.$message.error('删除失败！')
       }
     },
     async getEnvListMethod () {

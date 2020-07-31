@@ -6,18 +6,11 @@
         <span>ApiTest</span>
       </div>
       <div class="header-button">
-        <!-- <el-button class="login-button"
-                   type="text">Login</el-button> -->
         <i class="iconfont icon-icon_secret"
            style="padding:10px"></i>
         <i class="iconfont icon-github"></i>
       </div>
     </el-header>
-    <!-- <div class="logo">
-      <img class="my-logo"
-           src="@/assets/mylogo.png" />
-
-    </div> -->
     <my-video />
     <login-introduce />
     <!--登录区域 -->
