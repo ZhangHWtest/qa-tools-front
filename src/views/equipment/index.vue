@@ -56,7 +56,7 @@
         </el-table-column>
         <el-table-column label="SIM">
           <template slot-scope="scope">
-            <span v-if="scope.row.have_sim === 0">没有
+            <span v-if="scope.row.have_sim === 0">有
             </span>
             <span v-else-if="scope.row.have_sim === 1">没
             </span>
@@ -323,7 +323,7 @@
         <el-form-item label="设备厂商"
                       prop="mf_id">
           <el-select v-model="editEqBody.mf_id"
-                     :placeholder="editEqBody.mf_name">
+                     placeholder="请选择">
             <el-option v-for="item in mfList"
                        :key="item.mf_id"
                        :label="item.mf_name"
@@ -420,7 +420,19 @@ export default {
           { required: true, message: '请输入选择' }
         ]
       },
-      editEqBody: {},
+      editEqBody: {
+        eq_id: '',
+        eq_name: '',
+        eq_code: '',
+        eq_desc: '',
+        eq_type: '',
+        eq_sys: '',
+        eq_sys_ver: '',
+        eq_owner: '',
+        borrower: '',
+        have_sim: '',
+        mf_id: ''
+      },
       getEqInfoBody: {
         eq_id: ''
       },
@@ -451,6 +463,10 @@ export default {
       this.$refs.addFormRef.resetFields()
       this.addDialogVisible = false
     },
+    editHandleClose () {
+      this.$refs.addFormRef.resetFields()
+      this.editDialogVisible = false
+    },
     switchHandleClose () {
       this.$refs.switchEqFormRef.resetFields()
       this.switchDialogVisible = false
@@ -462,6 +478,7 @@ export default {
     editEqMethod (EqId) {
       this.editDialogVisible = true
       this.getEqInfoBody.eq_id = EqId
+      this.editEqBody.eq_id = EqId
       this.getEqInfoMethod()
       this.getManufacturerListMethod()
     },
@@ -472,7 +489,16 @@ export default {
       if (res.code !== 1) {
         return this.$message.error(res.msg)
       }
-      this.editEqBody = res.data
+      this.editEqBody.eq_name = res.data.eq_name
+      this.editEqBody.eq_code = res.data.eq_code
+      this.editEqBody.eq_desc = res.data.eq_desc
+      this.editEqBody.eq_type = res.data.eq_type
+      this.editEqBody.eq_sys = res.data.eq_sys
+      this.editEqBody.eq_sys_ver = res.data.eq_sys_ver
+      this.editEqBody.eq_owner = res.data.eq_owner
+      this.editEqBody.borrower = res.data.borrower
+      this.editEqBody.have_sim = res.data.have_sim
+      this.editEqBody.mf_id = res.data.mf_id
     },
     async editEquipmentMethod () {
       const { data: res } = await this.$api.equipment.eqEdit(
@@ -481,7 +507,8 @@ export default {
       if (res.code !== 1) {
         return this.$message.error(res.msg)
       }
-      this.equipmentList = res.data
+      this.editDialogVisible = false
+      this.$message.success('修改成功！')
     },
     async getEquipmentListMethod () {
       const { data: res } = await this.$api.equipment.eqList(
@@ -510,6 +537,7 @@ export default {
       }
       this.$message.success('添加设备成功！')
       this.addDialogVisible = false
+      this.getEquipmentListMethod()
     },
 
     // 打开修改设备状态弹窗
