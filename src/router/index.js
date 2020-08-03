@@ -54,6 +54,10 @@ const routes = [
         component: () => import('@/views/equipment/index.vue')
       },
       {
+        path: '/equipment/log',
+        component: () => import('@/views/equipment/EqLogList.vue')
+      },
+      {
         path: '/project',
         component: () => import('@/views/project/index.vue')
       },
