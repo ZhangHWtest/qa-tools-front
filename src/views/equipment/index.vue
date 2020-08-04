@@ -7,7 +7,11 @@
     </el-breadcrumb>
     <el-card>
       <div class="notes-top-addbutton">
-        <!-- <span class="notes-top-addannotation">注：</span> -->
+        <span class="notes-top-addannotation">注：</span>
+        <el-button class="add-model-button"
+                   type="primary"
+                   plain
+                   @click="openAddMfDialogVisible()">新增 厂商</el-button>
         <el-button class="add-model-button"
                    type="primary"
                    @click="openAddDialogVisible()">新增 设备</el-button>
@@ -219,20 +223,6 @@
                        :value="item.mf_id">
             </el-option>
           </el-select>
-          <!-- <el-input v-model="editEqBody.eq_owner"
-                    style="width:180px"
-                    v-show="showManuFInput"
-                    placeholder="请输入管理者"></el-input>
-          <el-tooltip class="item"
-                      effect="dark"
-                      content="没有厂商"
-                      placement="top"
-                      style="margin-left : 10px">
-            <el-button icon="iconfont icon-shiyongbangzhu"
-                       size="mini"
-                       circle
-                       @click="changeManuFacturer()"></el-button>
-          </el-tooltip> -->
         </el-form-item>
       </el-form>
       <span slot="footer">
@@ -357,6 +347,40 @@
                    @click="editEquipmentMethod()">完成</el-button>
       </span>
     </el-dialog>
+    <!-- 新增厂商-->
+    <el-dialog title="新增厂商"
+               :visible.sync="addMfDialogVisible"
+               width="40%"
+               :close-on-click-modal="false"
+               @close="addMfDialogVisibleClose">
+      <el-form ref="addMfFormRef"
+               :model="addMfBody"
+               :rules="addMfForm"
+               label-width="85px">
+        <el-form-item label="已有厂商">
+          <div class="tag-group">
+            <el-tag style="margin-left:10px"
+                    v-for="item in mfList"
+                    :key="item.mf_id"
+                    effect="plain">
+              {{ item.mf_name }}
+            </el-tag>
+          </div>
+        </el-form-item>
+        <el-form-item label="厂商名称"
+                      prop="mf_name">
+          <el-input v-model="addMfBody.mf_name"
+                    placeholder="请输入厂商名"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer">
+        <el-button size="mini"
+                   @click="addMfDialogVisible = false">取 消</el-button>
+        <el-button type="success"
+                   size="mini"
+                   @click="addMfMethod()">完成</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -453,9 +477,16 @@ export default {
       getEqInfoBody: {
         eq_id: ''
       },
-      editDialogVisible: false
-      // showManuFSelect: true,
-      // showManuFInput: false
+      editDialogVisible: false,
+      addMfDialogVisible: false,
+      addMfBody: {
+        mf_name: ''
+      },
+      addMfForm: {
+        mf_name: [
+          { required: true, message: '请输入设备名称', trigger: 'blur' }
+        ]
+      }
     }
   },
   created () {
@@ -478,6 +509,10 @@ export default {
       this.getEquipmentListBody.page_num = newPage
       this.getEquipmentListMethod()
     },
+    openAddMfDialogVisible () {
+      this.addMfDialogVisible = true
+      this.getManufacturerListMethod()
+    },
     handleClose () {
       this.$refs.addFormRef.resetFields()
       this.addDialogVisible = false
@@ -489,6 +524,10 @@ export default {
     switchHandleClose () {
       this.$refs.switchEqFormRef.resetFields()
       this.switchDialogVisible = false
+    },
+    addMfDialogVisibleClose () {
+      this.$refs.addMfFormRef.resetFields()
+      this.addMfDialogVisible = false
     },
     openAddDialogVisible () {
       this.addDialogVisible = true
@@ -546,6 +585,17 @@ export default {
         return this.$message.error(res.msg)
       }
       this.mfList = res.data
+    },
+    async addMfMethod () {
+      const { data: res } = await this.$api.equipment.mfAdd(
+        this.addMfBody
+      )
+      if (res.code !== 1) {
+        return this.$message.error(res.msg)
+      }
+      this.$message.success('添加设备成功！')
+      this.addMfDialogVisible = false
+      this.getEquipmentListMethod()
     },
     async addEquipmentMethod () {
       const { data: res } = await this.$api.equipment.eqAdd(
