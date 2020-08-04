@@ -219,6 +219,20 @@
                        :value="item.mf_id">
             </el-option>
           </el-select>
+          <!-- <el-input v-model="editEqBody.eq_owner"
+                    style="width:180px"
+                    v-show="showManuFInput"
+                    placeholder="请输入管理者"></el-input>
+          <el-tooltip class="item"
+                      effect="dark"
+                      content="没有厂商"
+                      placement="top"
+                      style="margin-left : 10px">
+            <el-button icon="iconfont icon-shiyongbangzhu"
+                       size="mini"
+                       circle
+                       @click="changeManuFacturer()"></el-button>
+          </el-tooltip> -->
         </el-form-item>
       </el-form>
       <span slot="footer">
@@ -330,6 +344,9 @@
                        :value="item.mf_id">
             </el-option>
           </el-select>
+          <!-- <el-input v-model="editEqBody.eq_owner"
+                    :v-show="showManuFInput"
+                    placeholder="请输入管理者"></el-input> -->
         </el-form-item>
       </el-form>
       <span slot="footer">
@@ -437,6 +454,8 @@ export default {
         eq_id: ''
       },
       editDialogVisible: false
+      // showManuFSelect: true,
+      // showManuFInput: false
     }
   },
   created () {
@@ -578,9 +597,9 @@ export default {
       if (res.code !== 1) {
         return this.$message.error('修改信息失败！')
       }
+      this.switchDialogVisible = false
       // 提示信息
       this.$message.success('修改成功！')
-      this.switchDialogVisible = false
       // 刷新数据
       this.getEquipmentListMethod()
     },
@@ -618,6 +637,10 @@ export default {
       this.$message.success('删除成功！')
       // 刷新数据
       this.getEquipmentListMethod()
+    },
+    changeManuFacturer () {
+      this.showManuFSelect = false
+      this.showManuFInput = true
     }
 
   }

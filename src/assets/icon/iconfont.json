@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "774475",
+      "name": "使用帮助",
+      "font_class": "shiyongbangzhu",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "4933279",
+      "name": "帮助",
+      "font_class": "bangzhu",
+      "unicode": "e70f",
+      "unicode_decimal": 59151
+    },
+    {
       "icon_id": "1061325",
       "name": "phone",
       "font_class": "phone",
