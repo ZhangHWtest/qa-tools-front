@@ -383,11 +383,11 @@
   </div>
 </template>
 <script>
-import EqInfo from './components/EqInfo'
+// import EqInfo from './components/EqInfo'
 export default {
-  components: {
-    EqInfo
-  },
+  // components: {
+  //   EqInfo
+  // },
   data () {
     return {
       getEquipmentListBody: {

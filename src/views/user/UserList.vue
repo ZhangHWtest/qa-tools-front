@@ -2,8 +2,8 @@
   <div class="main-projectlist">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>环境管理</el-breadcrumb-item>
-      <el-breadcrumb-item>环境列表</el-breadcrumb-item>
+      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="user-list-main">
       <!-- 卡片视图区域-->
@@ -114,8 +114,8 @@
           </el-form-item>
           <el-form-item label="状态: ">
             <el-radio-group v-model="editUser.status">
-              <el-radio :label="true">启用</el-radio>
-              <el-radio :label="false">禁用</el-radio>
+              <el-radio :label="1">启用</el-radio>
+              <el-radio :label="0">禁用</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -144,11 +144,11 @@ export default {
       queryInfo: {
         page_num: 1
       },
-      userList: {},
+      userList: [],
       // 新增用户绑定参数
       createUser: {
-        username: [],
-        email: []
+        username: '',
+        email: ''
       },
       editUser: {
         uid: '',
@@ -163,7 +163,6 @@ export default {
         uid: '',
         status: ''
       },
-      userStatus: true,
       addRulesForm: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
@@ -207,7 +206,6 @@ export default {
     },
     async getUserList () {
       const { data: userRes } = await this.$api.user.getUserList(this.queryInfo)
-      console.log(userRes)
       if (userRes.code !== 1) {
         return this.$message.error('获取用户列表失败！')
       }
@@ -239,20 +237,15 @@ export default {
       }
       this.editUser.status = scope.row.status
       this.editUser.uid = scope.row.uid
-
       this.editDialogVisible = true
     },
     // 修改用户信息并提交
     editUserInfo () {
       this.$refs.editFormRef.validate(async valid => {
         if (!valid) return
-        this.editUserStatus.uid = this.editUser.uid
-        if (this.editUser.status) {
-          this.editUserStatus.status = 'True'
-        } else {
-          this.editUserStatus.status = 'False'
-        }
 
+        this.editUserStatus.uid = this.editUser.uid
+        this.editUserStatus.status = this.editUser.status
         const { data: statusRes } = await this.$api.user.onOffUserApi(
           this.editUserStatus
         )
@@ -264,9 +257,10 @@ export default {
         const { data: roleRes } = await this.$api.user.setRoleApi(
           this.editUserRoles
         )
-        if (roleRes.code === 1) {
-          return this.$message.success('修改用户角色成功！')
+        if (roleRes.code !== 1) {
+          return this.$message.error('修改用户信息失败！')
         }
+        this.$message.success('修改用户角色成功！')
         // 关闭对框
         this.editDialogVisible = false
         // 提示信息

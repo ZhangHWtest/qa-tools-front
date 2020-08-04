@@ -33,7 +33,7 @@ export const createUser = data => {
 // 重置密码
 export const resetPasswordApi = data => {
   return reques({
-    url: '/api/user/reset_password',
+    url: '/user/reset_password',
     method: 'post',
     data
   })
@@ -42,7 +42,7 @@ export const resetPasswordApi = data => {
 // 修改用户状态
 export const onOffUserApi = data => {
   return reques({
-    url: '/api/user/on_off_user',
+    url: '/user/on_off_user',
     method: 'post',
     data
   })
@@ -51,7 +51,7 @@ export const onOffUserApi = data => {
 // 修改用户角色
 export const setRoleApi = data => {
   return reques({
-    url: '/api/user/set_role',
+    url: '/user/set_role',
     method: 'post',
     data
   })
