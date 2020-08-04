@@ -21,10 +21,10 @@
                 ref="multipleTableAll"
                 style="width: 100%"
                 @expand-change="expandChange">
-        <el-table-column type="expand">
+        <!-- <el-table-column type="expand">
           <eq-info :eqId="eqId"
                    :showEqInfo="showEqInfo" />
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column width="70px"
                          label="ID"
                          prop="eq_id"></el-table-column>
@@ -334,9 +334,6 @@
                        :value="item.mf_id">
             </el-option>
           </el-select>
-          <!-- <el-input v-model="editEqBody.eq_owner"
-                    :v-show="showManuFInput"
-                    placeholder="请输入管理者"></el-input> -->
         </el-form-item>
       </el-form>
       <span slot="footer">
@@ -362,7 +359,9 @@
             <el-tag style="margin-left:10px"
                     v-for="item in mfList"
                     :key="item.mf_id"
-                    effect="plain">
+                    effect="plain"
+                    closable
+                    @close="tagHandleClose(item.mf_id)">
               {{ item.mf_name }}
             </el-tag>
           </div>
@@ -486,6 +485,9 @@ export default {
         mf_name: [
           { required: true, message: '请输入设备名称', trigger: 'blur' }
         ]
+      },
+      delMfBody: {
+        mf_id: ''
       }
     }
   },
@@ -524,6 +526,9 @@ export default {
     switchHandleClose () {
       this.$refs.switchEqFormRef.resetFields()
       this.switchDialogVisible = false
+    },
+    tagHandleClose (tagId) {
+      this.delMfmethod(tagId)
     },
     addMfDialogVisibleClose () {
       this.$refs.addMfFormRef.resetFields()
@@ -687,6 +692,31 @@ export default {
       this.$message.success('删除成功！')
       // 刷新数据
       this.getEquipmentListMethod()
+    },
+    async delMfmethod (tagId) {
+      this.delMfBody.mf_id = tagId
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该项目, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除！')
+      }
+      const { data: res } = await this.$api.equipment.mfDel(
+        this.delMfBody
+      )
+      if (res.code !== 1) {
+        return this.$message.error('删除信息失败！')
+      }
+      // 提示信息
+      this.$message.success('删除成功！')
+      this.getManufacturerListMethod()
+      // this.addMfDialogVisible = false
     },
     changeManuFacturer () {
       this.showManuFSelect = false

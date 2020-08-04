@@ -50,15 +50,23 @@
             <span v-else-if="scope.row.have_sim === 1">没
             </span>
           </template></el-table-column>
+        <el-table-column label="设备描述"
+                         prop="eq_desc"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
             <span class="show-interface-colname"
-                  v-if="scope.row.eq_status === 1">可外借
+                  v-if="scope.row.eq_log_status === 1">启用
             </span>
             <span class="show-interface-colname-warning"
-                  v-else-if="scope.row.eq_status === 2">已外借
+                  v-else-if="scope.row.eq_log_status === 2">编辑
             </span>
-            <span class="show-interface-colname-success"
+            <span class="show-interface-colname-warning"
+                  v-else-if="scope.row.eq_log_status === 3">归还
+            </span>
+            <span class="show-interface-colname-warning"
+                  v-else-if="scope.row.eq_log_status === 4">外借
+            </span>
+            <span class="show-interface-colname-error"
                   v-else>停用
             </span>
           </template></el-table-column>
@@ -71,7 +79,15 @@
           </template></el-table-column>
         <el-table-column label="设备厂商"
                          prop="mf_name"></el-table-column>
+        <el-table-column label="操作人"
+                         prop="c_user"></el-table-column>
       </el-table>
+      <el-pagination background
+                     :current-page="getEqLogListBody.page_num"
+                     @current-change="handleCurrentChange"
+                     layout="prev, pager, next"
+                     :total="500">
+      </el-pagination>
     </el-card>
   </div>
 
@@ -92,6 +108,11 @@ export default {
     this.getEquipmentLogListMethod()
   },
   methods: {
+    // 监听 页码值改变的事件
+    handleCurrentChange (newPage) {
+      this.getEqLogListBody.page_num = newPage
+      this.getEquipmentLogListMethod()
+    },
     async getEquipmentLogListMethod () {
       const { data: res } = await this.$api.equipment.eqLog(
         this.getEqLogListBody
@@ -109,5 +130,14 @@ export default {
   padding: 15px;
   background-color: rgb(240, 242, 245);
   position: relative;
+}
+.show-interface-colname {
+  color: #67c23a;
+}
+.show-interface-colname-error {
+  color: #f56c6c;
+}
+.show-interface-colname-warning {
+  color: #e6a23c;
 }
 </style>
