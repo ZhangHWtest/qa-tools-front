@@ -83,6 +83,10 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push (location) {
+//   return originalPush.call(this, location).catch(err => err)
+// }
 // 挂在路由导航守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径， from 代表从哪个路径跳转来的， next是一个函数， 表示放行
