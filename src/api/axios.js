@@ -20,7 +20,7 @@ export const reques = options => {
         let token = Cookies.get('token')
         // 发送请求时携带token
         if (token) {
-          config.headers.token = token
+          // config.headers.token = token  //将token添加到Request Hearders 没用
         } else {
           // 重定向到登录页面
           router.push('/login')
@@ -62,7 +62,7 @@ export const reques = options => {
       })
   })
 }
-
+// 针对post-form表单的请求
 export const requestTwo = options => {
   return new Promise((resolve, reject) => {
     const instance = axios.create({

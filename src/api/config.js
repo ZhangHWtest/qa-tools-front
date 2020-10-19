@@ -1,7 +1,7 @@
 // const url = 'http://192.168.70.72:5000'
-const testUrl = '/api'
+const url = '/api'
 export default {
-  baseUrl: testUrl,
+  baseUrl: url,
   headers: { 'Content-Type': 'application/json;charset=UTF-8' },
   data: {},
   timeout: 10000,
