@@ -1,4 +1,4 @@
-// const url = 'http://192.168.70.72:5000'
+// const url = 'http://39.97.102.74:5001'
 const url = '/api'
 export default {
   baseUrl: url,
