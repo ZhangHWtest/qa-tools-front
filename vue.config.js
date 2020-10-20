@@ -14,19 +14,19 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    }
+    },
     // 配置代理
-    // proxy: {
-    //   '/api': {
-    //     // 接口服务地址
-    //     target: 'http://localhost:5000',
-    //     // 是否跨域
-    //     changeOrigin: true,
-    //     ws: true,
-    //     pathRewrite: {
-    //       '^/api': ''
-    //     }
-    //   }
-    // }
+    proxy: {
+      '/api': {
+        // 接口服务地址
+        target: 'http://10.20.4.158:5555',
+        // 是否跨域
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
   }
 }
