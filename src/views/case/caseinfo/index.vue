@@ -173,7 +173,7 @@ export default {
       myParam: {},
       myHeader: {},
       mySaveResult: false,
-      myEnvId: 6,
+      myEnvId: '',
       getCaseInfoBody: {
         case_id: ''
       },
