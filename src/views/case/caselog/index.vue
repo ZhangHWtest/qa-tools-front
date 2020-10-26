@@ -30,7 +30,7 @@
         <el-table-column label="方法"
                          width="80px"
                          prop="method">
-          <template slot-scope="scope">clear
+          <template slot-scope="scope">
             <span class="show-interface-colname"
                   v-if="scope.row.method === 'GET'">
               <el-tag>GET</el-tag>

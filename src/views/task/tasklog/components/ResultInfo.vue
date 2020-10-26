@@ -51,8 +51,8 @@ export default {
       )
       if (responseBody.code === 1) {
         this.resultInfo = responseBody.data
-        this.resultInfo.test_log_url = 'http://192.168.70.72:5001/upload/testlog/' + responseBody.data.test_log
-        this.resultInfo.test_report_url = 'http://192.168.70.72:5001/upload/testlog/' + responseBody.data.test_report
+        this.resultInfo.test_log_url = 'http://192.168.100.38:5001/upload/testlog/' + responseBody.data.test_log
+        this.resultInfo.test_report_url = 'http://192.168.100.38:5001/upload/testlog/' + responseBody.data.test_report
       } else {
         this.$message.error('日志详情失败！')
       }
