@@ -102,14 +102,14 @@
                         :rows="2"
                         placeholder="请输入内容"></el-input>
             </el-form-item>
-            <el-form-item label="保存结果：">
+            <!-- <el-form-item label="保存结果：">
               <el-switch class="interface-info-switch"
                          style="display: block"
                          v-model="mySaveResult"
                          active-color="#13ce66"
                          inactive-color="#ff4949">
               </el-switch>
-            </el-form-item>
+            </el-form-item> -->
           </el-form>
         </div>
       </div>
@@ -151,7 +151,7 @@ export default {
         res_assert: '', // 校验  必填
         has_rely: 0, // 是否有依赖 默认0
         rely_info: '', // 依赖用例详情
-        save_result: 0, // 保存结果 默认0
+        save_result: 1, // 保存结果 默认0
         use_db: 0, // 是否使用sql校验 默认0
         sql: '',
         field_value: '' // sql校验的至
