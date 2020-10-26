@@ -38,7 +38,7 @@ export default {
       editResponseButton: false,
       editResponse: {
         interface_id: '',
-        response: ''
+        response: {}
       }
     }
   },
