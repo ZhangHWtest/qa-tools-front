@@ -82,20 +82,6 @@
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="iconfont icon-phone"></i>
-              <span class="sider-bar-title">设备管理</span>
-            </template>
-            <el-menu-item index="/equipmentlist"
-                          route="/equipmentlist"
-                          @click="saveNavState('/equipmentlist')">
-              <template slot="title">
-                <i class="iconfont icon-phone_icon"></i>
-                <span class="sider-bar-title">设备列表</span>
-              </template>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="3">
-            <template slot="title">
               <i class="iconfont icon-icon_workfile_line"></i>
               <span class="sider-bar-title">项目管理</span>
             </template>
@@ -116,7 +102,20 @@
               </template>
             </el-menu-item>
           </el-submenu>
-
+          <el-submenu index="3">
+            <template slot="title">
+              <i class="iconfont icon-phone"></i>
+              <span class="sider-bar-title">设备管理</span>
+            </template>
+            <el-menu-item index="/equipmentlist"
+                          route="/equipmentlist"
+                          @click="saveNavState('/equipmentlist')">
+              <template slot="title">
+                <i class="iconfont icon-phone_icon"></i>
+                <span class="sider-bar-title">设备列表</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
           <el-submenu index="8">
             <template slot="title">
               <i class="iconfont icon-icon_boss"></i>

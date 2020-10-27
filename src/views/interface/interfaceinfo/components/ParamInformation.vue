@@ -8,7 +8,7 @@
                         class="tabPositionRadio"
                         @change="changeRadioValue">
           <el-radio-button label="Body">Body</el-radio-button>
-          <!-- <el-radio-button label="Query">Query</el-radio-button> -->
+          <el-radio-button label="Query">Query</el-radio-button>
           <el-radio-button label="Headers">Headers</el-radio-button>
         </el-radio-group>
       </div>
