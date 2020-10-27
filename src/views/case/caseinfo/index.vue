@@ -82,7 +82,7 @@
               <el-input v-model="addCaseBody.rely_info"
                         type="textarea"
                         :rows="2"
-                        placeholder="请输入内容"></el-input>
+                        placeholder='示例：[{"rely_case_id":1,"rely_param":"sso_token"}]'></el-input>
             </el-form-item>
             <el-form-item label="是否使用sql：">
               <el-radio v-model="addCaseBody.use_db"
