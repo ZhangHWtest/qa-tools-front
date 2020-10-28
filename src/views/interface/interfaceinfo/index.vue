@@ -13,12 +13,16 @@
                      v-for="item in editableTabs"
                      :label="item.title"
                      :name="item.name">
-          <basic-information :key="activeName +'basic'"
+          <preview-interface-info :activeName="activeName"
+                                  :interfaceInfo="interfaceInfo"></preview-interface-info>
+          <edit-interface-info :activeName="activeName"
+                               :interfaceInfo="interfaceInfo"></edit-interface-info>
+          <!-- <basic-information :key="activeName +'basic'"
                              :interfaceInfo="interfaceInfo"
                              :activeName="activeName" />
           <param-information :key="activeName +'param'"
                              :interfaceInfo="interfaceInfo"
-                             :activeName="activeName" />
+                             :activeName="activeName" /> -->
           <return-information :key="activeName +'return'"
                               :interfaceInfo="interfaceInfo"
                               :activeName="activeName" />
@@ -28,24 +32,28 @@
   </div>
 </template>
 <script>
-import BasicInformation from './components/BasicInformation'
-import ParamInformation from './components/ParamInformation'
-import ReturnInformation from './components/ReturnInformation'
+// import BasicInformation from './components/BasicInformation'
+// import ParamInformation from './components/ParamInformation'
+// import ReturnInformation from './components/ReturnInformation'
+import PreviewInterfaceInfo from './components/PreviewInterFaceInfo'
+import EditInterfaceInfo from './components/EditInterfaceInfo'
 export default {
   components: {
-    BasicInformation,
-    ParamInformation,
-    ReturnInformation
+    PreviewInterfaceInfo,
+    EditInterfaceInfo
+    // BasicInformation,
+    // ParamInformation
+    // ReturnInformation
   },
   data () {
     return {
-      activeName: 'Tab 1',
+      activeName: '预览',
       editableTabs: [{
         title: '预览',
-        name: 'Tab 1'
+        name: '预览'
       }, {
         title: '编辑',
-        name: 'Tab 2'
+        name: '编辑'
       }],
       getInterfaceInfo: {
         interface_id: ''

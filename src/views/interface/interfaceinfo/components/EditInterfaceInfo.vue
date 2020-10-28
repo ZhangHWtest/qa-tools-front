@@ -1,5 +1,60 @@
 <template>
-  <div v-show="BasicInformation">
+  <div v-show="activeName=='编辑'?true:false">
+    <h2 class="interface-title-style">基本信息:</h2>
+    <div class="interface-info">
+      <el-form ref="addFormRef"
+               :model="editInterfaceInfo"
+               :rules="addRulesForm"
+               label-width="100px">
+        <el-form-item label="接口名称:"
+                      prop="interface_name">
+          <el-input class="interface_name"
+                    placeholder="请输接口名称"
+                    v-model="editInterfaceInfo.interface_name"></el-input>
+        </el-form-item>
+        <el-form-item label="接口类型:"
+                      prop="interface_type">
+          <el-select v-model="editInterfaceInfo.interface_type"
+                     placeholder="请选择接口类型">
+            <el-option v-for="item in interface_type_options"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="请求类型:"
+                      prop="method">
+          <el-select v-model="editInterfaceInfo.method"
+                     placeholder="请选择请求类型">
+            <el-option v-for="item in method_options"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="请求路径:"
+                      prop="path">
+          <el-input class="project_name_input"
+                    placeholder="请输入请求路径"
+                    v-model="editInterfaceInfo.path"></el-input>
+        </el-form-item>
+        <el-form-item label="接口描述:">
+          <el-input class="project_name_input"
+                    type="textarea"
+                    placeholder="请输入描述信息"
+                    v-model="editInterfaceInfo.interface_desc"></el-input>
+        </el-form-item>
+      </el-form>
+      <!-- 预留提交按钮-->
+      <div class="interface-info-button">
+        <el-button type="success"
+                   size="mini"
+                   @click="editInterfaceInfoMethod()">提 交</el-button>
+      </div>
+    </div>
+    <!-- 请求参数区域 -->
     <h2 class="interface-title-style">请求参数:</h2>
     <div class="interface-info">
       <div class="tabPositionDiv">
@@ -16,7 +71,6 @@
       <div v-show="bodyIsShow">
         <div>
           <el-button type="primary"
-                     v-show="editBasicInformation"
                      size="mini"
                      @click="addParams()">添加参数</el-button>
         </div>
@@ -50,19 +104,14 @@
                       type="textarea"
                       autosize
                       placeholder="备注"></el-input>
-
             <el-button size="small"
-                       v-show="editBasicInformation"
                        icon="el-icon-delete"
                        circle
                        @click="delParams(item.param_name)"></el-button>
-
           </el-form>
-
         </div>
         <div class="addPrimarys">
-          <el-button v-show="editBasicInformation"
-                     type="success"
+          <el-button type="success"
                      size="mini"
                      @click="editParamsMethod()">提交</el-button>
         </div>
@@ -71,113 +120,87 @@
       <!-- Headers模块-->
       <div v-show="headersIsShow">
         <el-input class="header_input"
-                  :disabled="showBasicInformation"
                   type="textarea"
                   placeholder="示例：{'Content-Type':'application/x-www-form-urlencoded'}"
                   v-model="interfaceInfo.header"></el-input>
         <span slot="footer"
-              v-show="editBasicInformation"
               class="goProject-dialog-footer-info-param">
           <el-button type="success"
-                     :disabled="editInterfaceHeaderButton"
                      size="small"
                      @click="editInterfaceHeader()"> 提 交</el-button>
         </span>
       </div>
     </div>
-    <!-- 添加Params对话框-->
-    <!-- <el-dialog title="添加接口参数"
-               :visible.sync="addDialogVisible"
-               width="50%"
-               @close="addDialogClosed">
-
-      <el-form ref="addFormRef"
-               :model="createParams"
-               label-width="70px">
-        <el-form-item label="参数名称">
-          <el-input v-model="createParams.param_name"></el-input>
-        </el-form-item>
-        <el-form-item label="是否必需">
-          <template>
-            <el-radio v-model="createParams.is_necessary"
-                      label="0">必需</el-radio>
-            <el-radio v-model="createParams.is_necessary"
-                      label="1">非必需</el-radio>
-          </template>
-        </el-form-item>
-        <el-form-item label="参数描述">
-          <el-input v-model="createParams.param_desc"></el-input>
-        </el-form-item>
-
-        <el-form-item label="参数示例">
-          <el-input v-model="createParams.default"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="createInterfaceParam ()">确 定</el-button>
-      </span>
-    </el-dialog> -->
-    <!-- 编辑接口对话框-->
-    <!-- <el-dialog title="添加接口参数"
-               :visible.sync="editDialogVisible"
-               width="50%">
-      <el-form ref="addFormRef"
-               :model="editParams"
-               label-width="70px">
-        <el-form-item label="参数名称">
-          <el-input v-model="editParams.param_name"></el-input>
-        </el-form-item>
-        <el-form-item label="是否必需">
-          <template>
-            <el-radio v-model="editParams.is_necessary"
-                      label="0">必需</el-radio>
-            <el-radio v-model="editParams.is_necessary"
-                      label="1">非必需</el-radio>
-          </template>
-        </el-form-item>
-        <el-form-item label="参数描述">
-          <el-input v-model="editParams.param_desc"></el-input>
-        </el-form-item>
-
-        <el-form-item label="参数示例">
-          <el-input v-model="editParams.default"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="editInterfaceParam ()">确 定</el-button>
-      </span>
-    </el-dialog> -->
+    <!-- 返回数据区域 -->
+    <!-- <h2 class="interface-title-style">返回数据:</h2>
+    <div class="interface-info">
+      <aside>注：数据必须符合Json格式，预览下修改数据无效。</aside>
+      <div class="editor-container">
+        <json-editor ref="jsonEditor"
+                     :read-only="editBasicInforma"
+                     v-model="editResponse.response" />
+        <span slot="footer"
+              class="goProject-dialog-footer-info-param">
+          <el-button class="goProject-dialog-footer-info-button"
+                     type="success"
+                     size="small"
+                     @click="editInterfaceResponse()"> 提 交</el-button>
+        </span>
+      </div>
+    </div> -->
   </div>
 </template>
 <script>
+import JsonEditor from '@/components/JsonEditor'
 export default {
   props: [
     'interfaceInfo',
     'activeName'
   ],
+  components: {
+    JsonEditor
+  },
   data () {
     return {
       tabPosition: 'Body',
       bodyIsShow: true,
       headersIsShow: false,
-      showBasicInformation: false,
-      editBasicInformation: false,
-      BasicInformation: true,
-      addDialogVisible: false,
-      editDialogVisible: false,
-      editInterfaceHeaderButton: false,
-      // params: [{
-      //   param_name: '',
-      //   param_desc: '',
-      //   is_necessary: '',
-      //   default: ''
-      // }],
+      editInterfaceInfo: {
+        interface_id: '',
+        interface_name: '',
+        interface_type: '',
+        method: '',
+        path: '',
+        interface_desc: ''
+      },
+      interface_type_options: [{
+        value: 'http',
+        label: 'http'
+      }, {
+        value: 'https',
+        label: 'https'
+      }],
+      method_options: [{
+        value: 'GET',
+        label: 'GET'
+      }, {
+        value: 'POST',
+        label: 'POST'
+      }],
+      addRulesForm: {
+        interface_name: [
+          { required: true, message: '请输入接口名', trigger: 'blur' }
+        ],
+        interface_type: [
+          { required: true, trigger: 'blur' }
+        ],
+        method: [
+          { required: true, trigger: 'blur' }
+        ],
+        path: [
+          { required: true, message: '请输入路径', trigger: 'blur' }
+        ]
+      },
       params: [],
       isNecessaryOptions: [{
         value: 0,
@@ -195,21 +218,42 @@ export default {
         interface_id: '',
         header: ''
       },
-      editParams: {
+      editBasicInforma: true,
+      editResponse: {
+        interface_id: '',
+        response: {}
       }
     }
   },
   created () {
-    this.interfaceInfo.params.forEach((item, index) => this.params.push(item))
-    if (this.activeName === 'Tab 1') {
-      this.showBasicInformation = true
-    } else if (this.activeName === 'Tab 2') {
-      this.editBasicInformation = true
-    } else {
-      this.BasicInformation = false
+  },
+  watch: {
+    interfaceInfo (value, oldValue) {
+      if (value.interface_id) {
+        this.editInterfaceInfo.interface_id = this.interfaceInfo.interface_id
+        this.editInterfaceInfo.interface_name = this.interfaceInfo.interface_name
+        this.editInterfaceInfo.interface_type = this.interfaceInfo.interface_type
+        this.editInterfaceInfo.method = this.interfaceInfo.method
+        this.editInterfaceInfo.path = this.interfaceInfo.path
+        this.editInterfaceInfo.interface_desc = this.interfaceInfo.interface_desc
+        this.editResponse.response = JSON.parse(this.interfaceInfo.response)
+        this.interfaceInfo.params.forEach((item, index) => this.params.push(item))
+      }
     }
   },
   methods: {
+    // 修改接口
+    async editInterfaceInfoMethod () {
+      const { data: serverResponse } = await this.$api.myinterface.editInterfaceMethod(
+        this.editInterfaceInfo
+      )
+      if (serverResponse.code === 1) {
+        this.$message.success('修改接口成功！')
+      } else {
+        this.$message.error('修改接口失败！')
+      }
+      this.editInterfaceInfoButton = true
+    },
     changeRadioValue () {
       if (this.tabPosition === 'Body') {
         this.bodyIsShow = true
@@ -218,7 +262,6 @@ export default {
         this.headersIsShow = true
         this.bodyIsShow = false
       }
-      // console.log(this.tabPosition)
     },
     showCreateInterfaceParamDialog () {
       this.addDialogVisible = true
@@ -283,7 +326,20 @@ export default {
       } else {
         this.$message.error('修改请求头失败！')
       }
-      this.editInterfaceHeaderButton = true
+    },
+    async editInterfaceResponse () {
+      this.editResponse.interface_id = this.interfaceInfo.interface_id
+      const { data: createModelRes } = await this.$api.myinterface.createInterfaceResponseMethod(
+        { ...this.editResponse, response: JSON.stringify(JSON.parse(this.editResponse.response)) }
+      )
+      if (createModelRes.code === 1) {
+        this.$message.success('修改返回信息成功！')
+        // 修改完成后如何刷新
+        location.reload()
+      } else {
+        this.$message.error('修改返回信息失败！')
+      }
+      this.editResponseButton = true
     }
   }
 }
@@ -329,5 +385,9 @@ export default {
   position: relative;
   top: 50%;
   left: 45%;
+}
+.editor-container {
+  position: relative;
+  height: 100%;
 }
 </style>

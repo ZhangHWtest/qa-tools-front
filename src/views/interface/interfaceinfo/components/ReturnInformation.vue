@@ -38,12 +38,12 @@ export default {
       editResponseButton: false,
       editResponse: {
         interface_id: '',
-        response: {}
+        response: '{"code":1}'
       }
     }
   },
   created () {
-    if (this.activeName === 'Tab 2') {
+    if (this.activeName === '编辑') {
       this.editBasicInformation = true
       this.editBasicInforma = false
     }
