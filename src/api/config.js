@@ -1,5 +1,5 @@
-const url = 'http://192.168.100.38:5001'
-// const url = 'http://10.20.4.158:5555'
+// const url = 'http://192.168.100.38:5001'
+const url = '/api'
 export default {
   baseUrl: url,
   headers: { 'Content-Type': 'application/json;charset=UTF-8' },

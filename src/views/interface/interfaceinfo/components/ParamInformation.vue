@@ -8,13 +8,52 @@
                         class="tabPositionRadio"
                         @change="changeRadioValue">
           <el-radio-button label="Body">Body</el-radio-button>
-          <el-radio-button label="Query">Query</el-radio-button>
+          <!-- <el-radio-button label="Query">Query</el-radio-button> -->
           <el-radio-button label="Headers">Headers</el-radio-button>
         </el-radio-group>
       </div>
       <!-- Body模块-->
       <div v-show="bodyIsShow">
-        <el-table border
+        <div>
+          <el-button type="primary"
+                     size="mini">添加参数</el-button>
+        </div>
+        <div>
+          <el-input style="width: 20%;"
+                    v-model="params.param_name"
+                    size="mini"
+                    placeholder="name"></el-input>
+          <el-select style="width: 20%;"
+                     v-model="params.is_necessary"
+                     size="mini"
+                     placeholder="是否必填">
+            <el-option v-for="item in options"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+            </el-option>
+          </el-select>
+          <el-input style="width: 25%;"
+                    v-model="params.param_desc"
+                    size="mini"
+                    type="textarea"
+                    autosize
+                    placeholder="参数示例"></el-input>
+          <el-input style="width: 30%;"
+                    v-model="params.default"
+                    size="mini"
+                    type="textarea"
+                    autosize
+                    placeholder="备注"></el-input>
+          <el-button size="small"
+                     icon="el-icon-delete"
+                     circle></el-button>
+        </div>
+        <div class="addPrimarys">
+          <el-button type="success"
+                     size="mini">提交</el-button>
+        </div>
+        <!-- <el-table border
                   size="small"
                   :data="interfaceInfo.params">
           <el-table-column label="参数id"
@@ -36,7 +75,6 @@
                            prop="param_desc"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <!-- 修改按钮 -->
               <el-tooltip class="item"
                           effect="dark"
                           content="修改"
@@ -61,7 +99,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-        </el-table>
+        </el-table> -->
         <span slot="footer"
               v-show="editBasicInformation"
               class="goProject-dialog-footer-info-param">
@@ -87,84 +125,6 @@
                      @click="editInterfaceHeader()"> 提 交</el-button>
         </span>
       </div>
-
-      <!-- <el-tabs type="border-card">
-        <el-tab-pane label="param">
-          <div>
-            <el-table border
-                      :data="interfaceInfo.params">
-              <el-table-column label="参数id"
-                               prop="param_id"></el-table-column>
-              <el-table-column label="参数名称"
-                               prop="param_name"></el-table-column>
-              <el-table-column label="是否必填"
-                               prop="is_necessary">
-                <template slot-scope="scope">
-                  <font v-if="scope.row.is_necessary === 0"
-                        color="#67C23A">必需</font>
-                  <font v-else
-                        color="#F56C6C">非必需</font>
-                </template>
-              </el-table-column>
-              <el-table-column label="参数示例"
-                               prop="default"></el-table-column>
-              <el-table-column label="备注"
-                               prop="param_desc"></el-table-column>
-              <el-table-column label="操作">
-                <template slot-scope="scope">
-
-                  <el-tooltip class="item"
-                              effect="dark"
-                              content="修改"
-                              placement="top">
-                    <el-button v-show="editBasicInformation"
-                               type="primary"
-                               icon="el-icon-edit"
-                               size="mini"
-                               circle
-                               @click="showEditInterfaceParamDialog(scope.row)"></el-button>
-                  </el-tooltip>
-                  <el-tooltip class="item"
-                              effect="dark"
-                              content="删除"
-                              placement="top">
-                    <el-button v-show="editBasicInformation"
-                               type="danger"
-                               icon="el-icon-delete"
-                               size="mini"
-                               circle
-                               @click="removeInterfaceParamById(scope.row.param_id)"></el-button>
-                  </el-tooltip>
-                </template>
-              </el-table-column>
-            </el-table>
-            <span slot="footer"
-                  v-show="editBasicInformation"
-                  class="goProject-dialog-footer-info-param">
-              <el-button type="primary"
-                         size="small"
-                         @click="showCreateInterfaceParamDialog()">新 增</el-button>
-            </span>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="header">
-          <div>
-            <el-input class="header_input"
-                      :disabled="showBasicInformation"
-                      type="textarea"
-                      placeholder="示例：{'Content-Type':'application/x-www-form-urlencoded'}"
-                      v-model="interfaceInfo.header"></el-input>
-            <span slot="footer"
-                  v-show="editBasicInformation"
-                  class="goProject-dialog-footer-info-param">
-              <el-button type="success"
-                         :disabled="editInterfaceHeaderButton"
-                         size="small"
-                         @click="editInterfaceHeader()"> 提 交</el-button>
-            </span>
-          </div>
-        </el-tab-pane>
-      </el-tabs> -->
     </div>
     <!-- 添加Params对话框-->
     <el-dialog title="添加接口参数"
@@ -254,14 +214,16 @@ export default {
       addDialogVisible: false,
       editDialogVisible: false,
       editInterfaceHeaderButton: false,
-      params: [],
+      params: [{
+        param_name: '1',
+        param_desc: '2',
+        is_necessary: '0',
+        default: '3'
+      }],
       header: '',
       createParams: {
         interface_id: '',
-        param_name: '',
-        param_desc: '',
-        is_necessary: '0',
-        default: ''
+        params: []
       },
       editParams: {
       },
@@ -381,14 +343,19 @@ export default {
   margin-left: 15px;
 }
 .interface-info {
-  width: 65%;
+  width: 75%;
   margin-left: 100px;
   margin-bottom: 15px;
   padding-top: 15px;
   padding-bottom: 15px;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
   background-color: #eee;
+}
+.addPrimarys {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
 }
 
 .tabPositionRadio {
