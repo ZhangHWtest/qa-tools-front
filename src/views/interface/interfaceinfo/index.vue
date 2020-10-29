@@ -17,33 +17,18 @@
                                   :interfaceInfo="interfaceInfo"></preview-interface-info>
           <edit-interface-info :activeName="activeName"
                                :interfaceInfo="interfaceInfo"></edit-interface-info>
-          <!-- <basic-information :key="activeName +'basic'"
-                             :interfaceInfo="interfaceInfo"
-                             :activeName="activeName" />
-          <param-information :key="activeName +'param'"
-                             :interfaceInfo="interfaceInfo"
-                             :activeName="activeName" /> -->
-          <return-information :key="activeName +'return'"
-                              :interfaceInfo="interfaceInfo"
-                              :activeName="activeName" />
         </el-tab-pane>
       </el-tabs>
     </el-card>
   </div>
 </template>
 <script>
-// import BasicInformation from './components/BasicInformation'
-// import ParamInformation from './components/ParamInformation'
-// import ReturnInformation from './components/ReturnInformation'
 import PreviewInterfaceInfo from './components/PreviewInterFaceInfo'
 import EditInterfaceInfo from './components/EditInterfaceInfo'
 export default {
   components: {
     PreviewInterfaceInfo,
     EditInterfaceInfo
-    // BasicInformation,
-    // ParamInformation
-    // ReturnInformation
   },
   data () {
     return {

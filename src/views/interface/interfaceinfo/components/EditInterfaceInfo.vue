@@ -81,7 +81,7 @@
             <el-input style="width: 20%;"
                       v-model="item.param_name"
                       size="mini"
-                      placeholder="name"></el-input>
+                      placeholder="参数名称"></el-input>
             <el-select style="width: 20%;"
                        v-model="item.is_necessary"
                        size="mini"
@@ -132,22 +132,17 @@
       </div>
     </div>
     <!-- 返回数据区域 -->
-    <!-- <h2 class="interface-title-style">返回数据:</h2>
-    <div class="interface-info">
-      <aside>注：数据必须符合Json格式，预览下修改数据无效。</aside>
-      <div class="editor-container">
-        <json-editor ref="jsonEditor"
-                     :read-only="editBasicInforma"
-                     v-model="editResponse.response" />
-        <span slot="footer"
-              class="goProject-dialog-footer-info-param">
-          <el-button class="goProject-dialog-footer-info-button"
-                     type="success"
-                     size="small"
-                     @click="editInterfaceResponse()"> 提 交</el-button>
-        </span>
-      </div>
-    </div> -->
+    <h2 class="interface-title-style">返回数据:</h2>
+    <div class="editor-container">
+      <json-editor v-model="editResponse.response" />
+      <span slot="footer"
+            class="goProject-dialog-footer-info-param">
+        <el-button class="goProject-dialog-footer-info-button"
+                   type="success"
+                   size="small"
+                   @click="editInterfaceResponse()"> 提 交</el-button>
+      </span>
+    </div>
   </div>
 </template>
 <script>
@@ -218,7 +213,6 @@ export default {
         interface_id: '',
         header: ''
       },
-      editBasicInforma: true,
       editResponse: {
         interface_id: '',
         response: {}
@@ -230,13 +224,13 @@ export default {
   watch: {
     interfaceInfo (value, oldValue) {
       if (value.interface_id) {
+        this.editResponse.response = JSON.parse(this.interfaceInfo.response)
         this.editInterfaceInfo.interface_id = this.interfaceInfo.interface_id
         this.editInterfaceInfo.interface_name = this.interfaceInfo.interface_name
         this.editInterfaceInfo.interface_type = this.interfaceInfo.interface_type
         this.editInterfaceInfo.method = this.interfaceInfo.method
         this.editInterfaceInfo.path = this.interfaceInfo.path
         this.editInterfaceInfo.interface_desc = this.interfaceInfo.interface_desc
-        this.editResponse.response = JSON.parse(this.interfaceInfo.response)
         this.interfaceInfo.params.forEach((item, index) => this.params.push(item))
       }
     }
@@ -339,7 +333,6 @@ export default {
       } else {
         this.$message.error('修改返回信息失败！')
       }
-      this.editResponseButton = true
     }
   }
 }
@@ -360,6 +353,9 @@ export default {
   padding-left: 10px;
   padding-right: 10px;
   background-color: #eee;
+  .interface-info-button {
+    text-align: center;
+  }
 }
 .addPrimarys {
   margin-top: 5px;
@@ -387,6 +383,9 @@ export default {
   left: 45%;
 }
 .editor-container {
+  width: 78%;
+  margin-left: 100px;
+  background-color: #eee;
   position: relative;
   height: 100%;
 }
