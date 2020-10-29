@@ -78,7 +78,8 @@
               <el-radio v-model="addCaseBody.has_rely"
                         :label="1">存在</el-radio>
             </el-form-item>
-            <el-form-item label="依赖case：">
+            <el-form-item label="依赖case："
+                          v-show="addCaseBody.has_rely==0?false:true">
               <el-input v-model="addCaseBody.rely_info"
                         type="textarea"
                         :rows="2"
@@ -90,14 +91,50 @@
               <el-radio v-model="addCaseBody.use_db"
                         :label="1">使用</el-radio>
             </el-form-item>
-            <el-form-item label="sql：">
+            <el-form-item label="sql："
+                          v-show="addCaseBody.use_db==0?false:true">
               <el-input v-model="addCaseBody.sql"
                         type="textarea"
                         :rows="2"
                         placeholder="请输入内容"></el-input>
             </el-form-item>
-            <el-form-item label="sql比对值：">
+            <el-form-item label="sql比对值："
+                          v-show="addCaseBody.use_db==0?false:true">
               <el-input v-model="addCaseBody.field_value"
+                        type="textarea"
+                        :rows="2"
+                        placeholder="请输入内容"></el-input>
+            </el-form-item>
+            <el-form-item label="是否有输出参数:">
+              <el-radio v-model="addCaseBody.has_output"
+                        :label="0">无</el-radio>
+              <el-radio v-model="addCaseBody.has_output"
+                        :label="1">有</el-radio>
+            </el-form-item>
+            <el-form-item label="参数名称"
+                          v-show="addCaseBody.has_output==0?false:true">
+              <el-input v-model="addCaseBody.output_para"
+                        type="textarea"
+                        :rows="2"
+                        placeholder="请输入内容"></el-input>
+            </el-form-item>
+            <el-form-item label="是否有输入参数:">
+              <el-radio v-model="addCaseBody.has_input"
+                        :label="0">无</el-radio>
+              <el-radio v-model="addCaseBody.has_input"
+                        :label="1">有</el-radio>
+            </el-form-item>
+            <el-form-item label="入参参数名称："
+                          v-show="addCaseBody.has_input==0?false:true">
+              <el-input v-model="addCaseBody.input_para"
+                        type="textarea"
+                        :rows="2"
+                        placeholder="请输入内容"></el-input>
+            </el-form-item>
+            <!-- 依赖头-->
+            <el-form-item label="入参header名:"
+                          v-show="addCaseBody.has_input==0?false:true">
+              <el-input v-model="addCaseBody.input_header"
                         type="textarea"
                         :rows="2"
                         placeholder="请输入内容"></el-input>
@@ -154,7 +191,13 @@ export default {
         save_result: 1, // 保存结果 默认0
         use_db: 0, // 是否使用sql校验 默认0
         sql: '',
-        field_value: '' // sql校验的至
+        field_value: '', // sql校验的至
+        //
+        has_output: 0, // 是否有输出参数 默认0：无
+        output_para: '', // 输出参数名称
+        has_input: 0, // 是否有输入参数
+        input_para: '', // 输入参数名称
+        input_header: '' // 输入头
       },
       getEnvBody: {
       },

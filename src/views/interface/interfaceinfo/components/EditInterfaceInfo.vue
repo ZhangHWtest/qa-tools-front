@@ -220,20 +220,17 @@ export default {
       }
     }
   },
-  created () {
-
-  },
+  created () { },
   watch: {
     interfaceInfo (value, oldValue) {
       if (value.interface_id) {
-        this.editResponse.response = JSON.parse(this.interfaceInfo.response)
-        console.log(JSON.parse(this.interfaceInfo.response))
         this.editInterfaceInfo.interface_id = this.interfaceInfo.interface_id
         this.editInterfaceInfo.interface_name = this.interfaceInfo.interface_name
         this.editInterfaceInfo.interface_type = this.interfaceInfo.interface_type
         this.editInterfaceInfo.method = this.interfaceInfo.method
         this.editInterfaceInfo.path = this.interfaceInfo.path
         this.editInterfaceInfo.interface_desc = this.interfaceInfo.interface_desc
+        this.editResponse.response = JSON.parse(this.interfaceInfo.response)
         this.interfaceInfo.params.forEach((item, index) => this.params.push(item))
       }
     }

@@ -37,6 +37,9 @@ export default {
     this.initJsonEditor()
     this.jsonEditor.setOption('readOnly', this.readOnly)
   },
+  created () {
+    console.log(this.value)
+  },
   methods: {
     // 初始化jsonEditor
     initJsonEditor () {
