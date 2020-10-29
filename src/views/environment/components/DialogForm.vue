@@ -21,7 +21,8 @@
         <el-form-item label="描述：">
           <el-input v-model="createEnvBody.desc"></el-input>
         </el-form-item>
-        <el-form-item label="启用db：">
+        <el-form-item label="启用db："
+                      prop="use_db">
           <template>
             <el-radio v-model="createEnvBody.use_db"
                       :label="0">禁用</el-radio>
@@ -29,19 +30,24 @@
                       :label="1">启用</el-radio>
           </template>
         </el-form-item>
-        <el-form-item label="host：">
+        <el-form-item label="host："
+                      v-show="createEnvBody.use_db==1?true:false">
           <el-input v-model="createEnvBody.db_host"></el-input>
         </el-form-item>
-        <el-form-item label="端口：">
+        <el-form-item label="端口："
+                      v-show="createEnvBody.use_db==1?true:false">
           <el-input v-model="createEnvBody.db_port"></el-input>
         </el-form-item>
-        <el-form-item label="用户名：">
+        <el-form-item label="用户名："
+                      v-show="createEnvBody.use_db==1?true:false">
           <el-input v-model="createEnvBody.db_user"></el-input>
         </el-form-item>
-        <el-form-item label="密码：">
+        <el-form-item label="密码："
+                      v-show="createEnvBody.use_db==1?true:false">
           <el-input v-model="createEnvBody.db_pass"></el-input>
         </el-form-item>
-        <el-form-item label="数据库名称：">
+        <el-form-item label="数据库名称："
+                      v-show="createEnvBody.use_db==1?true:false">
           <el-input v-model="createEnvBody.database"></el-input>
         </el-form-item>
       </el-form>
@@ -86,7 +92,8 @@ export default {
       },
       addRulesForm: {
         env_name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-        url: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+        url: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        use_db: [{ required: true }]
 
       }
     }
