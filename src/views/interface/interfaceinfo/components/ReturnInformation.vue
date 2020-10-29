@@ -4,7 +4,7 @@
     <div class="interface-info">
       <div class="editor-container">
         <json-editor ref="jsonEditor"
-                     :key="editResponse.response"
+                     :key="editResponseresponse"
                      v-model="editResponse.response" />
         <span slot="footer"
               v-show="activeName=='编辑'?true:false"
