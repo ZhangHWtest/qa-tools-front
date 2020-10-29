@@ -134,7 +134,8 @@
     <!-- 返回数据区域 -->
     <h2 class="interface-title-style">返回数据:</h2>
     <div class="editor-container">
-      <json-editor v-model="editResponse.response" />
+      <json-editor :key="activeName"
+                   v-model="editResponse.response" />
       <span slot="footer"
             class="goProject-dialog-footer-info-param">
         <el-button class="goProject-dialog-footer-info-button"
@@ -220,11 +221,13 @@ export default {
     }
   },
   created () {
+
   },
   watch: {
     interfaceInfo (value, oldValue) {
       if (value.interface_id) {
         this.editResponse.response = JSON.parse(this.interfaceInfo.response)
+        console.log(JSON.parse(this.interfaceInfo.response))
         this.editInterfaceInfo.interface_id = this.interfaceInfo.interface_id
         this.editInterfaceInfo.interface_name = this.interfaceInfo.interface_name
         this.editInterfaceInfo.interface_type = this.interfaceInfo.interface_type

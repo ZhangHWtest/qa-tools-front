@@ -84,6 +84,7 @@
     <div class="interface-info-response">
       <aside>注：数据必须符合Json格式，预览下修改数据无效。</aside>
       <json-editor ref="jsonEditor"
+                   :key="activeName"
                    :read-only="editBasicInforma"
                    v-model="response" />
     </div>

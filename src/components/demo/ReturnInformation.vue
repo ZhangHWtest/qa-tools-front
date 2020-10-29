@@ -38,7 +38,7 @@ export default {
       editResponseButton: false,
       editResponse: {
         interface_id: '',
-        response: '{"code":1}'
+        response: {}
       }
     }
   },
@@ -50,12 +50,10 @@ export default {
     // this.editResponse.response = JSON.parse(this.interfaceInfo.response)
   },
   watch: {
-    interfaceInfo: {
-      handler: function (val) {
-        this.editResponse.response = JSON.parse(val.response)
-      },
-      deep: true,
-      immediate: true
+    interfaceInfo (value, oldValue) {
+      if (value.interface_id) {
+        this.editResponse.response = JSON.parse(this.interfaceInfo.response)
+      }
     }
   },
   methods: {
