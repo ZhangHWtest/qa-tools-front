@@ -2,12 +2,13 @@
   <div>
     <h2 class="interface-title-style">返回数据:</h2>
     <div class="interface-info">
-      <div class="editor-container">
+      <pre v-show="activeName=='预览'?true:false">{{JSON.stringify(response,null, 4)}}</pre>
+      <div class="editor-container"
+           v-show="activeName=='编辑'?true:false">
         <json-editor ref="jsonEditor"
-                     :key="editResponse.response"
+                     :key="keys"
                      v-model="editResponse.response" />
         <span slot="footer"
-              v-show="activeName=='编辑'?true:false"
               class="goProject-dialog-footer-info-param">
           <el-button class="goProject-dialog-footer-info-button"
                      type="success"
@@ -30,21 +31,24 @@ export default {
   },
   data () {
     return {
-      keys: '预览',
+      keys: '',
       editResponse: {
         interface_id: '',
         response: {}
-      }
+      },
+      response: {}
     }
   },
   created () {
-
+    console.log('11111')
   },
   watch: {
     interfaceInfo (value) {
-      console.log(value)
       if (value.interface_id) {
+        this.keys = value.interface_id
+        this.response = JSON.parse(this.interfaceInfo.response)
         this.editResponse.response = JSON.parse(this.interfaceInfo.response)
+        console.log('-----', value.response)
       }
     },
     activeName (value, oldValue) {

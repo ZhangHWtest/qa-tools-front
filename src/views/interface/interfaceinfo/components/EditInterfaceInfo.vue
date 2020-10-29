@@ -131,30 +131,15 @@
         </span>
       </div>
     </div>
-    <!-- 返回数据区域 -->
-    <!-- <h2 class="interface-title-style">返回数据:</h2>
-    <div class="editor-container">
-      <json-editor :key="activeName"
-                   v-model="editResponse.response" />
-      <span slot="footer"
-            class="goProject-dialog-footer-info-param">
-        <el-button class="goProject-dialog-footer-info-button"
-                   type="success"
-                   size="small"
-                   @click="editInterfaceResponse()"> 提 交</el-button>
-      </span>
-    </div> -->
   </div>
 </template>
 <script>
-import JsonEditor from '@/components/JsonEditor'
 export default {
   props: [
     'interfaceInfo',
     'activeName'
   ],
   components: {
-    JsonEditor
   },
   data () {
     return {
@@ -212,7 +197,7 @@ export default {
       },
       editHeader: {
         interface_id: '',
-        header: ''
+        header: {}
       },
       editResponse: {
         interface_id: '',
