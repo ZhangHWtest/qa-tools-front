@@ -66,13 +66,14 @@
           <el-form ref="addFormRef"
                    :model="addCaseBody"
                    :rules="addRulesForm"
-                   label-width="120px">
+                   label-width="130px">
             <el-form-item label="匹配字段："
                           prop="res_assert">
               <el-input v-model="addCaseBody.res_assert"
                         placeholder="请输入名称"></el-input>
             </el-form-item>
-            <el-form-item label="是否存在依赖：">
+            <el-form-item label="是否存在依赖："
+                          prop="has_rely">
               <el-radio v-model="addCaseBody.has_rely"
                         :label="0">无</el-radio>
               <el-radio v-model="addCaseBody.has_rely"
@@ -85,9 +86,10 @@
                         :rows="2"
                         placeholder='示例：[{"rely_case_id":1,"rely_param":"sso_token"}]'></el-input>
             </el-form-item>
-            <el-form-item label="是否使用sql：">
+            <el-form-item label="是否使用sql："
+                          prop="use_db">
               <el-radio v-model="addCaseBody.use_db"
-                        :label="0">不用</el-radio>
+                        :label="0">不使用</el-radio>
               <el-radio v-model="addCaseBody.use_db"
                         :label="1">使用</el-radio>
             </el-form-item>
@@ -105,7 +107,8 @@
                         :rows="2"
                         placeholder="请输入内容"></el-input>
             </el-form-item>
-            <el-form-item label="是否有输出参数:">
+            <el-form-item label="是否有输出参数:"
+                          prop="has_output">
               <el-radio v-model="addCaseBody.has_output"
                         :label="0">无</el-radio>
               <el-radio v-model="addCaseBody.has_output"
@@ -118,13 +121,14 @@
                         :rows="2"
                         placeholder="请输入内容"></el-input>
             </el-form-item>
-            <el-form-item label="是否有输入参数:">
+            <el-form-item label="是否有入参参数:"
+                          prop="has_input">
               <el-radio v-model="addCaseBody.has_input"
                         :label="0">无</el-radio>
               <el-radio v-model="addCaseBody.has_input"
                         :label="1">有</el-radio>
             </el-form-item>
-            <el-form-item label="入参参数名称："
+            <el-form-item label="入参param名称："
                           v-show="addCaseBody.has_input==0?false:true">
               <el-input v-model="addCaseBody.input_para"
                         type="textarea"
@@ -132,7 +136,7 @@
                         placeholder="请输入内容"></el-input>
             </el-form-item>
             <!-- 依赖头-->
-            <el-form-item label="入参header名:"
+            <el-form-item label="入参header名称:"
                           v-show="addCaseBody.has_input==0?false:true">
               <el-input v-model="addCaseBody.input_header"
                         type="textarea"
@@ -211,6 +215,18 @@ export default {
         ],
         res_assert: [
           { required: true, message: '请输入信息', trigger: 'blur' }
+        ],
+        has_rely: [
+          { required: true }
+        ],
+        use_db: [
+          { required: true }
+        ],
+        has_output: [
+          { required: true }
+        ],
+        has_input: [
+          { required: true }
         ]
       },
       myParam: {},
@@ -342,6 +358,12 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.el-radio {
+  margin-right: 20px;
+  .el-radio__label {
+    padding-left: 5px;
+  }
+}
 .main-projectlist {
   padding: 15px;
   background-color: rgb(240, 242, 245);

@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import CodeMirror from 'codemirror'
-import 'codemirror/addon/lint/lint.css'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/rubyblue.css'
+import CodeMirror from 'codemirror' // 引入全局实例
+import 'codemirror/lib/codemirror.css' // 核心样式
+import 'codemirror/theme/rubyblue.css' // 引入主题后还需要在 options 中指定主题才会生效
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/addon/lint/lint'
 import 'codemirror/addon/lint/json-lint'
+import 'codemirror/addon/lint/lint.css'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 require('script-loader!jsonlint')
 
@@ -22,7 +22,7 @@ export default {
 
   data () {
     return {
-      jsonEditor: null
+      jsonEditor: false
     }
   },
   watch: {
@@ -38,7 +38,6 @@ export default {
     this.jsonEditor.setOption('readOnly', this.readOnly)
   },
   created () {
-    console.log(this.value)
   },
   methods: {
     // 初始化jsonEditor

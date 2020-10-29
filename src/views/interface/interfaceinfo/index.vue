@@ -17,6 +17,8 @@
                                   :interfaceInfo="interfaceInfo"></preview-interface-info>
           <edit-interface-info :activeName="activeName"
                                :interfaceInfo="interfaceInfo"></edit-interface-info>
+          <return-interface-info :activeName="activeName"
+                                 :interfaceInfo="interfaceInfo" />
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -25,10 +27,12 @@
 <script>
 import PreviewInterfaceInfo from './components/PreviewInterFaceInfo'
 import EditInterfaceInfo from './components/EditInterfaceInfo'
+import ReturnInterfaceInfo from './components/ReturnInformation'
 export default {
   components: {
     PreviewInterfaceInfo,
-    EditInterfaceInfo
+    EditInterfaceInfo,
+    ReturnInterfaceInfo
   },
   data () {
     return {

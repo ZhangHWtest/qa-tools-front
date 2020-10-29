@@ -92,18 +92,18 @@
                          :value="itemin.value">
               </el-option>
             </el-select>
-            <el-input style="width: 25%;"
-                      v-model="item.param_desc"
-                      size="mini"
-                      type="textarea"
-                      autosize
-                      placeholder="参数示例"></el-input>
             <el-input style="width: 30%;"
                       v-model="item.default"
                       size="mini"
                       type="textarea"
                       autosize
-                      placeholder="备注"></el-input>
+                      placeholder="默认值"></el-input>
+            <el-input style="width: 25%;"
+                      v-model="item.param_desc"
+                      size="mini"
+                      type="textarea"
+                      autosize
+                      placeholder="描述"></el-input>
             <el-button size="small"
                        icon="el-icon-delete"
                        circle
@@ -132,7 +132,7 @@
       </div>
     </div>
     <!-- 返回数据区域 -->
-    <h2 class="interface-title-style">返回数据:</h2>
+    <!-- <h2 class="interface-title-style">返回数据:</h2>
     <div class="editor-container">
       <json-editor :key="activeName"
                    v-model="editResponse.response" />
@@ -143,7 +143,7 @@
                    size="small"
                    @click="editInterfaceResponse()"> 提 交</el-button>
       </span>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -200,10 +200,10 @@ export default {
       params: [],
       isNecessaryOptions: [{
         value: 0,
-        label: '必需'
+        label: '非必填'
       }, {
         value: 1,
-        label: '非必需'
+        label: '必填'
       }],
       header: '',
       createParams: {
@@ -230,8 +230,8 @@ export default {
         this.editInterfaceInfo.method = this.interfaceInfo.method
         this.editInterfaceInfo.path = this.interfaceInfo.path
         this.editInterfaceInfo.interface_desc = this.interfaceInfo.interface_desc
-        this.editResponse.response = JSON.parse(this.interfaceInfo.response)
         this.interfaceInfo.params.forEach((item, index) => this.params.push(item))
+        this.editResponse.response = JSON.parse(this.interfaceInfo.response)
       }
     }
   },

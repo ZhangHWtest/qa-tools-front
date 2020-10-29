@@ -1,18 +1,16 @@
 <template>
-  <div class="show-return-interface">
+  <div>
     <h2 class="interface-title-style">返回数据:</h2>
     <div class="interface-info">
-      <aside>注：数据必须符合Json格式，预览下修改数据无效。</aside>
       <div class="editor-container">
         <json-editor ref="jsonEditor"
-                     :read-only="editBasicInforma"
+                     :key="editResponse.response"
                      v-model="editResponse.response" />
         <span slot="footer"
-              v-show="editBasicInformation"
+              v-show="activeName=='编辑'?true:false"
               class="goProject-dialog-footer-info-param">
           <el-button class="goProject-dialog-footer-info-button"
                      type="success"
-                     :disabled="editResponseButton"
                      size="small"
                      @click="editInterfaceResponse()"> 提 交</el-button>
         </span>
@@ -32,10 +30,7 @@ export default {
   },
   data () {
     return {
-      editBasicInforma: true,
-      // 是否可以编辑
-      editBasicInformation: false,
-      editResponseButton: false,
+      keys: '预览',
       editResponse: {
         interface_id: '',
         response: {}
@@ -43,16 +38,18 @@ export default {
     }
   },
   created () {
-    if (this.activeName === '编辑') {
-      this.editBasicInformation = true
-      this.editBasicInforma = false
-    }
-    // this.editResponse.response = JSON.parse(this.interfaceInfo.response)
+
   },
   watch: {
-    interfaceInfo (value, oldValue) {
+    interfaceInfo (value) {
+      console.log(value)
       if (value.interface_id) {
         this.editResponse.response = JSON.parse(this.interfaceInfo.response)
+      }
+    },
+    activeName (value, oldValue) {
+      if (value === '编辑') {
+        this.keys = value
       }
     }
   },
@@ -88,13 +85,11 @@ export default {
   margin-left: 15px;
 }
 .interface-info {
-  width: 65%;
-  margin-left: 100px;
+  width: 75%;
+  margin-left: 75px;
   margin-bottom: 15px;
   padding-top: 15px;
   padding-bottom: 15px;
-  padding-left: 50px;
-  padding-right: 50px;
   background-color: #eee;
 }
 .interfaceinfo-response-json {

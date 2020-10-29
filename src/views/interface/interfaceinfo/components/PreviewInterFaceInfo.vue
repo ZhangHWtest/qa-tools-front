@@ -71,26 +71,29 @@
         </el-table-column>
         <el-table-column prop="is_necessary"
                          label="是否必填">
+          <template slot-scope="scope">
+            <span v-if="scope.row.is_necessary === 0">非必需</span>
+            <span v-else>必需</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="default"
+                         label="默认值">
         </el-table-column>
         <el-table-column prop="param_desc"
                          label="描述">
         </el-table-column>
-        <el-table-column prop="default"
-                         label="备注">
-        </el-table-column>
       </el-table>
     </div>
-    <h2 class="interface-title-style">返回数据:</h2>
+    <!-- <h2 class="interface-title-style">返回数据:</h2>
     <div class="interface-info-response">
       <aside>注：数据必须符合Json格式，预览下修改数据无效。</aside>
       <json-editor ref="jsonEditor"
                    :key="activeName"
                    :read-only="editBasicInforma"
                    v-model="response" />
-    </div>
+    </div> -->
   </div>
 </template>
-
 <script>
 import JsonEditor from '@/components/JsonEditor'
 export default {
