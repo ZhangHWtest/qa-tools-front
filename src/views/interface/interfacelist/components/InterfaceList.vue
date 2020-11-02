@@ -17,6 +17,15 @@
                  type="primary"
                  :disabled="buttonDisabled"
                  @click="addInterfaceDialog=true">新增 接口</el-button>
+
+      <el-upload class="add-model-button"
+                 action="https://jsonplaceholder.typicode.com/posts/"
+                 :show-file-list="true">
+        <el-button class="add-model-button"
+                   type="primary"
+                   :disabled="buttonDisabled">点击上传</el-button>
+      </el-upload>
+
     </div>
     <el-table class="interface-table"
               :data="interfaceList"
@@ -47,7 +56,8 @@
                 v-else>
             <el-tag type="warning">{{scope.row.method}}</el-tag>
           </span>
-        </template></el-table-column>
+        </template>
+      </el-table-column>
       <el-table-column label="路径"
                        prop="path"></el-table-column>
       <el-table-column label="创建人"
@@ -152,6 +162,9 @@
 export default {
   data () {
     return {
+      fileList: [{
+        name: 'app.json', url: ''
+      }],
       newProjectValue: '',
       options: [],
       getProjectListBody: {},
@@ -361,6 +374,7 @@ export default {
   }
   .add-model-button {
     float: right;
+    margin-left: 10px;
   }
 }
 

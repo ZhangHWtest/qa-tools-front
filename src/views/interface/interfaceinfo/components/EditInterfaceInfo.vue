@@ -122,7 +122,7 @@
         <el-input class="header_input"
                   type="textarea"
                   placeholder="示例：{'Content-Type':'application/x-www-form-urlencoded'}"
-                  v-model="interfaceInfo.header"></el-input>
+                  v-model="header"></el-input>
         <span slot="footer"
               class="goProject-dialog-footer-info-param">
           <el-button type="success"
@@ -217,6 +217,8 @@ export default {
         this.editInterfaceInfo.interface_desc = this.interfaceInfo.interface_desc
         this.interfaceInfo.params.forEach((item, index) => this.params.push(item))
         this.editResponse.response = JSON.parse(this.interfaceInfo.response)
+        this.header = JSON.stringify(this.interfaceInfo.header)
+        // console.log(this.interfaceInfo.header)
       }
     }
   },
@@ -261,7 +263,6 @@ export default {
     },
     // 删除一行
     delParams (parameName) {
-      // console.log(parameName)
       this.params.forEach((item, index) => {
         if (item.param_name === parameName) {
           this.params.splice(index, 1)
@@ -285,7 +286,6 @@ export default {
       }
     },
     showEditInterfaceParamDialog (paramInfo) {
-      console.log(paramInfo)
       this.editDialogVisible = true
       this.editParams = paramInfo
       this.editParams.is_necessary = paramInfo.is_necessary + ''
@@ -294,7 +294,7 @@ export default {
     // 修改 请求头
     async editInterfaceHeader () {
       this.editHeader.interface_id = this.interfaceInfo.interface_id
-      this.editHeader.header = this.interfaceInfo.header
+      this.editHeader.header = this.header
       const { data: createModelRes } = await this.$api.myinterface.createInterfaceHeaderMethod(
         this.editHeader
       )

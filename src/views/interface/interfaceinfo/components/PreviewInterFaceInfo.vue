@@ -59,7 +59,7 @@
       <el-input type="textarea"
                 :rows="2"
                 placeholder="请输入内容"
-                v-model="interfaceInfo.header">
+                v-model="headers">
       </el-input>
       <h3>Body:</h3>
       <el-table :data="interfaceInfo.params"
@@ -98,6 +98,7 @@ export default {
     return {
       editBasicInforma: true,
       response: {},
+      headers: {},
       interface_type_options: [{
         value: 'http',
         label: 'http'
@@ -120,8 +121,8 @@ export default {
   watch: {
     interfaceInfo (value, oldValue) {
       if (value.interface_id) {
-        // console.log('-----', value)
         this.response = JSON.parse(this.interfaceInfo.response)
+        this.headers = JSON.stringify(this.interfaceInfo.header)
       }
     }
   },

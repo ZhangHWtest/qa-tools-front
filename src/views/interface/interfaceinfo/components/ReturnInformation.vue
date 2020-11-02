@@ -40,7 +40,6 @@ export default {
     }
   },
   created () {
-    console.log('11111')
   },
   watch: {
     interfaceInfo (value) {
@@ -48,7 +47,6 @@ export default {
         this.keys = value.interface_id
         this.response = JSON.parse(this.interfaceInfo.response)
         this.editResponse.response = JSON.parse(this.interfaceInfo.response)
-        console.log('-----', value.response)
       }
     },
     activeName (value, oldValue) {

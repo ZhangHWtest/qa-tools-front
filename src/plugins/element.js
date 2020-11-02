@@ -48,8 +48,10 @@ import {
   Image,
   PageHeader,
   Tag,
-  Footer
+  Footer,
+  Upload
 } from 'element-ui'
+Vue.use(Upload)
 Vue.use(Footer)
 Vue.use(Tag)
 Vue.use(PageHeader)

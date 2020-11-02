@@ -265,11 +265,11 @@ export default {
         return this.$message.error('获取接口列表失败！')
       }
       this.interfaceInfo = res.data
-      this.myHeader = JSON.stringify(JSON.parse(this.interfaceInfo.header))
       this.interfaceInfo.params.forEach(item => {
         this.$set(this.myParam, item.param_name, item.default)
       })
-      console.log(this.interfaceInfo)
+      // this.myHeader = JSON.stringify(this.interfaceInfo.header)
+      this.myHeader = this.interfaceInfo.header
     },
     selectCaseMethod () {
       if (this.$route.query.interId) {
