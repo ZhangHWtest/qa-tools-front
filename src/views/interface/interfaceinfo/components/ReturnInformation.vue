@@ -6,11 +6,7 @@
       <div class="editor-container"
            v-show="activeName=='编辑'?true:false">
         <json-editor ref="jsonEditor"
-<<<<<<< HEAD
-                     :key="editResponseresponse"
-=======
                      :key="keys"
->>>>>>> newInterFaceInfo
                      v-model="editResponse.response" />
         <span slot="footer"
               class="goProject-dialog-footer-info-param">
