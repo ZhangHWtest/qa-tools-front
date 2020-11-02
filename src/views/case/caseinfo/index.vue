@@ -287,9 +287,9 @@ export default {
       this.addCaseBody.case_type = this.interfaceInfo.interface_type
       this.addCaseBody.method = this.interfaceInfo.method
       this.addCaseBody.path = this.interfaceInfo.path
-      this.addCaseBody.params = JSON.stringify(this.myParam)
+      this.addCaseBody.params = JSON.stringify(JSON.parse(this.myParam))
       if (this.myHeader !== '{}') {
-        this.addCaseBody.header = JSON.stringify(this.myHeader)
+        this.addCaseBody.header = JSON.stringify(JSON.parse(this.myHeader))
       }
       this.addCaseBody.header = '{}'
       this.addCaseBody.env_id = this.myEnvId
