@@ -19,7 +19,7 @@
                  @click="addInterfaceDialog=true">新增 接口</el-button>
 
       <el-upload class="add-model-button"
-                 action="http://192.168.100.38:5000/upload/"
+                 action="/upload/"
                  :show-file-list="false">
         <el-button class="add-model-button"
                    type="primary"
