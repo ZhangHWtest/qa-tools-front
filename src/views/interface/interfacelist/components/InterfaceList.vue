@@ -19,8 +19,8 @@
                  @click="addInterfaceDialog=true">新增 接口</el-button>
 
       <el-upload class="add-model-button"
-                 action="https://jsonplaceholder.typicode.com/posts/"
-                 :show-file-list="true">
+                 action="http://192.168.100.38:5000/upload/"
+                 :show-file-list="false">
         <el-button class="add-model-button"
                    type="primary"
                    :disabled="buttonDisabled">点击上传</el-button>
