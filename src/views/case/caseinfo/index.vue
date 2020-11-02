@@ -47,14 +47,12 @@
         <div class="interface-info">
           <el-row :gutter="20">
             <el-col :span="12">
-              <div class="grid-content bg-purple">params</div>
-              <json-editor ref="jsonEditor"
-                           v-model="myParam" />
+              <div class="grid-content bg-purple">Params:</div>
+              <json-editor v-model="myParam" />
             </el-col>
             <el-col :span="12">
-              <div class="grid-content bg-purple">header</div>
-              <json-editor ref="jsonEditor"
-                           v-model="myHeader" />
+              <div class="grid-content bg-purple">Header:</div>
+              <json-editor v-model="myHeader" />
             </el-col>
           </el-row>
         </div>
@@ -187,8 +185,8 @@ export default {
         env_id: '',
         case_name: '',
         case_desc: '',
-        params: '',
-        header: '',
+        params: {},
+        header: {},
         res_assert: '', // 校验  必填
         has_rely: 0, // 是否有依赖 默认0
         rely_info: '', // 依赖用例详情
@@ -267,11 +265,11 @@ export default {
         return this.$message.error('获取接口列表失败！')
       }
       this.interfaceInfo = res.data
-      this.myHeader = JSON.parse(this.interfaceInfo.header)
       this.interfaceInfo.params.forEach(item => {
         this.$set(this.myParam, item.param_name, item.default)
       })
-      console.log(this.interfaceInfo)
+      // this.myHeader = JSON.stringify(this.interfaceInfo.header)
+      this.myHeader = this.interfaceInfo.header
     },
     selectCaseMethod () {
       if (this.$route.query.interId) {
@@ -289,8 +287,8 @@ export default {
       this.addCaseBody.case_type = this.interfaceInfo.interface_type
       this.addCaseBody.method = this.interfaceInfo.method
       this.addCaseBody.path = this.interfaceInfo.path
-      this.addCaseBody.params = JSON.stringify(JSON.parse(this.myParam))
-      this.addCaseBody.header = JSON.stringify(JSON.parse(this.myHeader))
+      this.addCaseBody.params = JSON.stringify(this.myParam)
+      this.addCaseBody.header = JSON.stringify(this.myHeader)
       this.addCaseBody.env_id = this.myEnvId
       if (this.mySaveResult) {
         this.addCaseBody.save_result = 1

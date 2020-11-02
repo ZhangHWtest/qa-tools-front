@@ -59,7 +59,7 @@
       <el-input type="textarea"
                 :rows="2"
                 placeholder="请输入内容"
-                v-model="interfaceInfo.header">
+                v-model="headers">
       </el-input>
       <h3>Body:</h3>
       <el-table :data="interfaceInfo.params"
@@ -84,30 +84,21 @@
         </el-table-column>
       </el-table>
     </div>
-    <!-- <h2 class="interface-title-style">返回数据:</h2>
-    <div class="interface-info-response">
-      <aside>注：数据必须符合Json格式，预览下修改数据无效。</aside>
-      <json-editor ref="jsonEditor"
-                   :key="activeName"
-                   :read-only="editBasicInforma"
-                   v-model="response" />
-    </div> -->
   </div>
 </template>
 <script>
-import JsonEditor from '@/components/JsonEditor'
 export default {
   props: [
     'interfaceInfo',
     'activeName'
   ],
   components: {
-    JsonEditor
   },
   data () {
     return {
       editBasicInforma: true,
       response: {},
+      headers: {},
       interface_type_options: [{
         value: 'http',
         label: 'http'
@@ -131,6 +122,7 @@ export default {
     interfaceInfo (value, oldValue) {
       if (value.interface_id) {
         this.response = JSON.parse(this.interfaceInfo.response)
+        this.headers = JSON.stringify(this.interfaceInfo.header)
       }
     }
   },
