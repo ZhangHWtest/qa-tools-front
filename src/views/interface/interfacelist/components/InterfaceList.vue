@@ -20,12 +20,8 @@
 
       <el-upload class="add-model-button"
                  action="/upload/"
-<<<<<<< HEAD
-                 :show-file-list="false">
-=======
                  :file-list="fileList"
                  :on-preview="handlePreview">
->>>>>>> newInterFaceInfo
         <el-button class="add-model-button"
                    type="primary"
                    :disabled="buttonDisabled">点击上传</el-button>
