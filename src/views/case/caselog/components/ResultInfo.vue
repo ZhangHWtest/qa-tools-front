@@ -18,7 +18,7 @@
       </el-form-item>
       <el-form-item class="show-interface-colkey"
                     label="返回参数：">
-        <pre>{{JSON.stringify(JSON.parse(resultInfo.response,null, 4))}}</pre>
+        <pre>{{JSON.parse(resultInfo.response,null, 4)}}</pre>
         <!-- <span class="show-interface-colname">{{resultInfo.response }}</span> -->
       </el-form-item>
       <el-form-item class="show-interface-colkey"
