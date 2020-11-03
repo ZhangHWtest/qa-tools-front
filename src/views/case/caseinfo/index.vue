@@ -270,6 +270,7 @@ export default {
       })
       // this.myHeader = JSON.stringify(this.interfaceInfo.header)
       this.myHeader = this.interfaceInfo.header
+      // console.log(this.myHeader)
     },
     selectCaseMethod () {
       if (this.$route.query.interId) {
@@ -292,10 +293,12 @@ export default {
       // }
       // this.addCaseBody.params = '{}'
       this.addCaseBody.params = JSON.stringify(JSON.parse(this.myParam))
-      if (this.myHeader !== '{}') {
-        this.addCaseBody.header = JSON.stringify(JSON.parse(this.myHeader))
-      }
-      this.addCaseBody.header = '{}'
+      // if (this.myHeader !== '{}') {
+      //   this.addCaseBody.header = JSON.stringify(JSON.parse(this.myHeader))
+      // }
+      // this.addCaseBody.header = '{}'
+      console.log('add', this.myHeader)
+      this.addCaseBody.header = JSON.stringify(JSON.parse(this.myHeader))
       this.addCaseBody.env_id = this.myEnvId
       if (this.mySaveResult) {
         this.addCaseBody.save_result = 1
@@ -332,12 +335,17 @@ export default {
       this.interfaceInfo.path = this.addCaseBody.path
       this.index += 1
       this.myParam = JSON.parse(this.addCaseBody.params)
-      this.myHeader = this.addCaseBody.header
+      this.myHeader = JSON.parse(this.addCaseBody.header)
+      // JSON.parse(this.myHeader) 将jason转换成对象
+      // JSON.stringify 将对象转换为 JSON。
+      console.log('getCase0', this.addCaseBody.header)
+      console.log('getCase', this.myHeader)
       this.myEnvId = this.addCaseBody.env_info.env_id
     },
     async editCaseMethod () {
       this.addCaseBody.params = JSON.stringify(JSON.parse(this.myParam))
       this.addCaseBody.header = JSON.stringify(JSON.parse(this.myHeader))
+      console.log('editCase', this.myHeader, '-------', this.addCaseBody.header)
       this.addCaseBody.env_id = this.myEnvId
       delete this.addCaseBody.project_name
       delete this.addCaseBody.model_name
@@ -346,7 +354,7 @@ export default {
       delete this.addCaseBody.is_pass
       delete this.addCaseBody.create_user
       delete this.addCaseBody.env_info
-      console.log(this.addCaseBody)
+      // console.log(this.addCaseBody)
       const { data: res } = await this.$api.testcase.editCase(
         this.addCaseBody
       )
