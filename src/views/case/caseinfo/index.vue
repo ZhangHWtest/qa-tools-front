@@ -328,7 +328,7 @@ export default {
       this.interfaceInfo.path = this.addCaseBody.path
       this.index += 1
       this.myParam = JSON.parse(this.addCaseBody.params)
-      this.myHeader = this.addCaseBody.header
+      this.myHeader = JSON.stringify(this.addCaseBody.header)
       this.myEnvId = this.addCaseBody.env_info.env_id
     },
     async editCaseMethod () {
