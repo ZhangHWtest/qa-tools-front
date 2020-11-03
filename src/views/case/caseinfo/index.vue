@@ -187,7 +187,7 @@ export default {
         case_desc: '',
         params: {},
         header: {},
-        res_assert: '', // 校验  必填
+        res_assert: '{"code":1}', // 校验  必填
         has_rely: 0, // 是否有依赖 默认0
         rely_info: '', // 依赖用例详情
         save_result: 1, // 保存结果 默认0
