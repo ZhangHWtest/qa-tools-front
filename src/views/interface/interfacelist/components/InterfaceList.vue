@@ -19,8 +19,9 @@
                  @click="addInterfaceDialog=true">新增 接口</el-button>
 
       <el-upload class="add-model-button"
-                 action="http://192.168.100.38:5000/upload/"
-                 :show-file-list="false">
+                 action="/upload/"
+                 :file-list="fileList"
+                 :on-preview="handlePreview">
         <el-button class="add-model-button"
                    type="primary"
                    :disabled="buttonDisabled">点击上传</el-button>
@@ -163,7 +164,7 @@ export default {
   data () {
     return {
       fileList: [{
-        name: 'app.json', url: ''
+        name: '', url: ''
       }],
       newProjectValue: '',
       options: [],
@@ -209,6 +210,9 @@ export default {
     projectValue: 'getModelListMethod'
   },
   methods: {
+    handlePreview (file) {
+      console.log(file)
+    },
     handleClick (tab, event) {
     },
     // 监听 页码值改变的事件
