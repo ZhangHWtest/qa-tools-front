@@ -44,7 +44,7 @@
       </div>
       <div>
         <h2 class="interface-title-style">请求参数:</h2>
-        <div class="interface-info">
+        <div class="interface-info-params">
           <el-row :gutter="20">
             <el-col :span="12">
               <div class="grid-content bg-purple">Params:</div>
@@ -383,8 +383,8 @@ export default {
   position: relative;
 }
 .interface-info {
-  width: 65%;
-  margin-left: 100px;
+  width: 75%;
+  margin-left: 50px;
   margin-bottom: 15px;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -394,6 +394,15 @@ export default {
   .interface-info-button {
     text-align: center;
   }
+}
+.interface-info-params {
+  width: 85%;
+  margin-left: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #eee;
 }
 .interface-title-style {
   border-left: 3px solid #2395f1;
