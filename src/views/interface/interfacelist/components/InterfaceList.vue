@@ -2,11 +2,17 @@
   <div>
     <div class="interface-top-select">
       <span class="interface-top-select-name">选择项目/模块：</span>
-      <el-cascader v-model="newProjectValue"
+      <!-- <el-cascader v-model="newProjectValue"
                    class="interfacelist-top-select"
                    :options="options"
                    :props="{ checkStrictly: true }"
-                   @change="handleChange"></el-cascader>
+                   @change="handleChange"></el-cascader> -->
+      <el-cascader v-model="newProjectValue"
+                   class="interfacelist-top-select"
+                   :options="options"
+                   @change="handleChange"
+                   :props="{ checkStrictly: true }"
+                   @expand-change="expandChange"></el-cascader>
       <el-button type="primary"
                  plain
                  @click="getInterfaceListMethod()">查询</el-button>
@@ -17,16 +23,12 @@
                  type="primary"
                  :disabled="buttonDisabled"
                  @click="addInterfaceDialog=true">新增 接口</el-button>
-
       <el-upload class="add-model-button"
-                 action="/upload/"
-                 :file-list="fileList"
-                 :on-preview="handlePreview">
+                 action="/upload/">
         <el-button class="add-model-button"
                    type="primary"
                    :disabled="buttonDisabled">点击上传</el-button>
       </el-upload>
-
     </div>
     <el-table class="interface-table"
               :data="interfaceList"
@@ -206,6 +208,17 @@ export default {
     this.getProjectListMethod()
     this.getInterfaceListMethod()
   },
+  mounted () {
+    // 点击文本就让它自动点击前面的input就可以触发选择。但是因组件阻止了冒泡，暂时想不到好方法来触发。
+    // 这种比较耗性能，暂时想不到其他的，能实现效果了。
+    setInterval(function () {
+      document.querySelectorAll('.el-cascader-node__label').forEach(el => {
+        el.onclick = function () {
+          if (this.previousElementSibling) this.previousElementSibling.click()
+        }
+      })
+    }, 1000)
+  },
   watch: {
     projectValue: 'getModelListMethod'
   },
@@ -248,6 +261,12 @@ export default {
         this.addInterfaceBody.model_id = Number(value[1])
       }
     },
+    expandChange (value) {
+      this.getInterfaceListBody.project_id = Number(value[0])
+      this.addInterfaceBody.project_id = Number(value[0])
+      this.getModelListBody.project_id = Number(value[0])
+      this.getModelListMethodTwo(value)
+    },
     // 获取所有模块列表
     async getModelListMethodTwo (value) {
       const { data: responseBody } = await this.$api.project.getModelList(
@@ -283,7 +302,8 @@ export default {
     },
     // 获取接口列表方法
     async getInterfaceListMethod () {
-      if (this.getInterfaceListBody.project_id === '') {
+      console.log(this.getInterfaceListBody.project_id)
+      if (!this.getInterfaceListBody.project_id) {
         delete this.getInterfaceListBody.project_id
         this.buttonDisabled = true
       } else {
