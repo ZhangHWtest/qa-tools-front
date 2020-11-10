@@ -206,7 +206,7 @@ export default {
         params: {},
         header: {},
         // ---分割---
-        has_sign: 1, // 是否需要签名 0需要 1不需要
+        has_sign: 0, // 是否需要签名 0需要 1不需要
         ak: '',
         sk: '',
         // ---分割---
