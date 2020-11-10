@@ -253,6 +253,7 @@ export default {
       this.modelValue = ''
       this.projectValue = ''
       this.interfaceValue = ''
+      this.getInterfaceListMethod()
       this.caseListMethod()
     },
     // 监听 页码值改变的事件
