@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <search-component /> -->
     <div class="interface-top-select">
       <span class="interface-top-select-name">项目：</span>
       <el-select class="interfacelist-top-select"
@@ -113,7 +114,7 @@
                    :current-page="getInterfaceListBody.page_num"
                    @current-change="handleCurrentChange"
                    layout="prev, pager, next"
-                   :total="1000">
+                   :total="interfaceListTotal">
     </el-pagination>
 
     <el-dialog class="addInterface-dialog"
@@ -175,8 +176,11 @@
 </template>
 
 <script>
-
+// import SearchComponent from '@/components/SearchComponent/index'
 export default {
+  // components: {
+  //   SearchComponent
+  // },
   data () {
     return {
       getProjectListBody: {},
@@ -209,6 +213,7 @@ export default {
         page_num: 1
       },
       interfaceList: [],
+      interfaceListTotal: 1,
       delInterfaceBody: {
         interface_id: ''
       },
@@ -339,6 +344,7 @@ export default {
       )
       if (responseBody.code === 1) {
         this.interfaceList = responseBody.data
+        this.interfaceListTotal = responseBody.page_total_num * 10
       }
     },
     // 创建接口

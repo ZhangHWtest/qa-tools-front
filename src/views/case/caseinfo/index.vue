@@ -70,6 +70,24 @@
               <el-input v-model="addCaseBody.res_assert"
                         placeholder="请输入名称"></el-input>
             </el-form-item>
+            <el-form-item label="是否需要签名:"
+                          prop="has_sign">
+              <el-radio v-model="addCaseBody.has_sign"
+                        :label="0">不需要</el-radio>
+              <el-radio v-model="addCaseBody.has_sign"
+                        :label="1">需要</el-radio>
+            </el-form-item>
+            <el-form-item label="ak"
+                          v-show="addCaseBody.has_sign==0?false:true">
+              <el-input v-model="addCaseBody.ak"
+                        placeholder="请输入内容"></el-input>
+            </el-form-item>
+            <el-form-item label="sk"
+                          v-show="addCaseBody.has_sign==0?false:true">
+              <el-input v-model="addCaseBody.sk"
+                        placeholder="请输入内容">
+              </el-input>
+            </el-form-item>
             <el-form-item label="是否存在依赖："
                           prop="has_rely">
               <el-radio v-model="addCaseBody.has_rely"
@@ -187,6 +205,11 @@ export default {
         case_desc: '',
         params: {},
         header: {},
+        // ---分割---
+        has_sign: 0, // 是否需要签名 0需要 1不需要
+        ak: '',
+        sk: '',
+        // ---分割---
         res_assert: '{"code":1}', // 校验  必填
         has_rely: 0, // 是否有依赖 默认0
         rely_info: '', // 依赖用例详情
@@ -194,7 +217,7 @@ export default {
         use_db: 0, // 是否使用sql校验 默认0
         sql: '',
         field_value: '', // sql校验的至
-        //
+        // ---分割---
         has_output: 0, // 是否有输出参数 默认0：无
         output_para: '', // 输出参数名称
         has_input: 0, // 是否有输入参数
@@ -224,6 +247,9 @@ export default {
           { required: true }
         ],
         has_input: [
+          { required: true }
+        ],
+        has_sign: [
           { required: true }
         ]
       },
