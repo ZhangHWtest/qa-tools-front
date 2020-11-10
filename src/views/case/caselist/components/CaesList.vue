@@ -140,7 +140,7 @@
                    :current-page="getcaseListBody.page_num"
                    @current-change="handleCurrentChange"
                    layout="prev, pager, next"
-                   :total="500">
+                   :total="caseListTotal">
     </el-pagination>
   </div>
 </template>
@@ -170,6 +170,7 @@ export default {
         page_num: 1
       },
       caseList: [],
+      caseListTotal: 1,
       multipleSelection: {
         interface_id: '',
         case_list: []
@@ -305,6 +306,7 @@ export default {
       )
       if (responseBody.code === 1) {
         this.caseList = responseBody.data
+        this.caseListTotal = responseBody.page_total_num * 10
       } else {
         this.$message.error('请求用例信息失败！')
       }
