@@ -1,10 +1,33 @@
 <template>
   <div>
     <div class="interface-top-select">
+      <span class="interface-top-select-name">项目：</span>
+      <el-select class="interfacelist-top-select"
+                 v-model="projectValue"
+                 @change="changeProject(projectValue)"
+                 placeholder="请选择项目">
+        <el-option v-for="item in projectList"
+                   :key="item.project_id"
+                   :label="item.project_name"
+                   :value="item.project_id ">
+        </el-option>
+      </el-select>
+      <span class="interface-top-select-name">模块：</span>
+      <el-select class="interfacelist-top-select"
+                 v-model="modelValue"
+                 @change="changeModel(modelValue)"
+                 placeholder="请选择模块"
+                 :disabled="modelSelectDisabled">
+        <el-option v-for="item in modelList"
+                   :key="item.model_id"
+                   :label="item.model_name"
+                   :value="item.model_id">
+        </el-option>
+      </el-select>
       <span class="interface-top-select-name">选择接口：</span>
       <el-select class="interfacelist-top-select"
                  v-model="interfaceValue"
-                 clearable
+                 @change="changeInter(interfaceValue)"
                  placeholder="请选择接口">
         <el-option v-for="item in interfaceList"
                    :key="item.interface_id"
@@ -15,6 +38,8 @@
       <el-button type="primary"
                  plain
                  @click="caseListMethod()">查询</el-button>
+      <el-button plain
+                 @click="clearProjectAndModel()">重置</el-button>
     </div>
     <div class="interface-top-addbutton">
       <span class="interface-top-addannotation">注：添加、批量运行case必须先选择接口！</span>
@@ -56,7 +81,8 @@
                 v-else>
             <el-tag type="warning">{{scope.row.method}}</el-tag>
           </span>
-        </template></el-table-column>
+        </template>
+      </el-table-column>
       <el-table-column label="接口路径"
                        prop="path"></el-table-column>
       <el-table-column label="创建人"
@@ -122,11 +148,24 @@
 export default {
   data () {
     return {
-      buttonDisabled: true,
+      getProjectListBody: {},
+      getModelListBody: {
+        project_id: ''
+      },
+      projectList: [],
+      modelList: [],
+      projectValue: '',
+      modelValue: '',
+      modelSelectDisabled: true,
+      // -----分割-----
       getInterfaceListBody: {},
       interfaceList: [],
       interfaceValue: '',
+      // -----分割-----
+      buttonDisabled: true,
       getcaseListBody: {
+        project_id: '',
+        model_id: '',
         interface_id: '',
         page_num: 1
       },
@@ -147,11 +186,75 @@ export default {
     }
   },
   created () {
+    this.getProjectListMethod()
     this.getInterfaceListMethod()
+    if (sessionStorage.getItem('projectId')) {
+      this.projectValue = sessionStorage.getItem('projectName')
+      this.getInterfaceListBody.project_id = Number(sessionStorage.getItem('projectId'))
+      this.getcaseListBody.project_id = Number(sessionStorage.getItem('projectId'))
+      if (sessionStorage.getItem('modelId')) {
+        this.modelValue = sessionStorage.getItem('modelName')
+        this.modelSelectDisabled = false
+        this.getInterfaceListBody.model_id = Number(sessionStorage.getItem('modelId'))
+        this.getcaseListBody.model_id = Number(sessionStorage.getItem('modelId'))
+        this.getInterfaceListMethod()
+        if (sessionStorage.getItem('interId')) {
+          this.interfaceValue = sessionStorage.getItem('interName')
+          this.getcaseListBody.interface_id = Number(sessionStorage.getItem('interId'))
+        }
+      }
+    }
+    if (sessionStorage.getItem('interId')) {
+      this.interfaceValue = sessionStorage.getItem('interName')
+      this.getcaseListBody.interface_id = Number(sessionStorage.getItem('interId'))
+    }
     this.caseListMethod()
     // }
   },
   methods: {
+    changeProject (val) {
+      this.projectList.forEach(item => {
+        if (item.project_id === val) {
+          sessionStorage.setItem('projectId', item.project_id)
+          sessionStorage.setItem('projectName', item.project_name)
+        }
+      })
+      sessionStorage.removeItem('modelId')
+      sessionStorage.removeItem('modelName')
+      this.modelValue = ''
+      this.getModelListMethod()
+      this.getInterfaceListMethod()
+      this.modelSelectDisabled = false
+    },
+    changeModel (val) {
+      this.modelList.forEach(item => {
+        if (item.model_id === val) {
+          sessionStorage.setItem('modelId', item.model_id)
+          sessionStorage.setItem('modelName', item.model_name)
+        }
+      })
+      // sessionStorage.setItem('modelId', val)
+    },
+    changeInter (val) {
+      this.interfaceList.forEach(item => {
+        if (item.interface_id === val) {
+          sessionStorage.setItem('interId', item.interface_id)
+          sessionStorage.setItem('interName', item.interface_name)
+        }
+      })
+    },
+    clearProjectAndModel () {
+      sessionStorage.removeItem('modelId')
+      sessionStorage.removeItem('modelName')
+      sessionStorage.removeItem('projectId')
+      sessionStorage.removeItem('projectName')
+      sessionStorage.removeItem('interId')
+      sessionStorage.removeItem('interName')
+      this.modelValue = ''
+      this.projectValue = ''
+      this.interfaceValue = ''
+      this.caseListMethod()
+    },
     // 监听 页码值改变的事件
     handleCurrentChange (newPage) {
       this.getcaseListBody.page_num = newPage
@@ -176,11 +279,24 @@ export default {
     },
     // 获取所有case
     async caseListMethod () {
-      this.getcaseListBody.interface_id = this.interfaceValue
-      if (this.getcaseListBody.interface_id === '') {
+      // console.log('1', this.getcaseListBody.interface_id)
+      if (!this.projectValue) {
+        delete this.getcaseListBody.project_id
+      } else {
+        this.getcaseListBody.project_id = Number(sessionStorage.getItem('projectId'))
+      }
+      if (!this.modelValue) {
+        delete this.getcaseListBody.model_id
+      } else {
+        this.getcaseListBody.model_id = Number(sessionStorage.getItem('modelId'))
+      }
+      if (!this.interfaceValue) {
         delete this.getcaseListBody.interface_id
         this.buttonDisabled = true
       } else {
+        // console.log('2', this.getcaseListBody.interface_id)
+        this.getcaseListBody.interface_id = Number(sessionStorage.getItem('interId'))
+        // console.log('3', this.getcaseListBody.interface_id)
         this.buttonDisabled = false
       }
       const { data: responseBody } = await this.$api.testcase.getCaseList(
@@ -252,6 +368,29 @@ export default {
       } else {
         this.$message.error('请求环境信息失败！')
       }
+    },
+    // 获取所有项目列表
+    async getProjectListMethod () {
+      const { data: projectRes } = await this.$api.project.getProjectList(
+        this.getProjectListBody
+      )
+      if (projectRes.code !== 1) {
+        return this.$message.error('获取项目列表失败！')
+      }
+      this.projectList = projectRes.data
+    },
+    // 获取所有模块列表
+    async getModelListMethod () {
+      if (this.projectValue) {
+        this.getModelListBody.project_id = Number(sessionStorage.getItem('projectId'))
+      }
+      const { data: responseBody } = await this.$api.project.getModelList(
+        this.getModelListBody
+      )
+      if (responseBody.code !== 1) {
+        return this.$message.error('获取模块列表失败！')
+      }
+      this.modelList = responseBody.data
     },
     goAddCaseInfo () {
       this.$router.push({ path: '/caseinfo', query: { interId: this.interfaceValue } }).catch(err => {

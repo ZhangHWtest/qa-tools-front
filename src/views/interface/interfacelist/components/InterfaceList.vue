@@ -24,19 +24,6 @@
                    :value="item.model_id">
         </el-option>
       </el-select>
-      <!-- <el-cascader v-model="newProjectValue"
-                   class="interfacelist-top-select"
-                   :options="options"
-                   :props="{ checkStrictly: true }"
-                   @change="handleChange"></el-cascader> -->
-      <!-- <el-cascader v-model="newProjectValue"
-                   class="interfacelist-top-select"
-                   :options="options"
-                   @change="handleChange"
-                   :props="{ checkStrictly: true }"
-                   @expand-change="expandChange"
-                   clearable></el-cascader> -->
-
       <el-button type="primary"
                  plain
                  @click="getInterfaceListMethod()">查询</el-button>
@@ -247,9 +234,6 @@ export default {
 
     this.getInterfaceListMethod()
   },
-  // watch: {
-  //   projectValue: 'getModelListMethod'
-  // },
   methods: {
     changeProject (val) {
       this.projectList.forEach(item => {
@@ -277,7 +261,7 @@ export default {
       sessionStorage.removeItem('modelId')
       sessionStorage.removeItem('modelName')
       sessionStorage.removeItem('projectId')
-      sessionStorage.removeItem('mProjectName')
+      sessionStorage.removeItem('projectName')
       this.modelValue = ''
       this.projectValue = ''
       this.getInterfaceListMethod()
