@@ -1,21 +1,34 @@
 <template>
   <div>
     <div class="interface-top-select">
-      <span class="interface-top-select-name">选择项目/模块：</span>
-      <!-- <el-cascader v-model="newProjectValue"
-                   class="interfacelist-top-select"
-                   :options="options"
-                   :props="{ checkStrictly: true }"
-                   @change="handleChange"></el-cascader> -->
-      <el-cascader v-model="newProjectValue"
-                   class="interfacelist-top-select"
-                   :options="options"
-                   @change="handleChange"
-                   :props="{ checkStrictly: true }"
-                   @expand-change="expandChange"></el-cascader>
+      <span class="interface-top-select-name">项目：</span>
+      <el-select class="interfacelist-top-select"
+                 v-model="projectValue"
+                 @change="changeProject(projectValue)"
+                 placeholder="请选择项目">
+        <el-option v-for="item in projectList"
+                   :key="item.project_id"
+                   :label="item.project_name"
+                   :value="item.project_id ">
+        </el-option>
+      </el-select>
+      <span class="interface-top-select-name">模块：</span>
+      <el-select class="interfacelist-top-select"
+                 v-model="modelValue"
+                 @change="changeModel(modelValue)"
+                 placeholder="请选择模块"
+                 :disabled="modelSelectDisabled">
+        <el-option v-for="item in modelList"
+                   :key="item.model_id"
+                   :label="item.model_name"
+                   :value="item.model_id">
+        </el-option>
+      </el-select>
       <el-button type="primary"
                  plain
                  @click="getInterfaceListMethod()">查询</el-button>
+      <el-button plain
+                 @click="clearProjectAndModel()">重置</el-button>
     </div>
     <div class="interface-top-addbutton">
       <span class="interface-top-addannotation">注：添加接口必须先选择项目或模块！</span>
@@ -27,7 +40,8 @@
                  action="/upload/">
         <el-button class="add-model-button"
                    type="primary"
-                   :disabled="buttonDisabled">点击上传</el-button>
+                   plain
+                   :disabled="buttonDisabled">导入接口</el-button>
       </el-upload>
     </div>
     <el-table class="interface-table"
@@ -165,19 +179,16 @@
 export default {
   data () {
     return {
-      fileList: [{
-        name: '', url: ''
-      }],
-      newProjectValue: '',
-      options: [],
       getProjectListBody: {},
-      projectList: [],
-      projectValue: '',
       getModelListBody: {
         project_id: ''
       },
+      projectList: [],
       modelList: [],
+      projectValue: '',
       modelValue: '',
+      modelSelectDisabled: true,
+      // -----分割-----
       addInterfaceDialog: false,
       addInterfaceBody: {
         project_id: '',
@@ -206,27 +217,54 @@ export default {
   },
   created () {
     this.getProjectListMethod()
+    if (sessionStorage.getItem('projectId')) {
+      this.projectValue = sessionStorage.getItem('projectName')
+      this.getInterfaceListBody.project_id = Number(sessionStorage.getItem('projectId'))
+      this.getModelListBody.project_id = Number(sessionStorage.getItem('projectId'))
+      if (sessionStorage.getItem('modelId')) {
+        this.modelSelectDisabled = false
+        this.modelValue = sessionStorage.getItem('modelName')
+        this.getInterfaceListBody.model_id = Number(sessionStorage.getItem('modelId'))
+      } else {
+        this.getModelListMethod()
+      }
+
+      this.getInterfaceListMethod()
+    }
+
     this.getInterfaceListMethod()
   },
-  mounted () {
-    // 点击文本就让它自动点击前面的input就可以触发选择。但是因组件阻止了冒泡，暂时想不到好方法来触发。
-    // 这种比较耗性能，暂时想不到其他的，能实现效果了。
-    setInterval(function () {
-      document.querySelectorAll('.el-cascader-node__label').forEach(el => {
-        el.onclick = function () {
-          if (this.previousElementSibling) this.previousElementSibling.click()
+  methods: {
+    changeProject (val) {
+      this.projectList.forEach(item => {
+        if (item.project_id === val) {
+          sessionStorage.setItem('projectId', item.project_id)
+          sessionStorage.setItem('projectName', item.project_name)
         }
       })
-    }, 1000)
-  },
-  watch: {
-    projectValue: 'getModelListMethod'
-  },
-  methods: {
-    handlePreview (file) {
-      console.log(file)
+      sessionStorage.removeItem('modelId')
+      sessionStorage.removeItem('modelName')
+      this.modelValue = ''
+      this.getModelListMethod()
+      this.modelSelectDisabled = false
     },
-    handleClick (tab, event) {
+    changeModel (val) {
+      this.modelList.forEach(item => {
+        if (item.model_id === val) {
+          sessionStorage.setItem('modelId', item.model_id)
+          sessionStorage.setItem('modelName', item.model_name)
+        }
+      })
+      // sessionStorage.setItem('modelId', val)
+    },
+    clearProjectAndModel () {
+      sessionStorage.removeItem('modelId')
+      sessionStorage.removeItem('modelName')
+      sessionStorage.removeItem('projectId')
+      sessionStorage.removeItem('projectName')
+      this.modelValue = ''
+      this.projectValue = ''
+      this.getInterfaceListMethod()
     },
     // 监听 页码值改变的事件
     handleCurrentChange (newPage) {
@@ -245,72 +283,56 @@ export default {
         return this.$message.error('获取项目列表失败！')
       }
       this.projectList = projectRes.data
-
-      this.projectList.forEach(item => {
-        this.$set(this.options, item.project_id, { 'value': item.project_id, 'label': item.project_name, 'children': [] })
-      })
-    },
-    handleChange (value) {
-      this.getInterfaceListBody.project_id = Number(value[0])
-      this.addInterfaceBody.project_id = Number(value[0])
-      if (value.length === 1) {
-        this.getModelListBody.project_id = Number(value[0])
-        this.getModelListMethodTwo(value)
-      } else {
-        this.getInterfaceListBody.model_id = Number(value[1])
-        this.addInterfaceBody.model_id = Number(value[1])
-      }
-    },
-    expandChange (value) {
-      this.getInterfaceListBody.project_id = Number(value[0])
-      this.addInterfaceBody.project_id = Number(value[0])
-      this.getModelListBody.project_id = Number(value[0])
-      this.getModelListMethodTwo(value)
+      // this.projectList.forEach(item => {
+      //   this.$set(this.options, item.project_id, { 'value': item.project_id, 'label': item.project_name, 'children': [] })
+      // })
     },
     // 获取所有模块列表
-    async getModelListMethodTwo (value) {
+    async getModelListMethod () {
+      if (this.projectValue) {
+        this.getModelListBody.project_id = Number(sessionStorage.getItem('projectId'))
+      }
       const { data: responseBody } = await this.$api.project.getModelList(
         this.getModelListBody
       )
       if (responseBody.code !== 1) {
-        return this.$message.error('获取用户列表失败！')
+        return this.$message.error('获取模块列表失败！')
       }
       this.modelList = responseBody.data
-      let children = []
-      this.modelList.forEach(item => {
-        // console.log(this.options[value])
-        children.push({
-          value: item.model_id, label: item.model_name
-        })
-      })
-      this.$set(this.options, value, { ...this.options[value], children })
-    },
-    // 获取所有模块列表
-    async getModelListMethod () {
-      if (!this.projectValue) {
-      } else {
-        this.modelValue = ''
-        this.getModelListBody.project_id = this.projectValue
-        const { data: responseBody } = await this.$api.project.getModelList(
-          this.getModelListBody
-        )
-        if (responseBody.code !== 1) {
-          return this.$message.error('获取用户列表失败！')
-        }
-        this.modelList = responseBody.data
-      }
+      // let children = []
+      // this.modelList.forEach(item => {
+      //   // console.log(this.options[value])
+      //   children.push({
+      //     value: item.model_id, label: item.model_name
+      //   })
+      // })
+      // this.$set(this.options, value, { ...this.options[value], children })
     },
     // 获取接口列表方法
     async getInterfaceListMethod () {
-      console.log(this.getInterfaceListBody.project_id)
-      if (!this.getInterfaceListBody.project_id) {
+      if (!this.projectValue) {
         delete this.getInterfaceListBody.project_id
         this.buttonDisabled = true
       } else {
+        this.getInterfaceListBody.project_id = Number(sessionStorage.getItem('projectId'))
+        this.projectList.forEach(item => {
+          if (item.project_id === this.projectValue) {
+            sessionStorage.setItem('projectId', item.project_id)
+            sessionStorage.setItem('projectName', item.project_name)
+          }
+        })
         this.buttonDisabled = false
       }
-      if (this.getInterfaceListBody.model_id === '') {
+      if (!this.modelValue) {
         delete this.getInterfaceListBody.model_id
+      } else {
+        this.getInterfaceListBody.model_id = Number(sessionStorage.getItem('modelId'))
+        this.modelList.forEach(item => {
+          if (item.model_id === this.modelValue) {
+            sessionStorage.setItem('modelId', this.modelValue)
+            sessionStorage.setItem('modelName', item.model_name)
+          }
+        })
       }
       const { data: responseBody } = await this.$api.myinterface.getInterfaceList(
         this.getInterfaceListBody
@@ -321,9 +343,12 @@ export default {
     },
     // 创建接口
     async addInterfaceMethod () {
-      if (this.addInterfaceBody.model_id === '') {
+      if (!sessionStorage.getItem('modelId')) {
         delete this.addInterfaceBody.model_id
+      } else {
+        this.addInterfaceBody.model_id = Number(sessionStorage.getItem('modelId'))
       }
+      this.addInterfaceBody.project_id = Number(sessionStorage.getItem('projectId'))
       const { data: createModelRes } = await this.$api.myinterface.createInterfaceMethod(
         this.addInterfaceBody
       )
@@ -382,7 +407,7 @@ export default {
   }
   .interfacelist-top-select {
     padding-right: 15px;
-    width: 300px;
+    width: 200px;
   }
 }
 .interface-top-addbutton {
