@@ -291,9 +291,14 @@ export default {
         return this.$message.error('获取接口列表失败！')
       }
       this.interfaceInfo = res.data
-      this.interfaceInfo.params.forEach(item => {
-        this.$set(this.myParam, item.param_name, item.default)
-      })
+      console.log(this.interfaceInfo.params.length)
+      if (this.interfaceInfo.params.length !== 0) {
+        this.interfaceInfo.params.forEach(item => {
+          this.$set(this.myParam, item.param_name, item.default)
+        })
+      } else {
+        this.myParam = {}
+      }
       // this.myHeader = JSON.stringify(this.interfaceInfo.header)
       this.myHeader = this.interfaceInfo.header
       // console.log(this.myHeader)
