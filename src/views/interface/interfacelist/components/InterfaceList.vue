@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <search-component /> -->
     <div class="interface-top-select">
       <span class="interface-top-select-name">项目：</span>
       <el-select class="interfacelist-top-select"
@@ -175,8 +176,11 @@
 </template>
 
 <script>
-
+// import SearchComponent from '@/components/SearchComponent/index'
 export default {
+  // components: {
+  //   SearchComponent
+  // },
   data () {
     return {
       getProjectListBody: {},
