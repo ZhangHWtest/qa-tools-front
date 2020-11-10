@@ -396,7 +396,7 @@ export default {
       this.modelList = responseBody.data
     },
     goAddCaseInfo () {
-      this.$router.push({ path: '/caseinfo', query: { interId: this.interfaceValue } }).catch(err => {
+      this.$router.push({ path: '/caseinfo', query: { interId: Number(sessionStorage.getItem('interId')) } }).catch(err => {
         console.log('输出', err)
       })
     },
