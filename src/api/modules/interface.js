@@ -85,3 +85,11 @@ export const getInterfaceInfoMethod = data => {
     data
   })
 }
+// 移动
+export const getInterfaceMoveMethod = data => {
+  return reques({
+    url: '/interface/move',
+    method: 'post',
+    data
+  })
+}

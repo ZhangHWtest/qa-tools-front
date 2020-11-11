@@ -21,20 +21,23 @@
     </el-select>
 
     <el-button class="top-select-button"
+               v-show="isShowSeachButton"
                type="primary"
                plain
                @click="changeChildValue()">查询</el-button>
-    <el-button plain
+    <el-button v-show="isShowSeachButton"
+               plain
                @click="clearProjectAndModel()">重置</el-button>
 
   </div>
 </template>
 <script>
 export default {
-  props: ['parentIsShowInterfaceSelect'],
+  props: ['parentIsShowInterfaceSelect', 'parentIsShowSeachButton'],
   data () {
     return {
       isShowInterFaceSelect: true,
+      isShowSeachButton: true,
       myProModelOptions: [],
       myProModelValue: [],
       projectList: [],
@@ -59,6 +62,11 @@ export default {
   created () {
     this.getProjectListMethod()
     this.isShowInterFaceSelect = this.parentIsShowInterfaceSelect
+    if (this.parentIsShowSeachButton === false) {
+      console.log(this.parentIsShowSeachButton)
+      this.isShowSeachButton = this.parentIsShowSeachButton
+    }
+
     if (this.isShowInterFaceSelect) {
       this.getInterfaceListMethod()
       if (sessionStorage.getItem('interId')) {
@@ -96,6 +104,8 @@ export default {
           if (item.project_id === value[0]) {
             sessionStorage.setItem('projectId', value[0])
             sessionStorage.setItem('projectName', item.project_name)
+            sessionStorage.removeItem('modelId')
+            sessionStorage.removeItem('modelName')
           }
         })
         this.getModelListMethod()
