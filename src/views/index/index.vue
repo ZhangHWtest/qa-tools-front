@@ -134,7 +134,7 @@
       </el-aside>
       <el-main class="index-main">
         <!-- <main-top-menu /> -->
-        <router-view />
+        <router-view v-if="isRouterShow" />
         <!-- 修改密码弹框-->
         <el-dialog title="修改密码"
                    :visible.sync="updatePasword"
@@ -172,8 +172,14 @@
 export default {
   components: {
   },
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
   data () {
     return {
+      isRouterShow: true,
       isCollapse: false,
       activePath: '/casechart',
       loginname: {
@@ -195,6 +201,11 @@ export default {
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
+    async reload () {
+      this.isRouterShow = false
+      await this.$nextTick()
+      this.isRouterShow = true
+    },
     // 点击按钮切换菜单的折叠与展开
     toggleCollapse () {
       this.isCollapse = !this.isCollapse
