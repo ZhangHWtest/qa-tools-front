@@ -117,7 +117,9 @@ export default {
           }
         })
       }
-      this.getInterfaceListMethod()
+      if (this.isShowInterFaceSelect) {
+        this.getInterfaceListMethod()
+      }
     },
     changeInterfaceValue (value) {
       // console.log('changeInterfaceValue:', value)
@@ -136,7 +138,9 @@ export default {
       this.$emit('changeChildValueMethod', 'change')
       this.myProModelValue = ''
       this.interfaceValue = ''
-      this.getInterfaceListMethod()
+      if (this.isShowInterFaceSelect) {
+        this.getInterfaceListMethod()
+      }
     },
     // 获取所有项目列表
     async getProjectListMethod () {
