@@ -136,6 +136,7 @@ export default {
       this.$emit('changeChildValueMethod', 'change')
       this.myProModelValue = ''
       this.interfaceValue = ''
+      this.getInterfaceListMethod()
     },
     // 获取所有项目列表
     async getProjectListMethod () {
