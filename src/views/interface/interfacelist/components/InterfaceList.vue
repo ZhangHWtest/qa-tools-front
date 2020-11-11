@@ -164,9 +164,10 @@
       <!-- 内容主体区域-->
       <el-form ref="moveInterfaceFormRef"
                :model="interfaceMoveBody"
-               :rules="interfaceMoveBodyForm"
-               label-width="90px">
-        <SearchComponent :parentIsShowSeachButton="parentIsShowSeachButton" />
+               :rules="interfaceMoveBodyForm">
+        <el-form-item>
+          <SearchComponent :parentIsShowSeachButton="parentIsShowSeachButton" />
+        </el-form-item>
       </el-form>
       <span slot="footer"
             class="dialog-footer">
@@ -218,8 +219,7 @@ export default {
         interface_id: ''
       },
       interfaceMoveBodyForm: {
-        project_id: [{ required: true }]
-
+        // project_id: [{ required: true }]
       },
       openIMDialog: false,
       parentIsShowSeachButton: false
@@ -365,12 +365,10 @@ export default {
     margin-left: 10px;
   }
 }
-
 .addinterface-dialog-select {
   width: 90px;
   margin-right: 5px;
 }
-
 .interface-title-style {
   border-left: 3px solid #2395f1;
   padding-left: 8px;
