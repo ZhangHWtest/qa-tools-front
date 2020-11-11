@@ -8,9 +8,9 @@
     <el-card>
       <div class="interface-top-select">
       </div>
-      <div class="interface-top-addbutton">
+      <!-- <div class="interface-top-addbutton">
         <span class="interface-top-addannotation">注：case调试不会记录log！</span>
-      </div>
+      </div> -->
       <el-table :data="resultList"
                 ref="multipleTableAll"
                 style="width: 100%"
