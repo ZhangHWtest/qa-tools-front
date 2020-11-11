@@ -72,3 +72,11 @@ export const getResultInfo = data => {
     data
   })
 }
+
+export const duplicateCase = data => {
+  return reques({
+    url: '/case/duplicate',
+    method: 'post',
+    data
+  })
+}

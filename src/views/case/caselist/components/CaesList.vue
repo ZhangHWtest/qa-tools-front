@@ -87,6 +87,16 @@
           </el-tooltip>
           <el-tooltip class="item"
                       effect="dark"
+                      content="复制"
+                      placement="top">
+            <el-button type="warning"
+                       icon="el-icon-copy-document"
+                       size="mini"
+                       circle
+                       @click="copyCaseMethod(scope.row.case_id)"></el-button>
+          </el-tooltip>
+          <el-tooltip class="item"
+                      effect="dark"
                       content="删除"
                       placement="top">
             <el-button type="danger"
@@ -110,6 +120,7 @@
 <script>
 import SearchComponent from '@/components/SearchComponent/index'
 export default {
+  inject: ['reload'],
   components: {
     SearchComponent
   },
@@ -133,6 +144,9 @@ export default {
         case_id: ''
       },
       romeCaseBody: {
+        case_id: ''
+      },
+      copyCaseBody: {
         case_id: ''
       },
       envList: [],
@@ -240,6 +254,19 @@ export default {
         this.$message.error('运行失败！')
       }
     },
+    // 复制case
+    async copyCaseMethod (val) {
+      this.copyCaseBody.case_id = val
+      const { data: responseBody } = await this.$api.testcase.duplicateCase(
+        this.copyCaseBody
+      )
+      if (responseBody.code === 1) {
+        this.$message.success('复制成功！')
+        this.reload()
+      } else {
+        this.$message.error('复制失败！')
+      }
+    },
     // 删除case
     async removeCaseById (caseId) {
       this.romeCaseBody.case_id = caseId
@@ -260,7 +287,7 @@ export default {
       )
       if (responseBody.code === 1) {
         this.$message.success('删除成功！')
-        this.caseListMethod()
+        this.reload()
       } else {
         this.$message.error('删除失败！')
       }

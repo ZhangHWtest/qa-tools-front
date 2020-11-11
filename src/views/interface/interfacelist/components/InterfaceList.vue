@@ -313,7 +313,7 @@ export default {
       // 提示信息
       this.$message.success('删除成功！')
       // 刷新数据
-      this.getInterfaceListMethod()
+      this.reload()
     },
     // 创建接口
     async interfaceMoveMethod () {
