@@ -116,8 +116,8 @@ export default {
             sessionStorage.setItem('modelName', item.model_name)
           }
         })
-        this.getInterfaceListMethod()
       }
+      this.getInterfaceListMethod()
     },
     changeInterfaceValue (value) {
       // console.log('changeInterfaceValue:', value)
