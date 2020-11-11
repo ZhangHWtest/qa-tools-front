@@ -69,6 +69,17 @@
           </el-tooltip>
           <el-tooltip class="item"
                       effect="dark"
+                      content="移动"
+                      placement="top">
+            <el-button type="warning"
+                       icon="el-icon-right"
+                       size="mini"
+                       ricon="el-icon-right"
+                       circle
+                       @click="openInterfaceMoveDialog(scope.row.interface_id)"></el-button>
+          </el-tooltip>
+          <el-tooltip class="item"
+                      effect="dark"
                       content="删除"
                       placement="top">
             <el-button type="danger"
@@ -144,12 +155,34 @@
                    @click.native="addInterfaceMethod()">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog class="moveInterface-dialog"
+               title="移动接口"
+               :visible.sync="openIMDialog"
+               width="40%"
+               :close-on-click-modal="false"
+               @close="openIMDialogClose">
+      <!-- 内容主体区域-->
+      <el-form ref="moveInterfaceFormRef"
+               :model="interfaceMoveBody"
+               :rules="interfaceMoveBodyForm">
+        <el-form-item>
+          <SearchComponent :parentIsShowSeachButton="parentIsShowSeachButton" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="openIMDialog = false">取 消</el-button>
+        <el-button type="primary"
+                   @click.native="interfaceMoveMethod()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import SearchComponent from '@/components/SearchComponent/index'
 export default {
+  inject: ['reload'],
   components: {
     SearchComponent
   },
@@ -179,7 +212,17 @@ export default {
       delInterfaceBody: {
         interface_id: ''
       },
-      buttonDisabled: true
+      buttonDisabled: true,
+      interfaceMoveBody: {
+        project_id: '',
+        model_id: '',
+        interface_id: ''
+      },
+      interfaceMoveBodyForm: {
+        // project_id: [{ required: true }]
+      },
+      openIMDialog: false,
+      parentIsShowSeachButton: false
     }
   },
   created () {
@@ -196,6 +239,13 @@ export default {
     },
     addInterfaceDialogClose () {
       this.$refs.addInterfaceFormRef.resetFields()
+    },
+    openInterfaceMoveDialog (val) {
+      this.openIMDialog = true
+      this.interfaceMoveBody.interface_id = val
+    },
+    openIMDialogClose () {
+      this.$refs.moveInterfaceFormRef.resetFields()
     },
     // 获取接口列表方法
     async getInterfaceListMethod () {
@@ -265,6 +315,29 @@ export default {
       // 刷新数据
       this.getInterfaceListMethod()
     },
+    // 创建接口
+    async interfaceMoveMethod () {
+      if (!sessionStorage.getItem('projectId')) {
+        delete this.interfaceMoveBody.project_id
+      } else {
+        this.interfaceMoveBody.project_id = Number(sessionStorage.getItem('projectId'))
+      }
+      if (!sessionStorage.getItem('modelId')) {
+        delete this.interfaceMoveBody.model_id
+      } else {
+        this.interfaceMoveBody.model_id = Number(sessionStorage.getItem('modelId'))
+      }
+      const { data: interMovelRes } = await this.$api.myinterface.getInterfaceMoveMethod(
+        this.interfaceMoveBody
+      )
+      if (interMovelRes.code === 1) {
+        this.openIMDialog = false
+        this.$message.success('移动接口成功！')
+        this.reload()
+      } else {
+        this.$message.error('移动接口失败！')
+      }
+    },
     goInterfaceInfo (intfId) {
       this.$router.push({ path: '/interface/info', query: { interfaceId: intfId } }).catch(err => {
         console.log('输出', err)
@@ -292,12 +365,10 @@ export default {
     margin-left: 10px;
   }
 }
-
 .addinterface-dialog-select {
   width: 90px;
   margin-right: 5px;
 }
-
 .interface-title-style {
   border-left: 3px solid #2395f1;
   padding-left: 8px;
