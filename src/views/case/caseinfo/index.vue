@@ -369,9 +369,8 @@ export default {
       this.myHeader = JSON.parse(this.addCaseBody.header)
       // JSON.parse(this.myHeader) 将jason转换成对象
       // JSON.stringify 将对象转换为 JSON。
-      console.log('getCase0', this.addCaseBody.header)
-      console.log('getCase', this.myHeader)
       this.myEnvId = this.addCaseBody.env_info.env_id
+      console.log('has_sign', this.addCaseBody.has_sign)
     },
     async editCaseMethod () {
       this.addCaseBody.params = JSON.stringify(JSON.parse(this.myParam))

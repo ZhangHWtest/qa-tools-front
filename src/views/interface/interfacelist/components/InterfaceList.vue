@@ -1,35 +1,7 @@
 <template>
   <div>
-    <!-- <search-component /> -->
-    <div class="interface-top-select">
-      <span class="interface-top-select-name">项目：</span>
-      <el-select class="interfacelist-top-select"
-                 v-model="projectValue"
-                 @change="changeProject(projectValue)"
-                 placeholder="请选择项目">
-        <el-option v-for="item in projectList"
-                   :key="item.project_id"
-                   :label="item.project_name"
-                   :value="item.project_id ">
-        </el-option>
-      </el-select>
-      <span class="interface-top-select-name">模块：</span>
-      <el-select class="interfacelist-top-select"
-                 v-model="modelValue"
-                 @change="changeModel(modelValue)"
-                 placeholder="请选择模块"
-                 :disabled="modelSelectDisabled">
-        <el-option v-for="item in modelList"
-                   :key="item.model_id"
-                   :label="item.model_name"
-                   :value="item.model_id">
-        </el-option>
-      </el-select>
-      <el-button type="primary"
-                 plain
-                 @click="getInterfaceListMethod()">查询</el-button>
-      <el-button plain
-                 @click="clearProjectAndModel()">重置</el-button>
+    <div>
+      <search-component @changeChildValueMethod="changeChildValueMethod" />
     </div>
     <div class="interface-top-addbutton">
       <span class="interface-top-addannotation">注：添加接口必须先选择项目或模块！</span>
@@ -176,23 +148,13 @@
 </template>
 
 <script>
-// import SearchComponent from '@/components/SearchComponent/index'
+import SearchComponent from '@/components/SearchComponent/index'
 export default {
-  // components: {
-  //   SearchComponent
-  // },
+  components: {
+    SearchComponent
+  },
   data () {
     return {
-      getProjectListBody: {},
-      getModelListBody: {
-        project_id: ''
-      },
-      projectList: [],
-      modelList: [],
-      projectValue: '',
-      modelValue: '',
-      modelSelectDisabled: true,
-      // -----分割-----
       addInterfaceDialog: false,
       addInterfaceBody: {
         project_id: '',
@@ -221,54 +183,10 @@ export default {
     }
   },
   created () {
-    this.getProjectListMethod()
-    if (sessionStorage.getItem('projectId')) {
-      this.projectValue = sessionStorage.getItem('projectName')
-      this.getInterfaceListBody.project_id = Number(sessionStorage.getItem('projectId'))
-      this.getModelListBody.project_id = Number(sessionStorage.getItem('projectId'))
-      if (sessionStorage.getItem('modelId')) {
-        this.modelSelectDisabled = false
-        this.modelValue = sessionStorage.getItem('modelName')
-        this.getInterfaceListBody.model_id = Number(sessionStorage.getItem('modelId'))
-      } else {
-        this.getModelListMethod()
-      }
-
-      this.getInterfaceListMethod()
-    }
-
     this.getInterfaceListMethod()
   },
   methods: {
-    changeProject (val) {
-      this.projectList.forEach(item => {
-        if (item.project_id === val) {
-          sessionStorage.setItem('projectId', item.project_id)
-          sessionStorage.setItem('projectName', item.project_name)
-        }
-      })
-      sessionStorage.removeItem('modelId')
-      sessionStorage.removeItem('modelName')
-      this.modelValue = ''
-      this.getModelListMethod()
-      this.modelSelectDisabled = false
-    },
-    changeModel (val) {
-      this.modelList.forEach(item => {
-        if (item.model_id === val) {
-          sessionStorage.setItem('modelId', item.model_id)
-          sessionStorage.setItem('modelName', item.model_name)
-        }
-      })
-      // sessionStorage.setItem('modelId', val)
-    },
-    clearProjectAndModel () {
-      sessionStorage.removeItem('modelId')
-      sessionStorage.removeItem('modelName')
-      sessionStorage.removeItem('projectId')
-      sessionStorage.removeItem('projectName')
-      this.modelValue = ''
-      this.projectValue = ''
+    changeChildValueMethod () {
       this.getInterfaceListMethod()
     },
     // 监听 页码值改变的事件
@@ -279,65 +197,19 @@ export default {
     addInterfaceDialogClose () {
       this.$refs.addInterfaceFormRef.resetFields()
     },
-    // 获取所有项目列表
-    async getProjectListMethod () {
-      const { data: projectRes } = await this.$api.project.getProjectList(
-        this.getProjectListBody
-      )
-      if (projectRes.code !== 1) {
-        return this.$message.error('获取项目列表失败！')
-      }
-      this.projectList = projectRes.data
-      // this.projectList.forEach(item => {
-      //   this.$set(this.options, item.project_id, { 'value': item.project_id, 'label': item.project_name, 'children': [] })
-      // })
-    },
-    // 获取所有模块列表
-    async getModelListMethod () {
-      if (this.projectValue) {
-        this.getModelListBody.project_id = Number(sessionStorage.getItem('projectId'))
-      }
-      const { data: responseBody } = await this.$api.project.getModelList(
-        this.getModelListBody
-      )
-      if (responseBody.code !== 1) {
-        return this.$message.error('获取模块列表失败！')
-      }
-      this.modelList = responseBody.data
-      // let children = []
-      // this.modelList.forEach(item => {
-      //   // console.log(this.options[value])
-      //   children.push({
-      //     value: item.model_id, label: item.model_name
-      //   })
-      // })
-      // this.$set(this.options, value, { ...this.options[value], children })
-    },
     // 获取接口列表方法
     async getInterfaceListMethod () {
-      if (!this.projectValue) {
+      if (!sessionStorage.getItem('projectId')) {
         delete this.getInterfaceListBody.project_id
         this.buttonDisabled = true
       } else {
         this.getInterfaceListBody.project_id = Number(sessionStorage.getItem('projectId'))
-        this.projectList.forEach(item => {
-          if (item.project_id === this.projectValue) {
-            sessionStorage.setItem('projectId', item.project_id)
-            sessionStorage.setItem('projectName', item.project_name)
-          }
-        })
         this.buttonDisabled = false
       }
-      if (!this.modelValue) {
+      if (!sessionStorage.getItem('modelId')) {
         delete this.getInterfaceListBody.model_id
       } else {
         this.getInterfaceListBody.model_id = Number(sessionStorage.getItem('modelId'))
-        this.modelList.forEach(item => {
-          if (item.model_id === this.modelValue) {
-            sessionStorage.setItem('modelId', this.modelValue)
-            sessionStorage.setItem('modelName', item.model_name)
-          }
-        })
       }
       const { data: responseBody } = await this.$api.myinterface.getInterfaceList(
         this.getInterfaceListBody
@@ -404,18 +276,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.interface-top-select {
-  margin: 10px 10px 10px 10px;
-  padding-left: 10px;
-  .interface-top-select-name {
-    font-size: 15px;
-    color: rgba(39, 56, 72, 0.85);
-  }
-  .interfacelist-top-select {
-    padding-right: 15px;
-    width: 200px;
-  }
-}
 .interface-top-addbutton {
   background-color: #eee;
   height: 45px;

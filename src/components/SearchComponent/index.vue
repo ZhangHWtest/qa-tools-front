@@ -1,52 +1,130 @@
 <template>
-  <div>
-    <div class="interface-top-select">
-      <span class="interface-top-select-name">项目/模块：</span>
-      <el-cascader v-model="myProModelValue"
-                   :options="myProModelOptions"
-                   :props="{ checkStrictly: true }"
-                   @change="handleChange"></el-cascader>
-      <el-button type="primary"
-                 plain
-                 @click="getInterfaceListMethod()">查询</el-button>
-      <el-button plain
-                 @click="clearProjectAndModel()">重置</el-button>
-    </div>
+  <div class="top-select">
+    <span class="top-select-name">项目/模块：</span>
+    <el-cascader class="top-pro-cascader"
+                 v-model="myProModelValue"
+                 :options="myProModelOptions"
+                 :props="{ checkStrictly: true }"
+                 @change="handleChange"></el-cascader>
+    <span class="top-select-name"
+          v-show="isShowInterFaceSelect">接口：</span>
+    <el-select class="top-interface-select"
+               v-model="interfaceValue"
+               v-show="isShowInterFaceSelect"
+               placeholder="请选择"
+               @change="changeInterfaceValue">
+      <el-option v-for="item in interfaceList"
+                 :key="item.interface_id"
+                 :label="item.interface_name"
+                 :value="item.interface_id">
+      </el-option>
+    </el-select>
+
+    <el-button class="top-select-button"
+               type="primary"
+               plain
+               @click="changeChildValue()">查询</el-button>
+    <el-button plain
+               @click="clearProjectAndModel()">重置</el-button>
+
   </div>
 </template>
 <script>
 export default {
+  props: ['parentIsShowInterfaceSelect'],
   data () {
     return {
-      isShowInterFaceSelect: false,
-      myProModelOptions: [{
-        value: '1',
-        label: '1',
-        children: [{
-          value: '1-1',
-          label: '1-1'
-        }]
-      }],
-      myProModelValue: '',
+      isShowInterFaceSelect: true,
+      myProModelOptions: [],
+      myProModelValue: [],
       projectList: [],
       modelList: [],
       // ---分割---
       getProjectListBody: {},
       getModelListBody: {
         project_id: ''
+      },
+      // -----分割-----
+      getInterfaceListBody: {
+        project_id: '',
+        model_id: ''
+      },
+      interfaceList: [],
+      interfaceValue: '',
+      getInterfaceInfo: {
+        interface_id: ''
       }
-
     }
   },
   created () {
-    // this.getProjectListMethod()
-    // if (this.isShowInterFaceSelect) {
-    //   this.getInterfaceListMethod()
-    // }
+    this.getProjectListMethod()
+    this.isShowInterFaceSelect = this.parentIsShowInterfaceSelect
+    if (this.isShowInterFaceSelect) {
+      this.getInterfaceListMethod()
+      if (sessionStorage.getItem('interId')) {
+        this.interfaceValue = Number(sessionStorage.getItem('interId'))
+        // this.getInterfaceInfo(Number(sessionStorage.getItem('interId')))
+      }
+    }
+    if (sessionStorage.getItem('projectId')) {
+      let projectId = Number(sessionStorage.getItem('projectId'))
+      this.myProModelValue.push(projectId)
+      if (sessionStorage.getItem('modelId')) {
+        this.getModelListMethod()
+        let modelId = Number(sessionStorage.getItem('modelId'))
+        this.myProModelValue.push(modelId)
+      }
+    }
+    // console.log('sessionMPMI', this.myProModelValue)
+  },
+  mounted () {
+    // 点击文本就让它自动点击前面的input就可以触发选择。但是因组件阻止了冒泡，暂时想不到好方法来触发。
+    // 这种比较耗性能，暂时想不到其他的，能实现效果了。
+    setInterval(function () {
+      document.querySelectorAll('.el-cascader-node__label').forEach(el => {
+        el.onclick = function () {
+          if (this.previousElementSibling) this.previousElementSibling.click()
+        }
+      })
+    }, 1000)
   },
   methods: {
     handleChange (value) {
-      console.log(value)
+      console.log('myProModelValue', this.myProModelValue)
+      if (value.length === 1) {
+        this.projectList.forEach(item => {
+          if (item.project_id === value[0]) {
+            sessionStorage.setItem('projectId', value[0])
+            sessionStorage.setItem('projectName', item.project_name)
+          }
+        })
+        this.getModelListMethod()
+      } else {
+        this.modelList.forEach(item => {
+          if (item.model_id === value[1]) {
+            sessionStorage.setItem('modelId', value[1])
+            sessionStorage.setItem('modelName', item.model_name)
+          }
+        })
+      }
+    },
+    changeInterfaceValue (value) {
+      // console.log('changeInterfaceValue:', value)
+      this.getInterfaceInfoMethod(value)
+    },
+    changeChildValue () {
+      this.$emit('changeChildValueMethod', 'change')
+    },
+    clearProjectAndModel () {
+      sessionStorage.removeItem('modelId')
+      sessionStorage.removeItem('modelName')
+      sessionStorage.removeItem('projectId')
+      sessionStorage.removeItem('projectName')
+      sessionStorage.removeItem('interId')
+      sessionStorage.removeItem('interName')
+      this.$emit('changeChildValueMethod', 'change')
+      this.myProModelValue = ''
+      this.interfaceValue = ''
     },
     // 获取所有项目列表
     async getProjectListMethod () {
@@ -62,10 +140,9 @@ export default {
       })
     },
     // 获取所有模块列表
-    async getModelListMethod (value) {
-      if (this.projectValue) {
-        this.getModelListBody.project_id = Number(sessionStorage.getItem('projectId'))
-      }
+    async getModelListMethod () {
+      let value = Number(sessionStorage.getItem('projectId'))
+      this.getModelListBody.project_id = value
       const { data: responseBody } = await this.$api.project.getModelList(
         this.getModelListBody
       )
@@ -84,11 +161,13 @@ export default {
     },
     // 获取接口列表方法
     async getInterfaceListMethod () {
-      if (!this.projectValue) {
+      let sProjectId = Number(sessionStorage.getItem('projectId'))
+      let sModelId = Number(sessionStorage.getItem('modelId'))
+      if (!sProjectId) {
         delete this.getInterfaceListBody.project_id
         this.buttonDisabled = true
       } else {
-        this.getInterfaceListBody.project_id = Number(sessionStorage.getItem('projectId'))
+        this.getInterfaceListBody.project_id = sProjectId
         this.projectList.forEach(item => {
           if (item.project_id === this.projectValue) {
             sessionStorage.setItem('projectId', item.project_id)
@@ -97,10 +176,10 @@ export default {
         })
         this.buttonDisabled = false
       }
-      if (!this.modelValue) {
+      if (!sModelId) {
         delete this.getInterfaceListBody.model_id
       } else {
-        this.getInterfaceListBody.model_id = Number(sessionStorage.getItem('modelId'))
+        this.getInterfaceListBody.model_id = sModelId
         this.modelList.forEach(item => {
           if (item.model_id === this.modelValue) {
             sessionStorage.setItem('modelId', this.modelValue)
@@ -115,18 +194,42 @@ export default {
         this.interfaceList = responseBody.data
         this.interfaceListTotal = responseBody.page_total_num * 10
       }
+    },
+    async getInterfaceInfoMethod (val) {
+      this.getInterfaceInfo.interface_id = Number(val)
+      const { data: res } = await this.$api.myinterface.getInterfaceInfoMethod(
+        this.getInterfaceInfo
+      )
+      if (res.code !== 1) {
+        return this.$message.error('获取接口列表失败！')
+      }
+      sessionStorage.setItem('interId', val)
+      sessionStorage.setItem('interName', res.data.interface_name)
     }
   }
 
 }
 </script>
-<style lang="less" scoped >
-.interface-top-select-name {
-  font-size: 15px;
-  color: rgba(39, 56, 72, 0.85);
+<style lang="less">
+.top-select {
+  margin: 10px 10px 10px 10px;
+  padding-left: 10px;
+  .top-select-name {
+    margin-left: 10px;
+    font-size: 15px;
+    color: rgba(39, 56, 72, 0.85);
+  }
+  .top-pro-cascader {
+    width: 270px;
+  }
+  .top-select-button {
+    margin-left: 10px;
+  }
 }
-.interfacelist-top-select {
-  padding-right: 15px;
-  width: 200px;
+.el-cascader-panel .el-radio__input {
+  visibility: hidden;
+}
+.el-cascader-node {
+  padding: 0 30px 0 0px;
 }
 </style>
