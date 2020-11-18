@@ -6,21 +6,9 @@
       <el-breadcrumb-item>任务列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <div class="interface-top-select">
-        <span class="interface-top-select-name">选择项目：</span>
-        <el-select class="interfacelist-top-select"
-                   v-model="projectSelectValue"
-                   clearable
-                   placeholder="请选择项目">
-          <el-option v-for="item in projectList"
-                     :key="item.project_id"
-                     :label="item.project_name"
-                     :value="item.project_id">
-          </el-option>
-        </el-select>
-        <el-button type="primary"
-                   plain
-                   @click="getTaskListMethod()">查询</el-button>
+      <div>
+        <search-component :parentInputName="inputName"
+                          @changeChildValueMethod="changeChildValueMethod" />
       </div>
       <div class="interface-top-addbutton">
         <span class="interface-top-addannotation">注：任务基于项目</span>
@@ -124,7 +112,7 @@
                      :current-page="getTaskListBody.page_num"
                      @current-change="handleCurrentChange"
                      layout="prev, pager, next"
-                     :total="500">
+                     :total="taskListTotal">
       </el-pagination>
     </el-card>
     <el-dialog title="新增Task"
@@ -201,15 +189,23 @@
   </div>
 </template>
 <script>
+import SearchComponent from '@/components/SearchComponent/index'
 export default {
+  inject: ['reload'],
+  components: {
+    SearchComponent
+  },
   data () {
     return {
+      inputName: '任务',
       projectSelectValue: '',
       getProjectListBody: {},
       projectList: [],
       taskList: [],
       getTaskListBody: {
+        task_name: '',
         project_id: '',
+        model_id: '',
         page_num: 1
       },
       buttonDisabled: true,
@@ -251,7 +247,8 @@ export default {
           { required: true, message: '请输入绑定caseId', trigger: 'blur' }
         ]
       },
-      my_case_list: ''
+      my_case_list: '',
+      taskListTotal: 1
     }
   },
   created () {
@@ -259,6 +256,9 @@ export default {
     this.getTaskListMethod()
   },
   methods: {
+    changeChildValueMethod () {
+      this.getTaskListMethod()
+    },
     // 监听 页码值改变的事件
     handleCurrentChange (newPage) {
       this.getTaskListBody.page_num = newPage
@@ -277,17 +277,31 @@ export default {
     },
     // 获取task列表方法
     async getTaskListMethod () {
-      if (this.projectSelectValue !== '') {
-        this.getTaskListBody.project_id = this.projectSelectValue
-        this.buttonDisabled = false
+      if (sessionStorage.getItem('inputKey') === this.inputName) {
+        this.getTaskListBody.task_name = sessionStorage.getItem('inputName')
       } else {
+        delete this.getTaskListBody.task_name
+      }
+      if (!sessionStorage.getItem('projectId')) {
+        console.log('projectId', sessionStorage.getItem('projectId'))
         delete this.getTaskListBody.project_id
+        this.buttonDisabled = true
+      } else {
+        this.getTaskListBody.project_id = Number(sessionStorage.getItem('projectId'))
+        this.buttonDisabled = false
+      }
+      if (!sessionStorage.getItem('modelId')) {
+        console.log('modelId', sessionStorage.getItem('modelId'))
+        delete this.getTaskListBody.model_id
+      } else {
+        this.getTaskListBody.model_id = Number(sessionStorage.getItem('modelId'))
       }
       const { data: responseBody } = await this.$api.task.getTaskList(
         this.getTaskListBody
       )
       if (responseBody.code === 1) {
         this.taskList = responseBody.data
+        this.taskListTotal = responseBody.page_total_num * 10
       } else {
         this.$message.error('获取任务列表失败！')
       }
@@ -325,7 +339,7 @@ export default {
       if (this.addTaskBody.task_type === 0) {
         delete this.addTaskBody.task_time
       }
-      this.addTaskBody.project_id = this.getTaskListBody.project_id
+      this.addTaskBody.project_id = Number(sessionStorage.getItem('projectId'))
       this.$refs.addFormRef.validate(async valid => {
         if (valid) {
           const { data: responseBody } = await this.$api.task.addTask(
@@ -390,7 +404,7 @@ export default {
       // 提示信息
       this.$message.success('删除成功！')
       // 刷新数据
-      this.getTaskListMethod()
+      this.reload()
     },
     goTaskInfo (taskId) {
       this.$router.push({ path: '/taskinfo', query: { taskId: taskId } }).catch(err => {
