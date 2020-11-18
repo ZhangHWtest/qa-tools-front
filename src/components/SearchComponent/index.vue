@@ -1,5 +1,10 @@
 <template>
   <div class="top-select">
+    <span class="top-select-name">{{parentInputName}}名称：</span>
+    <el-input class="top-input_name"
+              v-model="inputName"
+              @change="changeInputName"
+              placeholder="请输入"></el-input>
     <span class="top-select-name">项目/模块：</span>
     <el-cascader class="top-pro-cascader"
                  v-model="myProModelValue"
@@ -19,7 +24,6 @@
                  :value="item.interface_id">
       </el-option>
     </el-select>
-
     <el-button class="top-select-button"
                v-show="isShowSeachButton"
                type="primary"
@@ -28,14 +32,14 @@
     <el-button v-show="isShowSeachButton"
                plain
                @click="clearProjectAndModel()">重置</el-button>
-
   </div>
 </template>
 <script>
 export default {
-  props: ['parentIsShowInterfaceSelect', 'parentIsShowSeachButton'],
+  props: ['parentIsShowInterfaceSelect', 'parentIsShowSeachButton', 'parentInputName'],
   data () {
     return {
+      inputName: '',
       isShowInterFaceSelect: true,
       isShowSeachButton: true,
       myProModelOptions: [],
@@ -83,6 +87,9 @@ export default {
         this.myProModelValue.push(modelId)
       }
     }
+    if (sessionStorage.getItem('inputKey') === this.parentInputName) {
+      this.inputName = sessionStorage.getItem('inputName')
+    }
     // console.log('sessionMPMI', this.myProModelValue)
   },
   mounted () {
@@ -98,7 +105,7 @@ export default {
   },
   methods: {
     handleChange (value) {
-      console.log('myProModelValue', this.myProModelValue)
+      // console.log('myProModelValue', this.myProModelValue)
       if (value.length === 1) {
         this.projectList.forEach(item => {
           if (item.project_id === value[0]) {
@@ -121,11 +128,17 @@ export default {
         this.getInterfaceListMethod()
       }
     },
+    changeInputName () {
+      sessionStorage.setItem('inputKey', this.parentInputName)
+      sessionStorage.setItem('inputName', this.inputName)
+    },
+    // 下拉框改变时
     changeInterfaceValue (value) {
       // console.log('changeInterfaceValue:', value)
       this.getInterfaceInfoMethod(value)
     },
     changeChildValue () {
+
       this.$emit('changeChildValueMethod', 'change')
     },
     clearProjectAndModel () {
@@ -135,9 +148,12 @@ export default {
       sessionStorage.removeItem('projectName')
       sessionStorage.removeItem('interId')
       sessionStorage.removeItem('interName')
+      sessionStorage.removeItem('inputKey')
+      sessionStorage.removeItem('inputName')
       this.$emit('changeChildValueMethod', 'change')
       this.myProModelValue = ''
       this.interfaceValue = ''
+      this.inputName = ''
       if (this.isShowInterFaceSelect) {
         this.getInterfaceListMethod()
       }
@@ -230,6 +246,9 @@ export default {
 .top-select {
   margin: 10px 10px 10px 10px;
   padding-left: 10px;
+  .top-input_name {
+    width: 170px;
+  }
   .top-select-name {
     margin-left: 10px;
     font-size: 15px;

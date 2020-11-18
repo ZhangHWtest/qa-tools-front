@@ -1,7 +1,8 @@
 <template>
   <div>
     <div>
-      <search-component @changeChildValueMethod="changeChildValueMethod"
+      <search-component :parentInputName="inputName"
+                        @changeChildValueMethod="changeChildValueMethod"
                         :parentIsShowInterfaceSelect="parentIsShowInterfaceSelect" />
     </div>
     <div class="interface-top-addbutton">
@@ -126,9 +127,11 @@ export default {
   },
   data () {
     return {
+      inputName: '用例',
       parentIsShowInterfaceSelect: true,
       buttonDisabled: true,
       getcaseListBody: {
+        case_name: '',
         project_id: '',
         model_id: '',
         interface_id: '',
@@ -197,6 +200,11 @@ export default {
     },
     // 获取所有case
     async caseListMethod () {
+      if (sessionStorage.getItem('inputKey') === this.inputName) {
+        this.getcaseListBody.case_name = sessionStorage.getItem('inputName')
+      } else {
+        delete this.getcaseListBody.case_name
+      }
       if (!sessionStorage.getItem('projectId')) {
         console.log('projectId', sessionStorage.getItem('projectId'))
         delete this.getcaseListBody.project_id

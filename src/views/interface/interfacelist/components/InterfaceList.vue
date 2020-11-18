@@ -1,7 +1,8 @@
 <template>
   <div>
     <div>
-      <search-component @changeChildValueMethod="changeChildValueMethod" />
+      <search-component :parentInputName="inputName"
+                        @changeChildValueMethod="changeChildValueMethod" />
     </div>
     <div class="interface-top-addbutton">
       <span class="interface-top-addannotation">注：添加接口必须先选择项目或模块！</span>
@@ -188,6 +189,7 @@ export default {
   },
   data () {
     return {
+      inputName: '接口',
       addInterfaceDialog: false,
       addInterfaceBody: {
         project_id: '',
@@ -205,6 +207,7 @@ export default {
       getInterfaceListBody: {
         project_id: '',
         model_id: '',
+        interface_name: '',
         page_num: 1
       },
       interfaceList: [],
@@ -249,6 +252,11 @@ export default {
     },
     // 获取接口列表方法
     async getInterfaceListMethod () {
+      if (sessionStorage.getItem('inputKey') === this.inputName) {
+        this.getInterfaceListBody.interface_name = sessionStorage.getItem('inputName')
+      } else {
+        delete this.getInterfaceListBody.interface_name
+      }
       if (!sessionStorage.getItem('projectId')) {
         delete this.getInterfaceListBody.project_id
         this.buttonDisabled = true
