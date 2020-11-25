@@ -17,26 +17,16 @@ module.exports = {
     },
     // 配置代理
     proxy: {
-      '/': {
+      '/api': {
         // 接口服务地址
         target: 'http://10.20.44.237:5555',
         // 是否跨域
         changeOrigin: true,
-        // ws: true,
-        // pathRewrite: {
-        //   '^/': ''
-        // }
-      },
-      // '/uitest': {
-      //   // 接口服务地址
-      //   target: 'http://10.20.46.17:5555',
-      //   // 是否跨域
-      //   changeOrigin: true,
-      //   ws: true,
-      //   pathRewrite: {
-      //     '^/': ''
-      //   }
-      // }
+        ws: true,
+        pathRewrite: {
+          '^/': ''
+        }
+      }
     }
   }
 }

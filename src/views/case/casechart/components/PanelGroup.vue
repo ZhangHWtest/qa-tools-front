@@ -12,10 +12,10 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Total
+            InterTotal
           </div>
           <count-to :start-val="0"
-                    :end-val="102400"
+                    :end-val="interTotalValue"
                     :duration="2600"
                     class="card-panel-num" />
         </div>
@@ -32,10 +32,11 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Messages
+            CaseToal
           </div>
+          <!-- duration:持续时间，以毫秒为单位-->
           <count-to :start-val="0"
-                    :end-val="81212"
+                    :end-val="caseToalValue"
                     :duration="3000"
                     class="card-panel-num" />
         </div>
@@ -52,10 +53,10 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Run
+            CaseSuccess
           </div>
           <count-to :start-val="0"
-                    :end-val="13600"
+                    :end-val="caseSuccessValue"
                     :duration="3600"
                     class="card-panel-num" />
         </div>
@@ -72,10 +73,10 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Error
+            CaseFailure
           </div>
           <count-to :start-val="0"
-                    :end-val="9280"
+                    :end-val="caseFailureValue"
                     :duration="3200"
                     class="card-panel-num" />
         </div>
@@ -86,10 +87,31 @@
 
 <script>
 import CountTo from 'vue-count-to'
-
 export default {
   components: {
     CountTo
+  },
+  props: [
+    'panelValue'
+  ],
+  data () {
+    return {
+      interTotalValue: '',
+      caseToalValue: '',
+      caseSuccessValue: '',
+      caseFailureValue: ''
+    }
+  },
+  watch: {
+    panelValue (val) {
+      if (!val) {
+        this.interTotalValue = this.panelValue.panelInterTotal
+        this.caseToalValue = this.panelValue.panelCaseToal
+        this.caseSuccessValue = this.panelValue.panelCaseSuccess
+        this.caseFailureValue = this.panelValue.panelCaseFailure
+      }
+    }
+
   },
   methods: {
     handleSetLineChartData (type) {
@@ -176,7 +198,7 @@ export default {
       font-weight: bold;
       margin: 26px;
       margin-left: 0px;
-      width: 90px;
+      width: 110px;
 
       .card-panel-text {
         line-height: 18px;

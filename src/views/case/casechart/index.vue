@@ -1,12 +1,12 @@
 <template>
-
   <div class="dashboard-editor-container">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>接口管理</el-breadcrumb-item>
       <el-breadcrumb-item>接口概况</el-breadcrumb-item>
     </el-breadcrumb>
-    <panel-group @handleSetLineChartData="handleSetLineChartData" />
+    <panel-group @handleSetLineChartData="handleSetLineChartData"
+                 :panelValue="panelValue" />
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <el-col :xs="24"
               :sm="24"
@@ -22,7 +22,6 @@
       </el-col>
     </el-row>
   </div>
-
 </template>
 
 <script>
@@ -58,13 +57,35 @@ export default {
   },
   data () {
     return {
-      lineChartData: lineChartData.newVisitis
+      lineChartData: lineChartData.newVisitis,
+      panelValue: {
+        panelInterTotal: '',
+        panelCaseToal: '',
+        panelCaseSuccess: '',
+        panelCaseFailure: ''
+      }
+
     }
+  },
+  created () {
+    this.getIndexNumMethod()
   },
   methods: {
     handleSetLineChartData (type) {
       this.lineChartData = lineChartData[type]
-    }
+    },
+    async getIndexNumMethod () {
+      const { data: res } = await this.$api.testcase.getIndexNum()
+      if (res.code === 1) {
+        this.panelValue.panelValue = res.data.interface_num
+        this.panelValue.panelCaseToal = res.data.run_case_num
+        this.panelValue.panelCaseSuccess = res.data.success_case_num
+        this.panelValue.panelCaseFailure = res.data.failure_case_num
+      } else {
+        this.$message.error(res.msg)
+      }
+
+    },
   }
 }
 </script>

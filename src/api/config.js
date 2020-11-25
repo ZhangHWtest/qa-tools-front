@@ -1,8 +1,8 @@
 // const url = 'http://192.168.100.38:5001'
-// const urlApi = '/'
-const urlUi = '/'
+const url = '/api'
+// const url = '/'
 export default {
-  baseUrl: urlUi,
+  baseUrl: url,
   data: {},
   timeout: 10000,
   // 携带凭证

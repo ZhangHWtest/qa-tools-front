@@ -58,6 +58,7 @@ export default {
     this.chart = null
   },
   methods: {
+    // 初始化init
     initChart () {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartData)
