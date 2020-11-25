@@ -10,7 +10,7 @@ export const reques = options => {
     const instance = axios.create({
       // 需要对接其他人接口，所以这里不定义url
       baseURL: config.baseUrl,
-      headers: config.headers,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       timeout: config.timeout,
       withCredentials: config.withCredentials
     })
@@ -63,12 +63,10 @@ export const reques = options => {
   })
 }
 // 针对post-form表单的请求
-export const requestTwo = options => {
+export const requestPostForm = options => {
   return new Promise((resolve, reject) => {
     const instance = axios.create({
-      header: {
-        'Content-Type': 'application/x-www-form-urlencode;charset=UTF-8'
-      },
+      header: { 'Content-Type': 'application/x-www-form-urlencode;charset=UTF-8' },
       timeout: config.timeout,
       withCredentials: config.withCredentials
     })

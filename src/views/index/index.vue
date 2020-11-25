@@ -45,7 +45,7 @@
           <el-submenu index="1">
             <template slot="title">
               <i class="iconfont icon-icon_compile"></i>
-              <span class="sider-bar-title">接口管理</span>
+              <span class="sider-bar-title">API管理</span>
             </template>
             <el-menu-item index="/casechart"
                           route="/casechart"
@@ -75,21 +75,15 @@
                           route="/tasklist"
                           @click="saveNavState('/tasklist')">
               <template slot="title">
-                <i class="iconfont icon-ceshishenqing"></i>
+                <i class="iconfont icon-icon_renwujincheng"></i>
                 <span class="sider-bar-title">任务列表</span>
               </template>
             </el-menu-item>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="iconfont icon-icon_workfile_line"></i>
-              <span class="sider-bar-title">项目管理</span>
-            </template>
             <el-menu-item index="/project"
                           route="/project"
                           @click="saveNavState('/project')">
               <template slot="title">
-                <i class="iconfont icon-icon_compile"></i>
+                <i class="iconfont icon-icon_workfile_line"></i>
                 <span class="sider-bar-title">项目配置</span>
               </template>
             </el-menu-item>
@@ -99,6 +93,28 @@
               <template slot="title">
                 <i class="iconfont icon-icon_setting"></i>
                 <span class="sider-bar-title">环境配置</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="iconfont icon-ruanjiankaifabao"></i>
+              <span class="sider-bar-title">UI管理</span>
+            </template>
+            <el-menu-item index="/ui/caselist"
+                          route="/ui/caselist"
+                          @click="saveNavState('/ui/caselist')">
+              <template slot="title">
+                <i class="iconfont icon-ceshishenqing"></i>
+                <span class="sider-bar-title">用例管理</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/system/list"
+                          route="/system/list"
+                          @click="saveNavState('/system/list')">
+              <template slot="title">
+                <i class="iconfont icon-icon_setting"></i>
+                <span class="sider-bar-title">系统配置</span>
               </template>
             </el-menu-item>
           </el-submenu>

@@ -138,7 +138,6 @@ export default {
       this.getInterfaceInfoMethod(value)
     },
     changeChildValue () {
-
       this.$emit('changeChildValueMethod', 'change')
     },
     clearProjectAndModel () {
