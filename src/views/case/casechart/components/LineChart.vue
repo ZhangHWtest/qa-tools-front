@@ -11,30 +11,18 @@ require('echarts/theme/macarons')
 export default {
   mixins: [resize],
   props: {
-    className: {
-      type: String,
-      default: 'chart'
-    },
-    width: {
-      type: String,
-      default: '100%'
-    },
-    height: {
-      type: String,
-      default: '350px'
-    },
-    autoResize: {
-      type: Boolean,
-      default: true
-    },
-    chartData: {
-      type: Object,
-      required: true
-    }
+    className: { type: String, default: 'chart' },
+    width: { type: String, default: '100%' },
+    height: { type: String, default: '350px' },
+    autoResize: { type: Boolean, default: true },
+    childChartData: { type: Object, required: true },
+    childSucasenum: { type: Object, required: true },
+    childRuncasenum: { type: Object, required: true },
+    childFailcasenum: { type: Object, required: true }
   },
   data () {
     return {
-      chart: null
+      chart: null,
     }
   },
   watch: {
@@ -57,16 +45,20 @@ export default {
     this.chart.dispose()
     this.chart = null
   },
+  created () {
+  },
   methods: {
     // 初始化init
     initChart () {
       this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions(this.chartData)
+      this.setOptions(this.childChartData, this.childSucasenum, this.childRuncasenum, this.childFailcasenum)
+      console.log(this.chartData)
     },
-    setOptions ({ expectedData, actualData } = {}) {
+    // chartDate，mySucasenum，myRuncasenum，myFailcasenum
+    setOptions ({ childChartDate, childSucasenum, childRuncasenum, childFailcasenum } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: childChartDate,
           boundaryGap: false,
           axisTick: {
             show: false
@@ -92,30 +84,28 @@ export default {
           }
         },
         legend: {
-          data: ['expected', 'actual']
+          data: ['Sucasenum', 'Runcasenum', 'Failcasenum']
         },
         series: [
           {
-            name: 'expected',
+            name: 'Sucasenum',
             itemStyle: {
               normal: {
-                color: '#FF005A',
+                color: '#67C23A',
                 lineStyle: {
-                  color: '#FF005A',
+                  color: '#67C23A',
                   width: 2
                 }
               }
             },
             smooth: true,
             type: 'line',
-            data: expectedData,
+            data: childSucasenum,
             animationDuration: 2800,
             animationEasing: 'cubicInOut'
           },
           {
-            name: 'actual',
-            smooth: true,
-            type: 'line',
+            name: 'Runcasenum',
             itemStyle: {
               normal: {
                 color: '#3888fa',
@@ -128,10 +118,29 @@ export default {
                 }
               }
             },
-            data: actualData,
+            smooth: true,
+            type: 'line',
+            data: childRuncasenum,
             animationDuration: 2800,
             animationEasing: 'quadraticOut'
-          }
+          },
+          {
+            name: 'Failcasenum',
+            itemStyle: {
+              normal: {
+                color: '#FF005A',
+                lineStyle: {
+                  color: '#FF005A',
+                  width: 2
+                }
+              }
+            },
+            smooth: true,
+            type: 'line',
+            data: childFailcasenum,
+            animationDuration: 2800,
+            animationEasing: 'quadraticOut'
+          },
         ]
       })
     }

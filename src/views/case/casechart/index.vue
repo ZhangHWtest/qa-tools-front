@@ -6,12 +6,18 @@
       <el-breadcrumb-item>接口概况</el-breadcrumb-item>
     </el-breadcrumb>
     <panel-group @handleSetLineChartData="handleSetLineChartData"
-                 :panelValue="panelValue" />
+                 :panelInterTotal="panelInterTotal"
+                 :panelCaseToal="panelCaseToal"
+                 :panelCaseSuccess="panelCaseSuccess"
+                 :panelCaseFailure="panelCaseFailure" />
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <el-col :xs="24"
               :sm="24"
               :lg="16">
-        <line-chart :chart-data="lineChartData" />
+        <line-chart :childChartDate="myChartDate"
+                    :childSucasenum="mySucasenum"
+                    :childRuncasenum="myRuncasenum"
+                    :childFailcasenum="myFailcasenum" />
       </el-col>
       <el-col :xs="24"
               :sm="24"
@@ -31,20 +37,8 @@ import PieChart from './components/PieChart'
 
 const lineChartData = {
   newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
+    expectedData: [1, 120, 161, 134, 105, 160, 165],
     actualData: [120, 82, 91, 154, 162, 140, 145]
-  },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
   }
 }
 
@@ -58,13 +52,14 @@ export default {
   data () {
     return {
       lineChartData: lineChartData.newVisitis,
-      panelValue: {
-        panelInterTotal: '',
-        panelCaseToal: '',
-        panelCaseSuccess: '',
-        panelCaseFailure: ''
-      }
-
+      panelInterTotal: 0,
+      panelCaseToal: 0,
+      panelCaseSuccess: 0,
+      panelCaseFailure: 0,
+      chartDate: [],
+      mySucasenum: [],
+      myRuncasenum: [],
+      myFailcasenum: []
     }
   },
   created () {
@@ -77,10 +72,27 @@ export default {
     async getIndexNumMethod () {
       const { data: res } = await this.$api.testcase.getIndexNum()
       if (res.code === 1) {
-        this.panelValue.panelValue = res.data.interface_num
-        this.panelValue.panelCaseToal = res.data.run_case_num
-        this.panelValue.panelCaseSuccess = res.data.success_case_num
-        this.panelValue.panelCaseFailure = res.data.failure_case_num
+        this.panelInterTotal = res.data.interface_num
+        this.panelCaseToal = res.data.run_case_num
+        this.panelCaseSuccess = res.data.success_case_num
+        this.panelCaseFailure = res.data.failure_case_num
+
+        let res_msg = res.data.cs_date_list
+        let myList = []
+        let myList2 = []
+        let myList3 = []
+        let myList4 = []
+        res_msg.forEach(function (item, index) {
+          myList.push(item.open_date)
+          myList2.push(item.today_suc_case_num)
+          myList3.push(item.today_run_case_num)
+          myList4.push(item.today_fail_case_num)
+        })
+        this.chartDate = myList
+        this.mySucasenum = myList2
+        this.myRuncasenum = myList3
+        this.myFailcasenum = myList4
+        // console.log('chartDate', this.myChartDate)
       } else {
         this.$message.error(res.msg)
       }

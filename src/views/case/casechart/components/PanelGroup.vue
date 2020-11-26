@@ -15,7 +15,7 @@
             InterTotal
           </div>
           <count-to :start-val="0"
-                    :end-val="interTotalValue"
+                    :end-val="panelInterTotal"
                     :duration="2600"
                     class="card-panel-num" />
         </div>
@@ -36,7 +36,7 @@
           </div>
           <!-- duration:持续时间，以毫秒为单位-->
           <count-to :start-val="0"
-                    :end-val="caseToalValue"
+                    :end-val="panelCaseToal"
                     :duration="3000"
                     class="card-panel-num" />
         </div>
@@ -56,7 +56,7 @@
             CaseSuccess
           </div>
           <count-to :start-val="0"
-                    :end-val="caseSuccessValue"
+                    :end-val="panelCaseSuccess"
                     :duration="3600"
                     class="card-panel-num" />
         </div>
@@ -76,7 +76,7 @@
             CaseFailure
           </div>
           <count-to :start-val="0"
-                    :end-val="caseFailureValue"
+                    :end-val="panelCaseFailure"
                     :duration="3200"
                     class="card-panel-num" />
         </div>
@@ -92,26 +92,15 @@ export default {
     CountTo
   },
   props: [
-    'panelValue'
+    'panelInterTotal', 'panelCaseToal', 'panelCaseSuccess', 'panelCaseFailure'
   ],
   data () {
     return {
-      interTotalValue: '',
-      caseToalValue: '',
-      caseSuccessValue: '',
-      caseFailureValue: ''
     }
   },
+  created () {
+  },
   watch: {
-    panelValue (val) {
-      if (!val) {
-        this.interTotalValue = this.panelValue.panelInterTotal
-        this.caseToalValue = this.panelValue.panelCaseToal
-        this.caseSuccessValue = this.panelValue.panelCaseSuccess
-        this.caseFailureValue = this.panelValue.panelCaseFailure
-      }
-    }
-
   },
   methods: {
     handleSetLineChartData (type) {
@@ -198,7 +187,7 @@ export default {
       font-weight: bold;
       margin: 26px;
       margin-left: 0px;
-      width: 110px;
+      width: 120px;
 
       .card-panel-text {
         line-height: 18px;
