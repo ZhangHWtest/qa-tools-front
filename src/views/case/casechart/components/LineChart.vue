@@ -14,11 +14,8 @@ export default {
     className: { type: String, default: 'chart' },
     width: { type: String, default: '100%' },
     height: { type: String, default: '350px' },
-    autoResize: { type: Boolean, default: true }
-    // childChartDate: { type: Array, required: true },
-    // childSucasenum: { type: Array, required: true },
-    // childRuncasenum: { type: Array, required: true },
-    // childFailcasenum: { type: Array, required: true }
+    autoResize: { type: Boolean, default: true },
+    chartDate: { type: Object, required: true }
   },
   data () {
     return {
@@ -26,10 +23,10 @@ export default {
     }
   },
   watch: {
-    childChartData: {
+    chartDate: {
       deep: true,
       handler (val) {
-        this.setOptions(this.chartVal)
+        this.setOptions(val)
       }
     }
   },
@@ -51,14 +48,14 @@ export default {
     // 初始化init
     initChart () {
       this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions()
-      console.log('chartVal:')
+      this.setOptions(this.chartDate)
+      // console.log('chartDate:', this.chartDate)
     },
     // chartDate，mySucasenum，myRuncasenum，myFailcasenum
-    setOptions ({ chartDate, childSucasenum, childRuncasenum, childFailcasenum } = {}) {
+    setOptions ({ openDate, suCasenum, runCasenum, failCasenum } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: chartDate,
+          data: openDate,
           boundaryGap: false,
           axisTick: {
             show: false
@@ -100,7 +97,7 @@ export default {
             },
             smooth: true,
             type: 'line',
-            data: childSucasenum,
+            data: suCasenum,
             animationDuration: 2800,
             animationEasing: 'cubicInOut'
           },
@@ -120,7 +117,7 @@ export default {
             },
             smooth: true,
             type: 'line',
-            data: childRuncasenum,
+            data: runCasenum,
             animationDuration: 2800,
             animationEasing: 'quadraticOut'
           },
@@ -137,7 +134,7 @@ export default {
             },
             smooth: true,
             type: 'line',
-            data: childFailcasenum,
+            data: failCasenum,
             animationDuration: 2800,
             animationEasing: 'quadraticOut'
           },

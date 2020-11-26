@@ -14,10 +14,7 @@
       <el-col :xs="24"
               :sm="24"
               :lg="16">
-        <line-chart :childChartDate="chartDate"
-                    :childSucasenum="mySucasenum"
-                    :childRuncasenum="myRuncasenum"
-                    :childFailcasenum="myFailcasenum" />
+        <line-chart :chart-date="lineChartData" />
       </el-col>
       <el-col :xs="24"
               :sm="24"
@@ -35,13 +32,6 @@ import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 import PieChart from './components/PieChart'
 
-const lineChartData = {
-  newVisitis: {
-    expectedData: [1, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
-  }
-}
-
 export default {
   name: 'MonitorChart',
   components: {
@@ -51,15 +41,16 @@ export default {
   },
   data () {
     return {
-      lineChartData: lineChartData.newVisitis,
       panelInterTotal: 0,
       panelCaseToal: 0,
       panelCaseSuccess: 0,
       panelCaseFailure: 0,
-      chartDate: [],
-      mySucasenum: [],
-      myRuncasenum: [],
-      myFailcasenum: []
+      lineChartData: {
+        openDate: [],
+        suCasenum: [],
+        runCasenum: [],
+        failCasenum: []
+      }
     }
   },
   created () {
@@ -77,27 +68,25 @@ export default {
         this.panelCaseSuccess = res.data.success_case_num
         this.panelCaseFailure = res.data.failure_case_num
 
-        let res_msg = res.data.cs_date_list
+        let resMsg = res.data.cs_date_list
         let myList = []
         let myList2 = []
         let myList3 = []
         let myList4 = []
-        res_msg.forEach(function (item, index) {
+        resMsg.forEach(function (item, index) {
           myList.push(item.open_date)
           myList2.push(item.today_suc_case_num)
           myList3.push(item.today_run_case_num)
           myList4.push(item.today_fail_case_num)
         })
-        this.chartDate = myList
-        this.mySucasenum = myList2
-        this.myRuncasenum = myList3
-        this.myFailcasenum = myList4
-        // console.log('chartDate', this.myChartDate)
+        this.lineChartData.openDate = myList
+        this.lineChartData.suCasenum = myList2
+        this.lineChartData.runCasenum = myList3
+        this.lineChartData.failCasenum = myList4
       } else {
         this.$message.error(res.msg)
       }
-
-    },
+    }
   }
 }
 </script>
