@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6151141",
+      "name": "play circle-fill",
+      "font_class": "playcircle-fill",
+      "unicode": "e7cd",
+      "unicode_decimal": 59341
+    },
+    {
+      "icon_id": "6151177",
+      "name": "check-circle-fill",
+      "font_class": "check-circle-fill",
+      "unicode": "e7e2",
+      "unicode_decimal": 59362
+    },
+    {
       "icon_id": "4347599",
       "name": "icon_使用文档",
       "font_class": "icon_shiyongwendang",

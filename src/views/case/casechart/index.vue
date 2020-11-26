@@ -9,7 +9,7 @@
                  :panelInterTotal="panelInterTotal"
                  :panelCaseToal="panelCaseToal"
                  :panelCaseSuccess="panelCaseSuccess"
-                 :panelCaseFailure="panelCaseFailure" />
+                 :panelCaseRunNum="panelCaseRunNum" />
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <el-col :xs="24"
               :sm="24"
@@ -20,7 +20,7 @@
               :sm="24"
               :lg="8">
         <div class="chart-wrapper">
-          <pie-chart />
+          <pie-chart :pieDate="pieDate" />
         </div>
       </el-col>
     </el-row>
@@ -44,29 +44,30 @@ export default {
       panelInterTotal: 0,
       panelCaseToal: 0,
       panelCaseSuccess: 0,
-      panelCaseFailure: 0,
+      panelCaseRunNum: 0,
       lineChartData: {
         openDate: [],
         suCasenum: [],
         runCasenum: [],
         failCasenum: []
-      }
+      },
+      pieDate: []
     }
   },
   created () {
     this.getIndexNumMethod()
   },
   methods: {
-    // handleSetLineChartData (type) {
-    //   this.lineChartData = lineChartData[type]
-    // },
+    handleSetLineChartData (type) {
+      this.lineChartData = lineChartData[type]
+    },
     async getIndexNumMethod () {
       const { data: res } = await this.$api.testcase.getIndexNum()
       if (res.code === 1) {
         this.panelInterTotal = res.data.interface_num
-        this.panelCaseToal = res.data.run_case_num
+        this.panelCaseToal = res.data.case_num
         this.panelCaseSuccess = res.data.success_case_num
-        this.panelCaseFailure = res.data.failure_case_num
+        this.panelCaseRunNum = res.data.run_case_num
 
         let resMsg = res.data.cs_date_list
         let myList = []
@@ -83,6 +84,13 @@ export default {
         this.lineChartData.suCasenum = myList2
         this.lineChartData.runCasenum = myList3
         this.lineChartData.failCasenum = myList4
+
+        this.pieDate.push({ 'value': res.data.run_case_num, 'name': 'RunCaseNum' })
+        this.pieDate.push({ 'value': res.data.success_case_num, 'name': 'SucCaseNum' })
+        this.pieDate.push({ 'value': res.data.failure_case_num, 'name': 'FalCaseNum' })
+        this.pieDate.push({ 'value': res.data.exception_case_num, 'name': 'ExcCaseNum' })
+        console.log('this.pieDate', this.pieDate)
+
       } else {
         this.$message.error(res.msg)
       }

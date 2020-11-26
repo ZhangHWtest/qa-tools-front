@@ -68,6 +68,7 @@ export default {
           top: 30,
           containLabel: true
         },
+        // 鼠标放到折线图上展示的数据展示样式
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -75,6 +76,7 @@ export default {
           },
           padding: [5, 10]
         },
+
         yAxis: {
           axisTick: {
             show: false
@@ -95,7 +97,7 @@ export default {
                 }
               }
             },
-            smooth: true,
+            smooth: false,
             type: 'line',
             data: suCasenum,
             animationDuration: 2800,
@@ -115,7 +117,7 @@ export default {
                 }
               }
             },
-            smooth: true,
+            smooth: false,
             type: 'line',
             data: runCasenum,
             animationDuration: 2800,
@@ -132,7 +134,7 @@ export default {
                 }
               }
             },
-            smooth: true,
+            smooth: false,
             type: 'line',
             data: failCasenum,
             animationDuration: 2800,
