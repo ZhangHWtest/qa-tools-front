@@ -26,7 +26,25 @@ export default {
     }
   },
   watch: {
-    chartData: {
+    childChartData: {
+      deep: true,
+      handler (val) {
+        this.setOptions(val)
+      }
+    },
+    childSucasenum: {
+      deep: true,
+      handler (val) {
+        this.setOptions(val)
+      }
+    },
+    childRuncasenum: {
+      deep: true,
+      handler (val) {
+        this.setOptions(val)
+      }
+    },
+    childFailcasenum: {
       deep: true,
       handler (val) {
         this.setOptions(val)
