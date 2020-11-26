@@ -57,9 +57,9 @@ export default {
     this.getIndexNumMethod()
   },
   methods: {
-    handleSetLineChartData (type) {
-      this.lineChartData = lineChartData[type]
-    },
+    // handleSetLineChartData (type) {
+    //   this.lineChartData = lineChartData[type]
+    // },
     async getIndexNumMethod () {
       const { data: res } = await this.$api.testcase.getIndexNum()
       if (res.code === 1) {
