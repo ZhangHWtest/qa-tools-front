@@ -23,33 +23,41 @@ export default {
   data () {
     return {
       chart: null,
+      chartVal: {
+        chartDate: [],
+        sucasenum: [],
+        runcasenum: [],
+        failcasenum: []
+      }
     }
   },
   watch: {
     childChartData: {
       deep: true,
       handler (val) {
-        this.setOptions(val)
+        this.chartVal.chartVal = val
+        this.setOptions(this.chartVal)
       }
     },
-    childSucasenum: {
-      deep: true,
-      handler (val) {
-        this.setOptions(val)
-      }
-    },
-    childRuncasenum: {
-      deep: true,
-      handler (val) {
-        this.setOptions(val)
-      }
-    },
-    childFailcasenum: {
-      deep: true,
-      handler (val) {
-        this.setOptions(val)
-      }
-    }
+    // childSucasenum: {
+    //   deep: true,
+    //   handler (val) {
+    //     this.setOptions(val)
+    //   }
+    // },
+    // childRuncasenum: {
+    //   deep: true,
+    //   handler (val) {
+    //     this.setOptions(val)
+    //   }
+    // },
+    // childFailcasenum: {
+    //   deep: true,
+    //   handler (val) {
+    //     this.setOptions(val)
+    //   }
+    // }
+
   },
   mounted () {
     this.$nextTick(() => {
@@ -69,14 +77,14 @@ export default {
     // 初始化init
     initChart () {
       this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions(this.childChartData, this.childSucasenum, this.childRuncasenum, this.childFailcasenum)
-      console.log(this.chartData)
+      this.setOptions(this.chartVal)
+      console.log(this.chartVal)
     },
     // chartDate，mySucasenum，myRuncasenum，myFailcasenum
-    setOptions ({ childChartDate, childSucasenum, childRuncasenum, childFailcasenum } = {}) {
+    setOptions ({ chartDate, childSucasenum, childRuncasenum, childFailcasenum } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: childChartDate,
+          data: chartDate,
           boundaryGap: false,
           axisTick: {
             show: false
