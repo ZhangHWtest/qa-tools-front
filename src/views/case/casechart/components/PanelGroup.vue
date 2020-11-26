@@ -113,11 +113,11 @@ export default {
 <style lang="less" scoped>
 .panel-group {
   margin-top: 18px;
-
+  margin-left: 10px !important;
+  margin-right: 10px !important;
   .card-panel-col {
     margin-bottom: 32px;
   }
-
   .card-panel {
     height: 108px;
     cursor: pointer;
@@ -133,32 +133,25 @@ export default {
       .card-panel-icon-wrapper {
         color: #fff;
       }
-
       .icon-people {
         background: #40c9c6;
       }
-
       .icon-message {
         background: #36a3f7;
       }
-
       .icon-money {
         background: #f4516c;
       }
-
       .icon-shopping {
         background: #34bfa3;
       }
     }
-
     .icon-people {
       color: #40c9c6;
     }
-
     .icon-message {
       color: #36a3f7;
     }
-
     .icon-money {
       color: #f4516c;
     }
