@@ -67,8 +67,15 @@ const routes = [
       },
       {
         path: '/environment/list',
-        component: () => import('@/views/environment/index.vue'
-        )
+        component: () => import('@/views/environment/index.vue')
+      },
+      {
+        path: '/system/list',
+        component: () => import('@/views/system/index.vue')
+      },
+      {
+        path: '/ui/caselist',
+        component: () => import('@/views/uicase/index.vue')
       }
     ]
   },

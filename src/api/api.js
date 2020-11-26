@@ -6,6 +6,7 @@ import * as environment from './modules/environment'
 import * as testcase from './modules/testcase'
 import * as task from './modules/task'
 import * as equipment from './modules/equipment'
+import * as system from './modules/system'
 export default {
   user,
   login,
@@ -14,5 +15,6 @@ export default {
   environment,
   testcase,
   task,
-  equipment
+  equipment,
+  system
 }

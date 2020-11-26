@@ -80,3 +80,10 @@ export const duplicateCase = data => {
     data
   })
 }
+
+export const getIndexNum = () => {
+  return reques({
+    url: '/index',
+    method: 'get'
+  })
+}

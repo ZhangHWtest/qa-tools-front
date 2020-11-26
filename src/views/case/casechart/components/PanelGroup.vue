@@ -12,10 +12,10 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Total
+            InterTotal
           </div>
           <count-to :start-val="0"
-                    :end-val="102400"
+                    :end-val="panelInterTotal"
                     :duration="2600"
                     class="card-panel-num" />
         </div>
@@ -32,10 +32,11 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Messages
+            CaseToal
           </div>
+          <!-- duration:持续时间，以毫秒为单位-->
           <count-to :start-val="0"
-                    :end-val="81212"
+                    :end-val="panelCaseToal"
                     :duration="3000"
                     class="card-panel-num" />
         </div>
@@ -52,10 +53,10 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Run
+            CaseSuccess
           </div>
           <count-to :start-val="0"
-                    :end-val="13600"
+                    :end-val="panelCaseSuccess"
                     :duration="3600"
                     class="card-panel-num" />
         </div>
@@ -72,10 +73,10 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Error
+            CaseFailure
           </div>
           <count-to :start-val="0"
-                    :end-val="9280"
+                    :end-val="panelCaseFailure"
                     :duration="3200"
                     class="card-panel-num" />
         </div>
@@ -86,10 +87,20 @@
 
 <script>
 import CountTo from 'vue-count-to'
-
 export default {
   components: {
     CountTo
+  },
+  props: [
+    'panelInterTotal', 'panelCaseToal', 'panelCaseSuccess', 'panelCaseFailure'
+  ],
+  data () {
+    return {
+    }
+  },
+  created () {
+  },
+  watch: {
   },
   methods: {
     handleSetLineChartData (type) {
@@ -176,7 +187,7 @@ export default {
       font-weight: bold;
       margin: 26px;
       margin-left: 0px;
-      width: 90px;
+      width: 120px;
 
       .card-panel-text {
         line-height: 18px;
