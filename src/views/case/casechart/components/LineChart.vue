@@ -14,50 +14,24 @@ export default {
     className: { type: String, default: 'chart' },
     width: { type: String, default: '100%' },
     height: { type: String, default: '350px' },
-    autoResize: { type: Boolean, default: true },
-    childChartData: { type: Object, required: true },
-    childSucasenum: { type: Object, required: true },
-    childRuncasenum: { type: Object, required: true },
-    childFailcasenum: { type: Object, required: true }
+    autoResize: { type: Boolean, default: true }
+    // childChartDate: { type: Array, required: true },
+    // childSucasenum: { type: Array, required: true },
+    // childRuncasenum: { type: Array, required: true },
+    // childFailcasenum: { type: Array, required: true }
   },
   data () {
     return {
-      chart: null,
-      chartVal: {
-        chartDate: [],
-        sucasenum: [],
-        runcasenum: [],
-        failcasenum: []
-      }
+      chart: null
     }
   },
   watch: {
     childChartData: {
       deep: true,
       handler (val) {
-        this.chartVal.chartVal = val
         this.setOptions(this.chartVal)
       }
-    },
-    // childSucasenum: {
-    //   deep: true,
-    //   handler (val) {
-    //     this.setOptions(val)
-    //   }
-    // },
-    // childRuncasenum: {
-    //   deep: true,
-    //   handler (val) {
-    //     this.setOptions(val)
-    //   }
-    // },
-    // childFailcasenum: {
-    //   deep: true,
-    //   handler (val) {
-    //     this.setOptions(val)
-    //   }
-    // }
-
+    }
   },
   mounted () {
     this.$nextTick(() => {
@@ -77,8 +51,8 @@ export default {
     // 初始化init
     initChart () {
       this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions(this.chartVal)
-      console.log(this.chartVal)
+      this.setOptions()
+      console.log('chartVal:')
     },
     // chartDate，mySucasenum，myRuncasenum，myFailcasenum
     setOptions ({ chartDate, childSucasenum, childRuncasenum, childFailcasenum } = {}) {

@@ -14,7 +14,7 @@
       <el-col :xs="24"
               :sm="24"
               :lg="16">
-        <line-chart :childChartDate="myChartDate"
+        <line-chart :childChartDate="chartDate"
                     :childSucasenum="mySucasenum"
                     :childRuncasenum="myRuncasenum"
                     :childFailcasenum="myFailcasenum" />
