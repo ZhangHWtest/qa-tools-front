@@ -7,12 +7,12 @@
             class="card-panel-col">
       <div class="card-panel"
            @click="handleSetLineChartData('newVisitis')">
-        <div class="card-panel-icon-wrapper icon-people">
+        <div class="card-panel-icon-wrapper icon-message">
           <i class="iconfont icon-paperplane-fill" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            InterTotal
+            IntFacTotal
           </div>
           <count-to :start-val="0"
                     :end-val="panelInterTotal"
@@ -27,7 +27,7 @@
             class="card-panel-col">
       <div class="card-panel"
            @click="handleSetLineChartData('messages')">
-        <div class="card-panel-icon-wrapper icon-message">
+        <div class="card-panel-icon-wrapper icon-people">
           <i class="iconfont icon-flag-fill" />
         </div>
         <div class="card-panel-description">
@@ -48,15 +48,15 @@
             class="card-panel-col">
       <div class="card-panel"
            @click="handleSetLineChartData('shoppings')">
-        <div class="card-panel-icon-wrapper icon-shopping">
-          <i class="iconfont icon-smile-fill" />
+        <div class="card-panel-icon-wrapper icon-message">
+          <i class="iconfont icon-playcircle-fill" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            CaseSuccess
+            CaseRunNum
           </div>
           <count-to :start-val="0"
-                    :end-val="panelCaseSuccess"
+                    :end-val="panelCaseRunNum"
                     :duration="3600"
                     class="card-panel-num" />
         </div>
@@ -68,15 +68,15 @@
             class="card-panel-col">
       <div class="card-panel"
            @click="handleSetLineChartData('purchases')">
-        <div class="card-panel-icon-wrapper icon-money">
-          <i class="iconfont icon-cry-fill" />
+        <div class="card-panel-icon-wrapper icon-people">
+          <i class="iconfont icon-check-circle-fill" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            CaseFailure
+            CaseSuccess
           </div>
           <count-to :start-val="0"
-                    :end-val="panelCaseFailure"
+                    :end-val="panelCaseSuccess"
                     :duration="3200"
                     class="card-panel-num" />
         </div>
@@ -92,7 +92,7 @@ export default {
     CountTo
   },
   props: [
-    'panelInterTotal', 'panelCaseToal', 'panelCaseSuccess', 'panelCaseFailure'
+    'panelInterTotal', 'panelCaseToal', 'panelCaseSuccess', 'panelCaseRunNum'
   ],
   data () {
     return {
@@ -208,10 +208,10 @@ export default {
 .icon-flag-fill:before {
   font-size: 50px;
 }
-.icon-smile-fill:before {
+.icon-playcircle-fill:before {
   font-size: 50px;
 }
-.icon-cry-fill:before {
+.icon-check-circle-fill:before {
   font-size: 50px;
 }
 

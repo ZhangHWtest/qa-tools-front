@@ -22,11 +22,23 @@ export default {
     height: {
       type: String,
       default: '350px'
+    },
+    pieDate: {
+      type: Array,
+      required: true
     }
   },
   data () {
     return {
       chart: null
+    }
+  },
+  watch: {
+    pieDate: {
+      deep: true,
+      handler (val) {
+        this.setOptions(val)
+      }
     }
   },
   mounted () {
@@ -44,7 +56,9 @@ export default {
   methods: {
     initChart () {
       this.chart = echarts.init(this.$el, 'macarons')
-
+      this.setOptions(this.pieDate)
+    },
+    setOptions (pieDate) {
       this.chart.setOption({
         tooltip: {
           trigger: 'item',
@@ -53,22 +67,23 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: ['RunCaseNum', 'SucCaseNum', 'FalCaseNum', 'ExcCaseNum']
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: 'Case',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
-            ],
+            data: pieDate,
+            // [
+            //   { value: 320, name: 'Industries' },
+            //   { value: 240, name: 'Technology' },
+            //   { value: 149, name: 'Forex' },
+            //   { value: 100, name: 'Gold' },
+            //   { value: 59, name: 'Forecasts' }
+            // ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }
