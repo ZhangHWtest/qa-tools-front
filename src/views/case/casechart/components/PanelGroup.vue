@@ -187,7 +187,7 @@ export default {
       font-weight: bold;
       margin: 26px;
       margin-left: 0px;
-      width: 120px;
+      width: 110px;
 
       .card-panel-text {
         line-height: 18px;
