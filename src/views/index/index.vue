@@ -321,7 +321,9 @@ export default {
     }
   }
 }
-
+.index-main {
+  padding: 1px;
+}
 .el-aside {
   background-color: #333744;
   .el-menu {

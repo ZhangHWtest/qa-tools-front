@@ -105,4 +105,8 @@ export default {
   background-color: rgb(240, 242, 245);
   position: relative;
 }
+.el-row {
+  margin-left: 25px;
+  margin-right: 27px;
+}
 </style>
