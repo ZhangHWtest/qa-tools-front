@@ -2,8 +2,8 @@
   <div>
     <el-header>
       <div>
-        <img src="@/assets/kkblogo.png" />
-        <span>ApiTest</span>
+        <img src="@/assets/bsy-logo.png" />
+        <span>BSYQaTools</span>
       </div>
       <div class="header-button">
         <i class="iconfont icon-icon_secret"
@@ -15,7 +15,7 @@
     <login-introduce />
     <!--登录区域 -->
     <div class="login_box">
-      <span class="login_title">ApiTest</span>
+      <span class="login_title">BSYQaTools</span>
 
       <el-form ref="loginFormRef"
                :model="loginForm"
