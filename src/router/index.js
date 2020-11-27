@@ -74,6 +74,10 @@ const routes = [
         component: () => import('@/views/system/index.vue')
       },
       {
+        path: '/qatools/livemsg',
+        component: () => import('@/views/qatools/livemsg/index.vue')
+      },
+      {
         path: '/ui/caselist',
         component: () => import('@/views/uicase/index.vue')
       }

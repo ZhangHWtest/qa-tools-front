@@ -120,6 +120,20 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
+              <i class="iconfont icon-ruanjiankaifabao"></i>
+              <span class="sider-bar-title">QA工具</span>
+            </template>
+            <el-menu-item index="/qatools/livemsg"
+                          route="/qatools/livemsg"
+                          @click="saveNavState('/qatools/livemsg')">
+              <template slot="title">
+                <i class="iconfont icon-ceshishenqing"></i>
+                <span class="sider-bar-title">直播信息</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="7">
+            <template slot="title">
               <i class="iconfont icon-phone"></i>
               <span class="sider-bar-title">设备管理</span>
             </template>
