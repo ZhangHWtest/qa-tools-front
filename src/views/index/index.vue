@@ -4,16 +4,16 @@
     <el-header>
       <div class="welcome-element">
         <img class="welcome-logo"
-             src="@/assets/kkblogo.png" />
-        <span class="welcome-title">您好！欢迎进入ApiTest后台</span>
+             src="@/assets/bsy-logo.png" />
+        <span class="welcome-title"> 欢迎进入BSYQaTools后台</span>
       </div>
-      <el-avatar class="user-avatar"
+      <!-- <el-avatar class="user-avatar"
                  :size="35"
                  fit="cover"
-                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar> -->
       <el-dropdown class="user-dropdown">
         <span class="el-dropdown-link">
-          {{ loginname.name }}
+          您好！{{ loginname.name }}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
