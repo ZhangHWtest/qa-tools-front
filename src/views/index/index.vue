@@ -120,14 +120,14 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
-              <i class="iconfont icon-ruanjiankaifabao"></i>
+              <i class="iconfont icon-icon_yingyongguanli"></i>
               <span class="sider-bar-title">QA工具</span>
             </template>
             <el-menu-item index="/qatools/livemsg"
                           route="/qatools/livemsg"
                           @click="saveNavState('/qatools/livemsg')">
               <template slot="title">
-                <i class="iconfont icon-ceshishenqing"></i>
+                <i class="iconfont icon-chaxun"></i>
                 <span class="sider-bar-title">直播信息</span>
               </template>
             </el-menu-item>
