@@ -7,6 +7,7 @@ import * as testcase from './modules/testcase'
 import * as task from './modules/task'
 import * as equipment from './modules/equipment'
 import * as system from './modules/system'
+import * as livemsg from './modules/livemsg'
 export default {
   user,
   login,
@@ -16,5 +17,6 @@ export default {
   testcase,
   task,
   equipment,
+  livemsg,
   system
 }
