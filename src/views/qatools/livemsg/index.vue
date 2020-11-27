@@ -47,15 +47,17 @@
               <template>
                 <span class="show-interface-colname"
                       v-if="livemsg.status === '未开始'">
-                  <el-tag>{{livemsg.status}}</el-tag>
+                  <el-tag size="mini">{{livemsg.status}}</el-tag>
                 </span>
                 <span class="show-interface-colname"
                       v-else-if="livemsg.status === '直播中'">
-                  <el-tag type="success">{{livemsg.status}}</el-tag>
+                  <el-tag type="success"
+                          size="mini">{{livemsg.status}}</el-tag>
                 </span>
                 <span class="show-interface-colname"
                       v-else>
-                  <el-tag type="warning">{{livemsg.status}}</el-tag>
+                  <el-tag type="warning"
+                          size="mini">{{livemsg.status}}</el-tag>
                 </span>
               </template>
             </el-col>
@@ -167,10 +169,8 @@ export default {
       } else {
         this.$message.error(res.msg)
       }
-    },
-
+    }
   }
-
 }
 </script>
 <style lang="less" scoped>
