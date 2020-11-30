@@ -17,7 +17,7 @@ export const reques = options => {
     // request 请求拦截器
     instance.interceptors.request.use(
       config => {
-        let token = Cookies.get('token')
+        const token = Cookies.get('token')
         // 发送请求时携带token
         if (token) {
           // config.headers.token = token  //将token添加到Request Hearders 没用
@@ -75,7 +75,7 @@ export const requestPostForm = options => {
       config => {
         if (config.method === 'post') {
           let ret = ''
-          for (let it in config.data) {
+          for (const it in config.data) {
             ret +=
               encodeURIComponent(it) +
               '=' +
@@ -85,7 +85,7 @@ export const requestPostForm = options => {
           config.data = ret
         }
 
-        let token = Cookies.get('token')
+        const token = Cookies.get('token')
         // 发送请求时携带token
         if (token) {
           config.headers.token = token

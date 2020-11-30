@@ -1,116 +1,159 @@
 <template>
   <div v-show="BasicInformation">
-    <h2 class="interface-title-style">基本信息:</h2>
+    <h2 class="interface-title-style">
+      基本信息:
+    </h2>
     <!-- 预览区域-->
     <div v-show="showBasicInformation">
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="10">
           <span class="show-interface-colkey">接口名称：</span>
-          <span class="show-interface-colname">{{interfaceInfo.interface_name}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.interface_name }}</span>
         </el-col>
         <el-col :span="10">
           <span class="show-interface-colkey">创建人：</span>
-          <span class="show-interface-colname">{{interfaceInfo.create_user}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.create_user }}</span>
         </el-col>
       </el-row>
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="10">
           <span class="show-interface-colkey">请求类型：</span>
-          <span class="show-interface-colname">{{interfaceInfo.interface_type}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.interface_type }}</span>
         </el-col>
         <el-col :span="10">
           <span class="show-interface-colkey">请求方法：</span>
           <template>
-            <span class="show-interface-colname"
-                  v-if="interfaceInfo.method === 'GET'">
-              <el-tag>{{interfaceInfo.method}}</el-tag>
+            <span
+              v-if="interfaceInfo.method === 'GET'"
+              class="show-interface-colname"
+            >
+              <el-tag>{{ interfaceInfo.method }}</el-tag>
             </span>
-            <span class="show-interface-colname"
-                  v-else-if="interfaceInfo.method === 'POST'">
-              <el-tag type="success">{{interfaceInfo.method}}</el-tag>
+            <span
+              v-else-if="interfaceInfo.method === 'POST'"
+              class="show-interface-colname"
+            >
+              <el-tag type="success">{{ interfaceInfo.method }}</el-tag>
             </span>
-            <span class="show-interface-colname"
-                  v-else>
-              <el-tag type="warning">{{interfaceInfo.method}}</el-tag>
+            <span
+              v-else
+              class="show-interface-colname"
+            >
+              <el-tag type="warning">{{ interfaceInfo.method }}</el-tag>
             </span>
           </template>
           <!-- <span class="show-interface-colname">{{interfaceInfo.method}}</span> -->
         </el-col>
       </el-row>
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="10">
           <span class="show-interface-colkey">请求路径：</span>
-          <span class="show-interface-colname">{{interfaceInfo.path}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.path }}</span>
         </el-col>
       </el-row>
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="15">
           <span class="show-interface-colkey">描述：</span>
-          <span class="show-interface-colname">{{interfaceInfo.interface_desc}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.interface_desc }}</span>
         </el-col>
       </el-row>
     </div>
     <!-- 编辑区域-->
-    <div class="interface-info"
-         v-show="editBasicInformation">
-      <el-form ref="addFormRef"
-               :model="editInterfaceInfo"
-               :rules="addRulesForm"
-               label-width="100px">
-        <el-form-item label="接口名称:"
-                      prop="interface_name">
-          <el-input class="interface_name"
-                    placeholder="请输接口名称"
-                    v-model="editInterfaceInfo.interface_name"></el-input>
+    <div
+      v-show="editBasicInformation"
+      class="interface-info"
+    >
+      <el-form
+        ref="addFormRef"
+        :model="editInterfaceInfo"
+        :rules="addRulesForm"
+        label-width="100px"
+      >
+        <el-form-item
+          label="接口名称:"
+          prop="interface_name"
+        >
+          <el-input
+            v-model="editInterfaceInfo.interface_name"
+            class="interface_name"
+            placeholder="请输接口名称"
+          />
         </el-form-item>
 
-        <el-form-item label="接口类型:"
-                      prop="interface_type">
-          <el-select v-model="editInterfaceInfo.interface_type"
-                     placeholder="请选择接口类型">
-            <el-option v-for="item in interface_type_options"
-                       :key="item.value"
-                       :label="item.label"
-                       :value="item.value">
-            </el-option>
+        <el-form-item
+          label="接口类型:"
+          prop="interface_type"
+        >
+          <el-select
+            v-model="editInterfaceInfo.interface_type"
+            placeholder="请选择接口类型"
+          >
+            <el-option
+              v-for="item in interface_type_options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
         </el-form-item>
-        <el-form-item label="请求类型:"
-                      prop="method">
-          <el-select v-model="editInterfaceInfo.method"
-                     placeholder="请选择请求类型">
-            <el-option v-for="item in method_options"
-                       :key="item.value"
-                       :label="item.label"
-                       :value="item.value">
-            </el-option>
+        <el-form-item
+          label="请求类型:"
+          prop="method"
+        >
+          <el-select
+            v-model="editInterfaceInfo.method"
+            placeholder="请选择请求类型"
+          >
+            <el-option
+              v-for="item in method_options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
         </el-form-item>
-        <el-form-item label="请求路径:"
-                      prop="path">
-          <el-input class="project_name_input"
-                    placeholder="请输入请求路径"
-                    v-model="editInterfaceInfo.path"></el-input>
+        <el-form-item
+          label="请求路径:"
+          prop="path"
+        >
+          <el-input
+            v-model="editInterfaceInfo.path"
+            class="project_name_input"
+            placeholder="请输入请求路径"
+          />
         </el-form-item>
         <el-form-item label="接口描述:">
-          <el-input class="project_name_input"
-                    type="textarea"
-                    placeholder="请输入描述信息"
-                    v-model="editInterfaceInfo.interface_desc"></el-input>
+          <el-input
+            v-model="editInterfaceInfo.interface_desc"
+            class="project_name_input"
+            type="textarea"
+            placeholder="请输入描述信息"
+          />
         </el-form-item>
       </el-form>
       <!-- 预留提交按钮-->
       <div class="interface-info-button">
-        <el-button type="success"
-                   size="mini"
-                   :disabled="editInterfaceInfoButton"
-                   @click="editInterfaceInfoMethod()">提 交</el-button>
+        <el-button
+          type="success"
+          size="mini"
+          :disabled="editInterfaceInfoButton"
+          @click="editInterfaceInfoMethod()"
+        >
+          提 交
+        </el-button>
       </div>
-
     </div>
   </div>
 </template>
@@ -120,7 +163,7 @@ export default {
     'interfaceInfo',
     'activeName'
   ],
-  data () {
+  data() {
     return {
       showBasicInformation: false,
       editBasicInformation: false,
@@ -164,7 +207,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     if (this.activeName === 'Tab 1') {
       this.showBasicInformation = true
     } else if (this.activeName === 'Tab 2') {
@@ -181,7 +224,7 @@ export default {
   },
   methods: {
     // 修改接口
-    async editInterfaceInfoMethod () {
+    async editInterfaceInfoMethod() {
       const { data: serverResponse } = await this.$api.myinterface.editInterfaceMethod(
         this.editInterfaceInfo
       )

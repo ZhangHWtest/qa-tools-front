@@ -1,180 +1,268 @@
 <template>
   <div>
     <div>
-      <search-component :parentInputName="inputName"
-                        @changeChildValueMethod="changeChildValueMethod" />
+      <search-component
+        :parent-input-name="inputName"
+        @changeChildValueMethod="changeChildValueMethod"
+      />
     </div>
     <div class="interface-top-addbutton">
       <span class="interface-top-addannotation">注：添加接口必须先选择项目或模块！</span>
-      <el-button class="add-model-button"
-                 type="primary"
-                 :disabled="buttonDisabled"
-                 @click="addInterfaceDialog=true">新增 接口</el-button>
-      <el-upload class="add-model-button"
-                 action="/upload/">
-        <el-button class="add-model-button"
-                   type="primary"
-                   plain
-                   :disabled="buttonDisabled">导入接口</el-button>
+      <el-button
+        class="add-model-button"
+        type="primary"
+        :disabled="buttonDisabled"
+        @click="addInterfaceDialog=true"
+      >
+        新增 接口
+      </el-button>
+      <el-upload
+        class="add-model-button"
+        action="/upload/"
+      >
+        <el-button
+          class="add-model-button"
+          type="primary"
+          plain
+          :disabled="buttonDisabled"
+        >
+          导入接口
+        </el-button>
       </el-upload>
     </div>
-    <el-table class="interface-table"
-              :data="interfaceList"
-              stripe>
-      <el-table-column width="70px"
-                       label="id"
-                       prop="interface_id"></el-table-column>
+    <el-table
+      class="interface-table"
+      :data="interfaceList"
+      stripe
+    >
+      <el-table-column
+        width="70px"
+        label="id"
+        prop="interface_id"
+      />
       <el-table-column label="接口名称">
         <template slot-scope="scope">
-          <el-link type="primary"
-                   @click="goInterfaceInfo(scope.row.interface_id)">{{scope.row.interface_name}}</el-link>
+          <el-link
+            type="primary"
+            @click="goInterfaceInfo(scope.row.interface_id)"
+          >
+            {{ scope.row.interface_name }}
+          </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="接口类型"
-                       prop="interface_type"></el-table-column>
-      <el-table-column label="方法"
-                       prop="method">
+      <el-table-column
+        label="接口类型"
+        prop="interface_type"
+      />
+      <el-table-column
+        label="方法"
+        prop="method"
+      >
         <template slot-scope="scope">
-          <span class="show-interface-colname"
-                v-if="scope.row.method === 'GET'">
-            <el-tag>{{scope.row.method}}</el-tag>
+          <span
+            v-if="scope.row.method === 'GET'"
+            class="show-interface-colname"
+          >
+            <el-tag>{{ scope.row.method }}</el-tag>
           </span>
-          <span class="show-interface-colname"
-                v-else-if="scope.row.method === 'POST'">
-            <el-tag type="success">{{scope.row.method}}</el-tag>
+          <span
+            v-else-if="scope.row.method === 'POST'"
+            class="show-interface-colname"
+          >
+            <el-tag type="success">{{ scope.row.method }}</el-tag>
           </span>
-          <span class="show-interface-colname"
-                v-else>
-            <el-tag type="warning">{{scope.row.method}}</el-tag>
+          <span
+            v-else
+            class="show-interface-colname"
+          >
+            <el-tag type="warning">{{ scope.row.method }}</el-tag>
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="路径"
-                       prop="path"></el-table-column>
-      <el-table-column label="创建人"
-                       prop="create_user"></el-table-column>
-      <el-table-column label="操作"
-                       width="150px">
+      <el-table-column
+        label="路径"
+        prop="path"
+      />
+      <el-table-column
+        label="创建人"
+        prop="create_user"
+      />
+      <el-table-column
+        label="操作"
+        width="150px"
+      >
         <template slot-scope="scope">
           <!-- 修改按钮 -->
-          <el-tooltip class="item"
-                      effect="dark"
-                      content="修改"
-                      placement="top">
-            <el-button type="primary"
-                       icon="el-icon-edit"
-                       size="mini"
-                       ricon="el-icon-edit"
-                       circle
-                       @click="goInterfaceInfo(scope.row.interface_id)"></el-button>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="修改"
+            placement="top"
+          >
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              size="mini"
+              ricon="el-icon-edit"
+              circle
+              @click="goInterfaceInfo(scope.row.interface_id)"
+            />
           </el-tooltip>
-          <el-tooltip class="item"
-                      effect="dark"
-                      content="移动"
-                      placement="top">
-            <el-button type="warning"
-                       icon="el-icon-right"
-                       size="mini"
-                       ricon="el-icon-right"
-                       circle
-                       @click="openInterfaceMoveDialog(scope.row.interface_id)"></el-button>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="移动"
+            placement="top"
+          >
+            <el-button
+              type="warning"
+              icon="el-icon-right"
+              size="mini"
+              ricon="el-icon-right"
+              circle
+              @click="openInterfaceMoveDialog(scope.row.interface_id)"
+            />
           </el-tooltip>
-          <el-tooltip class="item"
-                      effect="dark"
-                      content="删除"
-                      placement="top">
-            <el-button type="danger"
-                       icon="el-icon-delete"
-                       size="mini"
-                       ricon="el-icon-edit"
-                       circle
-                       @click="removeInterfaceById(scope.row.interface_id)"></el-button>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="删除"
+            placement="top"
+          >
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              size="mini"
+              ricon="el-icon-edit"
+              circle
+              @click="removeInterfaceById(scope.row.interface_id)"
+            />
           </el-tooltip>
         </template>
-
       </el-table-column>
     </el-table>
-    <el-pagination background
-                   :current-page="getInterfaceListBody.page_num"
-                   @current-change="handleCurrentChange"
-                   layout="prev, pager, next"
-                   :total="interfaceListTotal">
-    </el-pagination>
+    <el-pagination
+      background
+      :current-page="getInterfaceListBody.page_num"
+      layout="prev, pager, next"
+      :total="interfaceListTotal"
+      @current-change="handleCurrentChange"
+    />
 
-    <el-dialog class="addInterface-dialog"
-               title="新增接口"
-               :visible.sync="addInterfaceDialog"
-               width="40%"
-               :close-on-click-modal="false"
-               @close="addInterfaceDialogClose">
+    <el-dialog
+      class="addInterface-dialog"
+      title="新增接口"
+      :visible.sync="addInterfaceDialog"
+      width="40%"
+      :close-on-click-modal="false"
+      @close="addInterfaceDialogClose"
+    >
       <!-- 内容主体区域-->
-      <el-form ref="addInterfaceFormRef"
-               :model="addInterfaceBody"
-               :rules="addInterfaceRulesForm"
-               label-width="90px">
-        <el-form-item label="接口名:"
-                      prop="interface_name">
-          <el-input v-model="addInterfaceBody.interface_name"></el-input>
+      <el-form
+        ref="addInterfaceFormRef"
+        :model="addInterfaceBody"
+        :rules="addInterfaceRulesForm"
+        label-width="90px"
+      >
+        <el-form-item
+          label="接口名:"
+          prop="interface_name"
+        >
+          <el-input v-model="addInterfaceBody.interface_name" />
         </el-form-item>
-        <el-form-item label="接口路径:"
-                      prop="path">
-          <el-input v-model="addInterfaceBody.path"
-                    placeholder="/path">
-            <el-select class="addinterface-dialog-select"
-                       v-model="addInterfaceBody.interface_type"
-                       slot="prepend"
-                       placeholder="请选择">
-              <el-option label="http"
-                         value="http"></el-option>
-              <el-option label="https"
-                         value="https"></el-option>
+        <el-form-item
+          label="接口路径:"
+          prop="path"
+        >
+          <el-input
+            v-model="addInterfaceBody.path"
+            placeholder="/path"
+          >
+            <el-select
+              slot="prepend"
+              v-model="addInterfaceBody.interface_type"
+              class="addinterface-dialog-select"
+              placeholder="请选择"
+            >
+              <el-option
+                label="http"
+                value="http"
+              />
+              <el-option
+                label="https"
+                value="https"
+              />
             </el-select>
-            <el-select class="addinterface-dialog-select"
-                       v-model="addInterfaceBody.method"
-                       slot="prepend"
-                       placeholder="请选择">
-              <el-option label="GET"
-                         value="GET"></el-option>
-              <el-option label="POST"
-                         value="POST"></el-option>
+            <el-select
+              slot="prepend"
+              v-model="addInterfaceBody.method"
+              class="addinterface-dialog-select"
+              placeholder="请选择"
+            >
+              <el-option
+                label="GET"
+                value="GET"
+              />
+              <el-option
+                label="POST"
+                value="POST"
+              />
             </el-select>
           </el-input>
         </el-form-item>
-        <el-form-item label="接口描述:"
-                      prop="interface_desc">
-          <el-input v-model="addInterfaceBody.interface_desc"></el-input>
+        <el-form-item
+          label="接口描述:"
+          prop="interface_desc"
+        >
+          <el-input v-model="addInterfaceBody.interface_desc" />
         </el-form-item>
-        <el-form-item label="注:"
-                      prop="interface_name">
-          <p class="add-interface-desc">详细的接口数据可以在编辑页面中添加</p>
+        <el-form-item
+          label="注:"
+          prop="interface_name"
+        >
+          <p class="add-interface-desc">
+            详细的接口数据可以在编辑页面中添加
+          </p>
         </el-form-item>
       </el-form>
-      <span slot="footer"
-            class="dialog-footer">
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button @click="addInterfaceDialog = false">取 消</el-button>
-        <el-button type="primary"
-                   @click.native="addInterfaceMethod()">确 定</el-button>
+        <el-button
+          type="primary"
+          @click.native="addInterfaceMethod()"
+        >确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog class="moveInterface-dialog"
-               title="移动接口"
-               :visible.sync="openIMDialog"
-               width="40%"
-               :close-on-click-modal="false"
-               @close="openIMDialogClose">
+    <el-dialog
+      class="moveInterface-dialog"
+      title="移动接口"
+      :visible.sync="openIMDialog"
+      width="40%"
+      :close-on-click-modal="false"
+      @close="openIMDialogClose"
+    >
       <!-- 内容主体区域-->
-      <el-form ref="moveInterfaceFormRef"
-               :model="interfaceMoveBody"
-               :rules="interfaceMoveBodyForm">
+      <el-form
+        ref="moveInterfaceFormRef"
+        :model="interfaceMoveBody"
+        :rules="interfaceMoveBodyForm"
+      >
         <el-form-item>
-          <SearchComponent :parentIsShowSeachButton="parentIsShowSeachButton" />
+          <SearchComponent :parent-is-show-seach-button="parentIsShowSeachButton" />
         </el-form-item>
       </el-form>
-      <span slot="footer"
-            class="dialog-footer">
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button @click="openIMDialog = false">取 消</el-button>
-        <el-button type="primary"
-                   @click.native="interfaceMoveMethod()">确 定</el-button>
+        <el-button
+          type="primary"
+          @click.native="interfaceMoveMethod()"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -187,7 +275,7 @@ export default {
   components: {
     SearchComponent
   },
-  data () {
+  data() {
     return {
       inputName: '接口',
       addInterfaceDialog: false,
@@ -228,30 +316,30 @@ export default {
       parentIsShowSeachButton: false
     }
   },
-  created () {
+  created() {
     this.getInterfaceListMethod()
   },
   methods: {
-    changeChildValueMethod () {
+    changeChildValueMethod() {
       this.getInterfaceListMethod()
     },
     // 监听 页码值改变的事件
-    handleCurrentChange (newPage) {
+    handleCurrentChange(newPage) {
       this.getInterfaceListBody.page_num = newPage
       this.getInterfaceListMethod()
     },
-    addInterfaceDialogClose () {
+    addInterfaceDialogClose() {
       this.$refs.addInterfaceFormRef.resetFields()
     },
-    openInterfaceMoveDialog (val) {
+    openInterfaceMoveDialog(val) {
       this.openIMDialog = true
       this.interfaceMoveBody.interface_id = val
     },
-    openIMDialogClose () {
+    openIMDialogClose() {
       this.$refs.moveInterfaceFormRef.resetFields()
     },
     // 获取接口列表方法
-    async getInterfaceListMethod () {
+    async getInterfaceListMethod() {
       if (sessionStorage.getItem('inputKey') === this.inputName) {
         this.getInterfaceListBody.interface_name = sessionStorage.getItem('inputName')
       } else {
@@ -278,7 +366,7 @@ export default {
       }
     },
     // 创建接口
-    async addInterfaceMethod () {
+    async addInterfaceMethod() {
       if (!sessionStorage.getItem('modelId')) {
         delete this.addInterfaceBody.model_id
       } else {
@@ -297,7 +385,7 @@ export default {
       }
     },
     // 根据id删除
-    async removeInterfaceById (_id) {
+    async removeInterfaceById(_id) {
       this.delInterfaceBody.interface_id = _id
       // 弹窗询问是否删除
       const confirmResult = await this.$confirm(
@@ -324,7 +412,7 @@ export default {
       this.reload()
     },
     // 创建接口
-    async interfaceMoveMethod () {
+    async interfaceMoveMethod() {
       if (!sessionStorage.getItem('projectId')) {
         delete this.interfaceMoveBody.project_id
       } else {
@@ -346,8 +434,8 @@ export default {
         this.$message.error('移动接口失败！')
       }
     },
-    goInterfaceInfo (intfId) {
-      this.$router.push({ path: '/interface/info', query: { interfaceId: intfId } }).catch(err => {
+    goInterfaceInfo(intfId) {
+      this.$router.push({ path: '/interface/info', query: { interfaceId: intfId }}).catch(err => {
         console.log('输出', err)
       })
     }

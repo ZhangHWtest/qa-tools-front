@@ -1,71 +1,91 @@
 <template>
   <div class="main-projectlist">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>首页</el-breadcrumb-item>
       <el-breadcrumb-item>用例管理</el-breadcrumb-item>
       <el-breadcrumb-item>用例日志</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <div class="interface-top-select">
-      </div>
-      <!-- <div class="interface-top-addbutton">
-        <span class="interface-top-addannotation">注：case调试不会记录log！</span>
-      </div> -->
-      <el-table :data="resultList"
-                ref="multipleTableAll"
-                style="width: 100%"
-                @expand-change="expandChange">
+      <div class="interface-top-select" />
+      <el-table
+        ref="multipleTableAll"
+        :data="resultList"
+        style="width: 100%"
+        @expand-change="expandChange"
+      >
         <el-table-column type="expand">
-          <result-info :caseResultId="caseResultId"
-                       :showResultInfo="showResultInfo" />
+          <result-info
+            :case-result-id="caseResultId"
+            :show-result-info="showResultInfo"
+          />
         </el-table-column>
-        <el-table-column label="resultId"
-                         width="80px"
-                         prop="case_result_id">
-        </el-table-column>
-        <el-table-column label="类型"
-                         width="80px"
-                         prop="case_type">
-        </el-table-column>
-        <el-table-column label="方法"
-                         width="80px"
-                         prop="method">
+        <el-table-column
+          label="resultId"
+          width="80px"
+          prop="case_result_id"
+        />
+        <el-table-column
+          label="类型"
+          width="80px"
+          prop="case_type"
+        />
+        <el-table-column
+          label="方法"
+          width="80px"
+          prop="method"
+        >
           <template slot-scope="scope">
-            <span class="show-interface-colname"
-                  v-if="scope.row.method === 'GET'">
+            <span
+              v-if="scope.row.method === 'GET'"
+              class="show-interface-colname"
+            >
               <el-tag>GET</el-tag>
             </span>
-            <span class="show-interface-colname"
-                  v-else-if="scope.row.method === 'POST'">
+            <span
+              v-else-if="scope.row.method === 'POST'"
+              class="show-interface-colname"
+            >
               <el-tag type="success">POST</el-tag>
             </span>
-            <span class="show-interface-colname"
-                  v-else>
-              <el-tag type="warning">{{scope.row.method}}</el-tag>
+            <span
+              v-else
+              class="show-interface-colname"
+            >
+              <el-tag type="warning">{{ scope.row.method }}</el-tag>
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="路径"
-                         width="400px"
-                         prop="path">
-        </el-table-column>
-        <el-table-column label="状态"
-                         width="80px">
+        <el-table-column
+          label="路径"
+          width="400px"
+          prop="path"
+        />
+        <el-table-column
+          label="状态"
+          width="80px"
+        >
           <template slot-scope="scope">
-            <span class="show-interface-colname"
-                  v-if="scope.row.case_result === 1">通过
+            <span
+              v-if="scope.row.case_result === 1"
+              class="show-interface-colname"
+            >通过
             </span>
-            <span class="show-interface-colname-success"
-                  v-else-if="scope.row.case_result === 0">失败
+            <span
+              v-else-if="scope.row.case_result === 0"
+              class="show-interface-colname-success"
+            >失败
             </span>
-            <span class="show-interface-colname-warning"
-                  v-else>异常
+            <span
+              v-else
+              class="show-interface-colname-warning"
+            >异常
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="执行时间"
-                         prop="start_time">
-        </el-table-column>
+        <el-table-column
+          label="执行时间"
+          prop="start_time"
+        />
       </el-table>
     </el-card>
   </div>
@@ -76,7 +96,7 @@ export default {
   components: {
     ResultInfo
   },
-  data () {
+  data() {
     return {
       getCaseResultList: {
         case_id: ''
@@ -90,12 +110,12 @@ export default {
       expands: ''
     }
   },
-  created () {
+  created() {
     this.getCaseResultList.case_id = Number(this.$route.query.caseId)
     this.getCaseResultListMethod()
   },
   methods: {
-    expandChange (row, expandedRows) {
+    expandChange(row, expandedRows) {
       this.expandedRows = expandedRows
       if (expandedRows.length > 1) {
         this.$refs.multipleTableAll.toggleRowExpansion(this.expandedRows[0])
@@ -107,7 +127,7 @@ export default {
       }
     },
 
-    async getCaseResultListMethod () {
+    async getCaseResultListMethod() {
       const { data: responseBody } = await this.$api.testcase.getResultList(
         this.getCaseResultList
       )

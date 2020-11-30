@@ -2,13 +2,15 @@
   <div>
     <el-header>
       <div>
-        <img src="@/assets/bsy-logo.png" />
+        <img src="@/assets/bsy-logo.png">
         <span>BSYQaTools</span>
       </div>
       <div class="header-button">
-        <i class="iconfont icon-icon_secret"
-           style="padding:10px"></i>
-        <i class="iconfont icon-github"></i>
+        <i
+          class="iconfont icon-icon_secret"
+          style="padding:10px"
+        />
+        <i class="iconfont icon-github" />
       </div>
     </el-header>
     <my-video />
@@ -17,26 +19,40 @@
     <div class="login_box">
       <span class="login_title">BSYQaTools</span>
 
-      <el-form ref="loginFormRef"
-               :model="loginForm"
-               class="login_form"
-               :rules="loginFormRules">
+      <el-form
+        ref="loginFormRef"
+        :model="loginForm"
+        class="login_form"
+        :rules="loginFormRules"
+      >
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username"
-                    prefix-icon="el-icon-user"
-                    placeholder="请输入账号"></el-input>
+          <el-input
+            v-model="loginForm.username"
+            prefix-icon="el-icon-user"
+            placeholder="请输入账号"
+          />
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password"
-                    prefix-icon="el-icon-lock"
-                    placeholder="请输入密码"
-                    type="password"></el-input>
+          <el-input
+            v-model="loginForm.password"
+            prefix-icon="el-icon-lock"
+            placeholder="请输入密码"
+            type="password"
+          />
         </el-form-item>
         <el-form-item class="btns">
-          <el-button type="primary"
-                     @click="login">登录</el-button>
-          <el-button type="info"
-                     @click="resetLoginForm">重置</el-button>
+          <el-button
+            type="primary"
+            @click="login"
+          >
+            登录
+          </el-button>
+          <el-button
+            type="info"
+            @click="resetLoginForm"
+          >
+            重置
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -58,7 +74,7 @@ export default {
     MyVideo,
     LoginIntroduce
   },
-  data () {
+  data() {
     return {
       loginForm: {
         username: 'zadmin',
@@ -73,10 +89,10 @@ export default {
     }
   },
   methods: {
-    resetLoginForm () {
+    resetLoginForm() {
       this.$refs.loginFormRef.resetFields()
     },
-    login () {
+    login() {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid);
         const { data: res } = await this.$api.login.login(this.loginForm)

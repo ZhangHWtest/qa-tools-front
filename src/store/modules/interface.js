@@ -10,7 +10,7 @@ const mutations = {
     state.projectList.test = arrProject
     console.log(arrProject)
   },
-  test (state, arrProject) {
+  test(state, arrProject) {
     state.projectList.test = arrProject
   }
 
@@ -19,7 +19,7 @@ const mutations = {
 // dispath 触发action
 // 直接在mutation方法中进行异步操作，将会引起数据失效。所以提供了Actions来专门进行异步操作，最终提交mutation方法。
 const actions = {
-  submitProject ({ commit }, size) {
+  submitProject({ commit }, size) {
     commit('SUBMIT_PROJECT', size)
   }
 }

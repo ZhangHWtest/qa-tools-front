@@ -1,28 +1,40 @@
 <template>
   <div class="main-projectlist">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">
+        首页
+      </el-breadcrumb-item>
       <el-breadcrumb-item>设备管理</el-breadcrumb-item>
       <el-breadcrumb-item>设备日志</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <el-table class="equipment-table"
-                :data="eqLogList"
-                ref="multipleTableAll"
-                style="width: 100%">
-        <el-table-column width="70px"
-                         label="ID"
-                         prop="eq_log_id"></el-table-column>
-        <el-table-column label="设备名称"
-                         prop="eq_name">
-        </el-table-column>
-        <el-table-column label="设备管理者"
-                         prop="eq_owner"></el-table-column>
-        <el-table-column label="设备编码"
-                         prop="eq_code">
-        </el-table-column>
-        <el-table-column label="设备系统版本"
-                         prop="eq_sys_ver"></el-table-column>
+      <el-table
+        ref="multipleTableAll"
+        class="equipment-table"
+        :data="eqLogList"
+        style="width: 100%"
+      >
+        <el-table-column
+          width="70px"
+          label="ID"
+          prop="eq_log_id"
+        />
+        <el-table-column
+          label="设备名称"
+          prop="eq_name"
+        />
+        <el-table-column
+          label="设备管理者"
+          prop="eq_owner"
+        />
+        <el-table-column
+          label="设备编码"
+          prop="eq_code"
+        />
+        <el-table-column
+          label="设备系统版本"
+          prop="eq_sys_ver"
+        />
         <el-table-column label="设备系统">
           <template slot-scope="scope">
             <span v-if="scope.row.eq_sys === 1">IOS
@@ -49,52 +61,71 @@
             </span>
             <span v-else-if="scope.row.have_sim === 1">没
             </span>
-          </template></el-table-column>
-        <el-table-column label="设备描述"
-                         prop="eq_desc"></el-table-column>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="设备描述"
+          prop="eq_desc"
+        />
         <el-table-column label="状态">
           <template slot-scope="scope">
-            <span class="show-interface-colname"
-                  v-if="scope.row.eq_log_status === 1">启用
+            <span
+              v-if="scope.row.eq_log_status === 1"
+              class="show-interface-colname"
+            >启用
             </span>
-            <span class="show-interface-colname-warning"
-                  v-else-if="scope.row.eq_log_status === 2">编辑
+            <span
+              v-else-if="scope.row.eq_log_status === 2"
+              class="show-interface-colname-warning"
+            >编辑
             </span>
-            <span class="show-interface-colname-warning"
-                  v-else-if="scope.row.eq_log_status === 3">归还
+            <span
+              v-else-if="scope.row.eq_log_status === 3"
+              class="show-interface-colname-warning"
+            >归还
             </span>
-            <span class="show-interface-colname-warning"
-                  v-else-if="scope.row.eq_log_status === 4">外借
+            <span
+              v-else-if="scope.row.eq_log_status === 4"
+              class="show-interface-colname-warning"
+            >外借
             </span>
-            <span class="show-interface-colname-error"
-                  v-else>停用
+            <span
+              v-else
+              class="show-interface-colname-error"
+            >停用
             </span>
-          </template></el-table-column>
+          </template>
+        </el-table-column>
         <el-table-column label="设备借用者">
           <template slot-scope="scope">
             <span v-if="scope.row.borrower === ''">无
             </span>
-            <span v-else>{{scope.row.borrower}}
+            <span v-else>{{ scope.row.borrower }}
             </span>
-          </template></el-table-column>
-        <el-table-column label="设备厂商"
-                         prop="mf_name"></el-table-column>
-        <el-table-column label="操作人"
-                         prop="c_user"></el-table-column>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="设备厂商"
+          prop="mf_name"
+        />
+        <el-table-column
+          label="操作人"
+          prop="c_user"
+        />
       </el-table>
-      <el-pagination background
-                     :current-page="getEqLogListBody.page_num"
-                     @current-change="handleCurrentChange"
-                     layout="prev, pager, next"
-                     :total="500">
-      </el-pagination>
+      <el-pagination
+        background
+        :current-page="getEqLogListBody.page_num"
+        layout="prev, pager, next"
+        :total="500"
+        @current-change="handleCurrentChange"
+      />
     </el-card>
   </div>
-
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       getEqLogListBody: {
         eq_id: '',
@@ -103,17 +134,17 @@ export default {
       eqLogList: []
     }
   },
-  created () {
+  created() {
     this.getEqLogListBody.eq_id = Number(this.$route.query.EqId)
     this.getEquipmentLogListMethod()
   },
   methods: {
     // 监听 页码值改变的事件
-    handleCurrentChange (newPage) {
+    handleCurrentChange(newPage) {
       this.getEqLogListBody.page_num = newPage
       this.getEquipmentLogListMethod()
     },
-    async getEquipmentLogListMethod () {
+    async getEquipmentLogListMethod() {
       const { data: res } = await this.$api.equipment.eqLog(
         this.getEqLogListBody
       )

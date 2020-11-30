@@ -1,55 +1,71 @@
 <template>
   <div class="top-select">
     <span class="top-select-name">系统：</span>
-    <el-select class="top-system-select"
-               v-model="systemValue"
-               placeholder="请选择"
-               @change="changeSessionValue">
-      <el-option v-for="item in systemList"
-                 :key="item.id"
-                 :label="item.sys_name"
-                 :value="item.id">
-      </el-option>
+    <el-select
+      v-model="systemValue"
+      class="top-system-select"
+      placeholder="请选择"
+      @change="changeSessionValue"
+    >
+      <el-option
+        v-for="item in systemList"
+        :key="item.id"
+        :label="item.sys_name"
+        :value="item.id"
+      />
     </el-select>
     <span class="top-select-name">所属端：</span>
-    <el-select class="top-system-select"
-               v-model="platformValue"
-               placeholder="请选择"
-               @change="changeSessionValue">
-      <el-option v-for="item in platformList"
-                 :key="item.id"
-                 :label="item.platform"
-                 :value="item.id">
-      </el-option>
+    <el-select
+      v-model="platformValue"
+      class="top-system-select"
+      placeholder="请选择"
+      @change="changeSessionValue"
+    >
+      <el-option
+        v-for="item in platformList"
+        :key="item.id"
+        :label="item.platform"
+        :value="item.id"
+      />
     </el-select>
     <span class="top-select-name">用例名称：</span>
-    <el-input class="top-input-name"
-              v-model="inputCaseName"
-              @change="changeSessionValue"
-              placeholder="请输入"></el-input>
-    <el-button class="top-select-button"
-               type="primary"
-               plain
-               @click="changeChildValue()">查询</el-button>
-    <el-button plain
-               @click="clearProjectAndModel()">重置</el-button>
+    <el-input
+      v-model="inputCaseName"
+      class="top-input-name"
+      placeholder="请输入"
+      @change="changeSessionValue"
+    />
+    <el-button
+      class="top-select-button"
+      type="primary"
+      plain
+      @click="changeChildValue()"
+    >
+      查询
+    </el-button>
+    <el-button
+      plain
+      @click="clearProjectAndModel()"
+    >
+      重置
+    </el-button>
   </div>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       systemValue: '',
       systemList: [],
       platformValue: '',
       platformList: [
-        { id: 1, platform: "web" },
-        { id: 2, platform: "android" },
-        { id: 3, platform: "ios" }
+        { id: 1, platform: 'web' },
+        { id: 2, platform: 'android' },
+        { id: 3, platform: 'ios' }
       ],
       getSystemListbody: {},
       // getPlatformListbody: {}
-      inputCaseName: '',
+      inputCaseName: ''
       // sessionValue: {
       //   systemID: '',
       //   systemName: '',
@@ -59,10 +75,10 @@ export default {
       // }
     }
   },
-  created () {
+  created() {
     this.getSystemListMethod()
     if (sessionStorage.getItem('uiSearchValue')) {
-      let uiSearchValue = JSON.parse(sessionStorage.getItem('uiSearchValue'))
+      const uiSearchValue = JSON.parse(sessionStorage.getItem('uiSearchValue'))
       console.log(uiSearchValue)
       this.systemValue = uiSearchValue.systemId
       console.log(this.systemValue)
@@ -76,13 +92,11 @@ export default {
     // this.getPlatformListMethod()
   },
   methods: {
-    changeSessionValue () {
-      let uiSearchValue = { "systemId": 1, "systemName": '', }
+    changeSessionValue() {
+      const uiSearchValue = { 'systemId': 1, 'systemName': '' }
       sessionStorage.setItem('uiSearchValue', JSON.stringify(uiSearchValue))
-
-
     },
-    async getSystemListMethod () {
+    async getSystemListMethod() {
       const { data: res } = await this.$api.system.getSystemList(
         this.getSystemListbody
       )
@@ -91,7 +105,7 @@ export default {
       } else {
         return this.$message.error(res.msg)
       }
-    },
+    }
     // 暂时写死
     // async getPlatformListMethod () {
     //   const { data: res } = await this.$api.system.getPlatformList(

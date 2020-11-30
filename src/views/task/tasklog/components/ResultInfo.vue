@@ -1,22 +1,34 @@
 <template>
   <div>
-    <el-form label-position="left"
-             :model=resultInfo
-             inline
-             class="demo-table-expand">
-      <el-form-item class="show-interface-colkey"
-                    label="task名称：">
-        <span class="show-interface-colname">{{resultInfo.task_name }}</span>
+    <el-form
+      label-position="left"
+      :model="resultInfo"
+      inline
+      class="demo-table-expand"
+    >
+      <el-form-item
+        class="show-interface-colkey"
+        label="task名称："
+      >
+        <span class="show-interface-colname">{{ resultInfo.task_name }}</span>
       </el-form-item>
-      <el-form-item class="show-interface-colkey"
-                    label="日志下载：">
-        <a :href=resultInfo.test_log_url
-           download>{{resultInfo.test_log }}</a>
+      <el-form-item
+        class="show-interface-colkey"
+        label="日志下载："
+      >
+        <a
+          :href="resultInfo.test_log_url"
+          download
+        >{{ resultInfo.test_log }}</a>
       </el-form-item>
-      <el-form-item class="show-interface-colkey"
-                    label="测试报告预览：">
-        <a :href=resultInfo.test_report_url
-           download>{{resultInfo.test_report }}</a>
+      <el-form-item
+        class="show-interface-colkey"
+        label="测试报告预览："
+      >
+        <a
+          :href="resultInfo.test_report_url"
+          download
+        >{{ resultInfo.test_report }}</a>
       </el-form-item>
     </el-form>
   </div>
@@ -27,7 +39,7 @@ export default {
     'taskResultId',
     'showResultInfo'
   ],
-  data () {
+  data() {
     return {
       getTaskResultInfo: {
         task_result_id: ''
@@ -38,14 +50,14 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.getTaskResultInfo.task_result_id = Number(this.taskResultId)
     if (this.showResultInfo) {
       this.getTaskResultInfoMethod()
     }
   },
   methods: {
-    async getTaskResultInfoMethod () {
+    async getTaskResultInfoMethod() {
       const { data: responseBody } = await this.$api.task.resultInfoTask(
         this.getTaskResultInfo
       )

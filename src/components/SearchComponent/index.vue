@@ -1,43 +1,60 @@
 <template>
   <div class="top-select">
-    <span class="top-select-name">{{parentInputName}}名称：</span>
-    <el-input class="top-input_name"
-              v-model="inputName"
-              @change="changeInputName"
-              placeholder="请输入"></el-input>
+    <span class="top-select-name">{{ parentInputName }}名称：</span>
+    <el-input
+      v-model="inputName"
+      class="top-input_name"
+      placeholder="请输入"
+      @change="changeInputName"
+    />
     <span class="top-select-name">项目/模块：</span>
-    <el-cascader class="top-pro-cascader"
-                 v-model="myProModelValue"
-                 :options="myProModelOptions"
-                 :props="{ checkStrictly: true }"
-                 @change="handleChange"></el-cascader>
-    <span class="top-select-name"
-          v-show="isShowInterFaceSelect">接口：</span>
-    <el-select class="top-interface-select"
-               v-model="interfaceValue"
-               v-show="isShowInterFaceSelect"
-               placeholder="请选择"
-               @change="changeInterfaceValue">
-      <el-option v-for="item in interfaceList"
-                 :key="item.interface_id"
-                 :label="item.interface_name"
-                 :value="item.interface_id">
-      </el-option>
+    <el-cascader
+      v-model="myProModelValue"
+      class="top-pro-cascader"
+      :options="myProModelOptions"
+      :props="{ checkStrictly: true }"
+      @change="handleChange"
+    />
+    <span
+      v-show="isShowInterFaceSelect"
+      class="top-select-name"
+    >接口：</span>
+    <el-select
+      v-show="isShowInterFaceSelect"
+      v-model="interfaceValue"
+      class="top-interface-select"
+      placeholder="请选择"
+      @change="changeInterfaceValue"
+    >
+      <el-option
+        v-for="item in interfaceList"
+        :key="item.interface_id"
+        :label="item.interface_name"
+        :value="item.interface_id"
+      />
     </el-select>
-    <el-button class="top-select-button"
-               v-show="isShowSeachButton"
-               type="primary"
-               plain
-               @click="changeChildValue()">查询</el-button>
-    <el-button v-show="isShowSeachButton"
-               plain
-               @click="clearProjectAndModel()">重置</el-button>
+    <el-button
+      v-show="isShowSeachButton"
+      class="top-select-button"
+      type="primary"
+      plain
+      @click="changeChildValue()"
+    >
+      查询
+    </el-button>
+    <el-button
+      v-show="isShowSeachButton"
+      plain
+      @click="clearProjectAndModel()"
+    >
+      重置
+    </el-button>
   </div>
 </template>
 <script>
 export default {
   props: ['parentIsShowInterfaceSelect', 'parentIsShowSeachButton', 'parentInputName'],
-  data () {
+  data() {
     return {
       inputName: '',
       isShowInterFaceSelect: true,
@@ -63,7 +80,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.getProjectListMethod()
     this.isShowInterFaceSelect = this.parentIsShowInterfaceSelect
     if (this.parentIsShowSeachButton === false) {
@@ -79,11 +96,11 @@ export default {
       }
     }
     if (sessionStorage.getItem('projectId')) {
-      let projectId = Number(sessionStorage.getItem('projectId'))
+      const projectId = Number(sessionStorage.getItem('projectId'))
       this.myProModelValue.push(projectId)
       if (sessionStorage.getItem('modelId')) {
         this.getModelListMethod()
-        let modelId = Number(sessionStorage.getItem('modelId'))
+        const modelId = Number(sessionStorage.getItem('modelId'))
         this.myProModelValue.push(modelId)
       }
     }
@@ -92,19 +109,19 @@ export default {
     }
     // console.log('sessionMPMI', this.myProModelValue)
   },
-  mounted () {
+  mounted() {
     // 点击文本就让它自动点击前面的input就可以触发选择。但是因组件阻止了冒泡，暂时想不到好方法来触发。
     // 这种比较耗性能，暂时想不到其他的，能实现效果了。
-    setInterval(function () {
+    setInterval(function() {
       document.querySelectorAll('.el-cascader-node__label').forEach(el => {
-        el.onclick = function () {
+        el.onclick = function() {
           if (this.previousElementSibling) this.previousElementSibling.click()
         }
       })
     }, 1000)
   },
   methods: {
-    handleChange (value) {
+    handleChange(value) {
       // console.log('myProModelValue', this.myProModelValue)
       if (value.length === 1) {
         this.projectList.forEach(item => {
@@ -128,19 +145,19 @@ export default {
         this.getInterfaceListMethod()
       }
     },
-    changeInputName () {
+    changeInputName() {
       sessionStorage.setItem('inputKey', this.parentInputName)
       sessionStorage.setItem('inputName', this.inputName)
     },
     // 下拉框改变时
-    changeInterfaceValue (value) {
+    changeInterfaceValue(value) {
       // console.log('changeInterfaceValue:', value)
       this.getInterfaceInfoMethod(value)
     },
-    changeChildValue () {
+    changeChildValue() {
       this.$emit('changeChildValueMethod', 'change')
     },
-    clearProjectAndModel () {
+    clearProjectAndModel() {
       sessionStorage.removeItem('modelId')
       sessionStorage.removeItem('modelName')
       sessionStorage.removeItem('projectId')
@@ -158,7 +175,7 @@ export default {
       }
     },
     // 获取所有项目列表
-    async getProjectListMethod () {
+    async getProjectListMethod() {
       const { data: projectRes } = await this.$api.project.getProjectList(
         this.getProjectListBody
       )
@@ -171,8 +188,8 @@ export default {
       })
     },
     // 获取所有模块列表
-    async getModelListMethod () {
-      let value = Number(sessionStorage.getItem('projectId'))
+    async getModelListMethod() {
+      const value = Number(sessionStorage.getItem('projectId'))
       this.getModelListBody.project_id = value
       const { data: responseBody } = await this.$api.project.getModelList(
         this.getModelListBody
@@ -181,7 +198,7 @@ export default {
         return this.$message.error('获取模块列表失败！')
       }
       this.modelList = responseBody.data
-      let children = []
+      const children = []
       this.modelList.forEach(item => {
         // console.log(this.options[value])
         children.push({
@@ -191,9 +208,9 @@ export default {
       this.$set(this.myProModelOptions, value, { ...this.myProModelOptions[value], children })
     },
     // 获取接口列表方法
-    async getInterfaceListMethod () {
-      let sProjectId = Number(sessionStorage.getItem('projectId'))
-      let sModelId = Number(sessionStorage.getItem('modelId'))
+    async getInterfaceListMethod() {
+      const sProjectId = Number(sessionStorage.getItem('projectId'))
+      const sModelId = Number(sessionStorage.getItem('modelId'))
       if (!sProjectId) {
         delete this.getInterfaceListBody.project_id
         this.buttonDisabled = true
@@ -226,7 +243,7 @@ export default {
         this.interfaceListTotal = responseBody.page_total_num * 10
       }
     },
-    async getInterfaceInfoMethod (val) {
+    async getInterfaceInfoMethod(val) {
       this.getInterfaceInfo.interface_id = Number(val)
       const { data: res } = await this.$api.myinterface.getInterfaceInfoMethod(
         this.getInterfaceInfo

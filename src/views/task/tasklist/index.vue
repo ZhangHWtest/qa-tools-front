@@ -1,190 +1,281 @@
 <template>
   <div class="main-breadcrumb">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">
+        首页
+      </el-breadcrumb-item>
       <el-breadcrumb-item>任务管理</el-breadcrumb-item>
       <el-breadcrumb-item>任务列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <div>
-        <search-component :parentInputName="inputName"
-                          @changeChildValueMethod="changeChildValueMethod" />
+        <search-component
+          :parent-input-name="inputName"
+          @changeChildValueMethod="changeChildValueMethod"
+        />
       </div>
       <div class="interface-top-addbutton">
         <span class="interface-top-addannotation">注：任务基于项目</span>
-        <el-button class="add-model-button"
-                   type="primary"
-                   :disabled="buttonDisabled"
-                   @click="goAddTaskDialog()">新增 任务</el-button>
+        <el-button
+          class="add-model-button"
+          type="primary"
+          :disabled="buttonDisabled"
+          @click="goAddTaskDialog()"
+        >
+          新增 任务
+        </el-button>
       </div>
-      <el-table class="interface-table"
-                :data="taskList">
-        <el-table-column width="70px"
-                         label="id"
-                         prop="task_id"></el-table-column>
-        <el-table-column label="任务名称"
-                         prop="task_name"></el-table-column>
-        <el-table-column label="项目名称"
-                         prop="project_name"></el-table-column>
-        <el-table-column label="case数量"
-                         width="90px"
-                         prop="case_num"></el-table-column>
-        <el-table-column label="状态"
-                         width="70px">
+      <el-table
+        class="interface-table"
+        :data="taskList"
+      >
+        <el-table-column
+          width="70px"
+          label="id"
+          prop="task_id"
+        />
+        <el-table-column
+          label="任务名称"
+          prop="task_name"
+        />
+        <el-table-column
+          label="项目名称"
+          prop="project_name"
+        />
+        <el-table-column
+          label="case数量"
+          width="90px"
+          prop="case_num"
+        />
+        <el-table-column
+          label="状态"
+          width="70px"
+        >
           <template slot-scope="scope">
-            <span class="show-interface-colname"
-                  v-if="scope.row.run_status === 1">运行中
+            <span
+              v-if="scope.row.run_status === 1"
+              class="show-interface-colname"
+            >运行中
             </span>
-            <span class="show-interface-colname-success"
-                  v-else-if="scope.row.run_status === 0">未运行
+            <span
+              v-else-if="scope.row.run_status === 0"
+              class="show-interface-colname-success"
+            >未运行
             </span>
-            <span class="show-interface-colname-warning"
-                  v-else>暂停中
+            <span
+              v-else
+              class="show-interface-colname-warning"
+            >暂停中
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="创建人"
-                         width="90px"
-                         prop="create_user"></el-table-column>
-        <el-table-column label="操作"
-                         width="200px">
+        <el-table-column
+          label="创建人"
+          width="90px"
+          prop="create_user"
+        />
+        <el-table-column
+          label="操作"
+          width="200px"
+        >
           <template slot-scope="scope">
             <!-- 修改按钮 -->
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="修改"
-                        placement="top"
-                        v-if="scope.row.run_status !== 1">
-              <el-button type="primary"
-                         icon="el-icon-edit"
-                         size="mini"
-                         ricon="el-icon-edit"
-                         circle
-                         @click="goTaskInfo(scope.row.task_id)"></el-button>
+            <el-tooltip
+              v-if="scope.row.run_status !== 1"
+              class="item"
+              effect="dark"
+              content="修改"
+              placement="top"
+            >
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                size="mini"
+                ricon="el-icon-edit"
+                circle
+                @click="goTaskInfo(scope.row.task_id)"
+              />
             </el-tooltip>
-            <el-tooltip v-if="scope.row.run_status === 1"
-                        class="item"
-                        effect="dark"
-                        content="暂停"
-                        placement="top">
-              <el-button type="danger"
-                         icon="el-icon-switch-button"
-                         size="mini"
-                         circle
-                         @click="stopTaskMethod(scope.row.task_id)"></el-button>
+            <el-tooltip
+              v-if="scope.row.run_status === 1"
+              class="item"
+              effect="dark"
+              content="暂停"
+              placement="top"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-switch-button"
+                size="mini"
+                circle
+                @click="stopTaskMethod(scope.row.task_id)"
+              />
             </el-tooltip>
-            <el-tooltip v-else
-                        class="item"
-                        effect="dark"
-                        content="执行"
-                        placement="top">
-              <el-button type="success"
-                         icon="el-icon-caret-right"
-                         size="mini"
-                         circle
-                         @click="runTaskMethod(scope.row.task_id)"></el-button>
+            <el-tooltip
+              v-else
+              class="item"
+              effect="dark"
+              content="执行"
+              placement="top"
+            >
+              <el-button
+                type="success"
+                icon="el-icon-caret-right"
+                size="mini"
+                circle
+                @click="runTaskMethod(scope.row.task_id)"
+              />
             </el-tooltip>
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="日志"
-                        placement="top">
-              <el-button type="warning"
-                         icon="el-icon-tickets"
-                         size="mini"
-                         circle
-                         @click="goTaskLog(scope.row.task_id)"></el-button>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="日志"
+              placement="top"
+            >
+              <el-button
+                type="warning"
+                icon="el-icon-tickets"
+                size="mini"
+                circle
+                @click="goTaskLog(scope.row.task_id)"
+              />
             </el-tooltip>
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="删除"
-                        placement="top">
-              <el-button type="danger"
-                         icon="el-icon-delete"
-                         size="mini"
-                         ricon="el-icon-edit"
-                         circle
-                         @click="removeTaskById(scope.row.task_id)"></el-button>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                ricon="el-icon-edit"
+                circle
+                @click="removeTaskById(scope.row.task_id)"
+              />
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background
-                     :current-page="getTaskListBody.page_num"
-                     @current-change="handleCurrentChange"
-                     layout="prev, pager, next"
-                     :total="taskListTotal">
-      </el-pagination>
+      <el-pagination
+        background
+        :current-page="getTaskListBody.page_num"
+        layout="prev, pager, next"
+        :total="taskListTotal"
+        @current-change="handleCurrentChange"
+      />
     </el-card>
-    <el-dialog title="新增Task"
-               :visible.sync="dialogVisible"
-               width="40%"
-               :close-on-click-modal="false"
-               @close="handleClose">
-      <el-form ref="addFormRef"
-               :model="addTaskBody"
-               :rules="addTaskForm"
-               label-width="85px"
-               v-show="showBasic">
-        <el-form-item label="任务名称"
-                      prop="task_name">
-          <el-input v-model="addTaskBody.task_name"
-                    placeholder="请输入任务名"></el-input>
+    <el-dialog
+      title="新增Task"
+      :visible.sync="dialogVisible"
+      width="40%"
+      :close-on-click-modal="false"
+      @close="handleClose"
+    >
+      <el-form
+        v-show="showBasic"
+        ref="addFormRef"
+        :model="addTaskBody"
+        :rules="addTaskForm"
+        label-width="85px"
+      >
+        <el-form-item
+          label="任务名称"
+          prop="task_name"
+        >
+          <el-input
+            v-model="addTaskBody.task_name"
+            placeholder="请输入任务名"
+          />
         </el-form-item>
-        <el-form-item label="执行策略"
-                      prop="task_type">
-          <el-radio-group v-model="addTaskBody.task_type"
-                          @change="selectRunTimeType()">
-            <el-radio :label="0">立即执行</el-radio>
-            <el-radio :label="1">间隔秒</el-radio>
-            <el-radio :label="2">日期执行</el-radio>
-            <el-radio :label="3">cron表达式</el-radio>
+        <el-form-item
+          label="执行策略"
+          prop="task_type"
+        >
+          <el-radio-group
+            v-model="addTaskBody.task_type"
+            @change="selectRunTimeType()"
+          >
+            <el-radio :label="0">
+              立即执行
+            </el-radio>
+            <el-radio :label="1">
+              间隔秒
+            </el-radio>
+            <el-radio :label="2">
+              日期执行
+            </el-radio>
+            <el-radio :label="3">
+              cron表达式
+            </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="执行时间"
-                      prop="run_time"
-                      v-show="runTimeInput">
-          <el-input v-model="addTaskBody.run_time"
-                    placeholder="单位 秒"></el-input>
+        <el-form-item
+          v-show="runTimeInput"
+          label="执行时间"
+          prop="run_time"
+        >
+          <el-input
+            v-model="addTaskBody.run_time"
+            placeholder="单位 秒"
+          />
         </el-form-item>
-        <el-form-item label="执行时间"
-                      prop="run_time"
-                      v-show="runTimePicker">
-          <el-date-picker v-model="addTaskBody.run_time"
-                          value-format="yyyy-MM-dd HH:mm:ss"
-                          type="datetime"
-                          placeholder="选择日期时间">
-          </el-date-picker>
+        <el-form-item
+          v-show="runTimePicker"
+          label="执行时间"
+          prop="run_time"
+        >
+          <el-date-picker
+            v-model="addTaskBody.run_time"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="datetime"
+            placeholder="选择日期时间"
+          />
         </el-form-item>
-        <el-form-item label="执行时间"
-                      v-show="runTimeCron">
-          <el-input v-model="addTaskBody.run_time"
-                    placeholder="示例：每隔5秒执行一次：*/5 * * * * ？"></el-input>
+        <el-form-item
+          v-show="runTimeCron"
+          label="执行时间"
+        >
+          <el-input
+            v-model="addTaskBody.run_time"
+            placeholder="示例：每隔5秒执行一次：*/5 * * * * ？"
+          />
         </el-form-item>
       </el-form>
-      <el-form ref="updateFormRef"
-               :model="updateCaseBody"
-               :rules="updateCaseForm"
-               label-width="95px"
-               v-show="showTaskAndCase">
+      <el-form
+        v-show="showTaskAndCase"
+        ref="updateFormRef"
+        :model="updateCaseBody"
+        :rules="updateCaseForm"
+        label-width="95px"
+      >
         <el-form-item label="绑定用例：">
-          <el-input v-model="my_case_list"
-                    prop="case_list"
-                    placeholder="请输入绑定用例ID 示例:[1,2]"></el-input>
+          <el-input
+            v-model="my_case_list"
+            prop="case_list"
+            placeholder="请输入绑定用例ID 示例:[1,2]"
+          />
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="mini"
-                   @click="dialogVisible = false">取 消</el-button>
-        <el-button type="success"
-                   size="mini"
-                   v-show="showBasic"
-                   @click="addTaskMethod()">下一步</el-button>
-        <el-button type="success"
-                   size="mini"
-                   v-show="showTaskAndCase"
-                   @click="updateTaskAndCaseMethod()">完成</el-button>
+        <el-button
+          size="mini"
+          @click="dialogVisible = false"
+        >取 消</el-button>
+        <el-button
+          v-show="showBasic"
+          type="success"
+          size="mini"
+          @click="addTaskMethod()"
+        >下一步</el-button>
+        <el-button
+          v-show="showTaskAndCase"
+          type="success"
+          size="mini"
+          @click="updateTaskAndCaseMethod()"
+        >完成</el-button>
       </span>
-
     </el-dialog>
   </div>
 </template>
@@ -195,7 +286,7 @@ export default {
   components: {
     SearchComponent
   },
-  data () {
+  data() {
     return {
       inputName: '任务',
       projectSelectValue: '',
@@ -251,21 +342,21 @@ export default {
       taskListTotal: 1
     }
   },
-  created () {
+  created() {
     this.getProjectListMethod()
     this.getTaskListMethod()
   },
   methods: {
-    changeChildValueMethod () {
+    changeChildValueMethod() {
       this.getTaskListMethod()
     },
     // 监听 页码值改变的事件
-    handleCurrentChange (newPage) {
+    handleCurrentChange(newPage) {
       this.getTaskListBody.page_num = newPage
       this.getTaskListMethod()
     },
     // 获取所有项目列表
-    async getProjectListMethod () {
+    async getProjectListMethod() {
       const { data: projectRes } = await this.$api.project.getProjectList(
         this.getProjectListBody
       )
@@ -276,7 +367,7 @@ export default {
       }
     },
     // 获取task列表方法
-    async getTaskListMethod () {
+    async getTaskListMethod() {
       if (sessionStorage.getItem('inputKey') === this.inputName) {
         this.getTaskListBody.task_name = sessionStorage.getItem('inputName')
       } else {
@@ -306,16 +397,16 @@ export default {
         this.$message.error('获取任务列表失败！')
       }
     },
-    goAddTaskDialog () {
+    goAddTaskDialog() {
       this.dialogVisible = true
     },
-    handleClose () {
+    handleClose() {
       this.$refs.addFormRef.resetFields()
       this.runTimeInput = false
       this.runTimePicker = false
       this.runTimeCron = false
     },
-    selectRunTimeType () {
+    selectRunTimeType() {
       if (this.addTaskBody.task_type === 1) {
         this.runTimeInput = true
         this.runTimePicker = false
@@ -335,7 +426,7 @@ export default {
       }
     },
     // 创建task方法
-    addTaskMethod () {
+    addTaskMethod() {
       if (this.addTaskBody.task_type === 0) {
         delete this.addTaskBody.task_time
       }
@@ -357,9 +448,9 @@ export default {
       })
     },
     // 创建完task紧接着调用此方法，添加caseList
-    updateTaskAndCaseMethod () {
+    updateTaskAndCaseMethod() {
       var arrObject = []
-      JSON.parse(this.my_case_list).forEach(function (item) {
+      JSON.parse(this.my_case_list).forEach(function(item) {
         arrObject.push(item)
       })
       this.updateCaseBody.case_list = arrObject
@@ -380,7 +471,7 @@ export default {
       })
     },
     // 根据id删除
-    async removeTaskById (_id) {
+    async removeTaskById(_id) {
       this.delTaskBody.task_id = _id
       // 弹窗询问是否删除
       const confirmResult = await this.$confirm(
@@ -406,18 +497,18 @@ export default {
       // 刷新数据
       this.reload()
     },
-    goTaskInfo (taskId) {
-      this.$router.push({ path: '/taskinfo', query: { taskId: taskId } }).catch(err => {
+    goTaskInfo(taskId) {
+      this.$router.push({ path: '/taskinfo', query: { taskId: taskId }}).catch(err => {
         console.log('输出', err)
       })
     },
-    goTaskLog (taskId) {
-      this.$router.push({ path: '/tasklog', query: { taskId: taskId } }).catch(err => {
+    goTaskLog(taskId) {
+      this.$router.push({ path: '/tasklog', query: { taskId: taskId }}).catch(err => {
         console.log('输出', err)
       })
       // window.sessionStorage.setItem('activePath', '/tasklog')
     },
-    async stopTaskMethod (taskId) {
+    async stopTaskMethod(taskId) {
       this.stopTaskBody.task_id = taskId
       const { data: res } = await this.$api.task.stopTask(
         this.stopTaskBody
@@ -430,7 +521,7 @@ export default {
       // 刷新数据
       this.getTaskListMethod()
     },
-    async runTaskMethod (taskId) {
+    async runTaskMethod(taskId) {
       this.startTaskBody.task_id = taskId
       const { data: res } = await this.$api.task.startTask(
         this.startTaskBody

@@ -1,43 +1,63 @@
 <template>
   <div class="main-projectlist">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">
+        首页
+      </el-breadcrumb-item>
       <el-breadcrumb-item>设备管理</el-breadcrumb-item>
       <el-breadcrumb-item>设备列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <div class="notes-top-addbutton">
         <span class="notes-top-addannotation">注：</span>
-        <el-button class="add-model-button"
-                   type="primary"
-                   plain
-                   @click="openAddMfDialogVisible()">新增 厂商</el-button>
-        <el-button class="add-model-button"
-                   type="primary"
-                   @click="openAddDialogVisible()">新增 设备</el-button>
+        <el-button
+          class="add-model-button"
+          type="primary"
+          plain
+          @click="openAddMfDialogVisible()"
+        >
+          新增 厂商
+        </el-button>
+        <el-button
+          class="add-model-button"
+          type="primary"
+          @click="openAddDialogVisible()"
+        >
+          新增 设备
+        </el-button>
       </div>
-      <el-table class="equipment-table"
-                :data="equipmentList"
-                ref="multipleTableAll"
-                style="width: 100%"
-                @expand-change="expandChange">
+      <el-table
+        ref="multipleTableAll"
+        class="equipment-table"
+        :data="equipmentList"
+        style="width: 100%"
+        @expand-change="expandChange"
+      >
         <!-- <el-table-column type="expand">
           <eq-info :eqId="eqId"
                    :showEqInfo="showEqInfo" />
         </el-table-column> -->
-        <el-table-column width="70px"
-                         label="ID"
-                         prop="eq_id"></el-table-column>
-        <el-table-column label="设备名称"
-                         prop="eq_name">
-        </el-table-column>
-        <el-table-column label="设备管理者"
-                         prop="eq_owner"></el-table-column>
-        <el-table-column label="设备编码"
-                         prop="eq_code">
-        </el-table-column>
-        <el-table-column label="设备系统版本"
-                         prop="eq_sys_ver"></el-table-column>
+        <el-table-column
+          width="70px"
+          label="ID"
+          prop="eq_id"
+        />
+        <el-table-column
+          label="设备名称"
+          prop="eq_name"
+        />
+        <el-table-column
+          label="设备管理者"
+          prop="eq_owner"
+        />
+        <el-table-column
+          label="设备编码"
+          prop="eq_code"
+        />
+        <el-table-column
+          label="设备系统版本"
+          prop="eq_sys_ver"
+        />
         <el-table-column label="设备系统">
           <template slot-scope="scope">
             <span v-if="scope.row.eq_sys === 1">IOS
@@ -64,320 +84,500 @@
             </span>
             <span v-else-if="scope.row.have_sim === 1">没
             </span>
-          </template></el-table-column>
+          </template>
+        </el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
-            <span class="show-interface-colname"
-                  v-if="scope.row.eq_status === 1">可外借
+            <span
+              v-if="scope.row.eq_status === 1"
+              class="show-interface-colname"
+            >可外借
             </span>
-            <span class="show-interface-colname-warning"
-                  v-else-if="scope.row.eq_status === 2">已外借
+            <span
+              v-else-if="scope.row.eq_status === 2"
+              class="show-interface-colname-warning"
+            >已外借
             </span>
-            <span class="show-interface-colname-success"
-                  v-else>停用
+            <span
+              v-else
+              class="show-interface-colname-success"
+            >停用
             </span>
-          </template></el-table-column>
+          </template>
+        </el-table-column>
         <el-table-column label="设备借用者">
           <template slot-scope="scope">
             <span v-if="scope.row.borrower === ''">无
             </span>
-            <span v-else>{{scope.row.borrower}}
+            <span v-else>{{ scope.row.borrower }}
             </span>
-          </template></el-table-column>
-        <el-table-column label="设备厂商"
-                         prop="mf_name"></el-table-column>
-        <el-table-column label="操作"
-                         width="180px">
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="设备厂商"
+          prop="mf_name"
+        />
+        <el-table-column
+          label="操作"
+          width="180px"
+        >
           <template slot-scope="scope">
             <!-- 修改按钮 -->
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="修改"
-                        placement="top">
-              <el-button type="primary"
-                         icon="el-icon-edit"
-                         size="mini"
-                         ricon="el-icon-edit"
-                         circle
-                         @click="editEqMethod(scope.row.eq_id)"></el-button>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="修改"
+              placement="top"
+            >
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                size="mini"
+                ricon="el-icon-edit"
+                circle
+                @click="editEqMethod(scope.row.eq_id)"
+              />
             </el-tooltip>
             <!-- 切换设备状态-->
-            <el-tooltip v-if="scope.row.eq_status === 1"
-                        class="item"
-                        effect="dark"
-                        content="外借"
-                        placement="top">
-              <el-button type="success"
-                         icon="el-icon-unlock"
-                         size="mini"
-                         circle
-                         @click="switchEqMethod(scope.row.eq_id,scope.row.eq_status,scope.row.borrower)"></el-button>
+            <el-tooltip
+              v-if="scope.row.eq_status === 1"
+              class="item"
+              effect="dark"
+              content="外借"
+              placement="top"
+            >
+              <el-button
+                type="success"
+                icon="el-icon-unlock"
+                size="mini"
+                circle
+                @click="switchEqMethod(scope.row.eq_id,scope.row.eq_status,scope.row.borrower)"
+              />
             </el-tooltip>
-            <el-tooltip v-else
-                        class="item"
-                        effect="dark"
-                        content="回收"
-                        placement="top">
-              <el-button type="danger"
-                         icon="el-icon-lock"
-                         size="mini"
-                         circle
-                         @click="switchEqMethod(scope.row.eq_id,scope.row.eq_status,scope.row.borrower)"></el-button>
+            <el-tooltip
+              v-else
+              class="item"
+              effect="dark"
+              content="回收"
+              placement="top"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-lock"
+                size="mini"
+                circle
+                @click="switchEqMethod(scope.row.eq_id,scope.row.eq_status,scope.row.borrower)"
+              />
             </el-tooltip>
             <!-- 查看log-->
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="日志"
-                        placement="top">
-              <el-button type="warning"
-                         icon="el-icon-tickets"
-                         size="mini"
-                         circle
-                         @click="goEqLog(scope.row.eq_id)"></el-button>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="日志"
+              placement="top"
+            >
+              <el-button
+                type="warning"
+                icon="el-icon-tickets"
+                size="mini"
+                circle
+                @click="goEqLog(scope.row.eq_id)"
+              />
             </el-tooltip>
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="删除"
-                        placement="top">
-              <el-button type="danger"
-                         icon="el-icon-delete"
-                         size="mini"
-                         ricon="el-icon-edit"
-                         circle
-                         @click="removeEqById(scope.row.eq_id)"></el-button>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                ricon="el-icon-edit"
+                circle
+                @click="removeEqById(scope.row.eq_id)"
+              />
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background
-                     :current-page="getEquipmentListBody.page_num"
-                     @current-change="handleCurrentChange"
-                     layout="prev, pager, next"
-                     :total="500">
-      </el-pagination>
+      <el-pagination
+        background
+        :current-page="getEquipmentListBody.page_num"
+        layout="prev, pager, next"
+        :total="500"
+        @current-change="handleCurrentChange"
+      />
     </el-card>
-    <el-dialog title="新增设备"
-               :visible.sync="addDialogVisible"
-               width="40%"
-               :close-on-click-modal="false"
-               @close="handleClose">
-      <el-form ref="addFormRef"
-               :model="addEqBody"
-               :rules="addEqForm"
-               label-width="85px">
-        <el-form-item label="设备名称"
-                      prop="eq_name">
-          <el-input v-model="addEqBody.eq_name"
-                    placeholder="请输入设备名"></el-input>
+    <el-dialog
+      title="新增设备"
+      :visible.sync="addDialogVisible"
+      width="40%"
+      :close-on-click-modal="false"
+      @close="handleClose"
+    >
+      <el-form
+        ref="addFormRef"
+        :model="addEqBody"
+        :rules="addEqForm"
+        label-width="85px"
+      >
+        <el-form-item
+          label="设备名称"
+          prop="eq_name"
+        >
+          <el-input
+            v-model="addEqBody.eq_name"
+            placeholder="请输入设备名"
+          />
         </el-form-item>
-        <el-form-item label="设备编码"
-                      prop="eq_code">
-          <el-input v-model="addEqBody.eq_code"
-                    placeholder="请输入设备编码，不可重复"></el-input>
+        <el-form-item
+          label="设备编码"
+          prop="eq_code"
+        >
+          <el-input
+            v-model="addEqBody.eq_code"
+            placeholder="请输入设备编码，不可重复"
+          />
         </el-form-item>
-        <el-form-item label="设备描述"
-                      prop="eq_desc">
-          <el-input v-model="addEqBody.eq_desc"
-                    placeholder="请输入描述"></el-input>
+        <el-form-item
+          label="设备描述"
+          prop="eq_desc"
+        >
+          <el-input
+            v-model="addEqBody.eq_desc"
+            placeholder="请输入描述"
+          />
         </el-form-item>
-        <el-form-item label="设备类型"
-                      prop="eq_type">
+        <el-form-item
+          label="设备类型"
+          prop="eq_type"
+        >
           <el-radio-group v-model="addEqBody.eq_type">
-            <el-radio :label="1">手机</el-radio>
-            <el-radio :label="2">pad</el-radio>
-            <el-radio :label="0">其他</el-radio>
+            <el-radio :label="1">
+              手机
+            </el-radio>
+            <el-radio :label="2">
+              pad
+            </el-radio>
+            <el-radio :label="0">
+              其他
+            </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="设备系统"
-                      prop="eq_sys">
+        <el-form-item
+          label="设备系统"
+          prop="eq_sys"
+        >
           <el-radio-group v-model="addEqBody.eq_sys">
-            <el-radio :label="1">IOS</el-radio>
-            <el-radio :label="2">Android</el-radio>
-            <el-radio :label="0">其他</el-radio>
+            <el-radio :label="1">
+              IOS
+            </el-radio>
+            <el-radio :label="2">
+              Android
+            </el-radio>
+            <el-radio :label="0">
+              其他
+            </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="系统版本"
-                      prop="eq_sys_ver">
-          <el-input v-model="addEqBody.eq_sys_ver"
-                    placeholder="请输入设备系统版本"></el-input>
+        <el-form-item
+          label="系统版本"
+          prop="eq_sys_ver"
+        >
+          <el-input
+            v-model="addEqBody.eq_sys_ver"
+            placeholder="请输入设备系统版本"
+          />
         </el-form-item>
-        <el-form-item label="管理者"
-                      prop="eq_owner">
-          <el-input v-model="addEqBody.eq_owner"
-                    placeholder="请输入管理者"></el-input>
+        <el-form-item
+          label="管理者"
+          prop="eq_owner"
+        >
+          <el-input
+            v-model="addEqBody.eq_owner"
+            placeholder="请输入管理者"
+          />
         </el-form-item>
-        <el-form-item label="SIM"
-                      prop="have_sim">
+        <el-form-item
+          label="SIM"
+          prop="have_sim"
+        >
           <el-radio-group v-model="addEqBody.have_sim">
-            <el-radio :label="1">有</el-radio>
-            <el-radio :label="0">无</el-radio>
+            <el-radio :label="1">
+              有
+            </el-radio>
+            <el-radio :label="0">
+              无
+            </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="设备厂商"
-                      prop="mf_id">
-          <el-select v-model="addEqBody.mf_id"
-                     placeholder="请选择">
-            <el-option v-for="item in mfList"
-                       :key="item.mf_id"
-                       :label="item.mf_name"
-                       :value="item.mf_id">
-            </el-option>
+        <el-form-item
+          label="设备厂商"
+          prop="mf_id"
+        >
+          <el-select
+            v-model="addEqBody.mf_id"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in mfList"
+              :key="item.mf_id"
+              :label="item.mf_name"
+              :value="item.mf_id"
+            />
           </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="mini"
-                   @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="success"
-                   size="mini"
-                   @click="addEquipmentMethod()">完成</el-button>
+        <el-button
+          size="mini"
+          @click="addDialogVisible = false"
+        >取 消</el-button>
+        <el-button
+          type="success"
+          size="mini"
+          @click="addEquipmentMethod()"
+        >完成</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="改变设备状态"
-               :visible.sync="switchDialogVisible"
-               width="40%"
-               :close-on-click-modal="false"
-               @close="switchHandleClose">
-      <el-form ref="switchEqFormRef"
-               :model="switchEqBody"
-               :rules="switchEqForm"
-               label-width="85px">
-        <el-form-item label="状态"
-                      prop="eq_status">
-          <el-radio-group v-model="switchEqBody.eq_status"
-                          @change="changeRadioStatus">
-            <el-radio :label="1">外借</el-radio>
-            <el-radio :label="2">回收</el-radio>
-            <el-radio :label="0">停用</el-radio>
+    <el-dialog
+      title="改变设备状态"
+      :visible.sync="switchDialogVisible"
+      width="40%"
+      :close-on-click-modal="false"
+      @close="switchHandleClose"
+    >
+      <el-form
+        ref="switchEqFormRef"
+        :model="switchEqBody"
+        :rules="switchEqForm"
+        label-width="85px"
+      >
+        <el-form-item
+          label="状态"
+          prop="eq_status"
+        >
+          <el-radio-group
+            v-model="switchEqBody.eq_status"
+            @change="changeRadioStatus"
+          >
+            <el-radio :label="1">
+              外借
+            </el-radio>
+            <el-radio :label="2">
+              回收
+            </el-radio>
+            <el-radio :label="0">
+              停用
+            </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="showBorrower"
-                      label="借用人"
-                      prop="borrower">
-          <el-input v-model="switchEqBody.borrower"
-                    placeholder="请输入设备名"></el-input>
+        <el-form-item
+          v-show="showBorrower"
+          label="借用人"
+          prop="borrower"
+        >
+          <el-input
+            v-model="switchEqBody.borrower"
+            placeholder="请输入设备名"
+          />
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="mini"
-                   @click="switchDialogVisible = false">取 消</el-button>
-        <el-button type="success"
-                   size="mini"
-                   @click="switchEquipmentMethod()">完成</el-button>
+        <el-button
+          size="mini"
+          @click="switchDialogVisible = false"
+        >取 消</el-button>
+        <el-button
+          type="success"
+          size="mini"
+          @click="switchEquipmentMethod()"
+        >完成</el-button>
       </span>
     </el-dialog>
     <!-- 修改设备-->
-    <el-dialog title="修改设备"
-               :visible.sync="editDialogVisible"
-               width="40%"
-               :close-on-click-modal="false"
-               @close="editHandleClose">
-      <el-form ref="addFormRef"
-               :model="editEqBody"
-               :rules="addEqForm"
-               label-width="85px">
-        <el-form-item label="设备名称"
-                      prop="eq_name">
-          <el-input v-model="editEqBody.eq_name"
-                    placeholder="请输入设备名"></el-input>
+    <el-dialog
+      title="修改设备"
+      :visible.sync="editDialogVisible"
+      width="40%"
+      :close-on-click-modal="false"
+      @close="editHandleClose"
+    >
+      <el-form
+        ref="addFormRef"
+        :model="editEqBody"
+        :rules="addEqForm"
+        label-width="85px"
+      >
+        <el-form-item
+          label="设备名称"
+          prop="eq_name"
+        >
+          <el-input
+            v-model="editEqBody.eq_name"
+            placeholder="请输入设备名"
+          />
         </el-form-item>
-        <el-form-item label="设备编码"
-                      prop="eq_code">
-          <el-input v-model="editEqBody.eq_code"
-                    placeholder="请输入设备编码，不可重复"></el-input>
+        <el-form-item
+          label="设备编码"
+          prop="eq_code"
+        >
+          <el-input
+            v-model="editEqBody.eq_code"
+            placeholder="请输入设备编码，不可重复"
+          />
         </el-form-item>
-        <el-form-item label="设备描述"
-                      prop="eq_desc">
-          <el-input v-model="editEqBody.eq_desc"
-                    placeholder="请输入描述"></el-input>
+        <el-form-item
+          label="设备描述"
+          prop="eq_desc"
+        >
+          <el-input
+            v-model="editEqBody.eq_desc"
+            placeholder="请输入描述"
+          />
         </el-form-item>
-        <el-form-item label="设备类型"
-                      prop="eq_type">
+        <el-form-item
+          label="设备类型"
+          prop="eq_type"
+        >
           <el-radio-group v-model="editEqBody.eq_type">
-            <el-radio :label="1">手机</el-radio>
-            <el-radio :label="2">pad</el-radio>
-            <el-radio :label="0">其他</el-radio>
+            <el-radio :label="1">
+              手机
+            </el-radio>
+            <el-radio :label="2">
+              pad
+            </el-radio>
+            <el-radio :label="0">
+              其他
+            </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="设备系统"
-                      prop="eq_sys">
+        <el-form-item
+          label="设备系统"
+          prop="eq_sys"
+        >
           <el-radio-group v-model="editEqBody.eq_sys">
-            <el-radio :label="1">IOS</el-radio>
-            <el-radio :label="2">Android</el-radio>
-            <el-radio :label="0">其他</el-radio>
+            <el-radio :label="1">
+              IOS
+            </el-radio>
+            <el-radio :label="2">
+              Android
+            </el-radio>
+            <el-radio :label="0">
+              其他
+            </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="系统版本"
-                      prop="eq_sys_ver">
-          <el-input v-model="editEqBody.eq_sys_ver"
-                    placeholder="请输入设备系统版本"></el-input>
+        <el-form-item
+          label="系统版本"
+          prop="eq_sys_ver"
+        >
+          <el-input
+            v-model="editEqBody.eq_sys_ver"
+            placeholder="请输入设备系统版本"
+          />
         </el-form-item>
-        <el-form-item label="管理者"
-                      prop="eq_owner">
-          <el-input v-model="editEqBody.eq_owner"
-                    placeholder="请输入管理者"></el-input>
+        <el-form-item
+          label="管理者"
+          prop="eq_owner"
+        >
+          <el-input
+            v-model="editEqBody.eq_owner"
+            placeholder="请输入管理者"
+          />
         </el-form-item>
-        <el-form-item label="SIM"
-                      prop="have_sim">
+        <el-form-item
+          label="SIM"
+          prop="have_sim"
+        >
           <el-radio-group v-model="editEqBody.have_sim">
-            <el-radio :label="1">有</el-radio>
-            <el-radio :label="0">无</el-radio>
+            <el-radio :label="1">
+              有
+            </el-radio>
+            <el-radio :label="0">
+              无
+            </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="设备厂商"
-                      prop="mf_id">
-          <el-select v-model="editEqBody.mf_id"
-                     placeholder="请选择">
-            <el-option v-for="item in mfList"
-                       :key="item.mf_id"
-                       :label="item.mf_name"
-                       :value="item.mf_id">
-            </el-option>
+        <el-form-item
+          label="设备厂商"
+          prop="mf_id"
+        >
+          <el-select
+            v-model="editEqBody.mf_id"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in mfList"
+              :key="item.mf_id"
+              :label="item.mf_name"
+              :value="item.mf_id"
+            />
           </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="mini"
-                   @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="success"
-                   size="mini"
-                   @click="editEquipmentMethod()">完成</el-button>
+        <el-button
+          size="mini"
+          @click="editDialogVisible = false"
+        >取 消</el-button>
+        <el-button
+          type="success"
+          size="mini"
+          @click="editEquipmentMethod()"
+        >完成</el-button>
       </span>
     </el-dialog>
     <!-- 新增厂商-->
-    <el-dialog title="新增厂商"
-               :visible.sync="addMfDialogVisible"
-               width="40%"
-               :close-on-click-modal="false"
-               @close="addMfDialogVisibleClose">
-      <el-form ref="addMfFormRef"
-               :model="addMfBody"
-               :rules="addMfForm"
-               label-width="85px">
+    <el-dialog
+      title="新增厂商"
+      :visible.sync="addMfDialogVisible"
+      width="40%"
+      :close-on-click-modal="false"
+      @close="addMfDialogVisibleClose"
+    >
+      <el-form
+        ref="addMfFormRef"
+        :model="addMfBody"
+        :rules="addMfForm"
+        label-width="85px"
+      >
         <el-form-item label="已有厂商">
           <div class="tag-group">
-            <el-tag style="margin-left:10px"
-                    v-for="item in mfList"
-                    :key="item.mf_id"
-                    effect="plain"
-                    closable
-                    @close="tagHandleClose(item.mf_id)">
+            <el-tag
+              v-for="item in mfList"
+              :key="item.mf_id"
+              style="margin-left:10px"
+              effect="plain"
+              closable
+              @close="tagHandleClose(item.mf_id)"
+            >
               {{ item.mf_name }}
             </el-tag>
           </div>
         </el-form-item>
-        <el-form-item label="厂商名称"
-                      prop="mf_name">
-          <el-input v-model="addMfBody.mf_name"
-                    placeholder="请输入厂商名"></el-input>
+        <el-form-item
+          label="厂商名称"
+          prop="mf_name"
+        >
+          <el-input
+            v-model="addMfBody.mf_name"
+            placeholder="请输入厂商名"
+          />
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="mini"
-                   @click="addMfDialogVisible = false">取 消</el-button>
-        <el-button type="success"
-                   size="mini"
-                   @click="addMfMethod()">完成</el-button>
+        <el-button
+          size="mini"
+          @click="addMfDialogVisible = false"
+        >取 消</el-button>
+        <el-button
+          type="success"
+          size="mini"
+          @click="addMfMethod()"
+        >完成</el-button>
       </span>
     </el-dialog>
   </div>
@@ -388,7 +588,7 @@ export default {
   // components: {
   //   EqInfo
   // },
-  data () {
+  data() {
     return {
       getEquipmentListBody: {
         page_num: 1
@@ -491,11 +691,11 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.getEquipmentListMethod()
   },
   methods: {
-    expandChange (row, expandedRows) {
+    expandChange(row, expandedRows) {
       this.expandedRows = expandedRows
       if (expandedRows.length > 1) {
         this.$refs.multipleTableAll.toggleRowExpansion(this.expandedRows[0])
@@ -507,45 +707,45 @@ export default {
       }
     },
     // 监听 页码值改变的事件
-    handleCurrentChange (newPage) {
+    handleCurrentChange(newPage) {
       this.getEquipmentListBody.page_num = newPage
       this.getEquipmentListMethod()
     },
-    openAddMfDialogVisible () {
+    openAddMfDialogVisible() {
       this.addMfDialogVisible = true
       this.getManufacturerListMethod()
     },
-    handleClose () {
+    handleClose() {
       this.$refs.addFormRef.resetFields()
       this.addDialogVisible = false
     },
-    editHandleClose () {
+    editHandleClose() {
       this.$refs.addFormRef.resetFields()
       this.editDialogVisible = false
     },
-    switchHandleClose () {
+    switchHandleClose() {
       this.$refs.switchEqFormRef.resetFields()
       this.switchDialogVisible = false
     },
-    tagHandleClose (tagId) {
+    tagHandleClose(tagId) {
       this.delMfmethod(tagId)
     },
-    addMfDialogVisibleClose () {
+    addMfDialogVisibleClose() {
       this.$refs.addMfFormRef.resetFields()
       this.addMfDialogVisible = false
     },
-    openAddDialogVisible () {
+    openAddDialogVisible() {
       this.addDialogVisible = true
       this.getManufacturerListMethod()
     },
-    editEqMethod (EqId) {
+    editEqMethod(EqId) {
       this.editDialogVisible = true
       this.getEqInfoBody.eq_id = EqId
       this.editEqBody.eq_id = EqId
       this.getEqInfoMethod()
       this.getManufacturerListMethod()
     },
-    async getEqInfoMethod () {
+    async getEqInfoMethod() {
       const { data: res } = await this.$api.equipment.eqInfo(
         this.getEqInfoBody
       )
@@ -563,7 +763,7 @@ export default {
       this.editEqBody.have_sim = res.data.have_sim
       this.editEqBody.mf_id = res.data.mf_id
     },
-    async editEquipmentMethod () {
+    async editEquipmentMethod() {
       const { data: res } = await this.$api.equipment.eqEdit(
         this.editEqBody
       )
@@ -573,7 +773,7 @@ export default {
       this.editDialogVisible = false
       this.$message.success('修改成功！')
     },
-    async getEquipmentListMethod () {
+    async getEquipmentListMethod() {
       const { data: res } = await this.$api.equipment.eqList(
         this.getEquipmentListBody
       )
@@ -582,7 +782,7 @@ export default {
       }
       this.equipmentList = res.data
     },
-    async getManufacturerListMethod () {
+    async getManufacturerListMethod() {
       const { data: res } = await this.$api.equipment.mfList(
         this.getManufacturerListBody
       )
@@ -591,7 +791,7 @@ export default {
       }
       this.mfList = res.data
     },
-    async addMfMethod () {
+    async addMfMethod() {
       const { data: res } = await this.$api.equipment.mfAdd(
         this.addMfBody
       )
@@ -602,7 +802,7 @@ export default {
       this.addMfDialogVisible = false
       this.getEquipmentListMethod()
     },
-    async addEquipmentMethod () {
+    async addEquipmentMethod() {
       const { data: res } = await this.$api.equipment.eqAdd(
         this.addEqBody
       )
@@ -615,7 +815,7 @@ export default {
     },
 
     // 打开修改设备状态弹窗
-    switchEqMethod (EqId, eqStatus, borrower) {
+    switchEqMethod(EqId, eqStatus, borrower) {
       this.switchDialogVisible = true
       this.switchEqBody.eq_id = EqId
       this.switchEqBody.borrower = borrower
@@ -627,7 +827,7 @@ export default {
       }
     },
     // 监控单选框状态变化
-    changeRadioStatus () {
+    changeRadioStatus() {
       if (this.switchEqBody.eq_status === 1) {
         this.showBorrower = true
         // this.$set(this.switchEqForm, 'borrower', [{ required: true, message: '请输入借用人', trigger: 'blur' }])
@@ -638,7 +838,7 @@ export default {
       }
     },
     // 修改设备状态
-    async switchEquipmentMethod () {
+    async switchEquipmentMethod() {
       if (this.switchEqBody.eq_status === 1) {
         this.switchEqBody.eq_status = 2
       } else if (this.switchEqBody.eq_status === 2) {
@@ -660,14 +860,14 @@ export default {
     },
 
     // 进入log列表页面
-    goEqLog (EqId) {
-      this.$router.push({ path: '/equipment/log', query: { EqId: EqId } }).catch(err => {
+    goEqLog(EqId) {
+      this.$router.push({ path: '/equipment/log', query: { EqId: EqId }}).catch(err => {
         console.log('输出', err)
       })
     },
 
     // 删除设备
-    async removeEqById (EqId) {
+    async removeEqById(EqId) {
       this.delEqBody.eq_id = EqId
       // 弹窗询问是否删除
       const confirmResult = await this.$confirm(
@@ -693,7 +893,7 @@ export default {
       // 刷新数据
       this.getEquipmentListMethod()
     },
-    async delMfmethod (tagId) {
+    async delMfmethod(tagId) {
       this.delMfBody.mf_id = tagId
       const confirmResult = await this.$confirm(
         '此操作将永久删除该项目, 是否继续?',
@@ -718,7 +918,7 @@ export default {
       this.getManufacturerListMethod()
       // this.addMfDialogVisible = false
     },
-    changeManuFacturer () {
+    changeManuFacturer() {
       this.showManuFSelect = false
       this.showManuFInput = true
     }

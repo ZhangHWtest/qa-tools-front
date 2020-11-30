@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="6">
         <div class="grid-content bg-purple">
-          <i class="iconfont icon-github"></i>
+          <i class="iconfont icon-github" />
           <span class="footer-bar-title">GitHub</span>
           <div>
             <span class="footer-title">源码仓库</span>
@@ -12,7 +12,7 @@
       </el-col>
       <el-col :span="6">
         <div class="grid-content bg-purple">
-          <i class="iconfont icon-icon_group"></i>
+          <i class="iconfont icon-icon_group" />
           <span class="footer-bar-title">团队</span>
           <div>
             <span class="footer-title">kkb.质量管理部</span>
@@ -21,7 +21,7 @@
       </el-col>
       <el-col :span="6">
         <div class="grid-content bg-purple">
-          <i class="iconfont icon-icon_secret"></i>
+          <i class="iconfont icon-icon_secret" />
           <span class="footer-bar-title">反馈</span>
           <div>
             <span class="footer-title">Github Issues</span>

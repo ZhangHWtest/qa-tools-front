@@ -1,7 +1,9 @@
 <template>
   <div class="main-projectlist">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">
+        首页
+      </el-breadcrumb-item>
       <el-breadcrumb-item>环境管理</el-breadcrumb-item>
       <el-breadcrumb-item>环境列表</el-breadcrumb-item>
     </el-breadcrumb>
@@ -10,19 +12,25 @@
       <el-card>
         <div>
           <search-env @listenToChildShowDialog="showAddDialog" />
-          <env-table :envList="envList"
-                     @listenToChildRemoveEnv="removeEnvById"
-                     @listenToChildShowDialog="showEditDialog"
-                     @listenToChildGetEnvinfo="getEnvInfo" />
-          <dialog-form title="新增环境："
-                       :showForm="addDialogVisible"
-                       @listenToChildShowDialog="showAddDialog"
-                       @listenToChildSaveEnvMethod="addEnvMethod" />
-          <dialog-form title="编辑环境："
-                       :showForm="editialogVisible"
-                       :model="editEnvData"
-                       @listenToChildShowDialog="showEditDialog"
-                       @listenToChildSaveEnvMethod="editEnvMethod" />
+          <env-table
+            :env-list="envList"
+            @listenToChildRemoveEnv="removeEnvById"
+            @listenToChildShowDialog="showEditDialog"
+            @listenToChildGetEnvinfo="getEnvInfo"
+          />
+          <dialog-form
+            title="新增环境："
+            :show-form="addDialogVisible"
+            @listenToChildShowDialog="showAddDialog"
+            @listenToChildSaveEnvMethod="addEnvMethod"
+          />
+          <dialog-form
+            title="编辑环境："
+            :show-form="editialogVisible"
+            :model="editEnvData"
+            @listenToChildShowDialog="showEditDialog"
+            @listenToChildSaveEnvMethod="editEnvMethod"
+          />
         </div>
       </el-card>
     </div>
@@ -39,10 +47,7 @@ export default {
     SearchEnv,
     DialogForm
   },
-  created () {
-    this.envListMethod()
-  },
-  data () {
+  data() {
     return {
       addDialogVisible: false,
       editialogVisible: false,
@@ -60,19 +65,22 @@ export default {
       }
     }
   },
+  created() {
+    this.envListMethod()
+  },
   methods: {
-    showAddDialog (value) {
+    showAddDialog(value) {
       this.addDialogVisible = value
     },
-    showEditDialog (value) {
+    showEditDialog(value) {
       this.editialogVisible = value
     },
-    getEnvInfo (id) {
+    getEnvInfo(id) {
       this.getEnvInfoData.env_id = id
       this.getEnvInfoMethod()
     },
     // 创建env
-    async addEnvMethod (createEnvBody) {
+    async addEnvMethod(createEnvBody) {
       this.addEnvData = createEnvBody
       const { data: responseBody } = await this.$api.environment.addEnv(
         this.addEnvData
@@ -86,7 +94,7 @@ export default {
       this.envListMethod()
     },
     // 修改
-    async editEnvMethod (editEnvBody) {
+    async editEnvMethod(editEnvBody) {
       this.editEnvData = editEnvBody
       const { data: responseBody } = await this.$api.environment.editEnv(
         this.editEnvData
@@ -99,7 +107,7 @@ export default {
       }
       this.envListMethod()
     },
-    async envListMethod () {
+    async envListMethod() {
       const { data: responseBody } = await this.$api.environment.getEnvironmentList(
         this.getenvBody
       )
@@ -109,7 +117,7 @@ export default {
         this.$message.error('请求环境信息失败！')
       }
     },
-    async getEnvInfoMethod () {
+    async getEnvInfoMethod() {
       const { data: responseBody } = await this.$api.environment.infoEnv(
         this.getEnvInfoData
       )
@@ -117,7 +125,7 @@ export default {
         this.editEnvData = responseBody.data
       }
     },
-    async removeEnvById (id) {
+    async removeEnvById(id) {
       // 弹窗询问是否删除
       const confirmResult = await this.$confirm(
         '此操作将永久删除该用户, 是否继续?',

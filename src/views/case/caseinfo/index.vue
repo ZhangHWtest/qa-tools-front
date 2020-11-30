@@ -1,163 +1,276 @@
 <template>
   <div class="main-projectlist">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>首页</el-breadcrumb-item>
       <el-breadcrumb-item>用例管理</el-breadcrumb-item>
       <el-breadcrumb-item>用例详情</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <basic-information :interfaceInfo="interfaceInfo"
-                         :key="index" />
+      <basic-information
+        :key="index"
+        :interface-info="interfaceInfo"
+      />
       <div>
-        <h2 class="interface-title-style">case基本信息:</h2>
+        <h2 class="interface-title-style">
+          case基本信息:
+        </h2>
         <div class="interface-info">
           <!-- 内容主体区域-->
-          <el-form ref="addFormRef"
-                   :model="addCaseBody"
-                   :rules="addRulesForm"
-                   label-width="120px">
-            <el-form-item label="选择环境："
-                          class="addcase-form-envid"
-                          prop="env_id">
-              <el-select class="addcase-form-envid"
-                         v-model="myEnvId"
-                         placeholder="请选择环境：">
-                <el-option v-for="item in envList"
-                           :key="item.env_id"
-                           :label="item.url"
-                           :value="item.env_id"></el-option>
+          <el-form
+            ref="addFormRef"
+            :model="addCaseBody"
+            :rules="addRulesForm"
+            label-width="120px"
+          >
+            <el-form-item
+              label="选择环境："
+              class="addcase-form-envid"
+              prop="env_id"
+            >
+              <el-select
+                v-model="myEnvId"
+                class="addcase-form-envid"
+                placeholder="请选择环境："
+              >
+                <el-option
+                  v-for="item in envList"
+                  :key="item.env_id"
+                  :label="item.url"
+                  :value="item.env_id"
+                />
               </el-select>
             </el-form-item>
-            <el-form-item label="名称："
-                          prop="case_name">
-              <el-input v-model="addCaseBody.case_name"
-                        placeholder="请输入名称"></el-input>
+            <el-form-item
+              label="名称："
+              prop="case_name"
+            >
+              <el-input
+                v-model="addCaseBody.case_name"
+                placeholder="请输入名称"
+              />
             </el-form-item>
             <el-form-item label="描述：">
-              <el-input v-model="addCaseBody.case_desc"
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"></el-input>
+              <el-input
+                v-model="addCaseBody.case_desc"
+                type="textarea"
+                :rows="2"
+                placeholder="请输入内容"
+              />
             </el-form-item>
           </el-form>
         </div>
       </div>
       <div>
-        <h2 class="interface-title-style">请求参数:</h2>
+        <h2 class="interface-title-style">
+          请求参数:
+        </h2>
         <div class="interface-info-params">
           <el-row :gutter="20">
             <el-col :span="12">
-              <div class="grid-content bg-purple">Params:</div>
+              <div class="grid-content bg-purple">
+                Params:
+              </div>
               <json-editor v-model="myParam" />
             </el-col>
             <el-col :span="12">
-              <div class="grid-content bg-purple">Header:</div>
+              <div class="grid-content bg-purple">
+                Header:
+              </div>
               <json-editor v-model="myHeader" />
             </el-col>
           </el-row>
         </div>
       </div>
       <div>
-        <h2 class="interface-title-style">响应校验:</h2>
+        <h2 class="interface-title-style">
+          响应校验:
+        </h2>
         <div class="interface-info">
           <!-- 内容主体区域-->
-          <el-form ref="addFormRef"
-                   :model="addCaseBody"
-                   :rules="addRulesForm"
-                   label-width="130px">
-            <el-form-item label="匹配字段："
-                          prop="res_assert">
-              <el-input v-model="addCaseBody.res_assert"
-                        placeholder="请输入名称"></el-input>
+          <el-form
+            ref="addFormRef"
+            :model="addCaseBody"
+            :rules="addRulesForm"
+            label-width="130px"
+          >
+            <el-form-item
+              label="匹配字段："
+              prop="res_assert"
+            >
+              <el-input
+                v-model="addCaseBody.res_assert"
+                placeholder="请输入名称"
+              />
             </el-form-item>
-            <el-form-item label="是否需要签名:"
-                          prop="has_sign">
-              <el-radio v-model="addCaseBody.has_sign"
-                        :label="0">不需要</el-radio>
-              <el-radio v-model="addCaseBody.has_sign"
-                        :label="1">需要</el-radio>
+            <el-form-item
+              label="是否需要签名:"
+              prop="has_sign"
+            >
+              <el-radio
+                v-model="addCaseBody.has_sign"
+                :label="0"
+              >
+                不需要
+              </el-radio>
+              <el-radio
+                v-model="addCaseBody.has_sign"
+                :label="1"
+              >
+                需要
+              </el-radio>
             </el-form-item>
-            <el-form-item label="ak"
-                          v-show="addCaseBody.has_sign==0?false:true">
-              <el-input v-model="addCaseBody.ak"
-                        placeholder="请输入内容"></el-input>
+            <el-form-item
+              v-show="addCaseBody.has_sign==0?false:true"
+              label="ak"
+            >
+              <el-input
+                v-model="addCaseBody.ak"
+                placeholder="请输入内容"
+              />
             </el-form-item>
-            <el-form-item label="sk"
-                          v-show="addCaseBody.has_sign==0?false:true">
-              <el-input v-model="addCaseBody.sk"
-                        placeholder="请输入内容">
-              </el-input>
+            <el-form-item
+              v-show="addCaseBody.has_sign==0?false:true"
+              label="sk"
+            >
+              <el-input
+                v-model="addCaseBody.sk"
+                placeholder="请输入内容"
+              />
             </el-form-item>
-            <el-form-item label="是否存在依赖："
-                          prop="has_rely">
-              <el-radio v-model="addCaseBody.has_rely"
-                        :label="0">无</el-radio>
-              <el-radio v-model="addCaseBody.has_rely"
-                        :label="1">存在</el-radio>
+            <el-form-item
+              label="是否存在依赖："
+              prop="has_rely"
+            >
+              <el-radio
+                v-model="addCaseBody.has_rely"
+                :label="0"
+              >
+                无
+              </el-radio>
+              <el-radio
+                v-model="addCaseBody.has_rely"
+                :label="1"
+              >
+                存在
+              </el-radio>
             </el-form-item>
-            <el-form-item label="依赖case："
-                          v-show="addCaseBody.has_rely==0?false:true">
-              <el-input v-model="addCaseBody.rely_info"
-                        type="textarea"
-                        :rows="2"
-                        placeholder='示例：[{"rely_case_id":1,"rely_param":"sso_token"}]'></el-input>
+            <el-form-item
+              v-show="addCaseBody.has_rely==0?false:true"
+              label="依赖case："
+            >
+              <el-input
+                v-model="addCaseBody.rely_info"
+                type="textarea"
+                :rows="2"
+                placeholder="示例：[{&quot;rely_case_id&quot;:1,&quot;rely_param&quot;:&quot;sso_token&quot;}]"
+              />
             </el-form-item>
-            <el-form-item label="是否使用sql："
-                          prop="use_db">
-              <el-radio v-model="addCaseBody.use_db"
-                        :label="0">不使用</el-radio>
-              <el-radio v-model="addCaseBody.use_db"
-                        :label="1">使用</el-radio>
+            <el-form-item
+              label="是否使用sql："
+              prop="use_db"
+            >
+              <el-radio
+                v-model="addCaseBody.use_db"
+                :label="0"
+              >
+                不使用
+              </el-radio>
+              <el-radio
+                v-model="addCaseBody.use_db"
+                :label="1"
+              >
+                使用
+              </el-radio>
             </el-form-item>
-            <el-form-item label="sql："
-                          v-show="addCaseBody.use_db==0?false:true">
-              <el-input v-model="addCaseBody.sql"
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"></el-input>
+            <el-form-item
+              v-show="addCaseBody.use_db==0?false:true"
+              label="sql："
+            >
+              <el-input
+                v-model="addCaseBody.sql"
+                type="textarea"
+                :rows="2"
+                placeholder="请输入内容"
+              />
             </el-form-item>
-            <el-form-item label="sql比对值："
-                          v-show="addCaseBody.use_db==0?false:true">
-              <el-input v-model="addCaseBody.field_value"
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"></el-input>
+            <el-form-item
+              v-show="addCaseBody.use_db==0?false:true"
+              label="sql比对值："
+            >
+              <el-input
+                v-model="addCaseBody.field_value"
+                type="textarea"
+                :rows="2"
+                placeholder="请输入内容"
+              />
             </el-form-item>
-            <el-form-item label="是否有输出参数:"
-                          prop="has_output">
-              <el-radio v-model="addCaseBody.has_output"
-                        :label="0">无</el-radio>
-              <el-radio v-model="addCaseBody.has_output"
-                        :label="1">有</el-radio>
+            <el-form-item
+              label="是否有输出参数:"
+              prop="has_output"
+            >
+              <el-radio
+                v-model="addCaseBody.has_output"
+                :label="0"
+              >
+                无
+              </el-radio>
+              <el-radio
+                v-model="addCaseBody.has_output"
+                :label="1"
+              >
+                有
+              </el-radio>
             </el-form-item>
-            <el-form-item label="参数名称"
-                          v-show="addCaseBody.has_output==0?false:true">
-              <el-input v-model="addCaseBody.output_para"
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"></el-input>
+            <el-form-item
+              v-show="addCaseBody.has_output==0?false:true"
+              label="参数名称"
+            >
+              <el-input
+                v-model="addCaseBody.output_para"
+                type="textarea"
+                :rows="2"
+                placeholder="请输入内容"
+              />
             </el-form-item>
-            <el-form-item label="是否有入参参数:"
-                          prop="has_input">
-              <el-radio v-model="addCaseBody.has_input"
-                        :label="0">无</el-radio>
-              <el-radio v-model="addCaseBody.has_input"
-                        :label="1">有</el-radio>
+            <el-form-item
+              label="是否有入参参数:"
+              prop="has_input"
+            >
+              <el-radio
+                v-model="addCaseBody.has_input"
+                :label="0"
+              >
+                无
+              </el-radio>
+              <el-radio
+                v-model="addCaseBody.has_input"
+                :label="1"
+              >
+                有
+              </el-radio>
             </el-form-item>
-            <el-form-item label="入参param名称："
-                          v-show="addCaseBody.has_input==0?false:true">
-              <el-input v-model="addCaseBody.input_para"
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"></el-input>
+            <el-form-item
+              v-show="addCaseBody.has_input==0?false:true"
+              label="入参param名称："
+            >
+              <el-input
+                v-model="addCaseBody.input_para"
+                type="textarea"
+                :rows="2"
+                placeholder="请输入内容"
+              />
             </el-form-item>
             <!-- 依赖头-->
-            <el-form-item label="入参header名称:"
-                          v-show="addCaseBody.has_input==0?false:true">
-              <el-input v-model="addCaseBody.input_header"
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"></el-input>
+            <el-form-item
+              v-show="addCaseBody.has_input==0?false:true"
+              label="入参header名称:"
+            >
+              <el-input
+                v-model="addCaseBody.input_header"
+                type="textarea"
+                :rows="2"
+                placeholder="请输入内容"
+              />
             </el-form-item>
             <!-- <el-form-item label="保存结果：">
               <el-switch class="interface-info-switch"
@@ -174,9 +287,15 @@
     </el-card>
     <el-card class="footer-card">
       <div class="footer-button">
-        <el-button @click="goCaseList()">取 消</el-button>
-        <el-button type="success"
-                   @click="selectCaseMethod ()">提 交</el-button>
+        <el-button @click="goCaseList()">
+          取 消
+        </el-button>
+        <el-button
+          type="success"
+          @click="selectCaseMethod ()"
+        >
+          提 交
+        </el-button>
       </div>
     </el-card>
   </div>
@@ -189,7 +308,7 @@ export default {
     BasicInformation,
     JsonEditor
   },
-  data () {
+  data() {
     return {
       getInterfaceInfo: {
         interface_id: ''
@@ -263,7 +382,7 @@ export default {
       index: 0
     }
   },
-  created () {
+  created() {
     this.getEnvListMethod()
     this.getInterfaceInfo.interface_id = Number(this.$route.query.interId)
     if (this.$route.query.interId) {
@@ -273,7 +392,7 @@ export default {
     }
   },
   methods: {
-    async getEnvListMethod () {
+    async getEnvListMethod() {
       const { data: responseBody } = await this.$api.environment.getEnvironmentList(
         this.getEnvBody
       )
@@ -283,7 +402,7 @@ export default {
         this.$message.error('请求环境信息失败！')
       }
     },
-    async getInterfaceInfoMethod () {
+    async getInterfaceInfoMethod() {
       const { data: res } = await this.$api.myinterface.getInterfaceInfoMethod(
         this.getInterfaceInfo
       )
@@ -303,7 +422,7 @@ export default {
       this.myHeader = this.interfaceInfo.header
       // console.log(this.myHeader)
     },
-    selectCaseMethod () {
+    selectCaseMethod() {
       if (this.$route.query.interId) {
         this.addCaseMethod()
       } else {
@@ -311,10 +430,10 @@ export default {
       }
     },
     // 监听添加用户对话框关闭事件
-    addDialogClosed () {
+    addDialogClosed() {
       this.$refs.addFormRef.resetFields()
     },
-    addCaseMethod () {
+    addCaseMethod() {
       this.addCaseBody.interface_id = Number(this.$route.query.interId)
       this.addCaseBody.case_type = this.interfaceInfo.interface_type
       this.addCaseBody.method = this.interfaceInfo.method
@@ -351,7 +470,7 @@ export default {
         }
       })
     },
-    async getCaseInfoMethod () {
+    async getCaseInfoMethod() {
       this.getCaseInfoBody.case_id = Number(this.$route.query.caseId)
       const { data: res } = await this.$api.testcase.getCaseInfo(
         this.getCaseInfoBody
@@ -372,7 +491,7 @@ export default {
       this.myEnvId = this.addCaseBody.env_info.env_id
       console.log('has_sign', this.addCaseBody.has_sign)
     },
-    async editCaseMethod () {
+    async editCaseMethod() {
       this.addCaseBody.params = JSON.stringify(JSON.parse(this.myParam))
       this.addCaseBody.header = JSON.stringify(JSON.parse(this.myHeader))
       console.log('editCase', this.myHeader, '-------', this.addCaseBody.header)
@@ -394,7 +513,7 @@ export default {
       this.$message.success('修改用例成功！')
       this.goCaseList()
     },
-    goCaseList () {
+    goCaseList() {
       this.$router.push({ path: '/caselist' })
     }
   }

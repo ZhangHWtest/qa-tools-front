@@ -1,6 +1,8 @@
 <template>
-  <div :class="className"
-       :style="{ height: height, width: width }" />
+  <div
+    :class="className"
+    :style="{ height: height, width: width }"
+  />
 </template>
 
 <script>
@@ -17,7 +19,7 @@ export default {
     autoResize: { type: Boolean, default: true },
     chartDate: { type: Object, required: true }
   },
-  data () {
+  data() {
     return {
       chart: null
     }
@@ -25,34 +27,34 @@ export default {
   watch: {
     chartDate: {
       deep: true,
-      handler (val) {
+      handler(val) {
         this.setOptions(val)
       }
     }
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       this.initChart()
     })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     if (!this.chart) {
       return
     }
     this.chart.dispose()
     this.chart = null
   },
-  created () {
+  created() {
   },
   methods: {
     // 初始化init
-    initChart () {
+    initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartDate)
       // console.log('chartDate:', this.chartDate)
     },
     // chartDate，mySucasenum，myRuncasenum，myFailcasenum
-    setOptions ({ openDate, suCasenum, runCasenum, failCasenum } = {}) {
+    setOptions({ openDate, suCasenum, runCasenum, failCasenum } = {}) {
       this.chart.setOption({
         xAxis: {
           data: openDate,
@@ -139,7 +141,7 @@ export default {
             data: failCasenum,
             animationDuration: 2800,
             animationEasing: 'quadraticOut'
-          },
+          }
         ]
       })
     }

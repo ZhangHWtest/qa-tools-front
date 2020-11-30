@@ -1,48 +1,62 @@
 <template>
   <div>
-    <h2 class="interface-title-style">接口基本信息:</h2>
+    <h2 class="interface-title-style">
+      接口基本信息:
+    </h2>
     <!-- 预览区域-->
-    <div >
-      <el-row :gutter="20"
-              class="show-interface">
+    <div>
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="10">
           <span class="show-interface-colkey">接口名称：</span>
-          <span class="show-interface-colname">{{interfaceInfo.interface_name}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.interface_name }}</span>
         </el-col>
         <el-col :span="10">
           <span class="show-interface-colkey">请求类型：</span>
-          <span class="show-interface-colname">{{interfaceInfo.interface_type}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.interface_type }}</span>
         </el-col>
       </el-row>
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="10">
           <span class="show-interface-colkey">请求方法：</span>
           <template>
-            <span class="show-interface-colname"
-                  v-if="interfaceInfo.method === 'GET'">
-              <el-tag>{{interfaceInfo.method}}</el-tag>
+            <span
+              v-if="interfaceInfo.method === 'GET'"
+              class="show-interface-colname"
+            >
+              <el-tag>{{ interfaceInfo.method }}</el-tag>
             </span>
-            <span class="show-interface-colname"
-                  v-else-if="interfaceInfo.method === 'POST'">
-              <el-tag type="success">{{interfaceInfo.method}}</el-tag>
+            <span
+              v-else-if="interfaceInfo.method === 'POST'"
+              class="show-interface-colname"
+            >
+              <el-tag type="success">{{ interfaceInfo.method }}</el-tag>
             </span>
-            <span class="show-interface-colname"
-                  v-else>
-              <el-tag type="warning">{{interfaceInfo.method}}</el-tag>
+            <span
+              v-else
+              class="show-interface-colname"
+            >
+              <el-tag type="warning">{{ interfaceInfo.method }}</el-tag>
             </span>
           </template>
         </el-col>
         <el-col :span="10">
           <span class="show-interface-colkey">请求路径：</span>
-          <span class="show-interface-colname">{{interfaceInfo.path}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.path }}</span>
         </el-col>
       </el-row>
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="15">
           <span class="show-interface-colkey">描述：</span>
-          <span class="show-interface-colname">{{interfaceInfo.interface_desc}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.interface_desc }}</span>
         </el-col>
       </el-row>
     </div>
@@ -53,11 +67,11 @@ export default {
   props: [
     'interfaceInfo'
   ],
-  data () {
+  data() {
     return {
     }
   },
-  created () {
+  created() {
   },
   methods: {
   }

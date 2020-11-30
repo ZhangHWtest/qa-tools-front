@@ -1,12 +1,16 @@
 <template>
   <div>
-    <el-form label-position="left"
-             :model=eqInfo
-             inline
-             class="demo-table-expand">
-      <el-form-item class="show-interface-colkey"
-                    label="设备名称：">
-        <span class="show-interface-colname">{{eqInfo.eq_name }}</span>
+    <el-form
+      label-position="left"
+      :model="eqInfo"
+      inline
+      class="demo-table-expand"
+    >
+      <el-form-item
+        class="show-interface-colkey"
+        label="设备名称："
+      >
+        <span class="show-interface-colname">{{ eqInfo.eq_name }}</span>
       </el-form-item>
     </el-form>
   </div>
@@ -17,7 +21,7 @@ export default {
     'eqId',
     'showEqInfo'
   ],
-  data () {
+  data() {
     return {
       getEqInfo: {
         eq_id: ''
@@ -25,14 +29,14 @@ export default {
       eqInfo: {}
     }
   },
-  created () {
+  created() {
     this.getEqInfo.eq_id = Number(this.eqId)
     if (this.showEqInfo) {
       this.getEqInfoMethod()
     }
   },
   methods: {
-    async getEqInfoMethod () {
+    async getEqInfoMethod() {
       const { data: responseBody } = await this.$api.equipment.eqInfo(
         this.getEqInfo
       )

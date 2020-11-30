@@ -1,93 +1,149 @@
 <template>
   <div class="main-breadcrumb">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">
+        首页
+      </el-breadcrumb-item>
       <el-breadcrumb-item>任务管理</el-breadcrumb-item>
       <el-breadcrumb-item>任务详情</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <div v-show="showBasic">
-        <h2 class="title-style">基本信息:</h2>
+        <h2 class="title-style">
+          基本信息:
+        </h2>
         <div class="dev-info">
-          <el-form ref="addFormRef"
-                   :model="editTaskBody"
-                   :rules="addRulesForm"
-                   label-width="100px">
-            <el-form-item label="任务名称:"
-                          prop="task_name">
-              <el-input class="interface_name"
-                        placeholder="请输接口名称"
-                        v-model="editTaskBody.task_name"></el-input>
+          <el-form
+            ref="addFormRef"
+            :model="editTaskBody"
+            :rules="addRulesForm"
+            label-width="100px"
+          >
+            <el-form-item
+              label="任务名称:"
+              prop="task_name"
+            >
+              <el-input
+                v-model="editTaskBody.task_name"
+                class="interface_name"
+                placeholder="请输接口名称"
+              />
             </el-form-item>
-            <el-form-item label="执行策略"
-                          prop="task_type">
-              <el-radio-group v-model="editTaskBody.task_type"
-                              @change="selectRunTimeType()">
-                <el-radio :label="0">立即执行</el-radio>
-                <el-radio :label="1">间隔秒</el-radio>
-                <el-radio :label="2">日期执行</el-radio>
-                <el-radio :label="3">cron表达式</el-radio>
+            <el-form-item
+              label="执行策略"
+              prop="task_type"
+            >
+              <el-radio-group
+                v-model="editTaskBody.task_type"
+                @change="selectRunTimeType()"
+              >
+                <el-radio :label="0">
+                  立即执行
+                </el-radio>
+                <el-radio :label="1">
+                  间隔秒
+                </el-radio>
+                <el-radio :label="2">
+                  日期执行
+                </el-radio>
+                <el-radio :label="3">
+                  cron表达式
+                </el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="执行时间"
-                          v-show="runTimeInput">
-              <el-input v-model="editTaskBody.run_time"
-                        placeholder="单位 秒"></el-input>
+            <el-form-item
+              v-show="runTimeInput"
+              label="执行时间"
+            >
+              <el-input
+                v-model="editTaskBody.run_time"
+                placeholder="单位 秒"
+              />
             </el-form-item>
-            <el-form-item label="执行时间"
-                          prop="run_time"
-                          v-show="runTimePicker">
-              <el-date-picker v-model="editTaskBody.run_time"
-                              value-format="yyyy-MM-dd HH:mm:ss"
-                              type="datetime"
-                              placeholder="选择日期时间">
-              </el-date-picker>
+            <el-form-item
+              v-show="runTimePicker"
+              label="执行时间"
+              prop="run_time"
+            >
+              <el-date-picker
+                v-model="editTaskBody.run_time"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                type="datetime"
+                placeholder="选择日期时间"
+              />
             </el-form-item>
-            <el-form-item label="执行时间"
-                          v-show="runTimeCron">
-              <el-input v-model="editTaskBody.run_time"
-                        placeholder="示例：每隔5秒执行一次：*/5 * * * * ？"></el-input>
+            <el-form-item
+              v-show="runTimeCron"
+              label="执行时间"
+            >
+              <el-input
+                v-model="editTaskBody.run_time"
+                placeholder="示例：每隔5秒执行一次：*/5 * * * * ？"
+              />
             </el-form-item>
           </el-form>
           <div class="interface-info-button">
-            <el-button size="mini"
-                       @click="backTaskList()">取 消</el-button>
-            <el-button type="success"
-                       size="mini"
-                       @click="editTaskInfoMethod()">下一步</el-button>
+            <el-button
+              size="mini"
+              @click="backTaskList()"
+            >
+              取 消
+            </el-button>
+            <el-button
+              type="success"
+              size="mini"
+              @click="editTaskInfoMethod()"
+            >
+              下一步
+            </el-button>
           </div>
         </div>
       </div>
       <div v-show="showTaskAndCase">
-        <h2 class="title-style">绑定用例:</h2>
+        <h2 class="title-style">
+          绑定用例:
+        </h2>
         <div class="dev-info">
-          <el-form ref="updateFormRef"
-                   :model="updateCaseBody"
-                   :rules="updateCaseForm"
-                   label-width="100px">
-            <el-form-item label="绑定用例："
-                          prop="case_list">
-              <el-input v-model="my_case_list"
-                        placeholder="请输入绑定用例ID 示例:[1,2]"></el-input>
+          <el-form
+            ref="updateFormRef"
+            :model="updateCaseBody"
+            :rules="updateCaseForm"
+            label-width="100px"
+          >
+            <el-form-item
+              label="绑定用例："
+              prop="case_list"
+            >
+              <el-input
+                v-model="my_case_list"
+                placeholder="请输入绑定用例ID 示例:[1,2]"
+              />
             </el-form-item>
           </el-form>
           <div class="interface-info-button">
-            <el-button size="mini"
-                       @click="backTaskList()">取 消</el-button>
-            <el-button type="success"
-                       size="mini"
-                       @click="updateTaskAndCaseMethod()">完成</el-button>
+            <el-button
+              size="mini"
+              @click="backTaskList()"
+            >
+              取 消
+            </el-button>
+            <el-button
+              type="success"
+              size="mini"
+              @click="updateTaskAndCaseMethod()"
+            >
+              完成
+            </el-button>
           </div>
         </div>
       </div>
     </el-card>
   </div>
-
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       getTaskInfoBody: {
         task_id: ''
@@ -124,13 +180,13 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.getTaskInfoBody.task_id = Number(this.$route.query.taskId)
     this.updateCaseBody.task_id = Number(this.$route.query.taskId)
     this.getTaskInfoMethod()
   },
   methods: {
-    selectRunTimeType () {
+    selectRunTimeType() {
       if (this.editTaskBody.task_type === 1) {
         this.runTimeInput = true
         this.runTimePicker = false
@@ -149,7 +205,7 @@ export default {
         this.runTimeCron = false
       }
     },
-    async getTaskInfoMethod () {
+    async getTaskInfoMethod() {
       const { data: res } = await this.$api.task.getTaskInfo(
         this.getTaskInfoBody
       )
@@ -161,7 +217,7 @@ export default {
       this.editTaskBody.task_type = res.data.task_type
       this.editTaskBody.run_time = res.data.run_time
       var arrObject = []
-      res.data.case_list.forEach(function (item) {
+      res.data.case_list.forEach(function(item) {
         arrObject.push(item.case_id)
       })
       this.my_case_list = JSON.stringify(arrObject)
@@ -174,7 +230,7 @@ export default {
       }
     },
     // 修改task
-    async editTaskInfoMethod () {
+    async editTaskInfoMethod() {
       if (this.editTaskBody.task_type === 0) {
         this.editTaskBody.run_time = ''
       }
@@ -189,9 +245,9 @@ export default {
         this.$message.error('修改接口失败！')
       }
     },
-    async updateTaskAndCaseMethod () {
+    async updateTaskAndCaseMethod() {
       var arrObject = []
-      JSON.parse(this.my_case_list).forEach(function (item) {
+      JSON.parse(this.my_case_list).forEach(function(item) {
         arrObject.push(item)
       })
       this.updateCaseBody.case_list = arrObject
@@ -207,7 +263,7 @@ export default {
         this.$message.error('修改接口失败！')
       }
     },
-    backTaskList () {
+    backTaskList() {
       this.$router.push({ path: '/tasklist' }).catch(err => {
         console.log('输出', err)
       })

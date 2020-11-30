@@ -1,37 +1,53 @@
 <template>
   <div>
-    <el-form label-position="left"
-             :model=resultInfo
-             inline
-             class="demo-table-expand">
-      <el-form-item class="show-interface-colkey"
-                    label="task名称：">
-        <span class="show-interface-colname">{{resultInfo.task_name }}</span>
+    <el-form
+      label-position="left"
+      :model="resultInfo"
+      inline
+      class="demo-table-expand"
+    >
+      <el-form-item
+        class="show-interface-colkey"
+        label="task名称："
+      >
+        <span class="show-interface-colname">{{ resultInfo.task_name }}</span>
       </el-form-item>
-      <el-form-item class="show-interface-colkey"
-                    label="请求头：">
-        <span class="show-interface-colname">{{resultInfo.header }}</span>
+      <el-form-item
+        class="show-interface-colkey"
+        label="请求头："
+      >
+        <span class="show-interface-colname">{{ resultInfo.header }}</span>
       </el-form-item>
-      <el-form-item class="show-interface-colkey"
-                    label="请求参数：">
-        <span class="show-interface-colname">{{resultInfo.params }}</span>
+      <el-form-item
+        class="show-interface-colkey"
+        label="请求参数："
+      >
+        <span class="show-interface-colname">{{ resultInfo.params }}</span>
       </el-form-item>
-      <el-form-item class="show-interface-colkey"
-                    label="返回参数：">
-        <pre class="show-interface-colname">{{JSON.parse(resultInfo.response,null, 4)}}</pre>
+      <el-form-item
+        class="show-interface-colkey"
+        label="返回参数："
+      >
+        <pre class="show-interface-colname">{{ JSON.parse(resultInfo.response,null, 4) }}</pre>
         <!-- <span class="show-interface-colname">{{resultInfo.response }}</span> -->
       </el-form-item>
-      <el-form-item class="show-interface-colkey"
-                    label="断言：">
-        <span class="show-interface-colname">{{resultInfo.res_assert }}</span>
+      <el-form-item
+        class="show-interface-colkey"
+        label="断言："
+      >
+        <span class="show-interface-colname">{{ resultInfo.res_assert }}</span>
       </el-form-item>
-      <el-form-item class="show-interface-colkey"
-                    label="错误信息：">
-        <span class="show-interface-colname">{{resultInfo.diff_res }}</span>
+      <el-form-item
+        class="show-interface-colkey"
+        label="错误信息："
+      >
+        <span class="show-interface-colname">{{ resultInfo.diff_res }}</span>
       </el-form-item>
-      <el-form-item class="show-interface-colkey"
-                    label="执行耗时：">
-        <span class="show-interface-colname">{{resultInfo.duration }}秒</span>
+      <el-form-item
+        class="show-interface-colkey"
+        label="执行耗时："
+      >
+        <span class="show-interface-colname">{{ resultInfo.duration }}秒</span>
       </el-form-item>
     </el-form>
   </div>
@@ -42,7 +58,7 @@ export default {
     'caseResultId',
     'showResultInfo'
   ],
-  data () {
+  data() {
     return {
       getCaseResultInfo: {
         case_result_id: ''
@@ -50,14 +66,14 @@ export default {
       resultInfo: {}
     }
   },
-  created () {
+  created() {
     this.getCaseResultInfo.case_result_id = Number(this.caseResultId)
     if (this.showResultInfo) {
       this.getCaseResultInfoMethod()
     }
   },
   methods: {
-    async getCaseResultInfoMethod () {
+    async getCaseResultInfoMethod() {
       const { data: responseBody } = await this.$api.testcase.getResultInfo(
         this.getCaseResultInfo
       )

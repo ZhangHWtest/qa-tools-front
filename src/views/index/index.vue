@@ -3,8 +3,10 @@
     <!-- 头部区域 -->
     <el-header>
       <div class="welcome-element">
-        <img class="welcome-logo"
-             src="@/assets/bsy-logo.png" />
+        <img
+          class="welcome-logo"
+          src="@/assets/bsy-logo.png"
+        >
         <span class="welcome-title"> 欢迎进入BSYQaTools后台</span>
       </div>
       <!-- <el-avatar class="user-avatar"
@@ -14,11 +16,15 @@
       <el-dropdown class="user-dropdown">
         <span class="el-dropdown-link">
           您好！{{ loginname.name }}
-          <i class="el-icon-arrow-down el-icon--right"></i>
+          <i class="el-icon-arrow-down el-icon--right" />
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="updatePasword = true">修改密码</el-dropdown-item>
-          <el-dropdown-item @click.native="logout()">退出</el-dropdown-item>
+          <el-dropdown-item @click.native="updatePasword = true">
+            修改密码
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="logout()">
+            退出
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </el-header>
@@ -31,131 +37,159 @@
         <aside-nav-menu />
       </el-aside> -->
       <el-aside :width="isCollapse ? '65px' : '200px'">
-        <div class="toggle-button"
-             @click="toggleCollapse">|||</div>
-        <el-menu background-color="#333744"
-                 text-color="#fff"
-                 active-text-color="#409EFF"
-                 :unique-opened="true"
-                 :collapse="isCollapse"
-                 :collapse-transition="false"
-                 :router="true"
-                 :default-active="activePath">
+        <div
+          class="toggle-button"
+          @click="toggleCollapse"
+        >
+          |||
+        </div>
+        <el-menu
+          background-color="#333744"
+          text-color="#fff"
+          active-text-color="#409EFF"
+          :unique-opened="true"
+          :collapse="isCollapse"
+          :collapse-transition="false"
+          :router="true"
+          :default-active="activePath"
+        >
           <!-- 一级菜单 -->
           <el-submenu index="1">
             <template slot="title">
-              <i class="iconfont icon-icon_compile"></i>
+              <i class="iconfont icon-icon_compile" />
               <span class="sider-bar-title">API管理</span>
             </template>
-            <el-menu-item index="/casechart"
-                          route="/casechart"
-                          @click="saveNavState('/casechart')">
+            <el-menu-item
+              index="/casechart"
+              route="/casechart"
+              @click="saveNavState('/casechart')"
+            >
               <template slot="title">
-                <i class="iconfont icon-shujukanban"></i>
+                <i class="iconfont icon-shujukanban" />
                 <span class="sider-bar-title">用例概况</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/interface"
-                          route="/interface"
-                          @click="saveNavState('/interface')">
+            <el-menu-item
+              index="/interface"
+              route="/interface"
+              @click="saveNavState('/interface')"
+            >
               <template slot="title">
-                <i class="iconfont icon-jishufuwu"></i>
+                <i class="iconfont icon-jishufuwu" />
                 <span class="sider-bar-title">接口列表</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/caselist"
-                          route="/caselist"
-                          @click="saveNavState('/caselist')">
+            <el-menu-item
+              index="/caselist"
+              route="/caselist"
+              @click="saveNavState('/caselist')"
+            >
               <template slot="title">
-                <i class="iconfont icon-ceshishenqing"></i>
+                <i class="iconfont icon-ceshishenqing" />
                 <span class="sider-bar-title">用例列表</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/tasklist"
-                          route="/tasklist"
-                          @click="saveNavState('/tasklist')">
+            <el-menu-item
+              index="/tasklist"
+              route="/tasklist"
+              @click="saveNavState('/tasklist')"
+            >
               <template slot="title">
-                <i class="iconfont icon-icon_renwujincheng"></i>
+                <i class="iconfont icon-icon_renwujincheng" />
                 <span class="sider-bar-title">任务列表</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/project"
-                          route="/project"
-                          @click="saveNavState('/project')">
+            <el-menu-item
+              index="/project"
+              route="/project"
+              @click="saveNavState('/project')"
+            >
               <template slot="title">
-                <i class="iconfont icon-icon_workfile_line"></i>
+                <i class="iconfont icon-icon_workfile_line" />
                 <span class="sider-bar-title">项目配置</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/environment/list"
-                          route="/environment/list"
-                          @click="saveNavState('/environment/list')">
+            <el-menu-item
+              index="/environment/list"
+              route="/environment/list"
+              @click="saveNavState('/environment/list')"
+            >
               <template slot="title">
-                <i class="iconfont icon-icon_setting"></i>
+                <i class="iconfont icon-icon_setting" />
                 <span class="sider-bar-title">环境配置</span>
               </template>
             </el-menu-item>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="iconfont icon-ruanjiankaifabao"></i>
+              <i class="iconfont icon-ruanjiankaifabao" />
               <span class="sider-bar-title">UI管理</span>
             </template>
-            <el-menu-item index="/ui/caselist"
-                          route="/ui/caselist"
-                          @click="saveNavState('/ui/caselist')">
+            <el-menu-item
+              index="/ui/caselist"
+              route="/ui/caselist"
+              @click="saveNavState('/ui/caselist')"
+            >
               <template slot="title">
-                <i class="iconfont icon-ceshishenqing"></i>
+                <i class="iconfont icon-ceshishenqing" />
                 <span class="sider-bar-title">用例管理</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="/system/list"
-                          route="/system/list"
-                          @click="saveNavState('/system/list')">
+            <el-menu-item
+              index="/uienv/list"
+              route="/uienv/list"
+              @click="saveNavState('/uienv/list')"
+            >
               <template slot="title">
-                <i class="iconfont icon-icon_setting"></i>
-                <span class="sider-bar-title">系统配置</span>
+                <i class="iconfont icon-icon_setting" />
+                <span class="sider-bar-title">环境配置</span>
               </template>
             </el-menu-item>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
-              <i class="iconfont icon-icon_yingyongguanli"></i>
+              <i class="iconfont icon-icon_yingyongguanli" />
               <span class="sider-bar-title">QA工具</span>
             </template>
-            <el-menu-item index="/qatools/livemsg"
-                          route="/qatools/livemsg"
-                          @click="saveNavState('/qatools/livemsg')">
+            <el-menu-item
+              index="/qatools/livemsg"
+              route="/qatools/livemsg"
+              @click="saveNavState('/qatools/livemsg')"
+            >
               <template slot="title">
-                <i class="iconfont icon-chaxun"></i>
+                <i class="iconfont icon-chaxun" />
                 <span class="sider-bar-title">直播信息</span>
               </template>
             </el-menu-item>
           </el-submenu>
           <el-submenu index="7">
             <template slot="title">
-              <i class="iconfont icon-phone"></i>
+              <i class="iconfont icon-phone" />
               <span class="sider-bar-title">设备管理</span>
             </template>
-            <el-menu-item index="/equipmentlist"
-                          route="/equipmentlist"
-                          @click="saveNavState('/equipmentlist')">
+            <el-menu-item
+              index="/equipmentlist"
+              route="/equipmentlist"
+              @click="saveNavState('/equipmentlist')"
+            >
               <template slot="title">
-                <i class="iconfont icon-phone_icon"></i>
+                <i class="iconfont icon-phone_icon" />
                 <span class="sider-bar-title">设备列表</span>
               </template>
             </el-menu-item>
           </el-submenu>
           <el-submenu index="8">
             <template slot="title">
-              <i class="iconfont icon-icon_boss"></i>
+              <i class="iconfont icon-icon_boss" />
               <span class="sider-bar-title">用户管理</span>
             </template>
-            <el-menu-item index="/user/list"
-                          route="/user/list"
-                          @click="saveNavState('/user/list')">
+            <el-menu-item
+              index="/user/list"
+              route="/user/list"
+              @click="saveNavState('/user/list')"
+            >
               <template slot="title">
-                <i class="iconfont icon-icon_meeting"></i>
+                <i class="iconfont icon-icon_meeting" />
                 <span class="sider-bar-title">用户列表</span>
               </template>
             </el-menu-item>
@@ -166,31 +200,47 @@
         <!-- <main-top-menu /> -->
         <router-view v-if="isRouterShow" />
         <!-- 修改密码弹框-->
-        <el-dialog title="修改密码"
-                   :visible.sync="updatePasword"
-                   width="50%"
-                   @close="updatePaswordClose">
+        <el-dialog
+          title="修改密码"
+          :visible.sync="updatePasword"
+          width="50%"
+          @close="updatePaswordClose"
+        >
           <!-- 内容主体区域-->
-          <el-form ref="updatePaswordFormRef"
-                   :model="updatePaswordUser"
-                   :rules="updatePaswordRulesForm"
-                   label-width="90px">
-            <el-form-item label="新密码"
-                          prop="password">
-              <el-input v-model="updatePaswordUser.password"
-                        type="password"></el-input>
+          <el-form
+            ref="updatePaswordFormRef"
+            :model="updatePaswordUser"
+            :rules="updatePaswordRulesForm"
+            label-width="90px"
+          >
+            <el-form-item
+              label="新密码"
+              prop="password"
+            >
+              <el-input
+                v-model="updatePaswordUser.password"
+                type="password"
+              />
             </el-form-item>
-            <el-form-item label="确认密码"
-                          prop="set_password">
-              <el-input v-model="updatePaswordUser.set_password"
-                        type="password"></el-input>
+            <el-form-item
+              label="确认密码"
+              prop="set_password"
+            >
+              <el-input
+                v-model="updatePaswordUser.set_password"
+                type="password"
+              />
             </el-form-item>
           </el-form>
-          <span slot="footer"
-                class="dialog-footer">
+          <span
+            slot="footer"
+            class="dialog-footer"
+          >
             <el-button @click="updatePasword = false">取 消</el-button>
-            <el-button type="primary"
-                       @click.native="updatePaswordMethod()">确 定</el-button>
+            <el-button
+              type="primary"
+              @click.native="updatePaswordMethod()"
+            >确 定</el-button>
           </span>
         </el-dialog>
       </el-main>
@@ -202,12 +252,12 @@
 export default {
   components: {
   },
-  provide () {
+  provide() {
     return {
       reload: this.reload
     }
   },
-  data () {
+  data() {
     return {
       isRouterShow: true,
       isCollapse: false,
@@ -226,36 +276,36 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.loginname.name = window.sessionStorage.getItem('loginName')
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
-    async reload () {
+    async reload() {
       this.isRouterShow = false
       await this.$nextTick()
       this.isRouterShow = true
     },
     // 点击按钮切换菜单的折叠与展开
-    toggleCollapse () {
+    toggleCollapse() {
       this.isCollapse = !this.isCollapse
     },
     // 保存链接的激活状态
-    saveNavState (activePath) {
+    saveNavState(activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = activePath
     },
     // 退出
-    logout () {
+    logout() {
       window.sessionStorage.clear()
       this.$router.push('/login')
     },
     // 关闭修改密码弹窗，清空表单
-    updatePaswordClose () {
+    updatePaswordClose() {
       this.$refs.updatePaswordFormRef.resetFields()
     },
     // 修改密码方法
-    updatePaswordMethod () {
+    updatePaswordMethod() {
       this.$refs.updatePaswordFormRef.validate(async valid => {
         if (!valid) return
         this.updatePaswordUser.name = window.sessionStorage.getItem('loginName')
