@@ -6,8 +6,8 @@ import * as environment from './modules/environment'
 import * as testcase from './modules/testcase'
 import * as task from './modules/task'
 import * as equipment from './modules/equipment'
-import * as system from './modules/system'
 import * as livemsg from './modules/livemsg'
+import * as myuienv from './modules/uienv'
 export default {
   user,
   login,
@@ -18,5 +18,5 @@ export default {
   task,
   equipment,
   livemsg,
-  system
+  myuienv
 }

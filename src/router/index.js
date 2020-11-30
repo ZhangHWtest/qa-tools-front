@@ -78,6 +78,10 @@ const routes = [
         component: () => import('@/views/uienv/index.vue')
       },
       {
+        path: '/uienv/add',
+        component: () => import('@/views/uienv/adduienv/addUiEnv.vue')
+      },
+      {
         path: '/ui/caselist',
         component: () => import('@/views/uicase/index.vue')
       }
