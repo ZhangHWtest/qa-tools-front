@@ -12,25 +12,15 @@
       <el-card>
         <el-row :gutter="30">
           <el-col :span="5">
-            <el-button
-              type="primary"
-              @click="addDialogVisible = true"
-            >
+            <el-button type="primary" @click="addDialogVisible = true">
               新增用户
             </el-button>
           </el-col>
         </el-row>
 
         <!-- api列表区域-->
-        <el-table
-          stripe
-          :data="userList"
-        >
-          <el-table-column
-            width="50px"
-            label="uid"
-            prop="uid"
-          />
+        <el-table stripe :data="userList">
+          <el-table-column width="50px" label="uid" prop="uid" />
           <el-table-column
             label="姓名"
             prop="username"

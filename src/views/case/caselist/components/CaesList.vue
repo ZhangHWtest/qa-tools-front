@@ -9,12 +9,7 @@
     </div>
     <div class="interface-top-addbutton">
       <span class="interface-top-addannotation">注：添加、批量运行case必须先选择接口！</span>
-      <el-button
-        class="add-model-button"
-        type="success"
-        :disabled="buttonDisabled"
-        @click="runMultipleCaseMethod()"
-      >
+      <el-button class="add-model-button" type="success" :disabled="RunButtonDisabled" @click="runMultipleCaseMethod()">
         批量 运行
       </el-button>
       <el-button
@@ -183,6 +178,7 @@ export default {
     return {
       inputName: '用例',
       parentIsShowInterfaceSelect: true,
+      RunButtonDisabled: true,
       buttonDisabled: true,
       getcaseListBody: {
         case_name: '',
@@ -194,7 +190,7 @@ export default {
       caseList: [],
       caseListTotal: 1,
       multipleSelection: {
-        interface_id: '',
+        project_id: '',
         case_list: []
       },
       runCaseList: {
@@ -262,14 +258,17 @@ export default {
       if (!sessionStorage.getItem('projectId')) {
         console.log('projectId', sessionStorage.getItem('projectId'))
         delete this.getcaseListBody.project_id
+        this.RunButtonDisabled = true
       } else {
         this.getcaseListBody.project_id = Number(sessionStorage.getItem('projectId'))
+        this.RunButtonDisabled = false
       }
       if (!sessionStorage.getItem('modelId')) {
         console.log('modelId', sessionStorage.getItem('modelId'))
         delete this.getcaseListBody.model_id
       } else {
         this.getcaseListBody.model_id = Number(sessionStorage.getItem('modelId'))
+        this.RunButtonDisabled = false
       }
       if (!sessionStorage.getItem('interId')) {
         console.log('interId', sessionStorage.getItem('interId'))
@@ -305,15 +304,15 @@ export default {
     },
     // 批量运行case
     async runMultipleCaseMethod() {
-      this.multipleSelection.interface_id = this.interfaceValue
-      const { data: responseBody } = await this.$api.testcase.runMultipleCase(
+      this.multipleSelection.project_id = Number(sessionStorage.getItem('projectId'))
+      const { data: res } = await this.$api.testcase.runMultipleCase(
         this.multipleSelection
       )
-      if (responseBody.code === 1) {
+      if (res.code === 1) {
         this.$message.success('运行成功！')
         this.caseListMethod()
       } else {
-        this.$message.error('运行失败！')
+        this.$message.error(res.msg)
       }
     },
     // 复制case

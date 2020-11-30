@@ -53,7 +53,11 @@
 </template>
 <script>
 export default {
-  props: ['parentIsShowInterfaceSelect', 'parentIsShowSeachButton', 'parentInputName'],
+  props: [
+    'parentIsShowInterfaceSelect',
+    'parentIsShowSeachButton',
+    'parentInputName'
+  ],
   data() {
     return {
       inputName: '',
