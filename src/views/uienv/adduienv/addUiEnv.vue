@@ -33,12 +33,12 @@
         配置详情:
       </h2>
       <div class="card-div">
-        <!-- addWebEnvBody-->
+        <!-- Web -->
         <el-form
           v-show="addEnvBody.platform_id == 1 ? true:false"
           ref="addWebFormRef"
           :model="addEnvBody"
-          :rules="addEnvRulesForm"
+          :rules="addWebEnvRulesForm"
           label-width="100px"
         >
           <el-form-item label="浏览器:" prop="browser_id">
@@ -54,7 +54,7 @@
           v-show="addEnvBody.platform_id == 2 ? true:false"
           ref="addAndroidFormRef"
           :model="addEnvBody"
-          :rules="addEnvRulesForm"
+          :rules="addAndroidEnvRulesForm"
           label-width="100px"
         >
           <el-form-item label="设备名称:" prop="device_name">
@@ -94,7 +94,7 @@
           v-show="addEnvBody.platform_id == 3 ? true:false"
           ref="addIosFormRef"
           :model="addEnvBody"
-          :rules="addEnvRulesForm"
+          :rules="addIosEnvRulesForm"
           label-width="100px"
         >
           <el-form-item label="系统版本:" prop="platform_version">
@@ -116,7 +116,7 @@
         </el-button>
         <el-button
           type="success"
-          @click="addEnvMethod()"
+          @click="checkForm()"
         >
           提 交
         </el-button>
@@ -163,21 +163,27 @@ export default {
         ],
         remote: [
           { required: true, message: '请输入执行机器ip', trigger: 'blur' }
-        ],
+        ]
+      },
+      addWebEnvRulesForm: {
         // web
         browser_id: [
           { required: true, message: '请选择端信息' }
         ],
         url: [
           { required: true, message: '请输入访问地址', trigger: 'blur' }
-        ],
+        ]
+      },
+      addAndroidEnvRulesForm: {
         // android
         device_name: [
           { required: true, message: '请输入设备名称', trigger: 'blur' }
         ],
         app_package: [
           { required: true, message: '请输包名', trigger: 'blur' }
-        ],
+        ]
+      },
+      addIosEnvRulesForm: {
         // ios
         platform_version: [
           { required: true, message: '请输入系统版本', trigger: 'blur' }
@@ -188,29 +194,53 @@ export default {
         bundle_id: [
           { required: true, message: '请输入测试包名', trigger: 'blur' }
         ]
-      }
+      },
+      pubRef: false,
+      webRef: false,
+      andRef: false,
+      iosRef: false
     }
   },
   methods: {
     checkForm() {
       this.$refs.addPublicFormRef.validate((valid) => {
-        return valid
-      })
-    },
-    addEnvMethod() {
-      this.$refs.addPublicFormRef.validate(async valid => {
         if (valid) {
-          const { data: res } = await this.$api.testcase.editCase(
-            this.addEnvBody
-          )
-          if (res.code === 1) {
-            this.$message.success('新增成功')
-            this.goEnvList()
-          } else {
-            this.$message.error(res.msg)
-          }
+          this.pubRef = true
         }
       })
+      if (this.addEnvBody.platform_id === 1) {
+        this.$refs.addWebFormRef.validate((valid) => {
+          if (valid) {
+            this.webRef = true
+            this.addEnvMethod()
+          }
+        })
+      } else if (this.addEnvBody.platform_id === 2) {
+        this.$refs.addAndroidFormRef.validate((valid) => {
+          if (valid) {
+            this.andRef = true
+            this.addEnvMethod()
+          }
+        })
+      } else if (this.addEnvBody.platform_id === 3) {
+        this.$refs.addIosFormRef.validate((valid) => {
+          if (valid) {
+            this.iosRef = true
+            this.addEnvMethod()
+          }
+        })
+      }
+    },
+    async addEnvMethod() {
+      const { data: res } = await this.$api.myuienv.addUiEnv(
+        this.addEnvBody
+      )
+      if (res.code === 1) {
+        this.$message.success('新增成功')
+        this.goEnvList()
+      } else {
+        this.$message.error(res.msg)
+      }
     },
     goEnvList() {
       this.$router.push({ path: '/uienv/list' })
@@ -218,6 +248,7 @@ export default {
   }
 
 }
+
 </script>
 <style lang="less" scoped>
 .main-div-style {
