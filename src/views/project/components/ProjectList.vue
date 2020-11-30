@@ -1,66 +1,94 @@
 <template>
   <div v-show="showPAndMListTable">
-    <el-table class="model_table"
-              stripe
-              :data="projectList">
-      <el-table-column width="70px"
-                       label="id"
-                       prop="project_id"></el-table-column>
-      <el-table-column label="项目名称"
-                       prop="project_name"></el-table-column>
-      <el-table-column label="创建人"
-                       prop="create_user"></el-table-column>
-      <el-table-column label="操作"
-                       width="120px">
+    <el-table
+      class="model_table"
+      stripe
+      :data="projectList"
+    >
+      <el-table-column
+        width="70px"
+        label="id"
+        prop="project_id"
+      />
+      <el-table-column
+        label="项目名称"
+        prop="project_name"
+      />
+      <el-table-column
+        label="创建人"
+        prop="create_user"
+      />
+      <el-table-column
+        label="操作"
+        width="120px"
+      >
         <template slot-scope="scope">
           <!-- 修改按钮 -->
-          <el-tooltip class="item"
-                      effect="dark"
-                      content="修改"
-                      placement="top">
-            <el-button type="primary"
-                       icon="el-icon-edit"
-                       size="mini"
-                       ricon="el-icon-edit"
-                       circle
-                       @click="showEditProjectDialog(scope.row.project_id,scope.row.project_name)"></el-button>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="修改"
+            placement="top"
+          >
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              size="mini"
+              ricon="el-icon-edit"
+              circle
+              @click="showEditProjectDialog(scope.row.project_id,scope.row.project_name)"
+            />
           </el-tooltip>
           <!-- 删除按钮 -->
-          <el-tooltip class="item"
-                      effect="dark"
-                      content="删除"
-                      placement="top">
-            <el-button type="danger"
-                       icon="el-icon-delete"
-                       size="mini"
-                       ricon="el-icon-edit"
-                       circle
-                       @click="removeProjectById(scope.row.project_id)"></el-button>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="删除"
+            placement="top"
+          >
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              size="mini"
+              ricon="el-icon-edit"
+              circle
+              @click="removeProjectById(scope.row.project_id)"
+            />
           </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
     <!-- 修改项目对话框-->
-    <el-dialog title="修改项目"
-               :visible.sync="editProjectDialog"
-               width="50%"
-               :close-on-click-modal="false"
-               @close="editProjectDialogClosed">
+    <el-dialog
+      title="修改项目"
+      :visible.sync="editProjectDialog"
+      width="50%"
+      :close-on-click-modal="false"
+      @close="editProjectDialogClosed"
+    >
       <!-- 内容主体区域-->
-      <el-form ref="addFormRef"
-               :model="editProjectBody"
-               :rules="addRulesForm"
-               label-width="85px">
-        <el-form-item label="项目名称"
-                      prop="project_name">
-          <el-input v-model="editProjectBody.project_name"></el-input>
+      <el-form
+        ref="addFormRef"
+        :model="editProjectBody"
+        :rules="addRulesForm"
+        label-width="85px"
+      >
+        <el-form-item
+          label="项目名称"
+          prop="project_name"
+        >
+          <el-input v-model="editProjectBody.project_name" />
         </el-form-item>
       </el-form>
-      <span slot="footer"
-            class="dialog-footer">
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button @click="editProjectDialog = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="editProjectMethod()">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="editProjectMethod()"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -71,7 +99,7 @@ export default {
     'showPAndMListTable',
     'projectList'
   ],
-  data () {
+  data() {
     return {
       addProjectDialog: false,
       addProjectBody: {
@@ -92,25 +120,25 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     if (this.activeName === 'Tab 1') {
       this.projectListTable = true
       this.getProjectListMethod()
     }
   },
   methods: {
-    addProjectDialogClosed () {
+    addProjectDialogClosed() {
       this.$refs.addFormRef.resetFields()
     },
-    editProjectDialogClosed () {
+    editProjectDialogClosed() {
       this.$refs.addFormRef.resetFields()
     },
-    showEditProjectDialog (_id, _projectName) {
+    showEditProjectDialog(_id, _projectName) {
       this.editProjectBody.project_id = _id
       this.editProjectBody.project_name = _projectName
       this.editProjectDialog = true
     },
-    editProjectMethod () {
+    editProjectMethod() {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) {
           this.$message.error('请检查必填项！')
@@ -127,7 +155,7 @@ export default {
       })
     },
     // 根据id删除
-    async removeProjectById (_id) {
+    async removeProjectById(_id) {
       this.delProjectBody.project_id = _id
       // 弹窗询问是否删除
       const confirmResult = await this.$confirm(

@@ -1,19 +1,29 @@
 <template>
   <div>
-    <h2 class="interface-title-style">返回数据:</h2>
+    <h2 class="interface-title-style">
+      返回数据:
+    </h2>
     <div class="interface-info">
-      <pre v-show="activeName=='预览'?true:false">{{JSON.stringify(response,null, 4)}}</pre>
-      <div class="editor-container"
-           v-show="activeName=='编辑'?true:false">
-        <json-editor ref="jsonEditor"
-                     :key="keys"
-                     v-model="editResponse.response" />
-        <span slot="footer"
-              class="goProject-dialog-footer-info-param">
-          <el-button class="goProject-dialog-footer-info-button"
-                     type="success"
-                     size="small"
-                     @click="editInterfaceResponse()"> 提 交</el-button>
+      <pre v-show="activeName=='预览'?true:false">{{ JSON.stringify(response,null, 4) }}</pre>
+      <div
+        v-show="activeName=='编辑'?true:false"
+        class="editor-container"
+      >
+        <json-editor
+          ref="jsonEditor"
+          :key="keys"
+          v-model="editResponse.response"
+        />
+        <span
+          slot="footer"
+          class="goProject-dialog-footer-info-param"
+        >
+          <el-button
+            class="goProject-dialog-footer-info-button"
+            type="success"
+            size="small"
+            @click="editInterfaceResponse()"
+          > 提 交</el-button>
         </span>
       </div>
     </div>
@@ -22,14 +32,14 @@
 <script>
 import JsonEditor from '@/components/JsonEditor'
 export default {
+  components: {
+    JsonEditor
+  },
   props: [
     'interfaceInfo',
     'activeName'
   ],
-  components: {
-    JsonEditor
-  },
-  data () {
+  data() {
     return {
       keys: '',
       editResponse: {
@@ -39,25 +49,25 @@ export default {
       response: {}
     }
   },
-  created () {
-  },
   watch: {
-    interfaceInfo (value) {
+    interfaceInfo(value) {
       if (value.interface_id) {
         this.keys = value.interface_id
         this.response = JSON.parse(this.interfaceInfo.response)
         this.editResponse.response = JSON.parse(this.interfaceInfo.response)
       }
     },
-    activeName (value, oldValue) {
+    activeName(value, oldValue) {
       if (value === '编辑') {
         this.keys = value
       }
     }
   },
+  created() {
+  },
   methods: {
     // 修改 返回信息
-    async editInterfaceResponse () {
+    async editInterfaceResponse() {
       this.editResponse.interface_id = this.interfaceInfo.interface_id
       const { data: createModelRes } = await this.$api.myinterface.createInterfaceResponseMethod(
         { ...this.editResponse, response: JSON.stringify(JSON.parse(this.editResponse.response)) }

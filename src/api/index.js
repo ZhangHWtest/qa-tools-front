@@ -5,7 +5,7 @@ const install = Vue => {
   install.installed = true
   Object.defineProperties(Vue.prototype, {
     $api: {
-      get () {
+      get() {
         return api
       }
     }

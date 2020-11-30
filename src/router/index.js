@@ -70,12 +70,16 @@ const routes = [
         component: () => import('@/views/environment/index.vue')
       },
       {
-        path: '/system/list',
-        component: () => import('@/views/system/index.vue')
-      },
-      {
         path: '/qatools/livemsg',
         component: () => import('@/views/qatools/livemsg/index.vue')
+      },
+      {
+        path: '/uienv/list',
+        component: () => import('@/views/uienv/index.vue')
+      },
+      {
+        path: '/uienv/add',
+        component: () => import('@/views/uienv/adduienv/addUiEnv.vue')
       },
       {
         path: '/ui/caselist',

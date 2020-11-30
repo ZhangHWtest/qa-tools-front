@@ -1,24 +1,36 @@
 <template>
   <div class="main-projectlist">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">
+        首页
+      </el-breadcrumb-item>
       <el-breadcrumb-item>接口管理</el-breadcrumb-item>
       <el-breadcrumb-item>接口详情</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card class="interface-info-card">
-      <el-tabs class="interface-info-tabs"
-               v-model="activeName"
-               @tab-click="handleClick">
-        <el-tab-pane :key="item.name"
-                     v-for="item in editableTabs"
-                     :label="item.title"
-                     :name="item.name">
-          <preview-interface-info :activeName="activeName"
-                                  :interfaceInfo="interfaceInfo"></preview-interface-info>
-          <edit-interface-info :activeName="activeName"
-                               :interfaceInfo="interfaceInfo"></edit-interface-info>
-          <return-interface-info :activeName="activeName"
-                                 :interfaceInfo="interfaceInfo" />
+      <el-tabs
+        v-model="activeName"
+        class="interface-info-tabs"
+        @tab-click="handleClick"
+      >
+        <el-tab-pane
+          v-for="item in editableTabs"
+          :key="item.name"
+          :label="item.title"
+          :name="item.name"
+        >
+          <preview-interface-info
+            :active-name="activeName"
+            :interface-info="interfaceInfo"
+          />
+          <edit-interface-info
+            :active-name="activeName"
+            :interface-info="interfaceInfo"
+          />
+          <return-interface-info
+            :active-name="activeName"
+            :interface-info="interfaceInfo"
+          />
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -34,7 +46,7 @@ export default {
     EditInterfaceInfo,
     ReturnInterfaceInfo
   },
-  data () {
+  data() {
     return {
       activeName: '预览',
       editableTabs: [{
@@ -50,15 +62,15 @@ export default {
       interfaceInfo: {}
     }
   },
-  created () {
+  created() {
     this.getInterfaceInfo.interface_id = Number(this.$route.query.interfaceId)
     this.getInterfaceInfoMethod()
   },
   methods: {
-    handleClick (tab, event) {
+    handleClick(tab, event) {
       this.activeName = tab.name
     },
-    async getInterfaceInfoMethod () {
+    async getInterfaceInfoMethod() {
       const { data: res } = await this.$api.myinterface.getInterfaceInfoMethod(
         this.getInterfaceInfo
       )

@@ -1,100 +1,126 @@
 <template>
   <div v-show="activeName=='预览'?true:false">
-    <h2 class="interface-title-style">基本信息:</h2>
+    <h2 class="interface-title-style">
+      基本信息:
+    </h2>
     <!-- 预览区域-->
     <div>
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="10">
           <span class="show-interface-colkey">接口名称：</span>
-          <span class="show-interface-colname">{{interfaceInfo.interface_name}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.interface_name }}</span>
         </el-col>
         <el-col :span="10">
           <span class="show-interface-colkey">创建人：</span>
-          <span class="show-interface-colname">{{interfaceInfo.create_user}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.create_user }}</span>
         </el-col>
       </el-row>
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="10">
           <span class="show-interface-colkey">请求类型：</span>
-          <span class="show-interface-colname">{{interfaceInfo.interface_type}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.interface_type }}</span>
         </el-col>
         <el-col :span="10">
           <span class="show-interface-colkey">请求方法：</span>
           <template>
-            <span class="show-interface-colname"
-                  v-if="interfaceInfo.method === 'GET'">
-              <el-tag>{{interfaceInfo.method}}</el-tag>
+            <span
+              v-if="interfaceInfo.method === 'GET'"
+              class="show-interface-colname"
+            >
+              <el-tag>{{ interfaceInfo.method }}</el-tag>
             </span>
-            <span class="show-interface-colname"
-                  v-else-if="interfaceInfo.method === 'POST'">
-              <el-tag type="success">{{interfaceInfo.method}}</el-tag>
+            <span
+              v-else-if="interfaceInfo.method === 'POST'"
+              class="show-interface-colname"
+            >
+              <el-tag type="success">{{ interfaceInfo.method }}</el-tag>
             </span>
-            <span class="show-interface-colname"
-                  v-else>
-              <el-tag type="warning">{{interfaceInfo.method}}</el-tag>
+            <span
+              v-else
+              class="show-interface-colname"
+            >
+              <el-tag type="warning">{{ interfaceInfo.method }}</el-tag>
             </span>
           </template>
         </el-col>
       </el-row>
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="10">
           <span class="show-interface-colkey">请求路径：</span>
-          <span class="show-interface-colname">{{interfaceInfo.path}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.path }}</span>
         </el-col>
       </el-row>
-      <el-row :gutter="20"
-              class="show-interface">
+      <el-row
+        :gutter="20"
+        class="show-interface"
+      >
         <el-col :span="15">
           <span class="show-interface-colkey">描述：</span>
-          <span class="show-interface-colname">{{interfaceInfo.interface_desc}}</span>
+          <span class="show-interface-colname">{{ interfaceInfo.interface_desc }}</span>
         </el-col>
       </el-row>
     </div>
-    <h2 class="interface-title-style">请求信息:</h2>
+    <h2 class="interface-title-style">
+      请求信息:
+    </h2>
     <div class="interface-info-body">
       <h3>Hearders:</h3>
-      <el-input type="textarea"
-                :rows="2"
-                placeholder="请输入内容"
-                v-model="headers">
-      </el-input>
+      <el-input
+        v-model="headers"
+        type="textarea"
+        :rows="2"
+        placeholder="请输入内容"
+      />
       <h3>Body:</h3>
-      <el-table :data="interfaceInfo.params"
-                class="interface-info-body-table"
-                size="mini"
-                border>
-        <el-table-column prop="param_name"
-                         label="参数名称">
-        </el-table-column>
-        <el-table-column prop="is_necessary"
-                         label="是否必填">
+      <el-table
+        :data="interfaceInfo.params"
+        class="interface-info-body-table"
+        size="mini"
+        border
+      >
+        <el-table-column
+          prop="param_name"
+          label="参数名称"
+        />
+        <el-table-column
+          prop="is_necessary"
+          label="是否必填"
+        >
           <template slot-scope="scope">
             <span v-if="scope.row.is_necessary === 0">非必需</span>
             <span v-else>必需</span>
           </template>
         </el-table-column>
-        <el-table-column prop="default"
-                         label="默认值">
-        </el-table-column>
-        <el-table-column prop="param_desc"
-                         label="描述">
-        </el-table-column>
+        <el-table-column
+          prop="default"
+          label="默认值"
+        />
+        <el-table-column
+          prop="param_desc"
+          label="描述"
+        />
       </el-table>
     </div>
   </div>
 </template>
 <script>
 export default {
+  components: {
+  },
   props: [
     'interfaceInfo',
     'activeName'
   ],
-  components: {
-  },
-  data () {
+  data() {
     return {
       editBasicInforma: true,
       response: {},
@@ -115,16 +141,16 @@ export default {
       }]
     }
   },
-  created () {
-    // this.response = JSON.parse(this.interfaceInfo.response)
-  },
   watch: {
-    interfaceInfo (value, oldValue) {
+    interfaceInfo(value, oldValue) {
       if (value.interface_id) {
         this.response = JSON.parse(this.interfaceInfo.response)
         this.headers = JSON.stringify(this.interfaceInfo.header)
       }
     }
+  },
+  created() {
+    // this.response = JSON.parse(this.interfaceInfo.response)
   },
   methods: {
   }

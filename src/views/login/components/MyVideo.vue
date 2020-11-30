@@ -1,20 +1,24 @@
 <template>
   <div class="video-container">
-    <video :style="fixStyle"
-           autoplay
-           loop
-           muted
-           class="fillWidth">
+    <video
+      :style="fixStyle"
+      autoplay
+      loop
+      muted
+      class="fillWidth"
+    >
       <!-- v-on:canplay="canplay"> -->
-      <source src="@/assets/video/index-4.mp4"
-              type="video/mp4" />
+      <source
+        src="@/assets/video/index-4.mp4"
+        type="video/mp4"
+      >
     </video>
   </div>
 </template>
 
 <script>
 export default {
-  mounted: function () { // 屏幕自适应
+  mounted: function() { // 屏幕自适应
     window.onresize = () => {
       const windowWidth = document.body.clientWidth
       const windowHeight = document.body.clientHeight

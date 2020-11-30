@@ -1,12 +1,18 @@
 <template>
-  <el-row :gutter="40"
-          class="panel-group">
-    <el-col :xs="12"
-            :sm="12"
-            :lg="6"
-            class="card-panel-col">
-      <div class="card-panel"
-           @click="handleSetLineChartData('newVisitis')">
+  <el-row
+    :gutter="40"
+    class="panel-group"
+  >
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="6"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('newVisitis')"
+      >
         <div class="card-panel-icon-wrapper icon-message">
           <i class="iconfont icon-paperplane-fill" />
         </div>
@@ -14,19 +20,25 @@
           <div class="card-panel-text">
             IntFacTotal
           </div>
-          <count-to :start-val="0"
-                    :end-val="panelInterTotal"
-                    :duration="2600"
-                    class="card-panel-num" />
+          <count-to
+            :start-val="0"
+            :end-val="panelInterTotal"
+            :duration="2600"
+            class="card-panel-num"
+          />
         </div>
       </div>
     </el-col>
-    <el-col :xs="12"
-            :sm="12"
-            :lg="6"
-            class="card-panel-col">
-      <div class="card-panel"
-           @click="handleSetLineChartData('messages')">
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="6"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('messages')"
+      >
         <div class="card-panel-icon-wrapper icon-people">
           <i class="iconfont icon-flag-fill" />
         </div>
@@ -35,19 +47,25 @@
             CaseToal
           </div>
           <!-- duration:持续时间，以毫秒为单位-->
-          <count-to :start-val="0"
-                    :end-val="panelCaseToal"
-                    :duration="3000"
-                    class="card-panel-num" />
+          <count-to
+            :start-val="0"
+            :end-val="panelCaseToal"
+            :duration="3000"
+            class="card-panel-num"
+          />
         </div>
       </div>
     </el-col>
-    <el-col :xs="12"
-            :sm="12"
-            :lg="6"
-            class="card-panel-col">
-      <div class="card-panel"
-           @click="handleSetLineChartData('shoppings')">
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="6"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('shoppings')"
+      >
         <div class="card-panel-icon-wrapper icon-message">
           <i class="iconfont icon-playcircle-fill" />
         </div>
@@ -55,19 +73,25 @@
           <div class="card-panel-text">
             CaseRunNum
           </div>
-          <count-to :start-val="0"
-                    :end-val="panelCaseRunNum"
-                    :duration="3600"
-                    class="card-panel-num" />
+          <count-to
+            :start-val="0"
+            :end-val="panelCaseRunNum"
+            :duration="3600"
+            class="card-panel-num"
+          />
         </div>
       </div>
     </el-col>
-    <el-col :xs="12"
-            :sm="12"
-            :lg="6"
-            class="card-panel-col">
-      <div class="card-panel"
-           @click="handleSetLineChartData('purchases')">
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="6"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('purchases')"
+      >
         <div class="card-panel-icon-wrapper icon-people">
           <i class="iconfont icon-check-circle-fill" />
         </div>
@@ -75,10 +99,12 @@
           <div class="card-panel-text">
             CaseSuccess
           </div>
-          <count-to :start-val="0"
-                    :end-val="panelCaseSuccess"
-                    :duration="3200"
-                    class="card-panel-num" />
+          <count-to
+            :start-val="0"
+            :end-val="panelCaseSuccess"
+            :duration="3200"
+            class="card-panel-num"
+          />
         </div>
       </div>
     </el-col>
@@ -94,16 +120,16 @@ export default {
   props: [
     'panelInterTotal', 'panelCaseToal', 'panelCaseSuccess', 'panelCaseRunNum'
   ],
-  data () {
+  data() {
     return {
     }
   },
-  created () {
-  },
   watch: {
   },
+  created() {
+  },
   methods: {
-    handleSetLineChartData (type) {
+    handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
     }
   }

@@ -1,61 +1,93 @@
 <template>
   <div>
-    <el-dialog :title="title"
-               :visible.sync="showForm"
-               width="50%"
-               :close-on-click-modal='false'
-               @close="closeDialogMethod()">
+    <el-dialog
+      :title="title"
+      :visible.sync="showForm"
+      width="50%"
+      :close-on-click-modal="false"
+      @close="closeDialogMethod()"
+    >
       <!-- 内容主体区域-->
-      <el-form ref="addFormRef"
-               :model="createEnvBody"
-               :rules="addRulesForm"
-               label-width="120px">
-        <el-form-item label="环境名："
-                      prop="env_name">
-          <el-input v-model="createEnvBody.env_name"></el-input>
+      <el-form
+        ref="addFormRef"
+        :model="createEnvBody"
+        :rules="addRulesForm"
+        label-width="120px"
+      >
+        <el-form-item
+          label="环境名："
+          prop="env_name"
+        >
+          <el-input v-model="createEnvBody.env_name" />
         </el-form-item>
-        <el-form-item label="地址："
-                      prop="url">
-          <el-input v-model="createEnvBody.url"></el-input>
+        <el-form-item
+          label="地址："
+          prop="url"
+        >
+          <el-input v-model="createEnvBody.url" />
         </el-form-item>
         <el-form-item label="描述：">
-          <el-input v-model="createEnvBody.desc"></el-input>
+          <el-input v-model="createEnvBody.desc" />
         </el-form-item>
-        <el-form-item label="启用db："
-                      prop="use_db">
+        <el-form-item
+          label="启用db："
+          prop="use_db"
+        >
           <template>
-            <el-radio v-model="createEnvBody.use_db"
-                      :label="0">禁用</el-radio>
-            <el-radio v-model="createEnvBody.use_db"
-                      :label="1">启用</el-radio>
+            <el-radio
+              v-model="createEnvBody.use_db"
+              :label="0"
+            >
+              禁用
+            </el-radio>
+            <el-radio
+              v-model="createEnvBody.use_db"
+              :label="1"
+            >
+              启用
+            </el-radio>
           </template>
         </el-form-item>
-        <el-form-item label="host："
-                      v-show="createEnvBody.use_db==1?true:false">
-          <el-input v-model="createEnvBody.db_host"></el-input>
+        <el-form-item
+          v-show="createEnvBody.use_db==1?true:false"
+          label="host："
+        >
+          <el-input v-model="createEnvBody.db_host" />
         </el-form-item>
-        <el-form-item label="端口："
-                      v-show="createEnvBody.use_db==1?true:false">
-          <el-input v-model="createEnvBody.db_port"></el-input>
+        <el-form-item
+          v-show="createEnvBody.use_db==1?true:false"
+          label="端口："
+        >
+          <el-input v-model="createEnvBody.db_port" />
         </el-form-item>
-        <el-form-item label="用户名："
-                      v-show="createEnvBody.use_db==1?true:false">
-          <el-input v-model="createEnvBody.db_user"></el-input>
+        <el-form-item
+          v-show="createEnvBody.use_db==1?true:false"
+          label="用户名："
+        >
+          <el-input v-model="createEnvBody.db_user" />
         </el-form-item>
-        <el-form-item label="密码："
-                      v-show="createEnvBody.use_db==1?true:false">
-          <el-input v-model="createEnvBody.db_pass"></el-input>
+        <el-form-item
+          v-show="createEnvBody.use_db==1?true:false"
+          label="密码："
+        >
+          <el-input v-model="createEnvBody.db_pass" />
         </el-form-item>
-        <el-form-item label="数据库名称："
-                      v-show="createEnvBody.use_db==1?true:false">
-          <el-input v-model="createEnvBody.database"></el-input>
+        <el-form-item
+          v-show="createEnvBody.use_db==1?true:false"
+          label="数据库名称："
+        >
+          <el-input v-model="createEnvBody.database" />
         </el-form-item>
       </el-form>
-      <span slot="footer"
-            class="dialog-footer">
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button @click="closeDialogMethod()">取 消</el-button>
-        <el-button type="primary"
-                   @click="addEnv()">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="addEnv()"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -74,7 +106,7 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       getEnvInfoData: {
         env_id: ''
@@ -100,15 +132,15 @@ export default {
   },
   watch: {
     // 监听 编辑时回显表单
-    model (editEnvData) {
+    model(editEnvData) {
       this.createEnvBody = { ...editEnvData } // 简单的浅克隆
     }
   },
   methods: {
-    addEnv () {
+    addEnv() {
       this.$emit('listenToChildSaveEnvMethod', this.createEnvBody)
     },
-    closeDialogMethod () {
+    closeDialogMethod() {
       this.$emit('listenToChildShowDialog', false)
     }
   }

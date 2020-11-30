@@ -1,87 +1,120 @@
 <template>
   <div v-show="BasicInformation">
-    <h2 class="interface-title-style">请求参数:</h2>
+    <h2 class="interface-title-style">
+      请求参数:
+    </h2>
     <div class="interface-info">
       <div class="tabPositionDiv">
-        <el-radio-group v-model="tabPosition"
-                        size="small"
-                        class="tabPositionRadio"
-                        @change="changeRadioValue">
-          <el-radio-button label="Body">Body</el-radio-button>
+        <el-radio-group
+          v-model="tabPosition"
+          size="small"
+          class="tabPositionRadio"
+          @change="changeRadioValue"
+        >
+          <el-radio-button label="Body">
+            Body
+          </el-radio-button>
           <!-- <el-radio-button label="Query">Query</el-radio-button> -->
-          <el-radio-button label="Headers">Headers</el-radio-button>
+          <el-radio-button label="Headers">
+            Headers
+          </el-radio-button>
         </el-radio-group>
       </div>
       <!-- Body模块-->
       <div v-show="bodyIsShow">
         <div>
-          <el-button type="primary"
-                     v-show="editBasicInformation"
-                     size="mini"
-                     @click="addParams()">添加参数</el-button>
+          <el-button
+            v-show="editBasicInformation"
+            type="primary"
+            size="mini"
+            @click="addParams()"
+          >
+            添加参数
+          </el-button>
         </div>
         <div>
-          <el-form v-for="item in params"
-                   :key="item.index"
-                   :value="item.value">
-            <el-input style="width: 20%;"
-                      v-model="item.param_name"
-                      size="mini"
-                      placeholder="name"></el-input>
-            <el-select style="width: 20%;"
-                       v-model="item.is_necessary"
-                       size="mini"
-                       placeholder="是否必填">
-              <el-option v-for="itemin in isNecessaryOptions"
-                         :key="itemin.value"
-                         :label="itemin.label"
-                         :value="itemin.value">
-              </el-option>
+          <el-form
+            v-for="item in params"
+            :key="item.index"
+            :value="item.value"
+          >
+            <el-input
+              v-model="item.param_name"
+              style="width: 20%;"
+              size="mini"
+              placeholder="name"
+            />
+            <el-select
+              v-model="item.is_necessary"
+              style="width: 20%;"
+              size="mini"
+              placeholder="是否必填"
+            >
+              <el-option
+                v-for="itemin in isNecessaryOptions"
+                :key="itemin.value"
+                :label="itemin.label"
+                :value="itemin.value"
+              />
             </el-select>
-            <el-input style="width: 25%;"
-                      v-model="item.param_desc"
-                      size="mini"
-                      type="textarea"
-                      autosize
-                      placeholder="参数示例"></el-input>
-            <el-input style="width: 30%;"
-                      v-model="item.default"
-                      size="mini"
-                      type="textarea"
-                      autosize
-                      placeholder="备注"></el-input>
+            <el-input
+              v-model="item.param_desc"
+              style="width: 25%;"
+              size="mini"
+              type="textarea"
+              autosize
+              placeholder="参数示例"
+            />
+            <el-input
+              v-model="item.default"
+              style="width: 30%;"
+              size="mini"
+              type="textarea"
+              autosize
+              placeholder="备注"
+            />
 
-            <el-button size="small"
-                       v-show="editBasicInformation"
-                       icon="el-icon-delete"
-                       circle
-                       @click="delParams(item.param_name)"></el-button>
-
+            <el-button
+              v-show="editBasicInformation"
+              size="small"
+              icon="el-icon-delete"
+              circle
+              @click="delParams(item.param_name)"
+            />
           </el-form>
-
         </div>
         <div class="addPrimarys">
-          <el-button v-show="editBasicInformation"
-                     type="success"
-                     size="mini"
-                     @click="editParamsMethod()">提交</el-button>
+          <el-button
+            v-show="editBasicInformation"
+            type="success"
+            size="mini"
+            @click="editParamsMethod()"
+          >
+            提交
+          </el-button>
         </div>
       </div>
       <!-- Query模块-->
       <!-- Headers模块-->
       <div v-show="headersIsShow">
-        <el-input class="header_input"
-                  :disabled="showBasicInformation"
-                  type="textarea"
-                  placeholder="示例：{'Content-Type':'application/x-www-form-urlencoded'}"
-                  v-model="interfaceInfo.header"></el-input>
-        <span slot="footer"
-              v-show="editBasicInformation"
-              class="goProject-dialog-footer-info-param">
-          <el-button type="success"
-                     :disabled="editInterfaceHeaderButton"
-                     size="small"
-                     @click="editInterfaceHeader()"> 提 交</el-button>
+        <el-input
+          v-model="interfaceInfo.header"
+          class="header_input"
+          :disabled="showBasicInformation"
+          type="textarea"
+          placeholder="示例：{'Content-Type':'application/x-www-form-urlencoded'}"
+        />
+        <span
+          v-show="editBasicInformation"
+          slot="footer"
+          class="goProject-dialog-footer-info-param"
+        >
+          <el-button
+            type="success"
+            :disabled="editInterfaceHeaderButton"
+            size="small"
+            @click="editInterfaceHeader()"
+          > 提 交</el-button>
         </span>
       </div>
     </div>
@@ -161,7 +194,7 @@ export default {
     'interfaceInfo',
     'activeName'
   ],
-  data () {
+  data() {
     return {
       tabPosition: 'Body',
       bodyIsShow: true,
@@ -199,7 +232,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.interfaceInfo.params.forEach((item, index) => this.params.push(item))
     if (this.activeName === 'Tab 1') {
       this.showBasicInformation = true
@@ -210,7 +243,7 @@ export default {
     }
   },
   methods: {
-    changeRadioValue () {
+    changeRadioValue() {
       if (this.tabPosition === 'Body') {
         this.bodyIsShow = true
         this.headersIsShow = false
@@ -220,16 +253,16 @@ export default {
       }
       // console.log(this.tabPosition)
     },
-    showCreateInterfaceParamDialog () {
+    showCreateInterfaceParamDialog() {
       this.addDialogVisible = true
     },
     // 监听添加用户对话框关闭事件
-    addDialogClosed () {
+    addDialogClosed() {
       this.$refs.addFormRef.resetFields()
     },
     // 点击按钮增加一行表单
-    addParams () {
-      let newParamList = {
+    addParams() {
+      const newParamList = {
         param_name: this.param_name,
         param_desc: this.param_desc,
         is_necessary: this.is_necessary,
@@ -238,7 +271,7 @@ export default {
       this.params.push(newParamList)
     },
     // 删除一行
-    delParams (parameName) {
+    delParams(parameName) {
       // console.log(parameName)
       this.params.forEach((item, index) => {
         if (item.param_name === parameName) {
@@ -247,7 +280,7 @@ export default {
       })
     },
     // 创建Params
-    async editParamsMethod () {
+    async editParamsMethod() {
       this.createParams.interface_id = Number(this.interfaceInfo.interface_id)
       this.createParams.params = this.params
       const { data: createModelRes } = await this.$api.myinterface.editInterfaceParamMethod(
@@ -262,7 +295,7 @@ export default {
         this.$message.error('添加参数失败！')
       }
     },
-    showEditInterfaceParamDialog (paramInfo) {
+    showEditInterfaceParamDialog(paramInfo) {
       console.log(paramInfo)
       this.editDialogVisible = true
       this.editParams = paramInfo
@@ -270,7 +303,7 @@ export default {
       this.editParams.interface_id = this.interfaceInfo.interface_id
     },
     // 修改 请求头
-    async editInterfaceHeader () {
+    async editInterfaceHeader() {
       this.editHeader.interface_id = this.interfaceInfo.interface_id
       this.editHeader.header = this.interfaceInfo.header
       const { data: createModelRes } = await this.$api.myinterface.createInterfaceHeaderMethod(

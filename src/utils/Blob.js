@@ -1,4 +1,4 @@
-(function () {
+(function() {
   var global =
     typeof window === 'object'
       ? window
@@ -15,7 +15,7 @@
   global.URL =
     global.URL ||
     global.webkitURL ||
-    function (href, a) {
+    function(href, a) {
       a = document.createElement('a')
       a.href = href
       return a
@@ -47,8 +47,8 @@
    * Used by BlobBuilder constructor and old browsers that didn't
    * support it in the Blob constructor.
    */
-  function mapArrayBufferViews (ary) {
-    return ary.map(function (chunk) {
+  function mapArrayBufferViews(ary) {
+    return ary.map(function(chunk) {
       if (chunk.buffer instanceof ArrayBuffer) {
         var buf = chunk.buffer
 
@@ -67,18 +67,18 @@
     })
   }
 
-  function BlobBuilderConstructor (ary, options) {
+  function BlobBuilderConstructor(ary, options) {
     options = options || {}
 
     var bb = new BlobBuilder()
-    mapArrayBufferViews(ary).forEach(function (part) {
+    mapArrayBufferViews(ary).forEach(function(part) {
       bb.append(part)
     })
 
     return options.type ? bb.getBlob(options.type) : bb.getBlob()
   }
 
-  function BlobConstructor (ary, options) {
+  function BlobConstructor(ary, options) {
     return new origBlob(mapArrayBufferViews(ary), options || {})
   }
 
@@ -87,10 +87,10 @@
     BlobConstructor.prototype = Blob.prototype
   }
 
-  /********************************************************/
+  /** ******************************************************/
   /*               String Encoder fallback                */
-  /********************************************************/
-  function stringEncode (string) {
+  /** ******************************************************/
+  function stringEncode(string) {
     var pos = 0
     var len = string.length
     var out = []
@@ -154,10 +154,10 @@
     return target.slice(0, at)
   }
 
-  /********************************************************/
+  /** ******************************************************/
   /*               String Decoder fallback                */
-  /********************************************************/
-  function stringDecode (buf) {
+  /** ******************************************************/
+  function stringDecode(buf) {
     var end = buf.length
     var res = []
 
@@ -262,11 +262,11 @@
       ? TextDecoder.prototype.decode.bind(new TextDecoder())
       : stringDecode
 
-  function FakeBlobBuilder () {
-    function isDataView (obj) {
+  function FakeBlobBuilder() {
+    function isDataView(obj) {
       return obj && DataView.prototype.isPrototypeOf(obj)
     }
-    function bufferClone (buf) {
+    function bufferClone(buf) {
       var view = new Array(buf.byteLength)
       var array = new Uint8Array(buf)
       var i = view.length
@@ -275,7 +275,7 @@
       }
       return view
     }
-    function array2base64 (input) {
+    function array2base64(input) {
       var byteToCharMap =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
 
@@ -314,8 +314,8 @@
 
     var create =
       Object.create ||
-      function (a) {
-        function c () {}
+      function(a) {
+        function c() {}
         c.prototype = a
         return new c()
       }
@@ -335,14 +335,14 @@
 
       var isArrayBufferView =
         ArrayBuffer.isView ||
-        function (obj) {
+        function(obj) {
           return (
             obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
           )
         }
     }
 
-    function concatTypedarrays (chunks) {
+    function concatTypedarrays(chunks) {
       var size = 0
       var i = chunks.length
       while (i--) {
@@ -359,10 +359,10 @@
       return b
     }
 
-    /********************************************************/
+    /** ******************************************************/
     /*                   Blob constructor                   */
-    /********************************************************/
-    function Blob (chunks, opts) {
+    /** ******************************************************/
+    function Blob(chunks, opts) {
       chunks = chunks || []
       opts = opts == null ? {} : opts
       for (var i = 0, len = chunks.length; i < len; i++) {
@@ -397,27 +397,27 @@
       }
     }
 
-    Blob.prototype.arrayBuffer = function () {
+    Blob.prototype.arrayBuffer = function() {
       return Promise.resolve(this._buffer)
     }
 
-    Blob.prototype.text = function () {
+    Blob.prototype.text = function() {
       return Promise.resolve(textDecode(this._buffer))
     }
 
-    Blob.prototype.slice = function (start, end, type) {
+    Blob.prototype.slice = function(start, end, type) {
       var slice = this._buffer.slice(start || 0, end || this._buffer.length)
       return new Blob([slice], { type: type })
     }
 
-    Blob.prototype.toString = function () {
+    Blob.prototype.toString = function() {
       return '[object Blob]'
     }
 
-    /********************************************************/
+    /** ******************************************************/
     /*                   File constructor                   */
-    /********************************************************/
-    function File (chunks, name, opts) {
+    /** ******************************************************/
+    function File(chunks, name, opts) {
       opts = opts || {}
       var a = Blob.call(this, chunks, opts) || this
       a.name = name.replace(/\//g, ':')
@@ -440,14 +440,14 @@
       } catch (e) {}
     }
 
-    File.prototype.toString = function () {
+    File.prototype.toString = function() {
       return '[object File]'
     }
 
-    /********************************************************/
+    /** ******************************************************/
     /*                FileReader constructor                */
-    /********************************************************/
-    function FileReader () {
+    /** ******************************************************/
+    function FileReader() {
       if (!(this instanceof FileReader)) {
         throw new TypeError(
           "Failed to construct 'FileReader': Please use the 'new' operator, this DOM object constructor cannot be called as a function."
@@ -456,7 +456,7 @@
 
       var delegate = document.createDocumentFragment()
       this.addEventListener = delegate.addEventListener
-      this.dispatchEvent = function (evt) {
+      this.dispatchEvent = function(evt) {
         var local = this['on' + evt.type]
         if (typeof local === 'function') local(evt)
         delegate.dispatchEvent(evt)
@@ -464,7 +464,7 @@
       this.removeEventListener = delegate.removeEventListener
     }
 
-    function _read (fr, blob, kind) {
+    function _read(fr, blob, kind) {
       if (!(blob instanceof Blob)) {
         throw new TypeError(
           "Failed to execute '" +
@@ -475,7 +475,7 @@
 
       fr.result = ''
 
-      setTimeout(function () {
+      setTimeout(function() {
         this.readyState = FileReader.LOADING
         fr.dispatchEvent(new Event('load'))
         fr.dispatchEvent(new Event('loadend'))
@@ -493,44 +493,44 @@
     FileReader.prototype.onloadstart = null
     FileReader.prototype.onprogress = null
 
-    FileReader.prototype.readAsDataURL = function (blob) {
+    FileReader.prototype.readAsDataURL = function(blob) {
       _read(this, blob, 'readAsDataURL')
       this.result =
         'data:' + blob.type + ';base64,' + array2base64(blob._buffer)
     }
 
-    FileReader.prototype.readAsText = function (blob) {
+    FileReader.prototype.readAsText = function(blob) {
       _read(this, blob, 'readAsText')
       this.result = textDecode(blob._buffer)
     }
 
-    FileReader.prototype.readAsArrayBuffer = function (blob) {
+    FileReader.prototype.readAsArrayBuffer = function(blob) {
       _read(this, blob, 'readAsText')
       // return ArrayBuffer when possible
       this.result = (blob._buffer.buffer || blob._buffer).slice()
     }
 
-    FileReader.prototype.abort = function () {}
+    FileReader.prototype.abort = function() {}
 
-    /********************************************************/
+    /** ******************************************************/
     /*                         URL                          */
-    /********************************************************/
-    URL.createObjectURL = function (blob) {
+    /** ******************************************************/
+    URL.createObjectURL = function(blob) {
       return blob instanceof Blob
         ? 'data:' + blob.type + ';base64,' + array2base64(blob._buffer)
         : createObjectURL.call(URL, blob)
     }
 
-    URL.revokeObjectURL = function (url) {
+    URL.revokeObjectURL = function(url) {
       revokeObjectURL && revokeObjectURL.call(URL, url)
     }
 
-    /********************************************************/
+    /** ******************************************************/
     /*                         XHR                          */
-    /********************************************************/
+    /** ******************************************************/
     var _send = global.XMLHttpRequest && global.XMLHttpRequest.prototype.send
     if (_send) {
-      XMLHttpRequest.prototype.send = function (data) {
+      XMLHttpRequest.prototype.send = function(data) {
         if (data instanceof Blob) {
           this.setRequestHeader('Content-Type', data.type)
           _send.call(this, textDecode(data._buffer))
@@ -545,7 +545,7 @@
     global.Blob = Blob
   }
 
-  function fixFileAndXHR () {
+  function fixFileAndXHR() {
     var isIE =
       !!global.ActiveXObject ||
       ('-ms-scroll-limit' in document.documentElement.style &&
@@ -556,7 +556,7 @@
     // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/6047383
     var _send = global.XMLHttpRequest && global.XMLHttpRequest.prototype.send
     if (isIE && _send) {
-      XMLHttpRequest.prototype.send = function (data) {
+      XMLHttpRequest.prototype.send = function(data) {
         if (data instanceof Blob) {
           this.setRequestHeader('Content-Type', data.type)
           _send.call(this, data)
@@ -583,7 +583,7 @@
         )()
         global.File = klass
       } catch (e) {
-        var klass = function (b, d, c) {
+        var klass = function(b, d, c) {
           var blob = new Blob(b, c)
           var t =
             c && void 0 !== c.lastModified
@@ -593,7 +593,7 @@
           blob.name = d.replace(/\//g, ':')
           blob.lastModifiedDate = t
           blob.lastModified = +t
-          blob.toString = function () {
+          blob.toString = function() {
             return '[object File]'
           }
 
@@ -627,9 +627,9 @@
   var blob = global.Blob.prototype
   var stream
 
-  function promisify (obj) {
-    return new Promise(function (resolve, reject) {
-      obj.onload = obj.onerror = function (evt) {
+  function promisify(obj) {
+    return new Promise(function(resolve, reject) {
+      obj.onload = obj.onerror = function(evt) {
         obj.onload = obj.onerror = null
 
         evt.type === 'load'
@@ -641,7 +641,7 @@
 
   try {
     new ReadableStream({ type: 'bytes' })
-    stream = function stream () {
+    stream = function stream() {
       var position = 0
       var blob = this
 
@@ -649,10 +649,10 @@
         type: 'bytes',
         autoAllocateChunkSize: 524288,
 
-        pull: function (controller) {
+        pull: function(controller) {
           var v = controller.byobRequest.view
           var chunk = blob.slice(position, position + v.byteLength)
-          return chunk.arrayBuffer().then(function (buffer) {
+          return chunk.arrayBuffer().then(function(buffer) {
             var uint8array = new Uint8Array(buffer)
             var bytesRead = uint8array.byteLength
 
@@ -668,15 +668,15 @@
   } catch (e) {
     try {
       new ReadableStream({})
-      stream = function stream (blob) {
+      stream = function stream(blob) {
         var position = 0
         var blob = this
 
         return new ReadableStream({
-          pull: function (controller) {
+          pull: function(controller) {
             var chunk = blob.slice(position, position + 524288)
 
-            return chunk.arrayBuffer().then(function (buffer) {
+            return chunk.arrayBuffer().then(function(buffer) {
               position += buffer.byteLength
               var uint8array = new Uint8Array(buffer)
               controller.enqueue(uint8array)
@@ -689,11 +689,11 @@
     } catch (e) {
       try {
         new Response('').body.getReader().read()
-        stream = function stream () {
+        stream = function stream() {
           return new Response(this).body
         }
       } catch (e) {
-        stream = function stream () {
+        stream = function stream() {
           throw new Error(
             'Include https://github.com/MattiasBuelens/web-streams-polyfill'
           )
@@ -703,7 +703,7 @@
   }
 
   if (!blob.arrayBuffer) {
-    blob.arrayBuffer = function arrayBuffer () {
+    blob.arrayBuffer = function arrayBuffer() {
       var fr = new FileReader()
       fr.readAsArrayBuffer(this)
       return promisify(fr)
@@ -711,7 +711,7 @@
   }
 
   if (!blob.text) {
-    blob.text = function text () {
+    blob.text = function text() {
       var fr = new FileReader()
       fr.readAsText(this)
       return promisify(fr)

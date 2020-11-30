@@ -1,7 +1,9 @@
 <template>
   <div class="main-projectlist">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">
+        首页
+      </el-breadcrumb-item>
       <el-breadcrumb-item>UI管理</el-breadcrumb-item>
       <el-breadcrumb-item>用例列表</el-breadcrumb-item>
     </el-breadcrumb>
@@ -9,10 +11,14 @@
       <ui-search-component />
       <div class="interface-top-addbutton">
         <span class="interface-top-addannotation">注：添加case必须先选择平台、端！</span>
-        <el-button class="add-model-button"
-                   type="primary"
-                   :disabled="buttonDisabled"
-                   @click="goAddCaseInfo()">新增 用例</el-button>
+        <el-button
+          class="add-model-button"
+          type="primary"
+          :disabled="buttonDisabled"
+          @click="goAddCaseInfo()"
+        >
+          新增 用例
+        </el-button>
       </div>
     </el-card>
   </div>
@@ -24,7 +30,7 @@ export default {
   components: {
     UiSearchComponent
   },
-  data () {
+  data() {
     return {
       buttonDisabled: true
     }

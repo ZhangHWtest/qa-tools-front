@@ -5,7 +5,7 @@
  * @param {Number} w
  * @param {Number} h
  */
-export default function openWindow (url, title, w, h) {
+export default function openWindow(url, title, w, h) {
   // Fixes dual-screen position                            Most browsers       Firefox
   const dualScreenLeft =
     window.screenLeft !== undefined ? window.screenLeft : screen.left

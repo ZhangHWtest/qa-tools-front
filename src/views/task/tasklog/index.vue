@@ -1,7 +1,9 @@
 <template>
   <div class="main-breadcrumb">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">
+        首页
+      </el-breadcrumb-item>
       <el-breadcrumb-item>任务管理</el-breadcrumb-item>
       <el-breadcrumb-item>任务日志</el-breadcrumb-item>
     </el-breadcrumb>
@@ -9,41 +11,51 @@
       <div class="notes-top-addbutton">
         <span class="notes-top-addannotation">注：</span>
       </div>
-      <el-table :data="resultList"
-                ref="multipleTableAll"
-                style="width: 100%"
-                @expand-change="expandChange">
+      <el-table
+        ref="multipleTableAll"
+        :data="resultList"
+        style="width: 100%"
+        @expand-change="expandChange"
+      >
         <el-table-column type="expand">
-          <result-info :taskResultId="taskResultId"
-                       :showResultInfo="showResultInfo" />
+          <result-info
+            :task-result-id="taskResultId"
+            :show-result-info="showResultInfo"
+          />
         </el-table-column>
-        <el-table-column label="resultId"
-                         width="80px"
-                         prop="task_result_id">
-        </el-table-column>
-        <el-table-column class="pass_color"
-                         label="通过数量"
-                         prop="pass_num">
-        </el-table-column>
-        <el-table-column label="失败数量"
-                         prop="fail_num">
-        </el-table-column>
-        <el-table-column label="异常数量"
-                         prop="exception_num">
-        </el-table-column>
-        <el-table-column label="用例总数"
-                         prop="case_num">
-        </el-table-column>
-        <el-table-column label="执行耗时"
-                         prop="duration">
-        </el-table-column>
-        <el-table-column label="执行时间"
-                         prop="start_time">
-        </el-table-column>
+        <el-table-column
+          label="resultId"
+          width="80px"
+          prop="task_result_id"
+        />
+        <el-table-column
+          class="pass_color"
+          label="通过数量"
+          prop="pass_num"
+        />
+        <el-table-column
+          label="失败数量"
+          prop="fail_num"
+        />
+        <el-table-column
+          label="异常数量"
+          prop="exception_num"
+        />
+        <el-table-column
+          label="用例总数"
+          prop="case_num"
+        />
+        <el-table-column
+          label="执行耗时"
+          prop="duration"
+        />
+        <el-table-column
+          label="执行时间"
+          prop="start_time"
+        />
       </el-table>
     </el-card>
   </div>
-
 </template>
 <script>
 import ResultInfo from './components/ResultInfo'
@@ -51,7 +63,7 @@ export default {
   components: {
     ResultInfo
   },
-  data () {
+  data() {
     return {
       getTaskResultList: {
         task_id: ''
@@ -65,12 +77,12 @@ export default {
       expands: ''
     }
   },
-  created () {
+  created() {
     this.getTaskResultList.task_id = Number(this.$route.query.taskId)
     this.getTaskResultListMethod()
   },
   methods: {
-    expandChange (row, expandedRows) {
+    expandChange(row, expandedRows) {
       this.expandedRows = expandedRows
       if (expandedRows.length > 1) {
         this.$refs.multipleTableAll.toggleRowExpansion(this.expandedRows[0])
@@ -81,7 +93,7 @@ export default {
         this.showResultInfo = true
       }
     },
-    async getTaskResultListMethod () {
+    async getTaskResultListMethod() {
       const { data: res } = await this.$api.task.resultListTask(
         this.getTaskResultList
       )

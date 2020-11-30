@@ -9,10 +9,10 @@ const store = new Vuex.Store({
 
   },
   mutations: {
-    setInterfaceId (state, id) {
+    setInterfaceId(state, id) {
       Vue.set(state, 'interface_id', id)
     },
-    deleteInterfaceId (state, id) {
+    deleteInterfaceId(state, id) {
       Vue.delete(state, 'interface_id')
     }
   },
