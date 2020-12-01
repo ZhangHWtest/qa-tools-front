@@ -10,13 +10,11 @@
     <div class="user-list-main">
       <!-- 卡片视图区域-->
       <el-card>
-        <el-row :gutter="30">
-          <el-col :span="5">
-            <el-button type="primary" @click="addDialogVisible = true">
-              新增用户
-            </el-button>
-          </el-col>
-        </el-row>
+        <div class="interface-top-addbutton">
+          <el-button type="primary" @click="addDialogVisible = true">
+            新增用户
+          </el-button>
+        </div>
         <!-- api列表区域-->
         <el-table stripe :data="userList">
           <el-table-column width="50px" label="uid" prop="uid" />
@@ -302,6 +300,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.interface-top-addbutton {
+  background-color: #eee;
+  height: 45px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 4px;
+  line-height: 45px;
+  .interface-top-addannotation {
+    font-size: 13px;
+    color: rgba(39, 56, 72, 0.75);
+  }
+  .add-button {
+    font-size: 13px;
+    float: right;
+  }
+}
 .main-projectlist {
   padding: 15px;
   background-color: rgb(240, 242, 245);

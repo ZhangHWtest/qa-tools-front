@@ -55,16 +55,13 @@
           ref="addAndroidFormRef"
           :model="addEnvBody"
           :rules="addAndroidEnvRulesForm"
-          label-width="100px"
+          label-width="120px"
         >
           <el-form-item label="设备名称:" prop="device_name">
             <el-input v-model="addEnvBody.device_name" placeholder="请输入设备名称" />
           </el-form-item>
           <el-form-item label="包名:" prop="app_package">
             <el-input v-model="addEnvBody.app_package" placeholder="请输入包名" />
-          </el-form-item>
-          <el-form-item label="activity名:" prop="app_activity">
-            <el-input v-model="addEnvBody.app_activity" placeholder="请输入activity名" />
           </el-form-item>
           <el-form-item label="授权：" prop="auto_grant_permissions">
             <el-radio v-model="addEnvBody.auto_grant_permissions" :label="0">不自动授权</el-radio>
@@ -82,8 +79,11 @@
             <el-radio v-model="addEnvBody.noreset" :label="0">清除</el-radio>
             <el-radio v-model="addEnvBody.noreset" :label="1">不清除</el-radio>
           </el-form-item>
-          <el-form-item label="chromedriver:" prop="chrome_driver_executable_dir">
+          <el-form-item label="H5chrome:" prop="chrome_driver_executable_dir">
             <el-input v-model="addEnvBody.chrome_driver_executable_dir" placeholder="请输入chromedriver路径" />
+          </el-form-item>
+          <el-form-item label="activity名:" prop="app_activity">
+            <el-input v-model="addEnvBody.app_activity" placeholder="请输入activity名" />
           </el-form-item>
           <el-form-item label="等待activity:" prop="app_wait_activity">
             <el-input v-model="addEnvBody.app_wait_activity" placeholder="请输入等待activity" />
@@ -135,23 +135,23 @@ export default {
         // ios
         platform_version: '',
         app: '',
-        automation_name: '',
+        automation_name: 'XCUITest',
         udid: '',
-        xcode_orgid: '',
-        xcode_signing_id: '',
+        xcode_orgid: 'W5TJTQ52N7',
+        xcode_signing_id: 'iPhone Developer',
         bundle_id: '',
         // android
         device_name: '',
         app_package: '',
-        app_activity: '',
         auto_grant_permissions: 1,
         unicode_keyboard: 1,
         reset_kyeboard: 1,
         noreset: 1,
         chrome_driver_executable_dir: '',
+        app_activity: '',
         app_wait_activity: '',
         // web
-        browser_id: 1,
+        browser_id: 2,
         url: ''
       },
       addEnvRulesForm: {
@@ -181,6 +181,27 @@ export default {
         ],
         app_package: [
           { required: true, message: '请输包名', trigger: 'blur' }
+        ],
+        auto_grant_permissions: [
+          { required: true }
+        ],
+        unicode_keyboard: [
+          { required: true }
+        ],
+        reset_kyeboard: [
+          { required: true }
+        ],
+        noreset: [
+          { required: true }
+        ],
+        chrome_driver_executable_dir: [
+          { required: true, message: '请输入chromedriver路径', trigger: 'blur' }
+        ],
+        app_activity: [
+          { required: true, message: '请输入activity名', trigger: 'blur' }
+        ],
+        app_wait_activity: [
+          { required: true, message: '请输入等待activity', trigger: 'blur' }
         ]
       },
       addIosEnvRulesForm: {
@@ -248,9 +269,7 @@ export default {
       })
     }
   }
-
 }
-
 </script>
 <style lang="less" scoped>
 .main-div-style {
