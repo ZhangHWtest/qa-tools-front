@@ -66,6 +66,11 @@ export default {
   created() {
   },
   methods: {
+    // 监听 页码值改变的事件
+    handleCurrentChange(newPage) {
+      this.getEnvListBody.page_num = newPage
+      // this.caseListMethod()
+    },
     goAddenv() {
       this.$router.push({ path: '/uienv/add' }).catch(err => {
         console.log('输出', err)

@@ -243,7 +243,9 @@ export default {
       }
     },
     goEnvList() {
-      this.$router.push({ path: '/uienv/list' })
+      this.$router.push({ path: '/uienv/list' }).catch(err => {
+        console.log('输出', err)
+      })
     }
   }
 

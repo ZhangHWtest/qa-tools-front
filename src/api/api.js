@@ -8,6 +8,7 @@ import * as task from './modules/task'
 import * as equipment from './modules/equipment'
 import * as livemsg from './modules/livemsg'
 import * as myuienv from './modules/uienv'
+import * as myuicase from './modules/uicase'
 export default {
   user,
   login,
@@ -18,5 +19,6 @@ export default {
   task,
   equipment,
   livemsg,
-  myuienv
+  myuienv,
+  myuicase
 }
