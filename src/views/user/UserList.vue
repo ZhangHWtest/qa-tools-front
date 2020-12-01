@@ -17,38 +17,16 @@
             </el-button>
           </el-col>
         </el-row>
-
         <!-- api列表区域-->
         <el-table stripe :data="userList">
           <el-table-column width="50px" label="uid" prop="uid" />
-          <el-table-column
-            label="姓名"
-            prop="username"
-          />
-          <el-table-column
-            label="角色"
-            prop="role"
-          />
-          <el-table-column
-            label="状态"
-            width="80px"
-          >
+          <el-table-column label="姓名" prop="username" />
+          <el-table-column label="角色" prop="role" />
+          <el-table-column label="状态" width="80px">
             <template slot-scope="scope">
               <div class="apiStatus">
-                <font
-                  v-if="scope.row.status"
-                  color="#67C23A"
-                  class="apiActive"
-                >
-                  启动
-                </font>
-                <font
-                  v-else
-                  color="#F56C6C"
-                  class="apiNoActive"
-                >
-                  禁用
-                </font>
+                <font v-if="scope.row.status" color="#67C23A" class="apiActive">启动</font>
+                <font v-else color="#F56C6C" class="apiNoActive">禁用</font>
               </div>
             </template>
           </el-table-column>
@@ -92,12 +70,19 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination
+          background
+          :current-page="queryInfo.page_num"
+          layout="prev, pager, next"
+          :total="userListTotal"
+          @current-change="handleCurrentChange"
+        />
       </el-card>
       <!-- 添加用户对话框-->
       <el-dialog
         title="添加用户"
         :visible.sync="addDialogVisible"
-        width="50%"
+        width="35%"
         @close="addDialogClosed"
       >
         <!-- 内容主体区域-->
@@ -107,35 +92,23 @@
           :rules="addRulesForm"
           label-width="70px"
         >
-          <el-form-item
-            label="用户名"
-            prop="username"
-          >
+          <el-form-item label="用户名" prop="username">
             <el-input v-model="createUser.username" />
           </el-form-item>
-          <el-form-item
-            label="邮箱"
-            prop="email"
-          >
+          <el-form-item label="邮箱" prop="email">
             <el-input v-model="createUser.email" />
           </el-form-item>
         </el-form>
-        <span
-          slot="footer"
-          class="dialog-footer"
-        >
+        <span slot="footer" class="dialog-footer">
           <el-button @click="addDialogVisible = false">取 消</el-button>
-          <el-button
-            type="primary"
-            @click="addUser"
-          >确 定</el-button>
+          <el-button type="primary" @click="addUser">确 定</el-button>
         </span>
       </el-dialog>
       <!-- 修改用户对话框-->
       <el-dialog
         title="修改用户"
         :visible.sync="editDialogVisible"
-        width="50%"
+        width="35%"
         @close="editDialogClosed"
       >
         <!-- 内容主体区域-->
@@ -198,6 +171,7 @@ export default {
       queryInfo: {
         page_num: 1
       },
+      userListTotal: 1,
       userList: [],
       // 新增用户绑定参数
       createUser: {
