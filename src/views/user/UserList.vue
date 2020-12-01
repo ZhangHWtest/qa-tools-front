@@ -11,7 +11,7 @@
       <!-- 卡片视图区域-->
       <el-card>
         <div class="interface-top-addbutton">
-          <el-button type="primary" @click="addDialogVisible = true">
+          <el-button class="add-button" type="primary" @click="addDialogVisible = true">
             新增用户
           </el-button>
         </div>
@@ -81,6 +81,7 @@
         title="添加用户"
         :visible.sync="addDialogVisible"
         width="35%"
+        :close-on-click-modal="false"
         @close="addDialogClosed"
       >
         <!-- 内容主体区域-->
@@ -107,6 +108,7 @@
         title="修改用户"
         :visible.sync="editDialogVisible"
         width="35%"
+        :close-on-click-modal="false"
         @close="editDialogClosed"
       >
         <!-- 内容主体区域-->
@@ -211,6 +213,10 @@ export default {
     this.getUserList()
   },
   methods: {
+    handleCurrentChange(newPage) {
+      this.queryInfo.page_num = newPage
+      this.getUserList()
+    },
     // 监听添加用户对话框关闭事件
     addDialogClosed() {
       this.$refs.addFormRef.resetFields()
@@ -236,6 +242,7 @@ export default {
         return this.$message.error('获取用户列表失败！')
       }
       this.userList = userRes.data
+      this.userListTotal = userRes.page_total_num * 10
     },
     async resetPassword(scope) {
       console.log(scope)
@@ -300,6 +307,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.el-radio {
+  margin-right: 15px;
+}
+.el-radio__label {
+  padding-left: 5px;
+}
 .interface-top-addbutton {
   background-color: #eee;
   height: 45px;

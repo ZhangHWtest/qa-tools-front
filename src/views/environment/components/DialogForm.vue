@@ -3,7 +3,7 @@
     <el-dialog
       :title="title"
       :visible.sync="showForm"
-      width="50%"
+      width="45%"
       :close-on-click-modal="false"
       @close="closeDialogMethod()"
     >

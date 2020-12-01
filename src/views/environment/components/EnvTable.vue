@@ -63,12 +63,19 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      background
+      :current-page="getcaseListBody.page_num"
+      layout="prev, pager, next"
+      :total="caseListTotal"
+      @current-change="handleCurrentChange"
+    />
   </div>
 </template>
 <script>
 export default {
   props: [
-    'envList'
+    'envList', 'page_num'
   ],
   methods: {
     removeEnvById(id) {
