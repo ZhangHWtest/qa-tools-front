@@ -564,6 +564,7 @@ export default {
   padding-left: 8px;
   margin-bottom: 20px;
   margin-left: 40px;
+  color: rgba(13, 27, 62, 0.65);
 }
 .tab-style::before{
     content: '※ ';
