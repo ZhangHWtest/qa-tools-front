@@ -1,15 +1,10 @@
 <template>
   <!-- 搜索与添加区域-->
-  <el-row :gutter="30">
-    <el-col :span="4">
-      <el-button
-        type="primary"
-        @click="showDialogMethod()"
-      >
-        新增环境
-      </el-button>
-    </el-col>
-  </el-row>
+  <div class="interface-top-addbutton">
+    <el-button type="primary" class="add-button" @click="showDialogMethod()">
+      新增环境
+    </el-button>
+  </div>
 </template>
 
 <script>
@@ -33,3 +28,21 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="less">
+.interface-top-addbutton {
+  background-color: #eee;
+  height: 45px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 4px;
+  line-height: 45px;
+  .interface-top-addannotation {
+    font-size: 13px;
+    color: rgba(39, 56, 72, 0.75);
+  }
+  .add-button {
+    font-size: 13px;
+    float: right;
+  }
+}
+</style>
