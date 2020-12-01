@@ -103,6 +103,7 @@ export default {
     },
     // 修改
     async editEnvMethod(editEnvBody) {
+      delete editEnvBody.create_user
       this.editEnvData = editEnvBody
       const { data: responseBody } = await this.$api.environment.editEnv(
         this.editEnvData
