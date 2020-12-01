@@ -14,9 +14,12 @@
           <search-env @listenToChildShowDialog="showAddDialog" />
           <env-table
             :env-list="envList"
+            :page-num="getenvBody.page_num"
+            :page-total="pageTotal"
             @listenToChildRemoveEnv="removeEnvById"
             @listenToChildShowDialog="showEditDialog"
             @listenToChildGetEnvinfo="getEnvInfo"
+            @listenToChildPageNum="newPage"
           />
           <dialog-form
             title="新增环境："
@@ -56,6 +59,7 @@ export default {
       getEnvInfoData: {
         env_id: ''
       },
+      pageTotal: 1,
       getenvBody: {
         page_num: 1
       },
@@ -78,6 +82,10 @@ export default {
     getEnvInfo(id) {
       this.getEnvInfoData.env_id = id
       this.getEnvInfoMethod()
+    },
+    newPage(newPage) {
+      this.getenvBody.page_num = newPage
+      this.envListMethod()
     },
     // 创建env
     async addEnvMethod(createEnvBody) {
@@ -113,6 +121,7 @@ export default {
       )
       if (responseBody.code === 1) {
         this.envList = responseBody.data
+        this.pageTotal = responseBody.page_total_num * 10
       } else {
         this.$message.error('请求环境信息失败！')
       }

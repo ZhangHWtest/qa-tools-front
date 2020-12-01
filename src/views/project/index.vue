@@ -25,10 +25,7 @@
         @expand-change="expandChange"
       >
         <el-table-column type="expand">
-          <model-list
-            :project-row="projectRow"
-            :show-model-list="showModelList"
-          />
+          <model-list :project-row="projectRow" :show-model-list="showModelList" />
         </el-table-column>
         <el-table-column
           width="70px"

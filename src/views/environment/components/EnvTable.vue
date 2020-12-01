@@ -65,9 +65,9 @@
     </el-table>
     <el-pagination
       background
-      :current-page="getcaseListBody.page_num"
+      :current-page="pageNum"
       layout="prev, pager, next"
-      :total="caseListTotal"
+      :total="pageTotal"
       @current-change="handleCurrentChange"
     />
   </div>
@@ -75,7 +75,7 @@
 <script>
 export default {
   props: [
-    'envList', 'page_num'
+    'envList', 'pageNum', 'pageTotal'
   ],
   methods: {
     removeEnvById(id) {
@@ -84,6 +84,9 @@ export default {
     editCaseById(id) {
       this.$emit('listenToChildShowDialog', true)
       this.$emit('listenToChildGetEnvinfo', id)
+    },
+    handleCurrentChange(newPage) {
+      this.$emit('listenToChildPageNum', newPage)
     }
   }
 
