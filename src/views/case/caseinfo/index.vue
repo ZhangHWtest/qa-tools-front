@@ -64,6 +64,7 @@
         <h2 class="interface-title-style">
           请求参数:
         </h2>
+        <span class="tab-style">注 params,header入参格式 {"Cookies":${name}}</span>
         <div class="interface-info-params">
           <el-row :gutter="20">
             <el-col :span="12">
@@ -559,6 +560,15 @@ export default {
   margin-bottom: 20px;
   margin-left: 15px;
 }
+.tab-style{
+  padding-left: 8px;
+  margin-bottom: 20px;
+  margin-left: 40px;
+}
+.tab-style::before{
+    content: '※ ';
+    color: red;
+  }
 .footer-card {
   background-color: #373d41;
   position: fixed;
