@@ -161,8 +161,10 @@
     <el-pagination
       background
       :current-page="getcaseListBody.page_num"
-      layout="prev, pager, next"
+      :page-sizes="[10, 20, 50, 100]"
+      layout="prev, pager, next, sizes"
       :total="caseListTotal"
+      @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
   </div>
@@ -185,7 +187,8 @@ export default {
         project_id: '',
         model_id: '',
         interface_id: '',
-        page_num: 1
+        page_num: 1,
+        page_size: 10
       },
       caseList: [],
       caseListTotal: 1,
@@ -219,6 +222,11 @@ export default {
     // 监听 页码值改变的事件
     handleCurrentChange(newPage) {
       this.getcaseListBody.page_num = newPage
+      this.caseListMethod()
+    },
+    // 监听 改变的事件
+    handleSizeChange(newPageSize) {
+      this.getcaseListBody.page_size = newPageSize
       this.caseListMethod()
     },
     // table 复选框选中值

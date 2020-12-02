@@ -32,7 +32,8 @@
             <el-pagination
               background
               :current-page="getProjectListBody.pageNum"
-              layout="prev, pager, next"
+              :page-sizes="[10, 20, 50, 100]"
+              layout="prev, pager, next, jumper"
               :total="pageTotal"
               @current-change="handleCurrentChange"
             />
