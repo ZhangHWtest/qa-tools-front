@@ -69,8 +69,9 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['RunCaseNum', 'SucCaseNum', 'FalCaseNum', 'ExcCaseNum']
+          data: ['通过', '未通过', '异常']
         },
+        color: ['#67C23A', '#F56C6C', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple'],
         series: [
           {
             name: 'Case',

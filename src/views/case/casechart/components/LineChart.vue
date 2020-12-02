@@ -85,28 +85,11 @@ export default {
           }
         },
         legend: {
-          data: ['Sucasenum', 'Runcasenum', 'Failcasenum']
+          data: ['执行总数', '通过', '未通过']
         },
         series: [
           {
-            name: 'Sucasenum',
-            itemStyle: {
-              normal: {
-                color: '#67C23A',
-                lineStyle: {
-                  color: '#67C23A',
-                  width: 2
-                }
-              }
-            },
-            smooth: false,
-            type: 'line',
-            data: suCasenum,
-            animationDuration: 2800,
-            animationEasing: 'cubicInOut'
-          },
-          {
-            name: 'Runcasenum',
+            name: '执行总数',
             itemStyle: {
               normal: {
                 color: '#3888fa',
@@ -126,12 +109,29 @@ export default {
             animationEasing: 'quadraticOut'
           },
           {
-            name: 'Failcasenum',
+            name: '通过',
             itemStyle: {
               normal: {
-                color: '#FF005A',
+                color: '#67C23A',
                 lineStyle: {
-                  color: '#FF005A',
+                  color: '#67C23A',
+                  width: 2
+                }
+              }
+            },
+            smooth: false,
+            type: 'line',
+            data: suCasenum,
+            animationDuration: 2800,
+            animationEasing: 'cubicInOut'
+          },
+          {
+            name: '未通过',
+            itemStyle: {
+              normal: {
+                color: '#F56C6C',
+                lineStyle: {
+                  color: '#F56C6C',
                   width: 2
                 }
               }
