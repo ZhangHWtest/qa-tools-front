@@ -210,6 +210,12 @@ export default {
       }
     }
   },
+  watch: {
+    // caseListTotal(val) {
+    //   console.log('caseListTotal', val)
+    //   this.val = this.caseListTotal
+    // }
+  },
   created() {
     // this.getInterfaceListMethod()
     this.caseListMethod()
@@ -292,7 +298,7 @@ export default {
       )
       if (responseBody.code === 1) {
         this.caseList = responseBody.data
-        this.caseListTotal = responseBody.page_total_num * 10
+        this.caseListTotal = responseBody.page_total_num * this.getcaseListBody.page_size
       } else {
         this.$message.error('请求用例信息失败！')
       }
