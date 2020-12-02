@@ -84,6 +84,10 @@ const routes = [
       {
         path: '/ui/caselist',
         component: () => import('@/views/uicase/index.vue')
+      },
+      {
+        path: '/demo/newproject',
+        component: () => import('@/views/project/newIndex.vue')
       }
     ]
   },

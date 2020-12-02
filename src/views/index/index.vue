@@ -194,6 +194,22 @@
               </template>
             </el-menu-item>
           </el-submenu>
+          <el-submenu index="9">
+            <template slot="title">
+              <i class="iconfont icon-icon_boss" />
+              <span class="sider-bar-title">demo</span>
+            </template>
+            <el-menu-item
+              index="/demo/newproject"
+              route="/demo/newproject"
+              @click="saveNavState('/demo/newproject')"
+            >
+              <template slot="title">
+                <i class="iconfont icon-icon_meeting" />
+                <span class="sider-bar-title">newProject</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-aside>
       <el-main class="index-main">
