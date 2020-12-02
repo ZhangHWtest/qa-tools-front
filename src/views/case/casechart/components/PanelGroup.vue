@@ -18,7 +18,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            IntFacTotal
+            接口总数
           </div>
           <count-to
             :start-val="0"
@@ -39,12 +39,12 @@
         class="card-panel"
         @click="handleSetLineChartData('messages')"
       >
-        <div class="card-panel-icon-wrapper icon-people">
+        <div class="card-panel-icon-wrapper icon-shopping">
           <i class="iconfont icon-flag-fill" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            CaseToal
+            用例总数
           </div>
           <!-- duration:持续时间，以毫秒为单位-->
           <count-to
@@ -71,7 +71,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            CaseRunNum
+            用例执行总数
           </div>
           <count-to
             :start-val="0"
@@ -97,7 +97,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            CaseSuccess
+            用例通过总数
           </div>
           <count-to
             :start-val="0"
@@ -160,7 +160,7 @@ export default {
         color: #fff;
       }
       .icon-people {
-        background: #40c9c6;
+        background: #67C23A;
       }
       .icon-message {
         background: #36a3f7;
@@ -173,7 +173,7 @@ export default {
       }
     }
     .icon-people {
-      color: #40c9c6;
+      color:#67C23A;
     }
     .icon-message {
       color: #36a3f7;

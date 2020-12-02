@@ -91,10 +91,9 @@ export default {
         this.lineChartData.runCasenum = myList3
         this.lineChartData.failCasenum = myList4
 
-        this.pieDate.push({ 'value': res.data.run_case_num, 'name': 'RunCaseNum' })
-        this.pieDate.push({ 'value': res.data.success_case_num, 'name': 'SucCaseNum' })
-        this.pieDate.push({ 'value': res.data.failure_case_num, 'name': 'FalCaseNum' })
-        this.pieDate.push({ 'value': res.data.exception_case_num, 'name': 'ExcCaseNum' })
+        this.pieDate.push({ 'value': res.data.success_case_num, 'name': '通过' })
+        this.pieDate.push({ 'value': res.data.failure_case_num, 'name': '未通过' })
+        this.pieDate.push({ 'value': res.data.exception_case_num, 'name': '异常' })
         console.log('this.pieDate', this.pieDate)
       } else {
         this.$message.error(res.msg)
