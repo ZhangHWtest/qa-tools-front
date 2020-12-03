@@ -22,7 +22,7 @@
                     <el-button type="text" icon="el-icon-edit" @click="() => editProjectMethod(node, data)" />
                   </el-tooltip>
                   <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                    <el-button type="text" icon="el-icon-delete" @click="() => removeProjectMethod(node, data)" />
+                    <el-button type="text" icon="el-icon-delete" @click="() => removeProjectMethod(node, data)"></el-button>
                   </el-tooltip>
                 </span>
               </span>

@@ -21,6 +21,9 @@ module.exports = {
         "allowFirstLine": false
       }
     }],
+    //个人设置
+    'vue/html-self-closing': 0, // 标签是否自闭和，这里允许不自闭和，即保留<div></div>
+    // 系统默认
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline": "off",
     "vue/name-property-casing": ["error", "PascalCase"],
