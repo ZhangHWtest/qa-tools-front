@@ -8,16 +8,11 @@
       />
     </div>
     <div class="interface-top-addbutton">
-      <span class="interface-top-addannotation">注：添加、批量运行case必须先选择接口！</span>
-      <el-button class="add-model-button" type="success" :disabled="RunButtonDisabled" @click="runMultipleCaseMethod()">
+      <span class="interface-top-addannotation">注：新增用例必须先选择接口！</span>
+      <el-button class="add-model-button" type="success" @click="runMultipleCaseMethod()">
         批量 运行
       </el-button>
-      <el-button
-        class="add-model-button"
-        type="primary"
-        :disabled="buttonDisabled"
-        @click="goAddCaseInfo()"
-      >
+      <el-button class="add-model-button" type="primary" :disabled="buttonDisabled" @click="goAddCaseInfo()">
         新增 用例
       </el-button>
     </div>
@@ -25,62 +20,29 @@
       class="interface-table"
       :data="caseList"
       stripe
+      row-key="case_id"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column
-        type="selection"
-        width="55px"
-      />
-      <el-table-column
-        width="70px"
-        label="id"
-        prop="case_id"
-      />
-      <el-table-column
-        label="用例名称"
-        prop="case_name"
-      />
-      <el-table-column
-        label="接口类型"
-        prop="case_type"
-      />
-      <el-table-column
-        label="接口方法"
-        prop="method"
-      >
+      <el-table-column type="selection" width="55px" :reserve-selection="true" />
+      <el-table-column width="70px" label="id" prop="case_id" />
+      <el-table-column label="用例名称" prop="case_name" />
+      <el-table-column label="接口类型" prop="case_type" />
+      <el-table-column label="接口方法" prop="method">
         <template slot-scope="scope">
-          <span
-            v-if="scope.row.method === 'GET'"
-            class="show-interface-colname"
-          >
+          <span v-if="scope.row.method === 'GET'" class="show-interface-colname">
             <el-tag>{{ scope.row.method }}</el-tag>
           </span>
-          <span
-            v-else-if="scope.row.method === 'POST'"
-            class="show-interface-colname"
-          >
+          <span v-else-if="scope.row.method === 'POST'" class="show-interface-colname">
             <el-tag type="success">{{ scope.row.method }}</el-tag>
           </span>
-          <span
-            v-else
-            class="show-interface-colname"
-          >
+          <span v-else class="show-interface-colname">
             <el-tag type="warning">{{ scope.row.method }}</el-tag>
           </span>
         </template>
       </el-table-column>
-      <el-table-column
-        label="接口路径"
-        prop="path"
-      />
-      <el-table-column
-        label="创建人"
-        prop="create_user"
-      />
-      <el-table-column
-        label="操作"
-        width="200px"
-      >
+      <el-table-column label="接口路径" prop="path" />
+      <el-table-column label="创建人" prop="create_user" />
+      <el-table-column label="操作" width="200px">
         <template slot-scope="scope">
           <!-- 修改按钮 -->
           <el-tooltip
@@ -196,6 +158,7 @@ export default {
         project_id: '',
         case_list: []
       },
+      multipleSelectionAll: [], // 保存选中的所有ID
       runCaseList: {
         case_id: ''
       },
@@ -211,15 +174,9 @@ export default {
     }
   },
   watch: {
-    // caseListTotal(val) {
-    //   console.log('caseListTotal', val)
-    //   this.val = this.caseListTotal
-    // }
   },
   created() {
-    // this.getInterfaceListMethod()
     this.caseListMethod()
-    // }
   },
   methods: {
     changeChildValueMethod() {
@@ -237,11 +194,12 @@ export default {
     },
     // table 复选框选中值
     handleSelectionChange(val) {
-      var arrObject = []
-      val.forEach(function(item, index) {
-        arrObject.push(item.case_id)
+      val.forEach((item) => {
+        this.multipleSelectionAll.push(item.case_id)
       })
-      this.multipleSelection.case_list = arrObject
+    },
+    getRowKeys(val) {
+      console.log('val2:', val.case_id)
     },
     // 获取接口列表方法
     async getInterfaceListMethod() {
@@ -270,7 +228,7 @@ export default {
         delete this.getcaseListBody.case_name
       }
       if (!sessionStorage.getItem('projectId')) {
-        console.log('projectId', sessionStorage.getItem('projectId'))
+        // console.log('projectId', sessionStorage.getItem('projectId'))
         delete this.getcaseListBody.project_id
         this.RunButtonDisabled = true
       } else {
@@ -278,18 +236,18 @@ export default {
         this.RunButtonDisabled = false
       }
       if (!sessionStorage.getItem('modelId')) {
-        console.log('modelId', sessionStorage.getItem('modelId'))
+        // console.log('modelId', sessionStorage.getItem('modelId'))
         delete this.getcaseListBody.model_id
       } else {
         this.getcaseListBody.model_id = Number(sessionStorage.getItem('modelId'))
         this.RunButtonDisabled = false
       }
       if (!sessionStorage.getItem('interId')) {
-        console.log('interId', sessionStorage.getItem('interId'))
+        // console.log('interId', sessionStorage.getItem('interId'))
         delete this.getcaseListBody.interface_id
         this.buttonDisabled = true
       } else {
-        console.log('true', sessionStorage.getItem('interId'))
+        // console.log('true', sessionStorage.getItem('interId'))
         this.getcaseListBody.interface_id = Number(sessionStorage.getItem('interId'))
         this.buttonDisabled = false
       }
@@ -318,16 +276,30 @@ export default {
     },
     // 批量运行case
     async runMultipleCaseMethod() {
-      this.multipleSelection.project_id = Number(sessionStorage.getItem('projectId'))
-      const { data: res } = await this.$api.testcase.runMultipleCase(
-        this.multipleSelection
-      )
-      if (res.code === 1) {
-        this.$message.success('运行成功！')
-        this.caseListMethod()
+      if (sessionStorage.getItem('projectId')) {
+        this.multipleSelection.project_id = Number(sessionStorage.getItem('projectId'))
       } else {
-        this.$message.error(res.msg)
+        delete this.multipleSelection.project_id
       }
+      // 利用ES6 新特性去重
+      const arr = new Set(this.multipleSelectionAll)
+      this.multipleSelection.case_list = Array.from(arr)
+
+      console.log('SelectionAll:', this.multipleSelection.case_list)
+      if( this.multipleSelection.case_list.length!==0){
+        const { data: res } = await this.$api.testcase.runMultipleCase(
+        this.multipleSelection
+        )
+        if (res.code === 1) {
+          this.$message.success('运行成功！')
+          this.caseListMethod()
+        } else {
+          this.$message.error(res.msg)
+        }
+      }else{
+        this.$message.error('请选择要运行的用例！')
+      }
+
     },
     // 复制case
     async copyCaseMethod(val) {
@@ -429,6 +401,10 @@ export default {
   .interface-top-addannotation {
     font-size: 13px;
     color: rgba(39, 56, 72, 0.75);
+    &:before{
+    content: '* ';
+    color: red;
+    }
   }
   .add-model-button {
     margin-right: 10px;

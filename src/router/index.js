@@ -87,7 +87,7 @@ const routes = [
       },
       {
         path: '/demo/newproject',
-        component: () => import('@/views/project/newIndex.vue')
+        component: () => import('@/views/demo/newIndex.vue')
       }
     ]
   },

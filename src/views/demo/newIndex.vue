@@ -1,9 +1,7 @@
 <template>
   <div class="main-projectlist">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">
-        首页
-      </el-breadcrumb-item>
+      <el-breadcrumb-item>首页</el-breadcrumb-item>
       <el-breadcrumb-item>项目管理</el-breadcrumb-item>
       <el-breadcrumb-item>项目列表</el-breadcrumb-item>
     </el-breadcrumb>
@@ -24,24 +22,26 @@
                     <el-button type="text" icon="el-icon-edit" @click="() => editProjectMethod(node, data)" />
                   </el-tooltip>
                   <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                    <el-button type="text" icon="el-icon-delete" @click="() => removeProjectMethod(node, data)" />
+                    <el-button type="text" icon="el-icon-delete" @click="() => removeProjectMethod(node, data)"></el-button>
                   </el-tooltip>
                 </span>
               </span>
             </el-tree>
-            <el-pagination
+            <!-- <el-pagination
               background
               :current-page="getProjectListBody.pageNum"
               :page-sizes="[10, 20, 50, 100]"
-              layout="prev, pager, next, jumper"
+              layout="prev, pager, next"
               :total="pageTotal"
               @current-change="handleCurrentChange"
-            />
+            /> -->
           </div>
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card />
+        <el-card>
+          2
+        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       getProjectListBody: {
-        page_num: 1
+        // page_num: 1
       },
       pageTotal: 1,
       projectList: [],
@@ -89,28 +89,33 @@ export default {
         this.$message.error('获取项目列表失败！')
       }
     }
-
   }
-
 }
 </script>
 
 <style lang="less" scoped>
-.custom-tree-node {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 16px;
+.el-tree-node__content{
+  height: 32px !important;
+  :active{
+    background: #bae7ff !important;
+  }
 }
+
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  padding-right: 8px;
+}
+
 .div-project{
   height: 32px;
   .title-project{
   line-height: 32px;
-  flex: 1;
-  font-weight: 500;
   color: rgba(0,0,0,.85);
-  font-size: 16px;
+  font-size: 24px;
   }
 }
 .divider-project{

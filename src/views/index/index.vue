@@ -196,7 +196,7 @@
           </el-submenu>
           <el-submenu index="9">
             <template slot="title">
-              <i class="iconfont icon-icon_boss" />
+              <i class="iconfont icon-shiyongbangzhu" />
               <span class="sider-bar-title">demo</span>
             </template>
             <el-menu-item
@@ -205,7 +205,7 @@
               @click="saveNavState('/demo/newproject')"
             >
               <template slot="title">
-                <i class="iconfont icon-icon_meeting" />
+                <i class="iconfont icon-shiyongbangzhu" />
                 <span class="sider-bar-title">newProject</span>
               </template>
             </el-menu-item>
