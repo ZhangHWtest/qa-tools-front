@@ -157,6 +157,7 @@ export default {
   top: 42%;
   transform: translate(-50%, -75%);
   .login_title {
+    font-family:  "Helvetica Neue";
     position: absolute;
     left: 50%;
     transform: translate(-50%, 10%);

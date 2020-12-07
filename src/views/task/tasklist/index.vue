@@ -15,42 +15,21 @@
         />
       </div>
       <div class="interface-top-addbutton">
-        <span class="interface-top-addannotation">注：任务基于项目</span>
+        <!-- <span class="interface-top-addannotation">注：任务基于项目</span> -->
         <el-button
           class="add-model-button"
           type="primary"
-          :disabled="buttonDisabled"
           @click="goAddTaskDialog()"
         >
           新增 任务
         </el-button>
       </div>
-      <el-table
-        class="interface-table"
-        :data="taskList"
-      >
-        <el-table-column
-          width="70px"
-          label="id"
-          prop="task_id"
-        />
-        <el-table-column
-          label="任务名称"
-          prop="task_name"
-        />
-        <el-table-column
-          label="项目名称"
-          prop="project_name"
-        />
-        <el-table-column
-          label="case数量"
-          width="90px"
-          prop="case_num"
-        />
-        <el-table-column
-          label="状态"
-          width="70px"
-        >
+      <el-table class="interface-table" :data="taskList">
+        <el-table-column width="70px" label="id" prop="task_id" />
+        <el-table-column label="任务名称" prop="task_name" />
+        <el-table-column label="项目名称" prop="project_name" />
+        <el-table-column label="case数量" width="90px" prop="case_num" />
+        <el-table-column label="状态" width="70px">
           <template slot-scope="scope">
             <span
               v-if="scope.row.run_status === 1"
@@ -69,15 +48,8 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column
-          label="创建人"
-          width="90px"
-          prop="create_user"
-        />
-        <el-table-column
-          label="操作"
-          width="200px"
-        >
+        <el-table-column label="创建人" width="90px" prop="create_user" />
+        <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
             <el-tooltip
@@ -173,36 +145,27 @@
       :close-on-click-modal="false"
       @close="handleClose"
     >
+     <!-- <search-component
+          :parentIsShowInputSelect='false'
+          :parentIsShowSeachButton='false'
+        /> -->
       <el-form
         v-show="showBasic"
         ref="addFormRef"
         :model="addTaskBody"
         :rules="addTaskForm"
-        label-width="85px"
+        label-width="112px"
       >
-        <el-form-item
-          label="任务名称"
-          prop="task_name"
-        >
-          <el-input
-            v-model="addTaskBody.task_name"
-            placeholder="请输入任务名"
-          />
+        <el-form-item label="任务名称：" prop="task_name">
+          <el-input v-model="addTaskBody.task_name" placeholder="请输入任务名"/>
         </el-form-item>
-        <el-form-item
-          label="执行策略"
-          prop="task_type"
-        >
+        <el-form-item label="执行策略" prop="task_type">
           <el-radio-group
             v-model="addTaskBody.task_type"
             @change="selectRunTimeType()"
           >
-            <el-radio :label="0">
-              立即执行
-            </el-radio>
-            <el-radio :label="1">
-              间隔秒
-            </el-radio>
+            <el-radio :label="0">立即执行</el-radio>
+            <el-radio :label="1">间隔秒</el-radio>
             <el-radio :label="2">
               日期执行
             </el-radio>
@@ -374,7 +337,7 @@ export default {
         delete this.getTaskListBody.task_name
       }
       if (!sessionStorage.getItem('projectId')) {
-        console.log('projectId', sessionStorage.getItem('projectId'))
+        // console.log('projectId', sessionStorage.getItem('projectId'))
         delete this.getTaskListBody.project_id
         this.buttonDisabled = true
       } else {
@@ -382,7 +345,7 @@ export default {
         this.buttonDisabled = false
       }
       if (!sessionStorage.getItem('modelId')) {
-        console.log('modelId', sessionStorage.getItem('modelId'))
+        // console.log('modelId', sessionStorage.getItem('modelId'))
         delete this.getTaskListBody.model_id
       } else {
         this.getTaskListBody.model_id = Number(sessionStorage.getItem('modelId'))
@@ -455,7 +418,7 @@ export default {
       })
       this.updateCaseBody.case_list = arrObject
       this.$refs.updateFormRef.validate(async valid => {
-        console.log(valid)
+        // console.log(valid)
         if (valid) {
           const { data: res } = await this.$api.task.updateTaskCase(
             this.updateCaseBody
@@ -570,11 +533,7 @@ export default {
   padding: 10px 10px 10px 10px;
   border-radius: 4px;
   line-height: 45px;
-  // display: flex;
-  .interface-top-addannotation {
-    font-size: 13px;
-    color: rgba(39, 56, 72, 0.75);
-  }
+
   .add-model-button {
     margin-right: 10px;
     float: right;

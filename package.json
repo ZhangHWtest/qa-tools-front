@@ -8,12 +8,6 @@
     "test:unit": "vue-cli-service test:unit",
     "lint": "eslint --ext .js,.vue src"
   },
-  "lint-staged": {
-    "src/**/*.{js,vue}": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.2",

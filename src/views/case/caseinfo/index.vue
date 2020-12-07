@@ -565,11 +565,12 @@ export default {
   margin-bottom: 20px;
   margin-left: 40px;
   color: rgba(13, 27, 62, 0.65);
-}
-.tab-style::before{
-    content: '※ ';
+  &:before{
+    content: '* ';
     color: red;
   }
+}
+
 .footer-card {
   background-color: #373d41;
   position: fixed;
