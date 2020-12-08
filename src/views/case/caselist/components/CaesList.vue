@@ -2,8 +2,7 @@
   <div>
     <div>
       <search-component
-        :parent-input-name="inputName"
-        :parent-is-show-interface-select="parentIsShowInterfaceSelect"
+        :sub-arr="['inputName','proModCascader','interFaceSelect','seachButton']"
         @changeChildValueMethod="changeChildValueMethod"
       />
     </div>
