@@ -1,73 +1,89 @@
 <template>
   <div class="top-select">
-    <span class="top-select-name"  v-show="isShowInputSelect">{{ parentInputName }}名称：</span>
-    <el-input
-     v-show="isShowInputSelect"
-      v-model="inputName"
-      class="top-input_name"
-      placeholder="请输入"
-      @change="changeInputName"
-    />
-    <span class="top-select-name">项目/模块：</span>
-    <el-cascader v-model="myProModelValue"
-      class="top-pro-cascader"
-      :options="myProModelOptions"
-      :props="{ checkStrictly: true }"
-      @change="handleChange"
-    />
-    <span
-      v-show="isShowInterFaceSelect"
-      class="top-select-name"
-    >接口：</span>
-    <el-select
-      v-show="isShowInterFaceSelect"
-      v-model="interfaceValue"
-      class="top-interface-select"
-      placeholder="请选择"
-      @change="changeInterfaceValue"
-    >
-      <el-option
-        v-for="item in interfaceList"
-        :key="item.interface_id"
-        :label="item.interface_name"
-        :value="item.interface_id"
+    <div v-show="isShowInput">
+      <span class="top-select-name">名称：</span>
+      <el-input
+        v-model="inputName"
+        class="top-input_name"
+        placeholder="请输入"
+        @change="changeInputName"
       />
-    </el-select>
-      <el-select  v-show="isShowProject"
-      v-model="myProModelValue"  placeholder="请选择" clearable @clear="clearProjectAndModel()">
+    </div>
+    <div v-show="isShowProModCascader">
+      <span class="top-select-name">项目/模块：</span>
+      <el-cascader
+        v-model="myProModelValue"
+        class="top-pro-cascader"
+        :options="myProModelOptions"
+        :props="{ checkStrictly: true }"
+        @change="handleChange"
+      />
+    </div>
+    <div v-show="isShowInterFaceSelect">
+      <span
+        class="top-select-name"
+      >接口：</span>
+      <el-select
+        v-model="interfaceValue"
+        class="top-interface-select"
+        placeholder="请选择"
+        @change="changeInterfaceValue"
+      >
+        <el-option
+          v-for="item in interfaceList"
+          :key="item.interface_id"
+          :label="item.interface_name"
+          :value="item.interface_id"
+        />
+      </el-select>
+    </div>
+    <div v-show="isShowProjectSelect">
+      <span
+        class="top-select-only-project"
+      >选择项目：</span>
+      <el-select
+        v-model="myProModelValue"
+        class="top-interface-select"
+        placeholder="请选择"
+        clearable
+        @change="changeProjectValue"
+        @clear="clearProjectAndModel()"
+      >
         <el-option
           v-for="item in projectList"
           :key="item.project_id"
           :label="item.project_name"
-          :value="item.project_id">
-        </el-option>
+          :value="item.project_id"
+        />
       </el-select>
-    <el-button
-      v-show="isShowSeachButton"
-      class="top-select-button"
-      type="primary"
-      plain
-      @click="changeChildValue()"
-    >
-      查询
-    </el-button>
-    <el-button  v-show="isShowSeachButton" plain @click="clearProjectAndModel()">重置</el-button>
+    </div>
+    <div v-show="isShowSeachButton">
+      <el-button
+        class="top-select-button"
+        type="primary"
+        plain
+        @click="changeChildValue()"
+      >查询</el-button>
+      <el-button plain @click="clearProjectAndModel()">重置</el-button>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  props: [
-    'parentIsShowInterfaceSelect',
-    'parentIsShowSeachButton',
-    'parentInputName'
-  ],
+  props: {
+    subArr: { type: Array, required: true }
+  },
   data() {
     return {
+      // 是否显示组件
+      isShowInput: false,
       inputName: '',
-      isShowProject:false,
-      isShowInputSelect:true,
-      isShowInterFaceSelect: true,
-      isShowSeachButton: true,
+      isShowProModCascader: false,
+      isShowInterFaceSelect: false,
+      isShowSeachButton: false,
+      isShowProjectSelect: false,
+
+      // ---------------------
       myProModelOptions: [],
       myProModelValue: [],
       projectList: [],
@@ -91,19 +107,12 @@ export default {
   },
   created() {
     this.getProjectListMethod()
-    this.isShowInterFaceSelect = this.parentIsShowInterfaceSelect
-    if (this.parentIsShowSeachButton === false) {
-      console.log(this.parentIsShowSeachButton)
-      this.isShowSeachButton = this.parentIsShowSeachButton
+    if (this.subArr.indexOf('inputName') !== -1) {
+      this.isShowInput = true
+      this.inputName = sessionStorage.getItem('inputName')
     }
-    if (this.isShowInterFaceSelect) {
-      this.getInterfaceListMethod()
-      if (sessionStorage.getItem('interId')) {
-        this.interfaceValue = Number(sessionStorage.getItem('interId'))
-        // this.getInterfaceInfo(Number(sessionStorage.getItem('interId')))
-      }
-    }
-    if (sessionStorage.getItem('projectId')) {
+    if (this.subArr.indexOf('proModCascader') !== -1) {
+      this.isShowProModCascader = true
       const projectId = Number(sessionStorage.getItem('projectId'))
       this.myProModelValue.push(projectId)
       if (sessionStorage.getItem('modelId')) {
@@ -112,10 +121,20 @@ export default {
         this.myProModelValue.push(modelId)
       }
     }
-    if (sessionStorage.getItem('inputKey') === this.parentInputName) {
-      this.inputName = sessionStorage.getItem('inputName')
+    if (this.subArr.indexOf('interFaceSelect') !== -1) {
+      this.isShowInterFaceSelect = true
+      this.getInterfaceListMethod()
+      if (sessionStorage.getItem('interId')) {
+        this.interfaceValue = Number(sessionStorage.getItem('interId'))
+        // this.getInterfaceInfo(Number(sessionStorage.getItem('interId')))
+      }
     }
-    // console.log('sessionMPMI', this.myProModelValue)
+    if (this.subArr.indexOf('seachButton') !== -1) {
+      this.isShowSeachButton = true
+    }
+    if (this.subArr.indexOf('projectSelect') !== -1) {
+      this.isShowProjectSelect = true
+    }
   },
   mounted() {
     // 点击文本就让它自动点击前面的input就可以触发选择。但是因组件阻止了冒泡，暂时想不到好方法来触发。
@@ -161,6 +180,16 @@ export default {
     changeInterfaceValue(value) {
       // console.log('changeInterfaceValue:', value)
       this.getInterfaceInfoMethod(value)
+    },
+    changeProjectValue(value) {
+      this.projectList.forEach(item => {
+        if (item.project_id === value) {
+          sessionStorage.setItem('projectId', value)
+          sessionStorage.setItem('projectName', item.project_name)
+          sessionStorage.removeItem('modelId')
+          sessionStorage.removeItem('modelName')
+        }
+      })
     },
     changeChildValue() {
       this.$emit('changeChildValueMethod', 'change')
@@ -270,6 +299,7 @@ export default {
 .top-select {
   margin: 10px 10px 10px 10px;
   padding-left: 10px;
+  display:flex;
   .top-input_name {
     width: 170px;
   }
@@ -283,6 +313,9 @@ export default {
   }
   .top-select-button {
     margin-left: 10px;
+  }
+  .top-select-only-project{
+   margin-left: 20px;
   }
 }
 .el-cascader-panel .el-radio__input {

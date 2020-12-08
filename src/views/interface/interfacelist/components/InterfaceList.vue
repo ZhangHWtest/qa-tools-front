@@ -2,7 +2,7 @@
   <div>
     <div>
       <search-component
-        :parent-input-name="inputName"
+        :sub-arr="['inputName','proModCascader','seachButton']"
         @changeChildValueMethod="changeChildValueMethod"
       />
     </div>

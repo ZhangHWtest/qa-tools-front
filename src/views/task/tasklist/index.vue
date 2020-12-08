@@ -10,7 +10,7 @@
     <el-card>
       <div>
         <search-component
-          :parent-input-name="inputName"
+          :sub-arr="['inputName','proModCascader','seachButton']"
           @changeChildValueMethod="changeChildValueMethod"
         />
       </div>
@@ -145,19 +145,16 @@
       :close-on-click-modal="false"
       @close="handleClose"
     >
-     <!-- <search-component
-          :parentIsShowInputSelect='false'
-          :parentIsShowSeachButton='false'
-        /> -->
+      <search-component v-show="showBasic" :sub-arr="['projectSelect']" />
       <el-form
         v-show="showBasic"
         ref="addFormRef"
         :model="addTaskBody"
         :rules="addTaskForm"
-        label-width="112px"
+        label-width="110px"
       >
         <el-form-item label="任务名称：" prop="task_name">
-          <el-input v-model="addTaskBody.task_name" placeholder="请输入任务名"/>
+          <el-input v-model="addTaskBody.task_name" placeholder="请输入任务名" />
         </el-form-item>
         <el-form-item label="执行策略" prop="task_type">
           <el-radio-group
