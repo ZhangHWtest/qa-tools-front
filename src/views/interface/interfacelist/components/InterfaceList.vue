@@ -144,8 +144,10 @@
     <el-pagination
       background
       :current-page="getInterfaceListBody.page_num"
-      layout="prev, pager, next"
+      :page-sizes="[10, 20, 50, 100]"
+      layout="prev, pager, next, sizes"
       :total="interfaceListTotal"
+      @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
 
@@ -296,7 +298,8 @@ export default {
         project_id: '',
         model_id: '',
         interface_name: '',
-        page_num: 1
+        page_num: 1,
+        page_size: 10
       },
       interfaceList: [],
       interfaceListTotal: 1,
@@ -326,6 +329,11 @@ export default {
     // 监听 页码值改变的事件
     handleCurrentChange(newPage) {
       this.getInterfaceListBody.page_num = newPage
+      this.getInterfaceListMethod()
+    },
+    // 监听 改变的事件
+    handleSizeChange(newPageSize) {
+      this.getInterfaceListBody.page_size = newPageSize
       this.getInterfaceListMethod()
     },
     addInterfaceDialogClose() {
@@ -362,7 +370,7 @@ export default {
       )
       if (responseBody.code === 1) {
         this.interfaceList = responseBody.data
-        this.interfaceListTotal = responseBody.page_total_num * 10
+        this.interfaceListTotal = responseBody.page_total_num * this.getInterfaceListBody.page_size
       }
     },
     // 创建接口

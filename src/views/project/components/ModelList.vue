@@ -1,35 +1,14 @@
 <template>
   <div>
     <div class="interface-top-addbutton">
-      <el-button
-        class="add-button"
-        type="primary"
-        @click="openAddModelDialog()"
-      >
+      <el-button class="add-button" type="primary" @click="openAddModelDialog()">
         新增 模块
       </el-button>
-      <el-table
-        class="model_table"
-        size="mini"
-        :data="modelList"
-      >
-        <el-table-column
-          width="70px"
-          label="id"
-          prop="model_id"
-        />
-        <el-table-column
-          label="模块名称"
-          prop="model_name"
-        />
-        <el-table-column
-          label="创建人"
-          prop="create_user"
-        />
-        <el-table-column
-          label="操作"
-          width="120px"
-        >
+      <el-table class="model_table" size="mini" :data="modelList">
+        <el-table-column width="70px" label="id" prop="model_id" />
+        <el-table-column label="模块名称" prop="model_name" />
+        <el-table-column label="创建人" prop="create_user" />
+        <el-table-column label="操作" width="120px">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
             <el-tooltip
@@ -82,31 +61,15 @@
         label-width="85px"
       >
         <el-form-item label="项目名称">
-          <el-input
-            v-model="projectName"
-            :disabled="true"
-            placeholder="请输入项目名"
-          />
+          <el-input v-model="projectName" :disabled="true" placeholder="请输入项目名" />
         </el-form-item>
-        <el-form-item
-          label="模块名称"
-          prop="model_name"
-        >
-          <el-input
-            v-model="addModelBody.model_name"
-            placeholder="请输入模块名"
-          />
+        <el-form-item label="模块名称" prop="model_name">
+          <el-input v-model="addModelBody.model_name" placeholder="请输入模块名" />
         </el-form-item>
       </el-form>
-      <span
-        slot="footer"
-        class="dialog-footer"
-      >
+      <span slot="footer" class="dialog-footer">
         <el-button @click="addModelDialog = false">取 消</el-button>
-        <el-button
-          type="primary"
-          @click="createModelMethod()"
-        >确 定</el-button>
+        <el-button type="primary" @click="createModelMethod()">确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog
