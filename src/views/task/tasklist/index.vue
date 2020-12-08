@@ -133,8 +133,10 @@
       <el-pagination
         background
         :current-page="getTaskListBody.page_num"
-        layout="prev, pager, next"
+        :page-sizes="[10, 20, 50, 100]"
+        layout="prev, pager, next, sizes"
         :total="taskListTotal"
+        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
     </el-card>
@@ -257,7 +259,8 @@ export default {
         task_name: '',
         project_id: '',
         model_id: '',
-        page_num: 1
+        page_num: 1,
+        page_size: 10
       },
       buttonDisabled: true,
       dialogVisible: false,
@@ -315,6 +318,10 @@ export default {
       this.getTaskListBody.page_num = newPage
       this.getTaskListMethod()
     },
+    handleSizeChange(newPageSize) {
+      this.getTaskListBody.page_size = newPageSize
+      this.getTaskListMethod()
+    },
     // 获取所有项目列表
     async getProjectListMethod() {
       const { data: projectRes } = await this.$api.project.getProjectList(
@@ -352,7 +359,7 @@ export default {
       )
       if (responseBody.code === 1) {
         this.taskList = responseBody.data
-        this.taskListTotal = responseBody.page_total_num * 10
+        this.taskListTotal = responseBody.page_total_num * this.getTaskListBody.page_size
       } else {
         this.$message.error('获取任务列表失败！')
       }

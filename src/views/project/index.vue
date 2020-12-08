@@ -10,15 +10,10 @@
     <el-card class="interface-info-card">
       <div class="interface-top-addbutton">
         <span class="interface-top-addannotation">注：添加模块必须先选中项目！</span>
-        <el-button
-          class="add-button"
-          type="primary"
-          @click="addProjectDialog=true"
-        >
+        <el-button class="add-button" type="primary" @click="addProjectDialog=true">
           新增 项目
         </el-button>
       </div>
-
       <el-table
         ref="multipleTableAll"
         :data="projectList"
@@ -28,23 +23,10 @@
         <el-table-column type="expand">
           <model-list :project-row="projectRow" :show-model-list="showModelList" />
         </el-table-column>
-        <el-table-column
-          width="70px"
-          label="id"
-          prop="project_id"
-        />
-        <el-table-column
-          label="项目名称"
-          prop="project_name"
-        />
-        <el-table-column
-          label="创建人"
-          prop="create_user"
-        />
-        <el-table-column
-          label="操作"
-          width="120px"
-        >
+        <el-table-column width="70px" label="id" prop="project_id" />
+        <el-table-column label="项目名称" prop="project_name" />
+        <el-table-column label="创建人" prop="create_user" />
+        <el-table-column label="操作" width="120px">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
             <el-tooltip
@@ -81,6 +63,15 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        background
+        :current-page="projectListBody.page_num"
+        :page-sizes="[10, 20, 50, 100]"
+        layout="prev, pager, next, sizes"
+        :total="projectListTotal"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </el-card>
     <!-- 新增项目对话框-->
     <el-dialog
@@ -160,7 +151,11 @@ export default {
   },
   data() {
     return {
-      projectListBody: {},
+      projectListBody: {
+        page_num: 1,
+        page_size: 10
+      },
+      projectListTotal: 1,
       projectList: [],
       getModelListBody: {
         project_id: ''
@@ -204,6 +199,15 @@ export default {
         this.showModelList = true
       }
     },
+    // 监听 页码值改变的事件
+    handleCurrentChange(newPage) {
+      this.projectListBody.page_num = newPage
+      this.getProjectListMethod()
+    },
+    handleSizeChange(newPageSize) {
+      this.projectListBody.page_size = newPageSize
+      this.getProjectListMethod()
+    },
     // 获取所有项目列表
     async getProjectListMethod() {
       const { data: projectRes } = await this.$api.project.getProjectList(
@@ -213,6 +217,7 @@ export default {
         return this.$message.error('获取项目列表失败！')
       }
       this.projectList = projectRes.data
+      this.projectListTotal = projectRes.page_total_num * this.projectListBody.page_size
     },
     addProjectDialogClosed() {
       this.$refs.addFormRef.resetFields()
@@ -290,6 +295,11 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.el-table{
+  /deep/ .el-table\_\_expanded-cell{
+    padding: 20px 0px;
+  }
+}
 .interface-top-addbutton {
   background-color: #eee;
   height: 45px;
@@ -299,6 +309,10 @@ export default {
   .interface-top-addannotation {
     font-size: 13px;
     color: rgba(39, 56, 72, 0.75);
+    &:before{
+    content: '* ';
+    color: red;
+    }
   }
   .add-button {
     font-size: 13px;
