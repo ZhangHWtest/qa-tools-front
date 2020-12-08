@@ -454,6 +454,10 @@ export default {
   .interface-top-addannotation {
     font-size: 13px;
     color: rgba(39, 56, 72, 0.75);
+    &:before{
+    content: '* ';
+    color: red;
+    }
   }
   .add-model-button {
     float: right;
