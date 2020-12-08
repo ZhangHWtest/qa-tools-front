@@ -1,15 +1,16 @@
 <template>
   <div class="top-select">
-    <span class="top-select-name"  v-show="isShowInputSelect">{{ parentInputName }}名称：</span>
+    <span v-show="isShowInputSelect" class="top-select-name">{{ parentInputName }}名称：</span>
     <el-input
-     v-show="isShowInputSelect"
+      v-show="isShowInputSelect"
       v-model="inputName"
       class="top-input_name"
       placeholder="请输入"
       @change="changeInputName"
     />
     <span class="top-select-name">项目/模块：</span>
-    <el-cascader v-model="myProModelValue"
+    <el-cascader
+      v-model="myProModelValue"
       class="top-pro-cascader"
       :options="myProModelOptions"
       :props="{ checkStrictly: true }"
@@ -33,15 +34,20 @@
         :value="item.interface_id"
       />
     </el-select>
-      <el-select  v-show="isShowProject"
-      v-model="myProModelValue"  placeholder="请选择" clearable @clear="clearProjectAndModel()">
-        <el-option
-          v-for="item in projectList"
-          :key="item.project_id"
-          :label="item.project_name"
-          :value="item.project_id">
-        </el-option>
-      </el-select>
+    <el-select
+      v-show="isShowProject"
+      v-model="myProModelValue"
+      placeholder="请选择"
+      clearable
+      @clear="clearProjectAndModel()"
+    >
+      <el-option
+        v-for="item in projectList"
+        :key="item.project_id"
+        :label="item.project_name"
+        :value="item.project_id"
+      />
+    </el-select>
     <el-button
       v-show="isShowSeachButton"
       class="top-select-button"
@@ -51,7 +57,7 @@
     >
       查询
     </el-button>
-    <el-button  v-show="isShowSeachButton" plain @click="clearProjectAndModel()">重置</el-button>
+    <el-button v-show="isShowSeachButton" plain @click="clearProjectAndModel()">重置</el-button>
   </div>
 </template>
 <script>
@@ -64,8 +70,8 @@ export default {
   data() {
     return {
       inputName: '',
-      isShowProject:false,
-      isShowInputSelect:true,
+      isShowProject: false,
+      isShowInputSelect: true,
       isShowInterFaceSelect: true,
       isShowSeachButton: true,
       myProModelOptions: [],

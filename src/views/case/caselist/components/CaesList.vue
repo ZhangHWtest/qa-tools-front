@@ -286,9 +286,9 @@ export default {
       this.multipleSelection.case_list = Array.from(arr)
 
       console.log('SelectionAll:', this.multipleSelection.case_list)
-      if( this.multipleSelection.case_list.length!==0){
+      if (this.multipleSelection.case_list.length !== 0) {
         const { data: res } = await this.$api.testcase.runMultipleCase(
-        this.multipleSelection
+          this.multipleSelection
         )
         if (res.code === 1) {
           this.$message.success('运行成功！')
@@ -296,10 +296,9 @@ export default {
         } else {
           this.$message.error(res.msg)
         }
-      }else{
+      } else {
         this.$message.error('请选择要运行的用例！')
       }
-
     },
     // 复制case
     async copyCaseMethod(val) {

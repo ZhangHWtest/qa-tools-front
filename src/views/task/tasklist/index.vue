@@ -145,7 +145,7 @@
       :close-on-click-modal="false"
       @close="handleClose"
     >
-     <!-- <search-component
+      <!-- <search-component
           :parentIsShowInputSelect='false'
           :parentIsShowSeachButton='false'
         /> -->
@@ -157,7 +157,7 @@
         label-width="112px"
       >
         <el-form-item label="任务名称：" prop="task_name">
-          <el-input v-model="addTaskBody.task_name" placeholder="请输入任务名"/>
+          <el-input v-model="addTaskBody.task_name" placeholder="请输入任务名" />
         </el-form-item>
         <el-form-item label="执行策略" prop="task_type">
           <el-radio-group
