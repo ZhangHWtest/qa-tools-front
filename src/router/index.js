@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/login/index.vue'
+import Login from '../views/login/newIndex.vue'
 import Home from '../views/index/index.vue'
+// import newLogin from '../views/login/newIndex.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/', redirect: '/login' },
   { path: '/login', component: Login },
+  // { path: '/newlogin', component: newLogin },
   {
     path: '/home',
     component: Home,
@@ -84,10 +86,6 @@ const routes = [
       {
         path: '/ui/caselist',
         component: () => import('@/views/uicase/index.vue')
-      },
-      {
-        path: '/demo/newproject',
-        component: () => import('@/views/demo/newIndex.vue')
       }
     ]
   },

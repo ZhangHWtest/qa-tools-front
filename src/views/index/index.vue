@@ -199,16 +199,16 @@
               <i class="iconfont icon-shiyongbangzhu" />
               <span class="sider-bar-title">demo</span>
             </template>
-            <el-menu-item
-              index="/demo/newproject"
-              route="/demo/newproject"
-              @click="saveNavState('/demo/newproject')"
+            <!-- <el-menu-item
+              index="/demo/newlogin"
+              route="/demo/newlogin"
+              @click="saveNavState('/demo/newlogin')"
             >
               <template slot="title">
                 <i class="iconfont icon-shiyongbangzhu" />
                 <span class="sider-bar-title">newProject</span>
               </template>
-            </el-menu-item>
+            </el-menu-item> -->
           </el-submenu>
         </el-menu>
       </el-aside>
