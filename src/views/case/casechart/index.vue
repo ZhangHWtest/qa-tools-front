@@ -64,9 +64,10 @@ export default {
     this.getIndexNumMethod()
   },
   methods: {
-    // handleSetLineChartData(type) {
-    //   this.lineChartData = lineChartData[type]
-    // },
+    handleSetLineChartData(type) {
+      // this.lineChartData = lineChartData[type]
+      console.log(type)
+    },
     async getIndexNumMethod() {
       const { data: res } = await this.$api.testcase.getIndexNum()
       if (res.code === 1) {
@@ -94,7 +95,7 @@ export default {
         this.pieDate.push({ 'value': res.data.success_case_num, 'name': '通过' })
         this.pieDate.push({ 'value': res.data.failure_case_num, 'name': '未通过' })
         this.pieDate.push({ 'value': res.data.exception_case_num, 'name': '异常' })
-        console.log('this.pieDate', this.pieDate)
+        // console.log('this.pieDate', this.pieDate)
       } else {
         this.$message.error(res.msg)
       }

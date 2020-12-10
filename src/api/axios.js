@@ -2,6 +2,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import router from '@/router'
 import config from './config'
+import { Message } from 'element-ui'
 /**
  * axios 拦截器设置
  */
@@ -47,7 +48,19 @@ export const reques = options => {
         return response
       },
       err => {
-        console.error(err)
+        const code = err.response.status
+        console.log(code)
+        switch (code) {
+          case 405:
+            Message({
+              message: '登录过期，已为您跳转至登录页！',
+              type: 'error',
+              showClose: true
+            })
+            Cookies.remove('token')
+            router.push('/login')
+            break
+        }
         return Promise.reject(err) // 返回接口返回的错误信息
       }
     )
