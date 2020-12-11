@@ -50,7 +50,7 @@ export default {
 <style lang="less" scoped>
 .index-bottom {
   z-index: 999;
-  background: #373d41;
+  background-color:#283443;
   width: 100%;
   position: relative;
   bottom: 0;
@@ -72,7 +72,7 @@ export default {
   background: #99a9bf;
 }
 .bg-purple {
-  background: #373d41;
+  background-color:#283443;
   color: #8898aa;
   font-size: 17px;
   margin-bottom: 8px;

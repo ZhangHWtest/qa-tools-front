@@ -11,6 +11,7 @@
       </div>
     </el-header>
     <my-video />
+
     <login-introduce />
     <!--登录区域 -->
     <div class="login_box">
@@ -83,7 +84,8 @@ export default {
 <style lang="less" scoped>
 .el-header {
   height: 50px !important;
-  background-color: #373d41;
+  background-color:#283443;
+  // background-color: #FBFBFB;
   display: flex;
   justify-content: space-between;
   padding-left: 0%;
@@ -97,7 +99,7 @@ export default {
     img {
       width: 120px;
       height: 100%;
-      background-color: #373d41;
+      background-color:#283443;
       margin-left: 40px;
       margin-right: 10px;
     }
@@ -106,29 +108,6 @@ export default {
       padding-left: 5px;
       border-left: 0.1px solid #ffffff;
     }
-  }
-}
-.logo {
-  z-index: 998;
-  width: 750px;
-  height: 220px;
-  background: rgba(0, 0, 0, 0.1) none repeat scroll !important;
-  /* rgba(0, 0, 0, 0.2) 前三个确定颜色，最后0.2确定透明度 */
-  /*实现FireFox背景透明，文字不透明*/
-  background: #ffffff;
-  filter: Alpha(opacity=20);
-  border-radius: 3px;
-  position: absolute;
-  left: 50%;
-  top: 42%;
-  transform: translate(-50%, -75%);
-  .logo-text {
-    font-size: 120px;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 10%);
-    font-size: 45px;
-    color: #fff;
   }
 }
 .header-button {
