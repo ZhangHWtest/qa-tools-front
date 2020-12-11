@@ -9,10 +9,6 @@
         >
         <span class="welcome-title"> 欢迎进入BSYQaTools后台</span>
       </div>
-      <!-- <el-avatar class="user-avatar"
-                 :size="35"
-                 fit="cover"
-                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar> -->
       <el-dropdown class="user-dropdown">
         <span class="el-dropdown-link">
           您好！{{ loginname.name }}
@@ -313,7 +309,7 @@ export default {
     },
     // 退出
     logout() {
-      window.sessionStorage.clear()
+      // window.sessionStorage.clear()
       this.$router.push('/login')
     },
     // 关闭修改密码弹窗，清空表单
