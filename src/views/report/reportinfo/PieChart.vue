@@ -26,7 +26,7 @@ export default {
       default: '350px'
     },
     pieDate: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
@@ -67,19 +67,21 @@ export default {
           formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         legend: {
-          left: 'center',
+          left: '15%',
           bottom: '10',
-          data: ['通过', '未通过', '异常']
+          data: pieDate.legend // 2
         },
-        color: ['#67C23A', '#F56C6C', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple'],
+        color: pieDate.color, // 3
         series: [
           {
-            name: 'Case',
+            name: 'BUG',
             type: 'pie',
-            roseType: 'radius',
             radius: [15, 95],
-            center: ['50%', '38%'],
-            data: pieDate,
+            center: ['40%', '50%'],
+            label: {
+              formatter: '{b}: {c}，{d}%'
+            },
+            data: pieDate.date, // 4
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }

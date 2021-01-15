@@ -19,7 +19,8 @@ module.exports = {
     proxy: {
       '/api': {
         // 接口服务地址
-        target: 'http://10.20.44.237:5555',
+        // target: 'http://10.20.44.237:5555',
+        target: 'http://localhost:5000',
         // 是否跨域
         changeOrigin: true,
         ws: true,

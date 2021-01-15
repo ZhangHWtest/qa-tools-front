@@ -148,6 +148,16 @@
               <span class="sider-bar-title">QA工具</span>
             </template>
             <el-menu-item
+              index="/qatools/report"
+              route="/qatools/report"
+              @click="saveNavState('/qatools/report')"
+            >
+              <template slot="title">
+                <i class="iconfont icon-chaxun" />
+                <span class="sider-bar-title">项目统计</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item
               index="/qatools/livemsg"
               route="/qatools/livemsg"
               @click="saveNavState('/qatools/livemsg')"
@@ -189,22 +199,6 @@
                 <span class="sider-bar-title">用户列表</span>
               </template>
             </el-menu-item>
-          </el-submenu>
-          <el-submenu index="9">
-            <template slot="title">
-              <i class="iconfont icon-shiyongbangzhu" />
-              <span class="sider-bar-title">demo</span>
-            </template>
-            <!-- <el-menu-item
-              index="/demo/newlogin"
-              route="/demo/newlogin"
-              @click="saveNavState('/demo/newlogin')"
-            >
-              <template slot="title">
-                <i class="iconfont icon-shiyongbangzhu" />
-                <span class="sider-bar-title">newProject</span>
-              </template>
-            </el-menu-item> -->
           </el-submenu>
         </el-menu>
       </el-aside>
