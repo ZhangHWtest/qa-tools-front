@@ -5,7 +5,7 @@
       <el-breadcrumb-item>QA工具</el-breadcrumb-item>
       <el-breadcrumb-item>项目详情</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-card>
+    <el-card id="pdfCentent">
       <h2 class="report-title-style">
         {{ product_name }}/{{ module_name }}
       </h2>
@@ -62,6 +62,22 @@
         </el-row>
       </div>
     </el-card>
+    <el-card class="download-card">
+      <div class="download-button">
+        <!-- <el-button
+          type="success"
+          @click="ExportSavePdf(htmlTitle,nowTime)"
+        >
+          生成报告
+        </el-button> -->
+        <el-button
+          type="success"
+          @click="downloadReportMethod()"
+        >
+          生成报告
+        </el-button>
+      </div>
+    </el-card>
   </div>
 </template>
 <script>
@@ -74,6 +90,9 @@ export default {
   },
   data() {
     return {
+      htmlTitle: '',
+      nowTime: '',
+      // updateLoading: false,
       barData: {
         date: [],
         total: [],
@@ -102,12 +121,14 @@ export default {
       closed: '',
       risks: '',
       getReportInfoBody: {
-        product_id: 74,
-        module_id: 1342
+        product_id: '',
+        module_id: ''
       }
     }
   },
   created() {
+    this.getReportInfoBody.product_id = Number(this.$route.query.productId)
+    this.getReportInfoBody.module_id = Number(this.$route.query.moduleId)
     this.getReportInfoMethod()
   },
   methods: {
@@ -147,11 +168,38 @@ export default {
       } else {
         this.$message.error(responseBody.msg)
       }
+    },
+    downloadReportMethod() {
+      // this.updateLoading = true
+      setTimeout(() => {
+        this.htmlTitle = this.product_name + '/' + this.module_name
+        this.ExportSavePdf(this.htmlTitle, this.nowTime)
+      }, 600)
+      // this.updateLoading = false
     }
   }
 }
 </script>
+<style>
+body{
+   margin: 0;
+}
+</style>
 <style lang="less" scoped>
+.download-card {
+  // background-color: #373d41;
+  background: rgba(55, 60, 65, 0.65);
+  position: fixed;
+  z-index: 100;
+  bottom: 5px;
+  width: 83%;
+  height: 50px;
+  .download-button {
+  position: absolute;
+  left: 50%;
+  transform: translate(-90%, -15%);
+  }
+}
 .report-rd-table{
   display:flex;
   .report-table{

@@ -8,11 +8,13 @@
     <el-card>
       <div class="report-top-addbutton">
         <span class="report-top-addannotation">注：！</span>
-        <el-button class="add-report-button" type="primary" @click="goAddCaseInfo()">
+        <el-button class="add-report-button" type="primary" @click="openAddReportDialog()">
           新增 项目
         </el-button>
       </div>
       <el-table
+        v-loading="updateLoading"
+        element-loading-text="数据量有点大，请稍等~"
         class="report-table"
         :data="reportList"
         stripe
@@ -29,6 +31,20 @@
             <el-tooltip
               class="item"
               effect="dark"
+              content="更新"
+              placement="top"
+            >
+              <el-button
+                type="success"
+                icon="el-icon-refresh-right"
+                size="mini"
+                circle
+                @click="updateReportMethod(scope.row.product_id,scope.row.module_id)"
+              />
+            </el-tooltip>
+            <el-tooltip
+              class="item"
+              effect="dark"
               content="报表"
               placement="top"
             >
@@ -40,6 +56,7 @@
                 @click="goReportInfo(scope.row.product_id,scope.row.module_id)"
               />
             </el-tooltip>
+
           </template>
         </el-table-column>
       </el-table>
@@ -53,6 +70,37 @@
         @current-change="handleCurrentChange"
       />
     </el-card>
+    <el-dialog
+      title="新增产品统计"
+      :visible.sync="addReportDialog"
+      width="40%"
+      :close-on-click-modal="false"
+      @close="addReportDialogClose"
+    >
+      <el-form
+        ref="addReportFormRef"
+        :model="addReportBody"
+        :rules="addReportForm"
+        label-width="85px"
+      >
+        <el-form-item label="产品ID：" prop="product_id">
+          <el-input v-model="addReportBody.product_id" />
+        </el-form-item>
+        <el-form-item label="产品名：" prop="product_name">
+          <el-input v-model="addReportBody.product_name" />
+        </el-form-item>
+        <el-form-item label="模块ID：" prop="module_id">
+          <el-input v-model="addReportBody.module_id" />
+        </el-form-item>
+        <el-form-item label="模块名：" prop="module_name">
+          <el-input v-model="addReportBody.module_name" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addReportDialog = false">取 消</el-button>
+        <el-button type="primary" @click="addReportMethod()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -64,7 +112,25 @@ export default {
         page_size: 10
       },
       reportList: [],
-      report_total: ''
+      report_total: 0,
+      addReportDialog: false,
+      addReportBody: {
+        product_id: '',
+        module_id: '',
+        product_name: '',
+        module_name: ''
+      },
+      addReportForm: {
+        product_id: [{ required: true, message: '请输入产品id', trigger: 'blur' }],
+        module_id: [{ required: true, message: '请输入模块id', trigger: 'blur' }],
+        product_name: [{ required: true, message: '请输入产品名称', trigger: 'blur' }],
+        module_name: [{ required: true, message: '请输入模块名称', trigger: 'blur' }]
+      },
+      updateReportBody: {
+        product_id: '',
+        module_id: ''
+      },
+      updateLoading: false
     }
   },
   created() {
@@ -90,7 +156,44 @@ export default {
         this.reportList = responseBody.data
         this.report_total = responseBody.total
       } else {
-        this.$message.error(responseBody.msg)
+        return this.$message.error(responseBody.msg)
+      }
+    },
+    openAddReportDialog() {
+      this.addReportDialog = true
+    },
+    addReportDialogClose() {
+      this.$refs.addReportFormRef.resetFields()
+    },
+    // 新增
+    addReportMethod() {
+      this.$refs.addReportFormRef.validate(async valid => {
+        if (!valid);
+        const { data: res } = await this.$api.report.addreport(this.addReportBody)
+        if (res.code === 1) {
+          this.addReportDialog = false
+          this.getReportListMethod()
+          return this.$message.success('新增成功！')
+        } else {
+          return this.$message.error(res.msg)
+        }
+      })
+    },
+    // 更新
+    async updateReportMethod(productId, moduleId) {
+      this.updateLoading = true
+      this.updateReportBody.product_id = productId
+      this.updateReportBody.module_id = moduleId
+      const { data: responseBody } = await this.$api.report.updatereport(
+        this.updateReportBody
+      )
+      if (responseBody.code === 1) {
+        this.getReportListMethod()
+        this.updateLoading = false
+        // this.updateLoading = true
+        return this.$message.success('更新成功！')
+      } else {
+        return this.$message.error(responseBody.msg)
       }
     },
     goReportInfo(productId, moduleId) {
@@ -102,7 +205,13 @@ export default {
 
 }
 </script>
+<style>
+body{
+   margin: 0;
+}
+</style>
 <style  lang="less" scoped>
+
 .dashboard-editor-container {
   padding: 15px;
   background-color: rgb(240, 242, 245);

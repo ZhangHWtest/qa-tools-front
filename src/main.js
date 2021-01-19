@@ -9,8 +9,10 @@ import api from './api'
 import moment from 'moment'
 import Video from 'video.js'
 import 'video.js/dist/video-js.css'
+import htmlToPdf from './components/html2pdf/htmlToPdf.js'
 
 Vue.use(api)
+Vue.use(htmlToPdf)
 Vue.prototype.$video = Video
 Vue.prototype.$moment = moment
 Vue.config.productionTip = false

@@ -49,8 +49,12 @@ import {
   PageHeader,
   Tag,
   Footer,
-  Upload
+  Upload,
+  Loading,
+  Backtop
 } from 'element-ui'
+Vue.use(Backtop)
+Vue.use(Loading)
 Vue.use(Upload)
 Vue.use(Footer)
 Vue.use(Tag)

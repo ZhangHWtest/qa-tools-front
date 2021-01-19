@@ -15,3 +15,19 @@ export const reportInfo = data => {
     data
   })
 }
+
+export const addreport = data => {
+  return reques({
+    url: '/report/add',
+    method: 'post',
+    data
+  })
+}
+
+export const updatereport = data => {
+  return reques({
+    url: '/report/update',
+    method: 'post',
+    data
+  })
+}
