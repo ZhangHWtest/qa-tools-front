@@ -16,11 +16,11 @@ export const reportInfo = data => {
   })
 }
 
-export const addreport = data => {
+// 登出
+export const reportProductList = () => {
   return reques({
-    url: '/report/add',
-    method: 'post',
-    data
+    url: '/report/product/list',
+    method: 'get'
   })
 }
 

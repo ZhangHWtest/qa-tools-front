@@ -122,13 +122,17 @@ export default {
       risks: '',
       getReportInfoBody: {
         product_id: '',
-        module_id: ''
+        module_id: '',
+        start_day: '',
+        end_day: ''
       }
     }
   },
   created() {
     this.getReportInfoBody.product_id = Number(this.$route.query.productId)
     this.getReportInfoBody.module_id = Number(this.$route.query.moduleId)
+    this.getReportInfoBody.start_day = this.$route.query.st
+    this.getReportInfoBody.end_day = this.$route.query.et
     this.getReportInfoMethod()
   },
   methods: {
@@ -146,11 +150,11 @@ export default {
         this.risks = responseBody.data.risks
         // this.risks = responseBody.data.risks.replace(' ', '<br />')
         // this.risks = '1 \r\n 2'
-        this.barData.date = responseBody.data.rd_users.user_list
-        this.barData.total = responseBody.data.rd_users.total_list
-        this.barData.open = responseBody.data.rd_users.open_list
-        this.barData.resolve = responseBody.data.rd_users.resolve_list
-        this.barData.rate = responseBody.data.rd_users.rate_list
+        this.barData.date = responseBody.data.rd_user_list
+        this.barData.total = responseBody.data.rd_total_list
+        this.barData.open = responseBody.data.rd_open_list
+        this.barData.resolve = responseBody.data.rd_resolve_list
+        this.barData.rate = responseBody.data.rd_rate_list
         console.log('this.risks', this.risks)
         // table
         this.rdTableData = responseBody.data.rd_user
