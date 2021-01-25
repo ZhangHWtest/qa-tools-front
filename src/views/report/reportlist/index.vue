@@ -79,7 +79,7 @@
                 icon="el-icon-refresh-right"
                 size="mini"
                 circle
-                @click="updateReportMethod(scope.row.product_id,scope.row.module_id)"
+                @click="updateReportMethod(scope.row.product_id,scope.row.module_id,scope.row.product_name,scope.row.module_name,scope.row.start_day)"
               />
             </el-tooltip>
             <el-tooltip
@@ -203,7 +203,11 @@ export default {
       createDayTime: [],
       updateReportBody: {
         product_id: '',
-        module_id: ''
+        module_id: '',
+        product_name: '',
+        module_name: '',
+        start_day: '',
+        end_day: ''
       },
       updateLoading: false
     }
@@ -291,6 +295,7 @@ export default {
         if (res.code === 1) {
           this.addReportDialog = false
           this.getReportListMethod()
+          this.getReportProductListMethod()
           return this.$message.success('新增成功！')
         } else {
           return this.$message.error(res.msg)
@@ -298,10 +303,13 @@ export default {
       })
     },
     // 更新
-    async updateReportMethod(productId, moduleId) {
+    async updateReportMethod(productId, moduleId, productName, moduleName, startDay) {
       this.updateLoading = true
       this.updateReportBody.product_id = productId
       this.updateReportBody.module_id = moduleId
+      this.updateReportBody.product_name = productName
+      this.updateReportBody.module_name = moduleName
+      this.updateReportBody.start_day = startDay
       const { data: responseBody } = await this.$api.report.updatereport(
         this.updateReportBody
       )
