@@ -85,7 +85,7 @@ const routes = [
       },
       {
         path: '/qatools/reportinfo',
-        component: () => import('@/views/report/reportinfo/index.vue')
+        component: () => import('@/views/qatools/report/reportinfo/index.vue')
       },
 
       {
