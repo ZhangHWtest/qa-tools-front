@@ -208,7 +208,7 @@ body{
   display:flex;
   .report-table{
     width:100%;
-    margin: 15px 90px 15px 90px;
+    margin: 15px 80px 15px 80px;
     font-size: 14px;
     border-right: 1px solid #EBEEF5;
     border-bottom: 1px solid #EBEEF5;
