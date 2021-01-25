@@ -191,7 +191,16 @@ export default {
       livemsg: ''
     }
   },
+  // watch: {
+  //   $router(to, from) {
+  //     this.chearInput()
+  //   }
+  // },
   created() {
+    if (this.$route.query.liveId) {
+      this.getLivemsgBody.live_id = this.$route.query.liveId
+      this.getLivemsgMethod()
+    }
   },
   methods: {
     getMsgAndshowInfo() {
@@ -203,14 +212,14 @@ export default {
       this.reload()
     },
     async getLivemsgMethod() {
-      const { data: res } = await this.$api.livemsg.getLiveMsg(
+      const { data: res } = await this.$api.live.getLiveMsg(
         this.getLivemsgBody
       )
       if (res.code === 1) {
         this.livemsg = res.data
         this.isShowLivemsg = true
       } else {
-        this.$message.error(res.msg)
+        return this.$message.error(res.msg)
       }
     }
   }
