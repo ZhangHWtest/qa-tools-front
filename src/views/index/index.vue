@@ -158,9 +158,19 @@
               </template>
             </el-menu-item>
             <el-menu-item
-              index="/qatools/livemsg"
-              route="/qatools/livemsg"
-              @click="saveNavState('/qatools/livemsg')"
+              index="/qatools/livelist"
+              route="/qatools/livelist"
+              @click="saveNavState('/qatools/livelist')"
+            >
+              <template slot="title">
+                <i class="iconfont icon-chaxun" />
+                <span class="sider-bar-title">今日课程</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item
+              index="/qatools/liveinfo"
+              route="/qatools/liveinfo"
+              @click="saveNavState('/qatools/liveinfo')"
             >
               <template slot="title">
                 <i class="iconfont icon-chaxun" />

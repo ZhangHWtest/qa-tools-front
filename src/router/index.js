@@ -72,12 +72,16 @@ const routes = [
         component: () => import('@/views/environment/index.vue')
       },
       {
-        path: '/qatools/livemsg',
-        component: () => import('@/views/qatools/livemsg/index.vue')
+        path: '/qatools/liveinfo',
+        component: () => import('@/views/qatools/liveinfo/index.vue')
+      },
+      {
+        path: '/qatools/livelist',
+        component: () => import('@/views/qatools/livelist/index.vue')
       },
       {
         path: '/qatools/report',
-        component: () => import('@/views/report/reportlist/index.vue')
+        component: () => import('@/views/qatools/report/reportlist/index.vue')
       },
       {
         path: '/qatools/reportinfo',
