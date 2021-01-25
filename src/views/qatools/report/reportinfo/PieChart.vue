@@ -67,7 +67,7 @@ export default {
           formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         legend: {
-          left: '15%',
+          // left: 'center',
           bottom: '10',
           data: pieDate.legend // 2
         },
@@ -77,7 +77,7 @@ export default {
             name: 'BUG',
             type: 'pie',
             radius: [15, 95],
-            center: ['40%', '50%'],
+            // center: ['40%', '50%'],
             label: {
               formatter: '{b}: {c}，{d}%'
             },
