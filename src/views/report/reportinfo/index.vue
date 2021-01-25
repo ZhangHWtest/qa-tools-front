@@ -196,7 +196,7 @@ body{
   position: fixed;
   z-index: 100;
   bottom: 5px;
-  width: 83%;
+  width: 85%;
   height: 50px;
   .download-button {
   position: absolute;

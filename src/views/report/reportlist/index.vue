@@ -19,7 +19,7 @@
           />
         </div>
         <div>
-          <span class="report-select-name">开始时间区间：</span>
+          <span class="report-date-picker-name">开始时间区间：</span>
           <el-date-picker
             v-model="dayTime"
             type="daterange"
@@ -28,6 +28,7 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             value-format="yyyy-MM-dd"
+            :picker-options="pickerOptions"
             @change="datePickerHandleChange"
           />
         </div>
@@ -67,7 +68,7 @@
         </el-table-column>
         <el-table-column label="操作" width="150px">
           <template slot-scope="scope">
-            <!-- <el-tooltip
+            <el-tooltip
               class="item"
               effect="dark"
               content="更新"
@@ -80,7 +81,7 @@
                 circle
                 @click="updateReportMethod(scope.row.product_id,scope.row.module_id)"
               />
-            </el-tooltip> -->
+            </el-tooltip>
             <el-tooltip
               class="item"
               effect="dark"
@@ -143,6 +144,7 @@
             end-placeholder="结束日期"
             value-format="yyyy-MM-dd"
             unlink-panels
+            :picker-options="pickerOptions"
             @change="addReportDayChange"
           />
         </el-form-item>
@@ -167,6 +169,11 @@ export default {
         children: 'module_list'
       },
       dayTime: [],
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+        }
+      },
       buttonStatus: true,
       getReportListBody: {
         product_id: '',
@@ -323,11 +330,16 @@ body{
 </style>
 <style  lang="less" scoped>
 .report-top-seach{
-  margin: 10px 10px 10px 10px;
-  padding-left: 10px;
+  margin: 10px 10px 10px 0px;
+  // padding-left: 10px;
   display:flex;
   .report-select-name {
-    margin-left: 10px;
+    // margin-left: 15px;
+    font-size: 15px;
+    color: rgba(39, 56, 72, 0.85);
+  }
+  .report-date-picker-name{
+    margin-left: 15px;
     font-size: 15px;
     color: rgba(39, 56, 72, 0.85);
   }
