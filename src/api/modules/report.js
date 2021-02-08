@@ -31,3 +31,11 @@ export const updatereport = data => {
     data
   })
 }
+
+export const delreport = data => {
+  return reques({
+    url: '/report/del',
+    method: 'post',
+    data
+  })
+}
