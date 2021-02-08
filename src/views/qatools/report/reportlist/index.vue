@@ -96,6 +96,21 @@
                 @click="goReportInfo(scope.row.product_id,scope.row.module_id,scope.row.start_day,scope.row.end_day)"
               />
             </el-tooltip>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                ricon="el-icon-edit"
+                circle
+                @click="delReportMethod(scope.row.product_id,scope.row.module_id)"
+              />
+            </el-tooltip>
 
           </template>
         </el-table-column>
@@ -209,7 +224,11 @@ export default {
         start_day: '',
         end_day: ''
       },
-      updateLoading: false
+      updateLoading: false,
+      delReportBody: {
+        product_id: '',
+        module_id: ''
+      }
     }
   },
   created() {
@@ -317,6 +336,33 @@ export default {
         this.getReportListMethod()
         this.updateLoading = false
         // this.updateLoading = true
+        return this.$message.success('更新成功！')
+      } else {
+        return this.$message.error(responseBody.msg)
+      }
+    },
+    // 删除
+    async delReportMethod(productId, moduleId) {
+      this.delReportBody.product_id = productId
+      this.delReportBody.module_id = moduleId
+      // 弹窗询问是否删除
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该项目, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除！')
+      }
+      const { data: responseBody } = await this.$api.report.delreport(
+        this.delReportBody
+      )
+      if (responseBody.code === 1) {
+        this.getReportListMethod()
         return this.$message.success('更新成功！')
       } else {
         return this.$message.error(responseBody.msg)
