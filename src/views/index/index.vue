@@ -11,7 +11,7 @@
       </div>
       <el-dropdown class="user-dropdown">
         <span class="el-dropdown-link">
-          您好！{{ loginname.name }}
+          {{ loginname.name }}
           <i class="el-icon-arrow-down el-icon--right" />
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -382,7 +382,7 @@ export default {
   }
   .user-dropdown {
     position: relative;
-    width: 150px;
+    width: 130px;
     height: 30px;
     .el-dropdown-link {
       font-size: 20px;

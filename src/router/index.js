@@ -99,6 +99,10 @@ const routes = [
       {
         path: '/ui/caselist',
         component: () => import('@/views/uicase/index.vue')
+      },
+      {
+        path: '/demo/flexDemo',
+        component: () => import('@/views/demo/flexDemo.vue')
       }
     ]
   },
