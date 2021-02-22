@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <el-card>
       <div class="top-select">
-        <span class="top-select-name">live_id：</span>
+        <span class="top-select-name">直播间id：</span>
         <el-input
           v-model="getLivemsgBody.live_id"
           class="top-input_name"
