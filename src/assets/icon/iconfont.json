@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17705362",
+      "name": "电视 直播 观看 视频 播放 媒体",
+      "font_class": "dianshizhiboguankanshipinbofangmeiti",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
       "icon_id": "4347582",
       "name": "icon_应用管理",
       "font_class": "icon_yingyongguanli",

@@ -163,11 +163,11 @@
               @click="saveNavState('/qatools/livelist')"
             >
               <template slot="title">
-                <i class="iconfont icon-chaxun" />
-                <span class="sider-bar-title">今日课程</span>
+                <i class="iconfont icon-dianshizhiboguankanshipinbofangmeiti" />
+                <span class="sider-bar-title">直播信息</span>
               </template>
             </el-menu-item>
-            <el-menu-item
+            <!-- <el-menu-item
               index="/qatools/liveinfo"
               route="/qatools/liveinfo"
               @click="saveNavState('/qatools/liveinfo')"
@@ -176,7 +176,7 @@
                 <i class="iconfont icon-chaxun" />
                 <span class="sider-bar-title">直播信息</span>
               </template>
-            </el-menu-item>
+            </el-menu-item> -->
           </el-submenu>
           <el-submenu index="7">
             <template slot="title">
