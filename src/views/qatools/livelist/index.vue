@@ -332,4 +332,31 @@ export default {
     color: rgba(39, 56, 72, 0.75);
   }
 }
+.interface-title-style {
+  border-left: 3px solid #2395f1;
+  padding-left: 8px;
+  margin-bottom: 20px;
+  margin-left: 15px;
+  font-size: 16px;
+}
+.show-interface {
+  margin-left: 100px !important;
+  margin-right: 100px !important;
+  margin-bottom: 20px;
+  .show-interface-colkey {
+    font-size: 15px;
+    color: rgba(13, 27, 62, 0.85);
+    margin: 0;
+    text-align: left;
+    width: 100px;
+    padding-left: 10px;
+  }
+  .show-interface-colname {
+    padding-left: 16px;
+    font-size: 14px;
+    color: rgba(13, 27, 62, 0.65);
+    margin: 0;
+    width: 100px;
+  }
+}
 </style>
