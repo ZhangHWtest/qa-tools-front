@@ -126,7 +126,6 @@ export default {
         env_name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         url: [{ required: true, message: '请输入密码', trigger: 'blur' }],
         use_db: [{ required: true }]
-
       }
     }
   },

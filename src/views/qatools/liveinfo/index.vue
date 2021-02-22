@@ -180,6 +180,7 @@
   </div>
 </template>
 <script>
+// import LiveDetails from '../components/LiveDetails'
 export default {
   inject: ['reload'],
   data() {
